@@ -7,7 +7,7 @@
 	<div class="card-container">
 		{#each episodes as episode}
 			<div class="card">
-				<a href={'/Episode/' + episode.id}>
+				<a href={'/Watch/' + episode.id}>
 					<img src={episode.image} class="card-img" alt="" />
 					<div class="card-body">
 						<h2 class="name">{episode.number}: {episode.title}</h2>

@@ -3,7 +3,11 @@
 </script>
 
 <div class="card">
-	<a data-sveltekit-prefetch data-sveltekit-noscroll href={'/AnimeDetail/' + anime.id}>
+	<a
+		data-sveltekit-prefetch
+		data-sveltekit-noscroll
+		href={'/AnimeDetail/' + anime.id}
+	>
 		<img src={anime.image} class="card-img" alt={anime.title.english} />
 		<div class="card-body">
 			{#if anime.title.english == null}

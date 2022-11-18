@@ -1,18 +1,31 @@
 <script>
-	export let animes,heading;
+	export let animes, heading, viewMore;
 	import PosterCard from './PosterCard.svelte';
+	console.log(animes.length);
 </script>
 
-<h1 class="title">{heading}</h1>
-<div class="cards-list">
-	<div class="card-container">
-		{#each animes as anime}
-			<PosterCard {anime} />
-		{/each}
+{#if animes.length > 0}
+	<div class="header">
+		<h1 class="title">{heading}</h1>
+		{#if viewMore}
+			<a href={'/ViewMore/' + heading} class="view-more">View More</a>
+		{/if}
 	</div>
-</div>
+	<div class="cards-list">
+		<div class="card-container">
+			{#each animes as anime}
+				<PosterCard {anime} />
+			{/each}
+		</div>
+	</div>
+{/if}
 
 <style>
+	.header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
 	.title {
 		color: #fff;
 		opacity: 0.9;
@@ -21,7 +34,11 @@
 		font-size: 22px;
 		font-weight: 500;
 	}
-
+	.view-more {
+		padding-right: 4%;
+		text-decoration: none;
+		color: white;
+	}
 	.cards-list {
 		width: 100%;
 		height: 220px;

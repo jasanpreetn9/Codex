@@ -3,7 +3,7 @@ export const load = ({ fetch, params }) => {
         console.log(id)
 		const resp = await fetch(`https://api.consumet.org/meta/anilist/watch/${id}`);
 		const respData = await resp.json(resp);
-		return respData;
+		return respData.sources;
 	};
 
 	return {
