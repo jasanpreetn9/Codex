@@ -2,21 +2,23 @@
 	export let episodes;
 </script>
 
-<h1 class="title">Epsidoes</h1>
-<div class="card-list">
-	<div class="card-container">
-		{#each episodes as episode}
-			<div class="card">
-				<a href={'/Watch/' + episode.id}>
-					<img src={episode.image} class="card-img" alt="" />
-					<div class="card-body">
-						<h2 class="name">{episode.number}: {episode.title}</h2>
-					</div>
-				</a>
-			</div>
-		{/each}
+{#if episodes.length > 0}
+	<h1 class="title">Epsidoes</h1>
+	<div class="card-list">
+		<div class="card-container">
+			{#each episodes as episode}
+				<div class="card">
+					<a href={'/Watch/' + episode.id}>
+						<img src={episode.image} class="card-img" alt="" />
+						<div class="card-body">
+							<h2 class="name">{episode.number}: {episode.title}</h2>
+						</div>
+					</a>
+				</div>
+			{/each}
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.title {

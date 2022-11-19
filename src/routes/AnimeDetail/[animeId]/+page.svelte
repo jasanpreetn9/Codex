@@ -32,7 +32,7 @@
 		</div>
 	</div>
 </section>
-<EpCard episodes={animeDetail.episodes} />
+<!-- <EpCard episodes={animeDetail.episodes} /> -->
 <CardsList animes={animeDetail.relations} heading={'Relations'} />
 
 <h1 class="title">Recomended</h1>

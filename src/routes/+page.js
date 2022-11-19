@@ -7,9 +7,7 @@ export const load = async ({ fetch }) => {
 	const fetchPopularData = await fetchPopular.json();
 	let popular = fetchPopularData.results;
 
-	const fetchRecentAiring = await fetch(
-		'https://api.consumet.org/meta/anilist/recent-episodes?perPage=16'
-	);
+	const fetchRecentAiring = await fetch('https://api.consumet.org/meta/anilist/recent-episodes?perPage=16');
 	const fetchRecentAiringData = await fetchRecentAiring.json();
 	let recentAiring = fetchRecentAiringData.results;
 
