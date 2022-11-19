@@ -3,7 +3,6 @@
 	const { animeDetail } = data;
 	import PosterCard from '../../../Components/PosterCard.svelte';
 	import CardsList from '../../../Components/CardsList.svelte';
-	import EpCard from '../../../Components/EpCard.svelte';
 </script>
 
 <section class="anime-detail">
@@ -23,17 +22,21 @@
 				<div class="badge-wrapper">
 					<div class="badge badge-fill">{animeDetail.type}</div>
 					<div class="badge badge-outline">{animeDetail.subOrDub}</div>
-					<div class="badge badge-fill">{animeDetail.totalEpisodes} {animeDetail.status} Episodes</div>
-					<div class="badge badge-outline">Rating: {animeDetail.rating / 10}</div>
-					<div class="badge badge-fill">Release Date: {animeDetail.releaseDate}</div>
+					<div class="badge badge-fill">Rating: {animeDetail.rating / 10}</div>
+					<div class="badge badge-outline">Release Date: {animeDetail.releaseDate}</div>
+					{#if animeDetail.type !== 'MOVIE' && animeDetail.type !== 'MANGA'}
+						<div class="badge badge-fill">
+							{animeDetail.totalEpisodes}
+							{animeDetail.status} Episodes
+						</div>
+					{/if}
 				</div>
 				<p class="storyline">{@html animeDetail.description}</p>
 			</div>
 		</div>
 	</div>
 </section>
-<!-- <EpCard episodes={animeDetail.episodes} /> -->
-<CardsList animes={animeDetail.relations} heading={'Relations'} reLoad={true}/>
+<CardsList animes={animeDetail.relations} heading={'Relations'} reLoad={true} />
 
 <h1 class="title">Recomended</h1>
 <div class="card-list">

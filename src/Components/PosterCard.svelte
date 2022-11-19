@@ -15,13 +15,10 @@
 			data-sveltekit-noscroll
 			on:click={rerunLoadFunction()}
 			href={'/AnimeDetail/' + anime.id}
-			><img src={anime.image} class="card-img" alt={anime.title.english} />
+			>
+			<img src={anime.image} class="card-img" alt={anime.title.english} />
 			<div class="card-body">
-				{#if anime.title.english == null}
-					<p class="name">{anime.title.romaji}</p>
-				{:else}
-					<p class="name">{anime.title.english}</p>
-				{/if}
+				<p class="name">{anime.title.english}</p>
 			</div>
 		</a>
 	{:else}
@@ -46,7 +43,7 @@
 		height: 200px;
 		border-radius: 5px;
 		overflow: hidden;
-		margin-right: 10px;
+		margin-right: 11px;
 		transition: 0.5s;
 	}
 
