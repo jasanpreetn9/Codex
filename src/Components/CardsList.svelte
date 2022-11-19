@@ -1,5 +1,5 @@
 <script>
-	export let animes, heading;
+	export let animes, heading,reLoad;
 	import PosterCard from './PosterCard.svelte';
 </script>
 
@@ -8,7 +8,7 @@
 	<div class="cards-list">
 		<div class="card-container">
 			{#each animes as anime}
-				<PosterCard {anime} />
+				<PosterCard {anime} {reLoad}/>
 			{/each}
 		</div>
 	</div>
