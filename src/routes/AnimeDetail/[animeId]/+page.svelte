@@ -11,13 +11,11 @@
 			<img src={animeDetail.image} alt="Poster" />
 		</figure>
 		<div class="anime-detail-content">
-			<h1 class="h1 detail-title">
-				{#if animeDetail.title.english == null}
-					<h2 class="name">{animeDetail.title.romaji}</h2>
-				{:else}
-					<h2 class="name">{animeDetail.title.english}</h2>
-				{/if}
-			</h1>
+			{#if animeDetail.title.english == null}
+				<h1 class="h1 detail-title">{animeDetail.title.romaji}</h1>
+			{:else}
+				<h1 class="h1 detail-title">{animeDetail.title.english}</h1>
+			{/if}
 			<div class="meta-wrapper">
 				<div class="badge-wrapper">
 					<div class="badge badge-fill">{animeDetail.type}</div>
@@ -62,7 +60,7 @@
 		padding-inline: 15px;
 	}
 	.h1 {
-		color: #ffffff;
+		color: white;
 		line-height: 1.2;
 		font-size: 36px;
 	}
@@ -200,8 +198,8 @@
 	.card-container {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-		grid-column-gap: 0.6rem;
-		grid-row-gap: 2rem;
+		grid-column-gap: 0.4rem;
+		grid-row-gap: 1rem;
 		position: relative;
 		width: 92%;
 		padding-left: 10px;
