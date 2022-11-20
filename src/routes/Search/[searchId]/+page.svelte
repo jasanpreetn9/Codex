@@ -5,10 +5,10 @@
 </script>
 
 <h1 class="title">Search Results For: <i>{searchId}</i></h1>
-<div class="popular-list">
+<div class="cards-list">
 	<div class="card-container">
 		{#each searchAnime as anime}
-			<PosterCard {anime} />
+			<PosterCard {anime} reload={false} />
 		{/each}
 	</div>
 </div>
@@ -24,7 +24,7 @@
 		padding-top: 90px;
 	}
 
-	.popular-list {
+	.cards-list {
 		width: 100%;
 		height: 220px;
 		position: relative;

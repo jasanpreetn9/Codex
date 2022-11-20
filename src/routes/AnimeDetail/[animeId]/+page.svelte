@@ -1,45 +1,58 @@
 <script>
 	export let data;
-	const { animeDetail } = data;
 	import PosterCard from '../../../Components/PosterCard.svelte';
 	import CardsList from '../../../Components/CardsList.svelte';
+	const { animeDetail } = data;
+	const {
+		image,
+		title,
+		type,
+		subOrDub,
+		rating,
+		releaseDate,
+		totalEpisodes,
+		status,
+		description,
+		relations,
+		recommendations
+	} = animeDetail;
 </script>
 
 <section class="anime-detail">
 	<div class="container">
 		<figure class="anime-detail-banner">
-			<img src={animeDetail.image} alt="Poster" />
+			<img src={image} alt="Poster" />
 		</figure>
 		<div class="anime-detail-content">
-			{#if animeDetail.title.english == null}
-				<h1 class="h1 detail-title">{animeDetail.title.romaji}</h1>
+			{#if title.english == null}
+				<h1 class="h1 detail-title">{title.romaji}</h1>
 			{:else}
-				<h1 class="h1 detail-title">{animeDetail.title.english}</h1>
+				<h1 class="h1 detail-title">{title.english}</h1>
 			{/if}
 			<div class="meta-wrapper">
 				<div class="badge-wrapper">
-					<div class="badge badge-fill">{animeDetail.type}</div>
-					<div class="badge badge-outline">{animeDetail.subOrDub}</div>
-					<div class="badge badge-fill">Rating: {animeDetail.rating / 10}</div>
-					<div class="badge badge-outline">Release Date: {animeDetail.releaseDate}</div>
-					{#if animeDetail.type !== 'MOVIE' && animeDetail.type !== 'MANGA'}
+					<div class="badge badge-fill">{type}</div>
+					<div class="badge badge-outline">{subOrDub}</div>
+					<div class="badge badge-fill">Rating: {rating / 10}</div>
+					<div class="badge badge-outline">Release Date: {releaseDate}</div>
+					{#if type !== 'MOVIE' && type !== 'MANGA'}
 						<div class="badge badge-fill">
-							{animeDetail.totalEpisodes}
-							{animeDetail.status} Episodes
+							{totalEpisodes}
+							{status} Episodes
 						</div>
 					{/if}
 				</div>
-				<p class="storyline">{@html animeDetail.description}</p>
+				<p class="storyline">{@html description}</p>
 			</div>
 		</div>
 	</div>
 </section>
-<CardsList animes={animeDetail.relations} heading={'Relations'} reLoad={true} />
+<CardsList animes={relations} heading={'Relations'} reLoad={true} />
 
 <h1 class="title">Recomended</h1>
-<div class="card-list">
+<div class="cards-list">
 	<div class="card-container">
-		{#each animeDetail.recommendations as recommended}
+		{#each recommendations as recommended}
 			<PosterCard anime={recommended} />
 		{/each}
 	</div>
@@ -188,7 +201,7 @@
 		font-weight: 500;
 	}
 
-	.card-list {
+	.cards-list {
 		width: 100%;
 		height: 220px;
 		position: relative;

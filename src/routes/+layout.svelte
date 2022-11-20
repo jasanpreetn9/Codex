@@ -97,4 +97,9 @@
 		border: none;
 		cursor: pointer;
 	}
+	@media (max-width: 600px) and (min-width: 263px) {
+		.search-box {
+		width: 150px;
+	}
+	}
 </style>

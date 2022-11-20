@@ -1,12 +1,8 @@
-export const load = ({ fetch, params }) => {
-	const fetchAnime = async (id) => {
-		const resp = await fetch(`https://api.consumet.org/meta/anilist/${id}`);
+export const load = async({ fetch, params }) => {
+		const resp = await fetch(`https://api.consumet.org/meta/anilist/${params.searchId}`);
 		const respData = await resp.json(resp);
-		return respData.results;
-	};
 
 	return {
-		searchAnime: fetchAnime(params.searchId),
-        searchId: params.searchId
+		searchAnime: respData.results
 	};
 };

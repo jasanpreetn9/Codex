@@ -1,5 +1,6 @@
 <script>
 	export let anime, reLoad;
+	const { id, image, title } = anime;
 	import { invalidateAll } from '$app/navigation';
 	function rerunLoadFunction() {
 		invalidate('app:AnimeDetail');
@@ -9,26 +10,26 @@
 </script>
 
 <div class="card">
-	{#if reLoad == true}
+	{#if reLoad}
 		<a
 			data-sveltekit-prefetch
 			data-sveltekit-noscroll
 			on:click={rerunLoadFunction()}
-			href={'/AnimeDetail/' + anime.id}
-			>
-			<img src={anime.image} class="card-img" alt={anime.title.english} />
+			href={'/AnimeDetail/' + id}
+		>
+			<img src={image} class="card-img" alt={title.english} />
 			<div class="card-body">
-				<p class="name">{anime.title.english}</p>
+				<p class="name">{title.english}</p>
 			</div>
 		</a>
 	{:else}
-		<a data-sveltekit-prefetch data-sveltekit-noscroll href={'/AnimeDetail/' + anime.id}
-			><img src={anime.image} class="card-img" alt={anime.title.english} />
+		<a data-sveltekit-prefetch data-sveltekit-noscroll href={'/AnimeDetail/' + id}>
+			<img src={image} class="card-img" alt={title.english} />
 			<div class="card-body">
-				{#if anime.title.english == null}
-					<p class="name">{anime.title.romaji}</p>
+				{#if title.english == null}
+					<p class="name">{title.romaji}</p>
 				{:else}
-					<p class="name">{anime.title.english}</p>
+					<p class="name">{title.english}</p>
 				{/if}
 			</div>
 		</a>

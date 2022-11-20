@@ -4,6 +4,7 @@
 	import nxt from '$lib/images/nxt.png';
 	import Siema from 'siema';
 	import { onMount } from 'svelte';
+	import { identity } from 'svelte/internal';
 	let slider, prev, next, radioSlider;
 	let select = 0;
 
@@ -78,6 +79,7 @@
 	.carousel-container {
 		position: relative;
 		width: 100%;
+		min-height: 450px;
 		height: 450px;
 		padding: 20px 0;
 		overflow-x: hidden;
@@ -88,6 +90,7 @@
 		height: 100%;
 		position: relative;
 		margin: auto;
+		overflow: hidden;
 	}
 	.slider {
 		flex: 0 0 auto;
@@ -111,10 +114,10 @@
 
 	.slide-content {
 		position: absolute;
-		width: 50%;
+		width: 75%;
 		height: 100%;
 		z-index: 2;
-		background: linear-gradient(to right, #030b17 80%, #0c111b00);
+		/* background: linear-gradient(to right, #030b17 80%, #0c111b00); */
 		color: #fff;
 	}
 	.movie-title {
@@ -131,7 +134,7 @@
 		margin-top: 30px;
 		opacity: 0.8;
 		display: -webkit-box;
-		-webkit-line-clamp: 5;
+		-webkit-line-clamp: 4;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -190,15 +193,15 @@
 		appearance: none;
 
 		border-radius: 50%;
-		width: 8px;
-		height: 8px;
+		width: 10px;
+		height: 10px;
 
 		background-color: lightgrey;
 		transition: 0.2s all linear;
 		margin-right: 5px;
 
 		position: relative;
-		top: 4px;
+		cursor: pointer;
 	}
 	input:checked {
 		background-color: grey;

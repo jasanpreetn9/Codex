@@ -6,5 +6,7 @@
 </script>
 
 <Trending {trendingAnimes} />
-<CardsList animes={popularAnimes} heading="Popular Animes" viewMore={true} />
-<CardsList animes={recentAiring} heading="Recent Episodes" viewMore={true} />
+
+<!-- sort: [POPULARITY_DESC] -->
+<CardsList animes={popularAnimes} heading="Popular Animes" viewMore={true} reload={false} />
+<CardsList animes={recentAiring} heading="Recent Episodes" viewMore={true} reload={false} />
