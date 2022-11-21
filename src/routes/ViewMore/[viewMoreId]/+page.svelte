@@ -22,13 +22,13 @@
 		<a
 			href={`/ViewMore/${params}-page=${currentPage - 1}`}
 			on:click={rerunLoadFunction()}
-			class="previous">&laquo;</a
+			class="page">❮</a
 		>
 	{/if}
 	<a
-		href={`/ViewMore/${params}-page=${currentPage + 1}`}
 		on:click={rerunLoadFunction()}
-		class="next">&raquo;</a
+		href={`/ViewMore/${params}-page=${currentPage + 1}`}
+		class="page">❯</a
 	>
 </div>
 
@@ -79,15 +79,17 @@
 		color: black;
 	}
 
-	.previous {
-		background-color: #123456;
-		color: black;
-		border-radius: 100%;
-	}
-
-	.next {
-		background-color: #04aa6d;
+	.page {
 		color: white;
-		border-radius: 100%;
+		float: left;
+		padding: 8px 16px;
+		text-decoration: none;
+		transition: background-color 0.3s;
+		border: 1px solid #ddd;
+	}
+	.page:hover {
+		background-color: #4caf50;
+		color: white;
+		border: 1px solid #4caf50;
 	}
 </style>

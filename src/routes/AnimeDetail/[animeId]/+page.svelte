@@ -2,8 +2,8 @@
 	export let data;
 	import PosterCard from '../../../Components/PosterCard.svelte';
 	import CardsList from '../../../Components/CardsList.svelte';
-	const { animeDetail } = data;
-	const {
+	let { animeDetail } = data;
+	let {
 		image,
 		title,
 		type,
@@ -16,6 +16,7 @@
 		relations,
 		recommendations
 	} = animeDetail;
+	recommendations = recommendations.slice(0, 24);
 </script>
 
 <section class="anime-detail">
@@ -47,14 +48,15 @@
 		</div>
 	</div>
 </section>
-<CardsList animes={relations} heading={'Relations'} reLoad={true} />
-
-<h1 class="title">Recomended</h1>
-<div class="cards-list">
-	<div class="card-container">
-		{#each recommendations as recommended}
-			<PosterCard anime={recommended} />
-		{/each}
+<div class="lists">
+	<CardsList animes={relations} heading={'Relations'} reLoad={true} />
+	<h1 class="title">Recomended</h1>
+	<div class="cards-list">
+		<div class="card-container">
+			{#each recommendations as recommended}
+				<PosterCard anime={recommended} />
+			{/each}
+		</div>
 	</div>
 </div>
 
@@ -107,8 +109,8 @@
 		gap: 5px 10px;
 	}
 	.anime-detail {
-		padding-top: 160px;
-		padding-bottom: 100px;
+		padding-top: 120px;
+		padding-bottom: 60px;
 	}
 	.anime-detail-banner {
 		position: relative;
@@ -167,7 +169,7 @@
 			max-width: 960px;
 		}
 		.anime-detail {
-			padding-bottom: 200px;
+			padding-bottom: 60px;
 		}
 		.anime-detail .container {
 			position: relative;
@@ -185,13 +187,12 @@
 			max-width: 1320px;
 		}
 		.anime-detail {
-			padding-bottom: 100px;
+			padding-bottom: 60px;
 		}
 		.anime-detail-content {
 			max-width: 1000px;
 		}
 	}
-
 	.title {
 		color: #fff;
 		opacity: 0.9;
@@ -203,7 +204,7 @@
 
 	.cards-list {
 		width: 100%;
-		height: 220px;
+		height: max-content;
 		position: relative;
 		margin: 10px 0 20px;
 	}
@@ -216,7 +217,7 @@
 		position: relative;
 		width: 92%;
 		padding-left: 10px;
-		height: 220px;
+		height: fit-content;
 		margin: 0 auto;
 		margin-bottom: 10px;
 		align-items: center;

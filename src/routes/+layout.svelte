@@ -30,6 +30,16 @@
 
 <slot />
 
+<div class="footer-bottom">
+	<div class="first-box">
+		<a href="/">Terms & Conditions</a>
+		<a href="/">Privacy Policy</a>
+	</div>
+	<div class="last-box">
+		<a href="/">&copy; Copyright 2021 Codex</a>
+	</div>
+</div>
+
 <style>
 	.navbar {
 		width: 100%;
@@ -99,7 +109,26 @@
 	}
 	@media (max-width: 600px) and (min-width: 263px) {
 		.search-box {
-		width: 150px;
+			width: 150px;
+		}
 	}
+	.footer-bottom {
+		margin-top: 30px;
+		width: 100%;
+		padding: 20px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.footer-bottom a {
+		color: #fff;
+		font-size: 14px;
+		margin-left: 20px;
+		text-decoration: none;
+	}
+	.first-box {
+		margin-left: 20px;
+	}
+	.last-box {
+		margin-right: 20px;
 	}
 </style>

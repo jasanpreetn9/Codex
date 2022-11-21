@@ -28,7 +28,7 @@
 	.title {
 		color: #fff;
 		opacity: 0.9;
-		padding-left: 4%;
+		padding-left: 5%;
 		text-transform: capitalize;
 		font-size: 22px;
 		font-weight: 500;
@@ -38,12 +38,13 @@
 		text-decoration: none;
 		padding-right: 4%;
 		font-weight: 500;
+		padding-bottom: -40%;
 	}
 	.cards-list {
 		width: 100%;
 		height: 220px;
 		position: relative;
-		margin: 10px 0 20px;
+		height: max-content;
 	}
 
 	.card-container {
