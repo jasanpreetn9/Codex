@@ -8,7 +8,6 @@ export const load = async ({ fetch, params }) => {
 	const pageNum = params.viewMoreId.replace(/\s+/g, '_').split('-', 2)[1];
 	const resp = await fetch(`${list[viewMoreId]}&${pageNum}`);
 	const respData = await resp.json();
-	console.log(respData)
 	return {
         currentPage: respData.currentPage,
         animes: respData.results,

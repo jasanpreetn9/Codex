@@ -4,7 +4,6 @@
 	import nxt from '$lib/images/nxt.png';
 	import Siema from 'siema';
 	import { onMount } from 'svelte';
-	import { identity } from 'svelte/internal';
 	let slider, prev, next, radioSlider;
 	let select = 0;
 
@@ -114,10 +113,10 @@
 
 	.slide-content {
 		position: absolute;
-		width: 75%;
+		width: 50%;
 		height: 100%;
 		z-index: 2;
-		/* background: linear-gradient(to right, #030b17 80%, #0c111b00); */
+		background: linear-gradient(to right, #030b17 80%, #0c111b00);
 		color: #fff;
 	}
 	.movie-title {

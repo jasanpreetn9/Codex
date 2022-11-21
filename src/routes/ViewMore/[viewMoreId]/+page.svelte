@@ -7,7 +7,6 @@
 		invalidate('/ViewMore');
 		invalidateAll();
 	}
-	console.log(typeof(currentPage));
 </script>
 
 <h1 class="title">Page: {currentPage}</h1>
@@ -21,14 +20,14 @@
 <div class="pages">
 	{#if currentPage > 1}
 		<a
-			on:click={rerunLoadFunction()}
 			href={`/ViewMore/${params}-page=${currentPage - 1}`}
+			on:click={rerunLoadFunction()}
 			class="previous">&laquo;</a
 		>
 	{/if}
 	<a
-		on:click={rerunLoadFunction()}
 		href={`/ViewMore/${params}-page=${currentPage + 1}`}
+		on:click={rerunLoadFunction()}
 		class="next">&raquo;</a
 	>
 </div>
@@ -81,14 +80,14 @@
 	}
 
 	.previous {
-		background-color: #f1f1f1;
+		background-color: #123456;
 		color: black;
-		border-radius: 50%;
+		border-radius: 100%;
 	}
 
 	.next {
 		background-color: #04aa6d;
 		color: white;
-		border-radius: 50%;
+		border-radius: 100%;
 	}
 </style>
