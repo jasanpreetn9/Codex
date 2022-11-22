@@ -1,8 +1,7 @@
 <script>
 	export let data;
 	const { popularAnimes, trendingAnimes, recentAiring } = data;
-	import CardsList from '../Components/CardsList.svelte';
-	import Trending from '../Components/Trending.svelte';
+	import { CardsList, Trending} from '$lib/Components';
 </script>
 
 <Trending {trendingAnimes} />

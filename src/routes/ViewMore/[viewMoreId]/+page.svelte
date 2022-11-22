@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	const { currentPage, animes, params } = data;
-	import PosterCard from '../../../Components/PosterCard.svelte';
+	import { PosterCard} from '$lib/Components';
 	function rerunLoadFunction() {
 		invalidate('app:ViewMore');
 		invalidate('/ViewMore');

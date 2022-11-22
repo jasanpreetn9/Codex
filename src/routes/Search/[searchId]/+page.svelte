@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	import PosterCard from '../../../Components/PosterCard.svelte';
+	import PosterCard from '../../../lib/Components/PosterCard.svelte';
 	const { searchAnime, searchId } = data;
 </script>
 
@@ -26,7 +26,7 @@
 
 	.cards-list {
 		width: 100%;
-		height: 220px;
+		height: max-content;
 		position: relative;
 		margin: 10px 0 20px;
 	}
@@ -39,7 +39,7 @@
 		position: relative;
 		width: 92%;
 		padding-left: 10px;
-		height: 220px;
+		height: max-content;
 		margin: 0 auto;
 		margin-bottom: 10px;
 		align-items: center;

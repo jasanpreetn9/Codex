@@ -3,9 +3,6 @@
 	import { goto } from '$app/navigation';
 	import logo from '$lib/images/logo.svg';
 	let inputValue = '';
-	const submitSearch = () => {
-		goto('/Search/' + inputValue);
-	};
 </script>
 
 <scelte:head>
@@ -21,7 +18,7 @@
 	</ul>
 
 	<div class="right-container">
-		<form on:submit|preventDefault={submitSearch}>
+		<form on:submit|preventDefault={goto('/Search/' + inputValue)}>
 			<input bind:value={inputValue} type="text" class="search-box" placeholder="search" />
 			<button type="submit" class="search-button">Search</button>
 		</form>

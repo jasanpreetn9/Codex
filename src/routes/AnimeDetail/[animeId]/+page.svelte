@@ -1,7 +1,6 @@
 <script>
 	export let data;
-	import PosterCard from '../../../Components/PosterCard.svelte';
-	import CardsList from '../../../Components/CardsList.svelte';
+	import { PosterCard, CardsList } from '$lib/Components';
 	let { animeDetail } = data;
 	let {
 		image,
