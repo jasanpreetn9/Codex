@@ -1,52 +1,51 @@
 <script>
 	export let data;
+	import { recommendationsFormat, relationsFormat } from '../../../lib/index';
 	import { PosterCard, CardsList } from '$lib/Components';
 	let { animeDetail } = data;
 	let {
-		image,
+		id,
+		idMal,
 		title,
-		type,
-		subOrDub,
-		rating,
-		releaseDate,
-		totalEpisodes,
-		status,
+		coverImage,
+		seasonYear,
 		description,
-		relations,
-		recommendations
+		format,
+		status,
+		episodes,
+		averageScore,
+		genres,
+		recommendations,
+		relations
 	} = animeDetail;
-	recommendations = recommendations.slice(0, 24);
+	recommendations = recommendationsFormat(recommendations.edges);
+	relations = relationsFormat(relations.edges);
+	console.log(idMal)
 </script>
 
 <section class="anime-detail">
 	<div class="container">
 		<figure class="anime-detail-banner">
-			<img src={image} alt="Poster" />
+			<img src={coverImage.extraLarge} alt="Poster" />
 		</figure>
 		<div class="anime-detail-content">
-			{#if title.english == null}
-				<h1 class="h1 detail-title">{title.romaji}</h1>
-			{:else}
-				<h1 class="h1 detail-title">{title.english}</h1>
-			{/if}
+			<h1 class="h1 detail-title">{title.english}</h1>
 			<div class="meta-wrapper">
 				<div class="badge-wrapper">
-					<div class="badge badge-fill">{type}</div>
-					<div class="badge badge-outline">{subOrDub}</div>
-					<div class="badge badge-fill">Rating: {rating / 10}</div>
-					<div class="badge badge-outline">Release Date: {releaseDate}</div>
-					{#if type !== 'MOVIE' && type !== 'MANGA'}
-						<div class="badge badge-fill">
-							{totalEpisodes}
-							{status} Episodes
-						</div>
-					{/if}
+					<div class="badge badge-fill">{format}</div>
+					<div class="badge badge-outline">Rating: {averageScore / 10}</div>
+					<div class="badge badge-fill">Release Date: {seasonYear}</div>
+					<div class="badge badge-outline">
+						{episodes}
+						{status.toLowerCase()} Episodes
+					</div>
 				</div>
 				<p class="storyline">{@html description}</p>
 			</div>
 		</div>
 	</div>
 </section>
+
 <div class="lists">
 	<CardsList animes={relations} heading={'Relations'} reLoad={true} />
 	<h1 class="title">Recomended</h1>
