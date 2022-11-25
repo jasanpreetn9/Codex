@@ -20,6 +20,7 @@
 	} = animeDetail;
 	recommendations = recommendationsFormat(recommendations.edges);
 	let formatedRelations = relationsFormat(relations.edges);
+	console.log(title)
 	let sortedRelations = [];
 	formatedRelations.forEach((relation) => {
 		if (
@@ -31,7 +32,6 @@
 			sortedRelations.push(relation);
 		}
 	});
-	console.log(formatedRelations);
 </script>
 
 <section class="anime-detail">
@@ -40,7 +40,13 @@
 			<img src={coverImage.extraLarge} alt="Poster" />
 		</figure>
 		<div class="anime-detail-content">
+			{#if title.english == null}
+			<h1 class="h1 detail-title">{title.romaji}</h1>
+			<!-- content here -->
+			{:else}
 			<h1 class="h1 detail-title">{title.english}</h1>
+				 <!-- else content here -->
+			{/if}
 			<div class="meta-wrapper">
 				<p class="storyline">{@html description}</p>
 				<div class="badge-wrapper">

@@ -20,7 +20,7 @@
 	<div class="right-container">
 		<form on:submit|preventDefault={goto('/Search/' + inputValue)}>
 			<input bind:value={inputValue} type="text" class="search-box" placeholder="search" />
-			<button type="submit" class="search-button">Search</button>
+			<a href="/Login" class="search-button">Login</a>
 		</form>
 	</div>
 </nav>

@@ -23,6 +23,7 @@ export const animeDetailQuery = () => {
                   id
                   title {
                     english
+                    romaji
                   }
                   coverImage {
                     extraLarge
@@ -61,10 +62,12 @@ export const recommendationsFormat = (recommendations) => {
 			image: recommenced.node.mediaRecommendation.coverImage.extraLarge,
 			id: recommenced.node.mediaRecommendation.id,
 			title: {
-				english: recommenced.node.mediaRecommendation.title.english
+				english: recommenced.node.mediaRecommendation.title.english,
+				romaji: recommenced.node.mediaRecommendation.title.romaji
 			}
 		});
 	});
+  console.log(formatted)
 	return formatted.slice(0, 24);
 };
 export const relationsFormat = (relations) => {

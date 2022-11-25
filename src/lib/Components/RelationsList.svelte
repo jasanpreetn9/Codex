@@ -1,6 +1,5 @@
 <script>
 	export let relations;
-	console.log(relations);
 	import { invalidateAll } from '$app/navigation';
 	relations.sort((a, b) => (a.relationType > b.relationType ? 1 : -1));
 	function rerunLoadFunction() {
@@ -17,7 +16,7 @@
 			<div class="card">
 				<img src={relation.image} alt="" />
 				<div class="details_container">
-					<p class="montserrat">{relation.relationType.toLowerCase()}</p>
+					<p class="montserrat">{relation.relationType.toLowerCase().replace('_', ' ')}</p>
 					{#if relation.title.englsih == null}
 						<h2 class="name">{relation.title.romaji.toLowerCase()}</h2>
 					{:else}
@@ -103,9 +102,10 @@
 		color: white;
 		font-size: 14px;
 		line-height: 22px;
+		padding-right: 10px;
 		margin-bottom: 1.75rem;
 		display: -webkit-box;
-		-webkit-line-clamp: 4;
+		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
