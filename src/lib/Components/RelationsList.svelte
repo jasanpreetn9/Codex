@@ -18,7 +18,11 @@
 				<img src={relation.image} alt="" />
 				<div class="details_container">
 					<p class="montserrat">{relation.relationType.toLowerCase()}</p>
-					<h2 class="name">{relation.title.english}</h2>
+					{#if relation.title.englsih == null}
+						<h2 class="name">{relation.title.romaji.toLowerCase()}</h2>
+					{:else}
+						<h2 class="name">{relation.title.english.toLowerCase()}</h2>
+					{/if}
 					<p class="description">{relation.description}</p>
 				</div>
 			</div>
@@ -75,7 +79,6 @@
 
 	.details_container {
 		color: white;
-		width: 50%;
 		padding-left: 1rem;
 		padding-top: 1rem;
 	}
@@ -89,6 +92,11 @@
 		color: white;
 		font-weight: 500;
 		margin-bottom: 0.75rem;
+		display: -webkit-box;
+		text-transform: capitalize;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	.details_container .description {

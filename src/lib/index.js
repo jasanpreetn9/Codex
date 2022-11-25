@@ -45,6 +45,7 @@ export const animeDetailQuery = () => {
                 }
                 title {
                   english
+                  romaji
                 }
               }
             }
@@ -76,7 +77,8 @@ export const relationsFormat = (relations) => {
 			relationType: relation.relationType,
 			format: relation.node.type,
 			title: {
-				english: relation.node.title.english
+				english: relation.node.title.english,
+				romaji: relation.node.title.romaji
 			}
 		});
 	});

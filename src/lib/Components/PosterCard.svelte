@@ -70,6 +70,8 @@
 		transition: 0.5s;
 		opacity: 1;
 		text-align: bottom;
+		border-radius: 5px;
+
 	}
 
 	.name {

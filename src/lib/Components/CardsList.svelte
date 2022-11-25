@@ -10,7 +10,6 @@
 		<a href={'/ViewMore/' + heading} class="viewmore">View More</a>
 	{/if}
 </div>
-
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
@@ -28,6 +27,7 @@
 	.title {
 		color: #fff;
 		opacity: 0.9;
+		padding-top: 15px;
 		padding-left: 5%;
 		text-transform: capitalize;
 		font-size: 22px;
@@ -38,7 +38,7 @@
 		text-decoration: none;
 		padding-right: 4%;
 		font-weight: 500;
-		padding-bottom: -40%;
+		margin-top: 20px;
 	}
 	.cards-list {
 		width: 100%;
@@ -62,5 +62,6 @@
 
 	.card-container::-webkit-scrollbar {
 		display: none;
+		/* width: 5px; */
 	}
 </style>

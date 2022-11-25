@@ -24,11 +24,14 @@
 	formatedRelations.forEach((relation) => {
 		if (
 			relation.format == 'ANIME' &&
-			(relation.relationType == 'SEQUEL' || relation.relationType == 'PREQUEL')
+			(relation.relationType == 'SEQUEL' ||
+				relation.relationType == 'PREQUEL' ||
+				relation.relationType == 'SIDE_STORY')
 		) {
 			sortedRelations.push(relation);
 		}
 	});
+	console.log(formatedRelations);
 </script>
 
 <section class="anime-detail">
@@ -54,7 +57,7 @@
 </section>
 
 <div class="lists">
-	{#if sortedRelations.length > 1}
+	{#if sortedRelations.length > 0}
 		<RelationsList relations={sortedRelations} />
 	{/if}
 	<h1 class="title">Recomended</h1>

@@ -1,4 +1,3 @@
-
 export const load = async ({ fetch }) => {
 	const fetchTrending = await fetch('https://api.consumet.org/meta/anilist/trending');
 	const fetchTrendingData = await fetchTrending.json();
@@ -13,9 +12,17 @@ export const load = async ({ fetch }) => {
 	);
 	const fetchRecentAiringData = await fetchRecentAiring.json();
 	let recentAiring = fetchRecentAiringData.results;
+
+	const fetchAction = await fetch('https://api.consumet.org/meta/anilist/advanced-search?genre=action&sort=[%22TRENDING_DESC%22]&perPage=16');
+	const fetchActionData = await fetchAction.json();
+	
+	const fetchAdventure = await fetch('https://api.consumet.org/meta/anilist/advanced-search?genre=Adventuren&sort=[%22TRENDING_DESC%22]&perPage=16');
+	const fetchAdventureData = await fetchAdventure.json();
 	return {
-		trendingAnimes: trending,
-		popularAnimes: popular,
-		recentAiring: recentAiring
+		trendingAnimes: fetchTrendingData.results,
+		popularAnimes: fetchPopularData.results,
+		recentAiring: fetchRecentAiringData.results,
+		actionAnime: fetchActionData.results,
+		adventureAnime: fetchAdventureData.results
 	};
 };
