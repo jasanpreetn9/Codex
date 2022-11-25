@@ -109,4 +109,9 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
+
+	.relations::-webkit-scrollbar {
+		display: none;
+		/* width: 5px; */
+	}
 </style>
