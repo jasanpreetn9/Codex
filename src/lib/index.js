@@ -37,6 +37,8 @@ export const animeDetailQuery = () => {
               relationType
               node {
                 id
+                type
+                description
                 coverImage {
                   extraLarge
                   large
@@ -62,7 +64,7 @@ export const recommendationsFormat = (recommendations) => {
 			}
 		});
 	});
-	return formatted.slice(0,24);
+	return formatted.slice(0, 24);
 };
 export const relationsFormat = (relations) => {
 	let formatted = [];
@@ -70,6 +72,9 @@ export const relationsFormat = (relations) => {
 		formatted.push({
 			image: relation.node.coverImage.extraLarge,
 			id: relation.node.id,
+			description: relation.node.description,
+			relationType: relation.relationType,
+			format: relation.node.type,
 			title: {
 				english: relation.node.title.english
 			}

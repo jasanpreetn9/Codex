@@ -42,7 +42,7 @@
 	}
 	.cards-list {
 		width: 100%;
-		height: max-content;
+		height: 220px;
 		position: relative;
 		height: max-content;
 	}
@@ -51,7 +51,7 @@
 		position: relative;
 		width: 92%;
 		padding-left: 10px;
-		height: max-content;
+		height: 220px;
 		display: flex;
 		margin: 0 auto;
 		align-items: center;

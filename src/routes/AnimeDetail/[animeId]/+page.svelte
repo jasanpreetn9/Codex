@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	import { recommendationsFormat, relationsFormat } from '../../../lib/index';
-	import { PosterCard, CardsList } from '$lib/Components';
+	import { PosterCard, RelationsList } from '$lib/Components';
 	let { animeDetail } = data;
 	let {
 		id,
@@ -19,8 +19,16 @@
 		relations
 	} = animeDetail;
 	recommendations = recommendationsFormat(recommendations.edges);
-	relations = relationsFormat(relations.edges);
-	console.log(idMal)
+	let formatedRelations = relationsFormat(relations.edges);
+	let sortedRelations = [];
+	formatedRelations.forEach((relation) => {
+		if (
+			relation.format == 'ANIME' &&
+			(relation.relationType == 'SEQUEL' || relation.relationType == 'PREQUEL')
+		) {
+			sortedRelations.push(relation);
+		}
+	});
 </script>
 
 <section class="anime-detail">
@@ -31,28 +39,29 @@
 		<div class="anime-detail-content">
 			<h1 class="h1 detail-title">{title.english}</h1>
 			<div class="meta-wrapper">
+				<p class="storyline">{@html description}</p>
 				<div class="badge-wrapper">
-					<div class="badge badge-fill">{format}</div>
+					<div class="badge badge-fill">Type: {format}</div>
 					<div class="badge badge-outline">Rating: {averageScore / 10}</div>
 					<div class="badge badge-fill">Release Date: {seasonYear}</div>
-					<div class="badge badge-outline">
-						{episodes}
-						{status.toLowerCase()} Episodes
-					</div>
+					<div class="badge badge-outline">Episodes: {episodes}</div>
+					<div class="badge badge-fill">Status: {status.toLowerCase()}</div>
+					<div class="badge badge-outline">Genres: {genres}</div>
 				</div>
-				<p class="storyline">{@html description}</p>
 			</div>
 		</div>
 	</div>
 </section>
 
 <div class="lists">
-	<CardsList animes={relations} heading={'Relations'} reLoad={true} />
+	{#if sortedRelations.length > 1}
+		<RelationsList relations={sortedRelations} />
+	{/if}
 	<h1 class="title">Recomended</h1>
 	<div class="cards-list">
 		<div class="card-container">
 			{#each recommendations as recommended}
-				<PosterCard anime={recommended} />
+				<PosterCard anime={recommended} reload={true} />
 			{/each}
 		</div>
 	</div>
@@ -113,7 +122,6 @@
 	.anime-detail-banner {
 		position: relative;
 		background: hsl(229, 15%, 21%);
-		max-width: 350px;
 		margin-inline: auto;
 		border-radius: 6px;
 		overflow: hidden;
@@ -142,7 +150,6 @@
 			--fs-1: 42px;
 		}
 		.container {
-			max-width: 540px;
 			margin-inline: auto;
 		}
 		.detail-title {
@@ -191,10 +198,12 @@
 			max-width: 1000px;
 		}
 	}
+
 	.title {
 		color: #fff;
 		opacity: 0.9;
-		padding-left: 4%;
+		padding-left: 5%;
+		padding-bottom: 5px;
 		text-transform: capitalize;
 		font-size: 22px;
 		font-weight: 500;
