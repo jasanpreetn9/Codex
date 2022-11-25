@@ -1,5 +1,5 @@
 <script>
-	export let animes, heading, viewMore, reLoad;
+	export let animes, heading, viewMore, reload;
 	import PosterCard from './PosterCard.svelte';
 </script>
 
@@ -13,7 +13,7 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<PosterCard {anime} {reLoad} />
+			<PosterCard {anime} reload={reload} />
 		{/each}
 	</div>
 </div>
@@ -44,14 +44,13 @@
 		width: 100%;
 		height: 220px;
 		position: relative;
-		height: max-content;
 	}
 
 	.card-container {
 		position: relative;
 		width: 92%;
 		padding-left: 10px;
-		height: 220px;
+		height: 230px;
 		display: flex;
 		margin: 0 auto;
 		align-items: center;
@@ -61,7 +60,7 @@
 	}
 
 	.card-container::-webkit-scrollbar {
-		display: none;
-		/* width: 5px; */
+		/* display: none; */
+		height: 5px;
 	}
 </style>

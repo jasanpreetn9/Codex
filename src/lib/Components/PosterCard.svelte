@@ -1,5 +1,5 @@
 <script>
-	export let anime, reLoad;
+	export let anime, reload;
 	const { id, image, title } = anime;
 	import { invalidateAll } from '$app/navigation';
 	function rerunLoadFunction() {
@@ -10,7 +10,7 @@
 </script>
 
 <div class="card">
-	{#if reLoad}
+	{#if reload}
 		<a
 			data-sveltekit-prefetch
 			data-sveltekit-noscroll

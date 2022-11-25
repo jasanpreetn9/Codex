@@ -13,6 +13,7 @@
 		<img src={logo} class="brand-logo" alt="" />
 	</a>
 	<ul class="nav-links">
+		<li class="title"><a href="/">Codex</a></li>
 		<li class="nav-items"><a href="/">TV</a></li>
 		<li class="nav-items"><a href="/">movies</a></li>
 	</ul>
@@ -67,6 +68,13 @@
 		margin-left: 20px;
 		text-transform: capitalize;
 		color: #fff;
+		opacity: 0.9;
+	}
+	.title a {
+		color: #fff;
+		text-decoration: none;
+		margin-left: 10px;
+		text-transform: capitalize;
 		opacity: 0.9;
 	}
 

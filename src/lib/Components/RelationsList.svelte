@@ -1,18 +1,13 @@
 <script>
-	export let relations;
 	import { invalidateAll } from '$app/navigation';
+	export let relations;
 	relations.sort((a, b) => (a.relationType > b.relationType ? 1 : -1));
-	function rerunLoadFunction() {
-		invalidate('app:AnimeDetail');
-		invalidate('/AnimeDetail');
-		invalidateAll();
-	}
 </script>
 
 <h1 class="title">Related</h1>
 <div class="relations">
 	{#each relations as relation}
-		<a href={'/AnimeDetail/' + relation.id} on:click={rerunLoadFunction()}>
+		<a href={'/AnimeDetail/' + relation.id} on:click={invalidateAll()}>
 			<div class="card">
 				<img src={relation.image} alt="" />
 				<div class="details_container">
@@ -22,7 +17,12 @@
 					{:else}
 						<h2 class="name">{relation.title.english.toLowerCase()}</h2>
 					{/if}
-					<p class="description">{relation.description}</p>
+					<p class="description">
+						<i>
+							Type: {relation.type.toLowerCase()}<br />
+							Status: {relation.status}</i
+						>
+					</p>
 				</div>
 			</div>
 		</a>
@@ -109,9 +109,10 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-
+	i {
+		text-transform: capitalize;
+	}
 	.relations::-webkit-scrollbar {
 		display: none;
-		/* width: 5px; */
 	}
 </style>

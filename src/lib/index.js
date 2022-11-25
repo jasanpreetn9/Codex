@@ -55,35 +55,3 @@ export const animeDetailQuery = () => {
       }
       `;
 };
-export const recommendationsFormat = (recommendations) => {
-	let formatted = [];
-	recommendations.forEach((recommenced) => {
-		formatted.push({
-			image: recommenced.node.mediaRecommendation.coverImage.extraLarge,
-			id: recommenced.node.mediaRecommendation.id,
-			title: {
-				english: recommenced.node.mediaRecommendation.title.english,
-				romaji: recommenced.node.mediaRecommendation.title.romaji
-			}
-		});
-	});
-  console.log(formatted)
-	return formatted.slice(0, 24);
-};
-export const relationsFormat = (relations) => {
-	let formatted = [];
-	relations.forEach((relation) => {
-		formatted.push({
-			image: relation.node.coverImage.extraLarge,
-			id: relation.node.id,
-			description: relation.node.description,
-			relationType: relation.relationType,
-			format: relation.node.type,
-			title: {
-				english: relation.node.title.english,
-				romaji: relation.node.title.romaji
-			}
-		});
-	});
-	return formatted;
-};

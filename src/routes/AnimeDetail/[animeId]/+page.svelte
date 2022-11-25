@@ -1,61 +1,41 @@
 <script>
 	export let data;
-	import { recommendationsFormat, relationsFormat } from '../../../lib/index';
 	import { PosterCard, RelationsList } from '$lib/Components';
-	let { animeDetail } = data;
-	let {
-		id,
-		idMal,
-		title,
-		coverImage,
-		seasonYear,
-		description,
-		format,
-		status,
-		episodes,
-		averageScore,
-		genres,
-		recommendations,
-		relations
-	} = animeDetail;
-	recommendations = recommendationsFormat(recommendations.edges);
-	let formatedRelations = relationsFormat(relations.edges);
-	console.log(title)
 	let sortedRelations = [];
-	formatedRelations.forEach((relation) => {
-		if (
-			relation.format == 'ANIME' &&
-			(relation.relationType == 'SEQUEL' ||
-				relation.relationType == 'PREQUEL' ||
-				relation.relationType == 'SIDE_STORY')
-		) {
-			sortedRelations.push(relation);
-		}
-	});
+	if ((data.relations.length) !== 0) {
+		data.relations.forEach((relation) => {
+			if (
+				(relation.type == 'TV' || relation.type == 'MOVIE') &&
+				(relation.relationType == 'SEQUEL' ||
+					relation.relationType == 'PREQUEL' ||
+					relation.relationType == 'SIDE_STORY')
+			) {
+				sortedRelations.push(relation);
+			}
+		});
+	}
 </script>
 
 <section class="anime-detail">
 	<div class="container">
 		<figure class="anime-detail-banner">
-			<img src={coverImage.extraLarge} alt="Poster" />
+			<img src={data.image} alt={data.title.romaji} />
 		</figure>
 		<div class="anime-detail-content">
-			{#if title.english == null}
-			<h1 class="h1 detail-title">{title.romaji}</h1>
-			<!-- content here -->
+			{#if data.title.english == null || data.title.english == undefined}
+				<h1 class="h1 detail-title">{data.title.romaji}</h1>
 			{:else}
-			<h1 class="h1 detail-title">{title.english}</h1>
-				 <!-- else content here -->
+				<h1 class="h1 detail-title">{data.title.english}</h1>
 			{/if}
 			<div class="meta-wrapper">
-				<p class="storyline">{@html description}</p>
+				<p class="storyline">{@html data.description}</p>
 				<div class="badge-wrapper">
-					<div class="badge badge-fill">Type: {format}</div>
-					<div class="badge badge-outline">Rating: {averageScore / 10}</div>
-					<div class="badge badge-fill">Release Date: {seasonYear}</div>
-					<div class="badge badge-outline">Episodes: {episodes}</div>
-					<div class="badge badge-fill">Status: {status.toLowerCase()}</div>
-					<div class="badge badge-outline">Genres: {genres}</div>
+					<div class="badge badge-fill">Type: {data.type}</div>
+					<div class="badge badge-outline">Rating: {data.rating / 10}</div>
+					<div class="badge badge-fill">Release Date: {data.releaseDate}</div>
+					<div class="badge badge-outline">Episodes: {data.totalEpisodes}</div>
+					<div class="badge badge-fill">Status: {data.status.toLowerCase()}</div>
+					<div class="badge badge-outline">Genres: {data.genres}</div>
 				</div>
 			</div>
 		</div>
@@ -63,13 +43,13 @@
 </section>
 
 <div class="lists">
-	{#if sortedRelations.length > 0}
+	{#if sortedRelations.length !== 0}
 		<RelationsList relations={sortedRelations} />
 	{/if}
 	<h1 class="title">Recomended</h1>
 	<div class="cards-list">
 		<div class="card-container">
-			{#each recommendations as recommended}
+			{#each data.recommendations as recommended}
 				<PosterCard anime={recommended} reload={true} />
 			{/each}
 		</div>
@@ -126,7 +106,7 @@
 	}
 	.anime-detail {
 		padding-top: 120px;
-		padding-bottom: 60px;
+		padding-bottom: 30px;
 	}
 	.anime-detail-banner {
 		position: relative;
@@ -183,7 +163,7 @@
 			max-width: 960px;
 		}
 		.anime-detail {
-			padding-bottom: 60px;
+			padding-bottom: 30px;
 		}
 		.anime-detail .container {
 			position: relative;
@@ -201,7 +181,7 @@
 			max-width: 1320px;
 		}
 		.anime-detail {
-			padding-bottom: 60px;
+			padding-bottom: 30px;
 		}
 		.anime-detail-content {
 			max-width: 1000px;
