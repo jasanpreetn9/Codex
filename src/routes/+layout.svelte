@@ -10,19 +10,24 @@
 </scelte:head>
 <nav class="navbar">
 	<a href="/">
-		<img src={logo} class="brand-logo" alt="" />
+		<img
+			src="https://github.com/jasanpreetn9/Codex/raw/main/static/favicon.png?raw=true"
+			class="brand-logo"
+			alt=""
+		/>
 	</a>
 	<ul class="nav-links">
-		<li class="title"><a href="/">Codex</a></li>
 		<li class="nav-items"><a href="/">TV</a></li>
-		<li class="nav-items"><a href="/">movies</a></li>
+		<li class="nav-items"><a href="/">Movies</a></li>
 	</ul>
 
 	<div class="right-container">
-		<form on:submit|preventDefault={goto('/Search/' + inputValue)}>
-			<input bind:value={inputValue} type="text" class="search-box" placeholder="search" />
-			<a href="/Login" class="search-button">Login</a>
-		</form>
+		<!-- <form on:submit|preventDefault={goto('/Search/' + inputValue)}> -->
+		<input type="text" class="search-box" placeholder="Search for an Anime..." />
+		<!-- </form> -->
+		<div class="user-icon">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
+		</div>
 	</div>
 </nav>
 
@@ -41,12 +46,12 @@
 <style>
 	.navbar {
 		width: 100%;
-		height: 70px;
+		height: 80px;
 		position: fixed;
 		top: 0;
 		left: 0;
 		padding: 0 4%;
-		background: #0c111b;
+		background: linear-gradient(#0d111a, 90%, transparent);
 		z-index: 9;
 		display: flex;
 		align-items: center;
@@ -54,7 +59,6 @@
 
 	.brand-logo {
 		height: 35px;
-		margin-top: 5px;
 	}
 
 	.nav-links {
@@ -65,58 +69,41 @@
 
 	.nav-items a {
 		text-decoration: none;
-		margin-left: 20px;
+		margin-left: 30px;
 		text-transform: capitalize;
 		color: #fff;
-		opacity: 0.9;
-	}
-	.title a {
-		color: #fff;
-		text-decoration: none;
-		margin-left: 10px;
-		text-transform: capitalize;
 		opacity: 0.9;
 	}
 
 	.right-container {
 		display: block;
 		margin-left: auto;
+		display: flex;
 	}
 
 	.search-box {
 		border: none;
-		border-bottom: 1px solid #aaa;
-		background: transparent;
-		outline: none;
+		background-color: #040b16;
+		border-radius: 10px;
 		height: 30px;
 		color: #fff;
-		width: 250px;
-		text-transform: capitalize;
-		font-size: 16px;
-		font-weight: 500;
-		transition: 0.5s;
-	}
-
-	.search-box:focus {
 		width: 400px;
-		border-color: #1f80e0;
+		text-transform: capitalize;
+		font-size: 14px;
+		font-weight: 400;
+		transition: 0.5s;
+		padding: 20px;
 	}
 
-	.search-button {
-		color: #fff;
-		background-color: transparent;
-		opacity: 0.9;
-		font-size: 15px;
-		font-weight: 700;
-		text-decoration: none;
-		border: none;
-		cursor: pointer;
+	.user-icon {
+		width: 45px;
 	}
-	@media (max-width: 600px) and (min-width: 263px) {
-		.search-box {
-			width: 150px;
-		}
+
+	.user-icon img {
+		width: 100%;
+		color: white;
 	}
+
 	.footer-bottom {
 		margin-top: 30px;
 		width: 100%;

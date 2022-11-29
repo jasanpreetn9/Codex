@@ -2,7 +2,8 @@
 	export let data;
 	import { PosterCard, RelationsList } from '$lib/Components';
 	let sortedRelations = [];
-	if ((data.relations.length) !== 0) {
+	console.log(data);
+	if (data.relations.length !== 0) {
 		data.relations.forEach((relation) => {
 			if (
 				(relation.type == 'TV' || relation.type == 'MOVIE') &&
@@ -16,32 +17,31 @@
 	}
 </script>
 
-<section class="anime-detail">
-	<div class="container">
-		<figure class="anime-detail-banner">
-			<img src={data.image} alt={data.title.romaji} />
-		</figure>
-		<div class="anime-detail-content">
-			{#if data.title.english == null || data.title.english == undefined}
-				<h1 class="h1 detail-title">{data.title.romaji}</h1>
-			{:else}
-				<h1 class="h1 detail-title">{data.title.english}</h1>
-			{/if}
-			<div class="meta-wrapper">
-				<p class="storyline">{@html data.description}</p>
-				<div class="badge-wrapper">
-					<div class="badge badge-fill">Type: {data.type}</div>
-					<div class="badge badge-outline">Rating: {data.rating / 10}</div>
-					<div class="badge badge-fill">Release Date: {data.releaseDate}</div>
-					<div class="badge badge-outline">Episodes: {data.totalEpisodes}</div>
-					<div class="badge badge-fill">Status: {data.status.toLowerCase()}</div>
-					<div class="badge badge-outline">Genres: {data.genres}</div>
+<div class="slider">
+	<div class="slide-content">
+		<section class="anime-detail">
+			<div class="container">
+				<figure class="anime-detail-banner">
+					<img src={data.image} alt={data.title.romaji} />
+				</figure>
+				<div class="anime-detail-content">
+					{#if data.title.english == null || data.title.english == undefined}
+						<h1 class="h1 detail-title">{data.title.romaji}</h1>
+					{:else}
+						<h1 class="h1 detail-title">{data.title.english}</h1>
+					{/if}
+					<div class="meta-wrapper">
+						<h2>{data.title.romaji}</h2>
+						<p class="storyline">{@html data.description.replace(/\<br\>/g," ")}</p>
+					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	</div>
-</section>
+	<img src={data.cover} alt="" />
+</div>
 
+<!-- 
 <div class="lists">
 	{#if sortedRelations.length !== 0}
 		<RelationsList relations={sortedRelations} />
@@ -54,8 +54,7 @@
 			{/each}
 		</div>
 	</div>
-</div>
-
+</div> -->
 <style>
 	*,
 	*::before,
@@ -64,31 +63,54 @@
 		padding: 0;
 		box-sizing: border-box;
 	}
-	img {
+	.slider {
+		flex: 0 0 auto;
+		margin-right: 30px;
+		position: relative;
+		background: rgba(0, 0, 0, 0.5);
+		border-radius: 5px;
+		width: 100%;
+		height: 100%;
+		min-width: 100%;
+		left: 0;
+		transition: 1s;
+	}
+	.slider img {
+		height: 450px;
+		object-fit: cover;
 		display: block;
+		margin-left: auto;
+		z-index: 1;
+		opacity: 50%;
+	}
+
+	.slide-content {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		/* padding-left: 50px; */
+		z-index: 2;
+		color: #fff;
+		margin-top: 150px;
 	}
 	.container {
 		padding-inline: 15px;
 	}
-	.h1 {
-		color: white;
-		line-height: 1.2;
-		font-size: 36px;
+
+	.anime-detail-banner {
+		position: relative;
+		background: hsl(229, 15%, 21%);
+		margin-inline: auto;
+		border-radius: 6px;
+		overflow: hidden;
+		margin-bottom: 50px;
+		/* width: 375px; */
 	}
-	.badge {
-		color: #ffffff;
-		font-size: 11px;
-		font-weight: 700;
-		border: 2px solid transparent;
-		padding: 2px 10px;
-		text-transform: capitalize;
-	}
-	.badge-fill {
-		background: #ffffff;
-		color: hsl(228, 13%, 15%);
-	}
-	.badge-outline {
-		border-color: hsl(0, 0%, 100%);
+	.anime-detail-banner img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		align-items: center;
 	}
 	.meta-wrapper {
 		display: flex;
@@ -98,41 +120,17 @@
 		gap: 15px 25px;
 		margin-bottom: 50px;
 	}
-	.badge-wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 5px 10px;
-	}
-	.anime-detail {
-		padding-top: 120px;
-		padding-bottom: 30px;
-	}
-	.anime-detail-banner {
-		position: relative;
-		background: hsl(229, 15%, 21%);
-		margin-inline: auto;
-		border-radius: 6px;
-		overflow: hidden;
-		margin-bottom: 50px;
-	}
-	.anime-detail-banner img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
 	.detail-title {
 		margin-bottom: 20px;
-	}
-	.anime-detail .meta-wrapper {
-		margin-bottom: 30px;
+		color: white;
+		line-height: 1.2;
+		font-size: 36px;
 	}
 	.storyline {
 		color: hsl(0, 0%, 74%);
 		font-size: 14px;
 		font-weight: 500;
 		line-height: 1.8;
-		margin-bottom: 40px;
 	}
 	@media (min-width: 550px) {
 		:root {

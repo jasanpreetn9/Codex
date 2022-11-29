@@ -3,7 +3,6 @@
 	import PosterCard from './PosterCard.svelte';
 </script>
 
-<!-- {#if animes.length > 0} -->
 <div class="header">
 	<h1 class="title">{heading}</h1>
 	{#if viewMore}
@@ -13,22 +12,22 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<PosterCard {anime} reload={reload} />
+			<PosterCard {anime} {reload} />
 		{/each}
 	</div>
 </div>
 
-<!-- {/if} -->
 <style>
 	.header {
 		display: flex;
 		justify-content: space-between;
+		margin-bottom: 10px;
 	}
 	.title {
+		margin-top: 10px;
 		color: #fff;
 		opacity: 0.9;
-		padding-top: 15px;
-		padding-left: 5%;
+		padding-left: 4%;
 		text-transform: capitalize;
 		font-size: 22px;
 		font-weight: 500;
@@ -39,21 +38,20 @@
 		padding-right: 4%;
 		font-weight: 500;
 		margin-top: 20px;
+		width: max-content;
 	}
 	.cards-list {
 		width: 100%;
-		height: 220px;
 		position: relative;
 	}
 
 	.card-container {
 		position: relative;
 		width: 92%;
-		padding-left: 10px;
-		height: 230px;
+		height: 270px;
 		display: flex;
 		margin: 0 auto;
-		align-items: center;
+		overflow: hidden;
 		overflow-x: auto;
 		overflow-y: visible;
 		scroll-behavior: smooth;

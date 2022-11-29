@@ -1,12 +1,19 @@
 <script>
 	export let trendingAnimes;
-	import pre from '$lib/images/pre.png';
-	import nxt from '$lib/images/nxt.png';
 	import Siema from 'siema';
 	import { onMount } from 'svelte';
+	import pre from '$lib/images/pre.png';
+	import nxt from '$lib/images/nxt.png';
+	let formatedTredning = [];
 	let slider, prev, next, radioSlider;
+	trendingAnimes.forEach((anime) => {
+		if (formatedTredning.length <= 9) {
+			if (anime.cover !== anime.image) {
+				formatedTredning.push(anime);
+			}
+		}
+	});
 	let select = 0;
-
 	onMount(() => {
 		slider = new Siema({
 			selector: '.carousel',
@@ -43,14 +50,17 @@
 	<button on:click={prev} class="pre-btn"><img src={pre} alt="" /></button>
 	<button on:click={next} class="nxt-btn"><img src={nxt} alt="" /></button>
 	<div class="carousel">
-		{#each trendingAnimes as anime}
+		{#each formatedTredning as anime}
 			<div class="slider">
 				<div class="slide-content">
-					<h1 class="movie-title">{anime.title.english}</h1>
+					<h1 class="movie-title">{anime.title.english.toLowerCase()}</h1>
+					<div class="badges-container">
+						<p class="badges">Type: {anime.type}</p>
+						<p class="badges">Rating: {anime.rating / 10}</p>
+						<p class="badges">Eps: {anime.totalEpisodes}</p>
+					</div>
 					<p class="movie-des">{@html anime.description}</p>
-					<a data-sveltekit-prefetch data-sveltekit-noscroll href={'/AnimeDetail/' + anime.id}>
-						<button class="Details-btn">Details</button>
-					</a>
+					<a data-sveltekit-prefetch href={'/AnimeDetail/' + anime.id}>Watch</a>
 				</div>
 				<img src={anime.cover} alt="" />
 			</div>
@@ -59,7 +69,7 @@
 </div>
 
 <div class="bullet">
-	{#each trendingAnimes as d, i}
+	{#each formatedTredning as d, i}
 		<input
 			bind:this={radioSlider}
 			type="radio"
@@ -76,13 +86,13 @@
 
 <style>
 	.carousel-container {
+		margin-top: 70px;
 		position: relative;
 		width: 100%;
 		min-height: 450px;
 		height: 450px;
 		padding: 20px 0;
 		overflow-x: hidden;
-		margin-top: 80px;
 	}
 	.carousel {
 		width: 92%;
@@ -109,39 +119,54 @@
 		object-fit: cover;
 		display: block;
 		margin-left: auto;
+		opacity: 50%;
 	}
 
 	.slide-content {
 		position: absolute;
-		width: 50%;
+		width: 100%;
 		height: 100%;
+		padding-left: 50px;
 		z-index: 2;
-		background: linear-gradient(to right, #030b17 80%, #0c111b00);
 		color: #fff;
 	}
 	.movie-title {
-		padding-left: 50px;
+		/* padding-left: 50px; */
 		text-transform: capitalize;
-		margin-top: 80px;
-		font-size: 20px;
+		margin-top: 50px;
+		font-size: 45px;
 	}
 
+	.badges-container {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.badges {
+		margin-top: 10px;
+		background-color: rgba(13, 17, 26, 0.95);
+		padding: 7px;
+		border-radius: 16px;
+		width: 90px;
+		text-align: center;
+		font-size: 15px;
+		margin-right: 3px;
+		opacity: 85%;
+	}
 	.movie-des {
-		width: 80%;
+		width: 40%;
 		line-height: 30px;
-		padding-left: 50px;
-		margin-top: 30px;
-		opacity: 0.8;
+		margin-top: 20px;
+		opacity: 0.9;
 		display: -webkit-box;
 		-webkit-line-clamp: 4;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-
-	.Details-btn {
+	a {
 		background: #1f80e0;
 		height: 30px;
-		padding: 0 20px;
+		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
 		border: none;
@@ -149,8 +174,8 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		font-size: 12px;
-		margin-left: 50px;
-		cursor: pointer;
+		margin-top: 80px;
+		text-decoration: none;
 	}
 
 	.pre-btn,
@@ -198,11 +223,10 @@
 		background-color: lightgrey;
 		transition: 0.2s all linear;
 		margin-right: 5px;
-
 		position: relative;
 		cursor: pointer;
 	}
 	input:checked {
-		background-color: grey;
+		background-color: rgb(108, 106, 106);
 	}
 </style>

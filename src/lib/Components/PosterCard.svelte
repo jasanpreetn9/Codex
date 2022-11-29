@@ -25,13 +25,13 @@
 	{:else}
 		<a data-sveltekit-prefetch data-sveltekit-noscroll href={'/AnimeDetail/' + id}>
 			<img src={image} class="card-img" alt={title.english} />
-			<div class="card-body">
-				{#if title.english == null}
-					<p class="name">{title.romaji}</p>
-				{:else}
-					<p class="name">{title.english}</p>
-				{/if}
-			</div>
+			<div class="card-body" />
+			{#if title.english == null}
+				<p class="name">{title.romaji.toLowerCase()}</p>
+			{:else}
+				<p class="name">{title.english.toLowerCase()}</p>
+			{/if}
+			<span>TV | 2013</span>
 		</a>
 	{/if}
 </div>
@@ -39,28 +39,27 @@
 <style>
 	.card {
 		position: relative;
-		min-width: 150px;
-		width: 150px;
-		height: 200px;
+		min-width: 155px;
+		width: 155px;
+		height: 220px;
 		border-radius: 5px;
-		overflow: hidden;
-		margin-right: 11px;
+		margin-right: 12px;
 		transition: 0.5s;
+		margin-bottom: 15px;
 	}
-
+	a {
+		text-decoration: none;
+	}
 	.card-img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-	}
-
-	.card:hover {
-		transform: scale(1.1);
+		border-radius: 7px;
 	}
 
 	.card-body {
 		width: 100%;
-		height: 100%;
+		height: 220px;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -70,21 +69,23 @@
 		transition: 0.5s;
 		opacity: 1;
 		text-align: bottom;
-		border-radius: 5px;
-
+		border-radius: 7px;
 	}
 
 	.name {
 		color: #fff;
-		font-size: 14px;
-		font-weight: 500;
+		font-size: 16px;
+		font-weight: 400;
 		text-transform: capitalize;
-		margin-top: 120%;
-	}
-	p {
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		text-transform: capitalize;
+	}
+	span {
+		color: #fff;
+		font-size: 12px;
+		font-weight: 300;
 	}
 </style>
