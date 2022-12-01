@@ -11,9 +11,9 @@
 <nav class="navbar">
 	<a href="/">
 		<img
-			src="https://github.com/jasanpreetn9/Codex/raw/main/static/favicon.png?raw=true"
+			src={logo}
 			class="brand-logo"
-			alt=""
+			alt="Logo"
 		/>
 	</a>
 	<ul class="nav-links">
@@ -22,9 +22,9 @@
 	</ul>
 
 	<div class="right-container">
-		<!-- <form on:submit|preventDefault={goto('/Search/' + inputValue)}> -->
-		<input type="text" class="search-box" placeholder="Search for an Anime..." />
-		<!-- </form> -->
+		<form on:submit|preventDefault={goto('/Search/' + inputValue)}>
+		<input type="text" bind:value={inputValue} class="search-box" placeholder="Search for an Anime..." />
+		</form>
 		<div class="user-icon">
 			<img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" />
 		</div>
@@ -39,7 +39,7 @@
 		<a href="/">Privacy Policy</a>
 	</div>
 	<div class="last-box">
-		<a href="/">&copy; Copyright 2021 Codex</a>
+		<a href="/">&copy; Copyright 2022 Codex</a>
 	</div>
 </div>
 

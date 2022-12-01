@@ -19,6 +19,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"artplayer": "^4.5.12",
 		"siema": "^1.5.1"
 	}
 }

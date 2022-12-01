@@ -60,7 +60,9 @@
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
 					<p class="movie-des">{@html anime.description}</p>
-					<a data-sveltekit-prefetch href={'/AnimeDetail/' + anime.id}>Watch</a>
+					<a data-sveltekit-prefetch href={'/AnimeDetail/' + anime.id}>
+					<button>Watch</button>
+					</a>
 				</div>
 				<img src={anime.cover} alt="" />
 			</div>
@@ -90,7 +92,7 @@
 		position: relative;
 		width: 100%;
 		min-height: 450px;
-		height: 450px;
+		height: 400px;
 		padding: 20px 0;
 		overflow-x: hidden;
 	}
@@ -113,6 +115,7 @@
 		left: 0;
 		transition: 1s;
 		overflow: hidden;
+		height: 400px;
 	}
 	.slider img {
 		height: 100%;
@@ -163,9 +166,8 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-	a {
+	button {
 		background: #1f80e0;
-		height: 30px;
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
@@ -174,8 +176,8 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		font-size: 12px;
-		margin-top: 80px;
 		text-decoration: none;
+		margin-top: 10px;
 	}
 
 	.pre-btn,

@@ -1,6 +1,6 @@
 <script>
 	export let anime, reload;
-	const { id, image, title } = anime;
+	const { id, image, title, rating } = anime;
 	import { invalidateAll } from '$app/navigation';
 	function rerunLoadFunction() {
 		invalidate('app:AnimeDetail');
@@ -31,7 +31,7 @@
 			{:else}
 				<p class="name">{title.english.toLowerCase()}</p>
 			{/if}
-			<span>TV | 2013</span>
+			<span>{rating / 10}</span>
 		</a>
 	{/if}
 </div>
