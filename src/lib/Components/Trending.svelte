@@ -101,7 +101,7 @@
 		height: 100%;
 		position: relative;
 		margin: auto;
-		overflow: hidden;
+		height: 400px;
 	}
 	.slider {
 		flex: 0 0 auto;
@@ -110,8 +110,6 @@
 		background: rgba(0, 0, 0, 0.5);
 		border-radius: 5px;
 		width: 100%;
-		height: 100%;
-		min-width: 100%;
 		left: 0;
 		transition: 1s;
 		overflow: hidden;
