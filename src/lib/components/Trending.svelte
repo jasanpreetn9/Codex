@@ -1,7 +1,7 @@
 <script>
 	export let trendingAnimes;
-	import Siema from 'siema';
 	import { onMount } from 'svelte';
+	import Siema from 'siema';
 	import pre from '$lib/images/pre.png';
 	import nxt from '$lib/images/nxt.png';
 	let formattedTrending = [];
@@ -24,7 +24,7 @@
 			draggable: true,
 			multipleDrag: true,
 			threshold: 20,
-			loop: true,
+			// loop: true,
 			rtl: false,
 			onInit: () => {},
 			onChange: () => {}
@@ -56,7 +56,9 @@
 					<h1 class="movie-title">{anime.title.english.toLowerCase()}</h1>
 					<div class="badges-container">
 						<p class="badges">Type: {anime.type}</p>
+						<span class="interpunct"></span>
 						<p class="badges">Rating: {anime.rating / 10}</p>
+						<span class="interpunct"></span>
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
 					<p class="movie-des">{@html anime.description}</p>
@@ -92,8 +94,38 @@
 		width: 100%;
 		padding: 10px 0;
 	}
+
+	.pre-btn,
+	.nxt-btn {
+		position: absolute;
+		top: 0;
+		width: 3%;
+		height: 100%;
+		z-index: 2;
+		border: none;
+		cursor: pointer;
+		outline: none;
+		background-color: transparent;
+	}
+
+	.pre-btn {
+		left: 0;
+		/* background: linear-gradient(to right, #0c111b 0%, #0c111b00); */
+	}
+
+	.nxt-btn {
+		right: 0;
+		/* background: linear-gradient(to left, #0c111b 0%, #0c111b00); */
+	}
+
+	.pre-btn img,
+	.nxt-btn img {
+		width: 15px;
+		height: 20px;
+		opacity: 1;
+	}
 	.carousel {
-		width: 97%;
+		width: 100%;
 		height: 100%;
 		position: relative;
 		margin: auto;
@@ -116,7 +148,7 @@
 		object-fit: cover;
 		display: block;
 		margin-left: auto;
-		opacity: .6;
+		opacity: 0.7;
 	}
 
 	.slide-content {
@@ -144,19 +176,31 @@
 
 	.badges {
 		margin-top: 10px;
-		background-color: rgba(13, 17, 26, 0.95);
-		padding: 7px;
+		/* background-color: rgba(13, 17, 26, 0.95); */
+		padding: 6px;
 		border-radius: 16px;
-		width: 90px;
+		/* width: 90px; */
 		text-align: center;
-		font-size: 13px;
+		font-size: 16px;
 		margin-right: 3px;
 		opacity: 85%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	.interpunct {
+		margin-top: 21.5px;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: white;
+		display: inline-block;
 	}
 	.movie-des {
 		width: 40%;
 		line-height: 30px;
-		margin-top: 20px;
+		margin-top: 10px;
 		opacity: 0.9;
 		display: -webkit-box;
 		-webkit-line-clamp: 4;
@@ -176,35 +220,6 @@
 		text-decoration: none;
 		margin-top: 10px;
 		cursor: pointer;
-	}
-
-	.pre-btn,
-	.nxt-btn {
-		position: absolute;
-		top: 0;
-		width: 5%;
-		height: 100%;
-		z-index: 2;
-		border: none;
-		cursor: pointer;
-		outline: none;
-	}
-
-	.pre-btn {
-		left: 0;
-		background: linear-gradient(to right, #0c111b 0%, #0c111b00);
-	}
-
-	.nxt-btn {
-		right: 0;
-		background: linear-gradient(to left, #0c111b 0%, #0c111b00);
-	}
-
-	.pre-btn img,
-	.nxt-btn img {
-		width: 15px;
-		height: 20px;
-		opacity: 1;
 	}
 	.bullet {
 		width: 100%;
