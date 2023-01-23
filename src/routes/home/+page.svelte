@@ -11,5 +11,6 @@
 <style>
 	h1 {
 		color: white;
+		text-decoration: none;
 	}
 </style>
