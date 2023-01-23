@@ -1,38 +1,56 @@
-# create-svelte
+<!-- PROJECT LOGO -->
+<p align="center">
+  <div align="center">
+    <a href="https://github.com/jasanpreetn9/Codex/">
+      <img width="150" src="https://github.com/jasanpreetn9/Codex/blob/main/static/favicon.png?raw=true" alt="Logo">
+    </a>
+    <h3>Codex - Watch animes online</h3>
+  </div>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+  <hr />
 
-## Creating a project
+  <p align="center">
+    The open-source anime streaming service made with SvelteKit. It lets you search, watch animes without any ads with a beautiful UI. It can be self hosted or deployed online.
+  </p>
+</p>
 
-If you're seeing this, you've probably already done this step. Congrats!
+<!-- PREVIEW IMAGE -->
+<img src="https://github.com/jasanpreetn9/Codex/blob/main/static/preview.png?raw=true">
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+<hr/>
 
-# create a new project in my-app
-npm create svelte@latest my-app
+## Acknowledgements
+
+<!-- API INFO -->
+
+Consumet is the underlying public free API's that are used for fetching the data about animes. [consumet/[api.consumet.org](https://github.com/consumet/api.consumet.org)] is used for scraping video sources.
+
+## Online Deployment
+
+Following are the recommended online deployment services which are tested to work with this project. If you want to add a deployment service just open an issue.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com)
+
+[![Deploy with netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com)
+
+## Local Deployment
+
+You need to have `nodejs` and `git` installed on your pc for following the intructions
+
+First download the repository using
+```
+git clone https://github.com/jasanpreetn9/Codex.git
 ```
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+This should download this repository to your computer. Next, to download the dependencies run
+```
+npm install
 ```
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
+Now build and start the production build of the site using
+```
+npm build
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+This will start the app on http://localhost:3000
