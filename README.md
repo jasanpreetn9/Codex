@@ -2,7 +2,7 @@
 <p align="center">
   <div align="center">
     <a href="https://github.com/jasanpreetn9/Codex/">
-      <img width="150" src="https://github.com/jasanpreetn9/Codex/blob/main/static/favicon.png?raw=true" alt="Logo">
+      <img width="150" src="https://github.com/jasanpreetn9/Codex/blob/master/static/favicon.png?raw=true" alt="Logo">
     </a>
     <h3>Codex - Watch animes online</h3>
   </div>
