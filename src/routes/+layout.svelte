@@ -90,7 +90,7 @@
 	}
 </style> -->
 <nav class="navbar">
-	<!-- <img src="images/logo.png" class="brand-logo" alt=""> -->
+	<img src="https://github.com/kunaal438/disney-plus-clone/blob/master/images/logo.png?raw=true" class="brand-logo" alt="">
 	<ul class="nav-links">
 		<li class="nav-items"><a href="/">TV</a></li>
 		<li class="nav-items"><a href="/">movies</a></li>

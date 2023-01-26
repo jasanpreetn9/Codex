@@ -1,7 +1,8 @@
 <script>
 	export let data;
-	import { Trending } from '$lib/components';
-	const { trendingAnimes} = data;
+	import { Trending,PosterCardList } from '$lib/components';
+	const { trendingAnimes,popularAnimes} = data;
 
 </script>
 <Trending {trendingAnimes} />
+<PosterCardList animes={popularAnimes} heading={"Popular Animes"}/>

@@ -29,7 +29,6 @@
 			onInit: () => {},
 			onChange: () => {}
 		}); //end Siema constructor
-
 		prev = () => {
 			slider.prev();
 			if (select > 0) {
@@ -62,7 +61,7 @@
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
 					<p class="movie-des">{@html anime.description}</p>
-					<a data-sveltekit-prefetch href={'/AnimeDetail/' + anime.id}>
+					<a data-sveltekit-prefetch href={'/details/' + anime.id}>
 						<button>Watch</button>
 					</a>
 				</div>
@@ -93,6 +92,8 @@
 		position: relative;
 		width: 100%;
 		padding: 10px 0;
+		border-radius: 5px;
+
 	}
 
 	.pre-btn,
@@ -130,6 +131,8 @@
 		position: relative;
 		margin: auto;
 		height: 400px;
+		border-radius: 5px;
+
 	}
 	.slider {
 		flex: 0 0 auto;
@@ -160,10 +163,11 @@
 		color: #fff;
 	}
 	.movie-title {
-		/* padding-left: 50px; */
+		width: 700px;
 		text-transform: capitalize;
 		margin-top: 50px;
 		font-size: 45px;
+		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
@@ -230,11 +234,9 @@
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
-
 		border-radius: 50%;
 		width: 10px;
 		height: 10px;
-
 		background-color: lightgrey;
 		transition: 0.2s all linear;
 		margin-right: 5px;
