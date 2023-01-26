@@ -84,6 +84,7 @@
 		/* 4 final */
 		height: max-content;
 		display: grid;
+		grid-row: 1;
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		overflow: hidden;
