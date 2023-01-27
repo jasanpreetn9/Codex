@@ -26,6 +26,7 @@
 		}
 		cancel();
 	};
+	console.log(process.env.API_URL)
 </script>
 
 <nav class="navbar">
