@@ -11,7 +11,7 @@ export const actions = {
 			},
 			{
 				data: {
-					userName: body.userName
+					userName: 'Whats up'
 				}
 			}
 		);
