@@ -1,96 +1,39 @@
 <script>
-	import '$lib/global.css';
+	export let data;
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
+	import { supabaseClient } from '$lib/supabase';
+	import { enhance } from '$app/forms';
 	import logo from '$lib/images/logo.svg';
+	import '$lib/global.css';
 	let inputValue = '';
+	onMount(() => {
+		const {
+			data: { subscription }
+		} = supabaseClient.auth.onAuthStateChange(() => {
+			console.log('Auth state change detected');
+			invalidateAll();
+		});
+		return () => {
+			subscription.unsubscribe();
+		};
+	});
+	const submitLogout = async ({ cancel }) => {
+		const { error } = await supabaseClient.auth.signOut();
+		if (error) {
+			console.log(error);
+		}
+		cancel();
+	};
 </script>
 
-<!-- 
-<svelte:head>
-	<title>Codex</title>
-</svelte:head>
 <nav class="navbar">
-	<a href="/">
-		<img src={logo} class="brand-logo" alt="Logo" />
-	</a>
-	<ul class="nav-links">
-		<li class="nav-items"><a href="/">TV</a></li>
-		<li class="nav-items"><a href="/">Movies</a></li>
-	</ul>
-
-	<div class="right-container">
-		<form on:submit|preventDefault={goto('/search/' + inputValue)}>
-			<input
-				type="text"
-				bind:value={inputValue}
-				class="search-box"
-				placeholder="Search for an Anime..."
-			/>
-		</form>
-	</div>
-</nav>
-<main>
-	<slot />
-</main>
-
-<style>
-	.navbar {
-		width: 100%;
-		height: 80px;
-		position: fixed;
-		top: 0;
-		left: 0;
-		padding: 0 4%;
-		background: linear-gradient(#0d111a, 90%, transparent);
-		z-index: 9;
-		display: flex;
-		align-items: center;
-	}
-
-	.brand-logo {
-		height: 35px;
-	}
-
-	.nav-links {
-		margin-top: 10px;
-		display: flex;
-		list-style: none;
-	}
-
-	.nav-items a {
-		text-decoration: none;
-		margin-left: 30px;
-		text-transform: capitalize;
-		color: #fff;
-		opacity: 0.9;
-	}
-
-	.right-container {
-		display: block;
-		margin-left: auto;
-		display: flex;
-	}
-
-	.search-box {
-		border: none;
-		background-color: #040b16;
-		border-radius: 10px;
-		height: 30px;
-		color: #fff;
-		width: 400px;
-		text-transform: capitalize;
-		font-size: 14px;
-		font-weight: 400;
-		transition: 0.5s;
-		padding: 20px;
-	}
-	main{
-		margin-top: 80px;
-		padding: 0 4%;
-	}
-</style> -->
-<nav class="navbar">
-	<img src="https://github.com/kunaal438/disney-plus-clone/blob/master/images/logo.png?raw=true" class="brand-logo" alt="">
+	<img
+		src="https://github.com/kunaal438/disney-plus-clone/blob/master/images/logo.png?raw=true"
+		class="brand-logo"
+		alt=""
+	/>
 	<ul class="nav-links">
 		<li class="nav-items"><a href="/">TV</a></li>
 		<li class="nav-items"><a href="/">movies</a></li>
@@ -98,12 +41,19 @@
 		<li class="nav-items"><a href="/">premium</a></li>
 	</ul>
 
-	<!-- <div class="right-container"> -->
 	<form on:submit|preventDefault={goto('/search/' + inputValue)} class="right-container">
 		<input type="text" class="search-box" bind:value={inputValue} placeholder="search" />
-		<a href="/" class="login-link">Login</a>
+		{#if data.session}
+			<p class="login-link">{data.session.user.email}</p>
+		{/if}
 	</form>
-	<!-- </div÷> -->
+	{#if data.session}
+		<form action="/logout" method="POST" use:enhance={submitLogout}>
+			<button type="submit" class="btn btn-primary">Logout</button>
+		</form>
+	{:else}
+		<a href="/login" class="login-link">Login</a>
+	{/if}
 </nav>
 <main>
 	<slot />

@@ -1,13 +1,13 @@
 <script>
 	export let animes, heading;
-	import { onMount } from 'svelte';
-	import Siema from 'siema';
+	// import { onMount } from 'svelte';
+	// import Siema from 'siema';
 	// onMount(() => {
 	// 	slider = new Siema({
 	// 		selector: '.card-container',
 	// 		duration: 200,
 	// 		easing: 'ease-in-out',
-	// 		perPage: 7,
+	// 		perPage: 8,
 	// 		startIndex: 0,
 	// 		draggable: true,
 	// 		multipleDrag: true,
@@ -65,26 +65,16 @@
 
 	.card-container {
 		/* position: relative; */
-		/* display: flex;
-		margin: 0 auto;
-		align-items: center;
-		overflow-x: auto;
-		overflow-y: visible;
-		scroll-behavior: smooth; */
-		
-		/* 1 too skinny, too much code */
-		/* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
-		
-		/* 2 cleaner code */
-		/* grid-template-columns: repeat(12, 1fr); */
-		
-		/* 3  better sizing, but overflows */
-		/* grid-template-columns: repeat(12, minmax(240px, 1fr)); */
+		/* display: flex; */
+		/* margin: 0 auto; */
+		/* align-items: center; */
+		/* overflow-x: auto; */
+		/* overflow-y: visible; */
+		/* scroll-behavior: smooth; */
 		
 		/* 4 final */
-		height: max-content;
+		/* height: max-content; */
 		display: grid;
-		grid-row: 1;
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		overflow: hidden;

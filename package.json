@@ -19,6 +19,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/auth-helpers-sveltekit": "^0.8.7",
+		"@supabase/supabase-js": "^2.4.1",
 		"siema": "^1.5.1"
 	}
 }
