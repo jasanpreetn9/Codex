@@ -4,17 +4,11 @@ import { fail, redirect } from '@sveltejs/kit';
 export const actions = {
 	register: async ({ request, locals }) => {
 		const body = Object.fromEntries(await request.formData());
-		const { data, error: err } = await locals.sb.auth.signUp(
-			{
-				email: body.email,
-				password: body.password
-			},
-			{
-				data: {
-					userName: 'Whats up'
-				}
-			}
-		);
+		const { data, error: err } = await locals.sb.auth.signUp({
+			email: body.email,
+			password: body.password
+		});
+
 		if (err) {
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {

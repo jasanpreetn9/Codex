@@ -1,48 +1,19 @@
 <script>
 	export let animes, heading;
-	// import { onMount } from 'svelte';
-	// import Siema from 'siema';
-	// onMount(() => {
-	// 	slider = new Siema({
-	// 		selector: '.card-container',
-	// 		duration: 200,
-	// 		easing: 'ease-in-out',
-	// 		perPage: 8,
-	// 		startIndex: 0,
-	// 		draggable: true,
-	// 		multipleDrag: true,
-	// 		threshold: 20,
-	// 		// loop: true,
-	// 		rtl: false,
-	// 		onInit: () => {},
-	// 		onChange: () => {}
-	// 	}); //end Siema constructor
-	// 	prev = () => {
-	// 		slider.prev();
-	// 		if (select > 0) {
-	// 			select--;
-	// 		}
-	// 	};
-
-	// 	next = () => {
-	// 		slider.next();
-	// 		if (select >= 0) {
-	// 			select++;
-	// 		}
-	// 	};
-	// }); //end onMount
 </script>
 
 <h1 class="title">{heading}</h1>
-<div class="movies-list">
+<div class="cards-list">
 	<div class="card-container">
-		{#each animes as anime}
-			<div class="card">
-				<img src={anime.image} class="card-img" alt="" />
-				<div class="card-body">
-					<h2 class="name">{anime.title.english}</h2>
+		{#each animes as anime, index}
+			<a href={'/details/' + anime.id}>
+				<div class="card">
+					<img src={anime.image} class="card-img" alt="" />
+					<div class="card-body">
+						<h2 class="name">{anime.title.english.toLowerCase()}</h2>
+					</div>
 				</div>
-			</div>
+			</a>
 		{/each}
 	</div>
 </div>
@@ -56,7 +27,7 @@
 		font-size: 22px;
 		font-weight: 500;
 	}
-	.movies-list {
+	.cards-list {
 		width: 100%;
 		height: max-content;
 		position: relative;
@@ -64,30 +35,33 @@
 	}
 
 	.card-container {
-		/* position: relative; */
-		/* display: flex; */
-		/* margin: 0 auto; */
-		/* align-items: center; */
-		/* overflow-x: auto; */
-		/* overflow-y: visible; */
-		/* scroll-behavior: smooth; */
-		
-		/* 4 final */
-		/* height: max-content; */
 		display: grid;
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		min-height: 150px;
 		overflow: hidden;
 	}
-
-	.card-container::-webkit-scrollbar {
-		display: none;
+	@media (max-width: 768px) {
+		.card-container {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	@media (min-width: 769px) {
+		.card-container {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	@media (min-width: 1440px) {
+		.card-container {
+			grid-template-columns: repeat(8, 1fr);
+			grid-template-rows: repeat(1, max-content) repeat(1, 0px);
+		}
 	}
 
 	.card {
 		position: relative;
 		width: 100%;
-		/* height: 230px; */
+		/* min-height: 230px; */
 		border-radius: 5px;
 		overflow: hidden;
 		margin-right: 100px;
@@ -117,6 +91,11 @@
 		color: #fff;
 		font-size: 15px;
 		font-weight: 500;
-		margin-top: 130%;
+		margin-top: 120%;
+		text-transform: capitalize;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 </style>

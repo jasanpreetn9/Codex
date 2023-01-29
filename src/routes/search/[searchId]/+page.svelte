@@ -1,12 +1,114 @@
 <script>
-    export let data;
-    console.log(data);
+	export let data;
+	const { searchAnimes, searchId } = data;
+    console.log(searchAnimes)
 </script>
 
-<h1>Welcome to search page.</h1>
+<h1 class="title">Search Results For: <i>{searchId}</i></h1>
+<div class="cards-list">
+	<div class="card-container">
+		{#each searchAnimes as anime}
+			{#if (anime.title.english = "NULL")}
+				<a href={'/details/' + anime.id}>
+					<div class="card">
+						<img src={anime.image} class="card-img" alt="" />
+						<div class="card-body">
+							<h2 class="name">{anime.title.romaji.toLowerCase()}</h2>
+						</div>
+					</div>
+				</a>
+			{:else}
+				<a href={'/details/' + anime.id}>
+					<div class="card">
+						<img src={anime.image} class="card-img" alt="" />
+						<div class="card-body">
+							<h2 class="name">{anime.title.english.toLowerCase()}</h2>
+						</div>
+					</div>
+				</a>
+			{/if}
+		{/each}
+	</div>
+</div>
 
 <style>
-    h1{
-        color: white;
-    }
+	.title {
+		margin-top: 10px;
+		color: #fff;
+		opacity: 0.9;
+		text-transform: capitalize;
+		font-size: 22px;
+		font-weight: 500;
+	}
+	.cards-list {
+		width: 100%;
+		height: max-content;
+		position: relative;
+		margin: 10px 0 20px;
+	}
+
+	.card-container {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		min-height: 150px;
+		overflow: hidden;
+	}
+	@media (max-width: 768px) {
+		.card-container {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	@media (min-width: 769px) {
+		.card-container {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	@media (min-width: 1440px) {
+		.card-container {
+			grid-template-columns: repeat(8, 1fr);
+			grid-template-rows: repeat(1, max-content) repeat(1, 0px);
+		}
+	}
+
+	.card {
+		position: relative;
+		width: 100%;
+		height: 230px;
+		border-radius: 5px;
+		overflow: hidden;
+		margin-right: 100px;
+	}
+
+	.card-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 5px;
+	}
+
+	.card-body {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 2;
+		background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%);
+		padding: 10px;
+		transition: 0.5s;
+		border-radius: 5px;
+	}
+
+	.name {
+		color: #fff;
+		font-size: 15px;
+		font-weight: 500;
+		margin-top: 120%;
+		text-transform: capitalize;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
 </style>

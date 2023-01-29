@@ -3,7 +3,7 @@ export async function load({ fetch, params }) {
 	const respData = await resp.json(resp);
 
 	return {
-		searchAnime: respData.results,
+		searchAnimes: respData.results,
 		searchId: params.searchId
 	};
 };

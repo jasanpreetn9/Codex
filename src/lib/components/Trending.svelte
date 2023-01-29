@@ -55,9 +55,9 @@
 					<h1 class="movie-title">{anime.title.english.toLowerCase()}</h1>
 					<div class="badges-container">
 						<p class="badges">Type: {anime.type}</p>
-						<span class="interpunct"></span>
+						<span class="dots" />
 						<p class="badges">Rating: {anime.rating / 10}</p>
-						<span class="interpunct"></span>
+						<span class="dots" />
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
 					<p class="movie-des">{@html anime.description}</p>
@@ -93,7 +93,6 @@
 		width: 100%;
 		padding: 10px 0;
 		border-radius: 5px;
-
 	}
 
 	.pre-btn,
@@ -132,7 +131,6 @@
 		margin: auto;
 		height: 400px;
 		border-radius: 5px;
-
 	}
 	.slider {
 		flex: 0 0 auto;
@@ -152,6 +150,7 @@
 		display: block;
 		margin-left: auto;
 		opacity: 0.7;
+		border-radius: 5px;
 	}
 
 	.slide-content {
@@ -193,7 +192,7 @@
 		align-items: center;
 		justify-content: center;
 	}
-	.interpunct {
+	.dots {
 		margin-top: 21.5px;
 		width: 5px;
 		height: 5px;

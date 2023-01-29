@@ -29,11 +29,13 @@
 </script>
 
 <nav class="navbar">
-	<img
-		src="https://github.com/kunaal438/disney-plus-clone/blob/master/images/logo.png?raw=true"
-		class="brand-logo"
-		alt=""
-	/>
+	<a href="/"
+		><img
+			src="https://github.com/kunaal438/disney-plus-clone/blob/master/images/logo.png?raw=true"
+			class="brand-logo"
+			alt=""
+		/></a
+	>
 	<ul class="nav-links">
 		<li class="nav-items"><a href="/">TV</a></li>
 		<li class="nav-items"><a href="/">movies</a></li>
@@ -43,13 +45,10 @@
 
 	<form on:submit|preventDefault={goto('/search/' + inputValue)} class="right-container">
 		<input type="text" class="search-box" bind:value={inputValue} placeholder="search" />
-		{#if data.session}
-			<p class="login-link">{data.session.user.email}</p>
-		{/if}
 	</form>
 	{#if data.session}
 		<form action="/logout" method="POST" use:enhance={submitLogout}>
-			<button type="submit" class="btn btn-primary">Logout</button>
+			<button type="submit" class="logout-btn">Logout</button>
 		</form>
 	{:else}
 		<a href="/login" class="login-link">Login</a>
@@ -121,6 +120,20 @@
 		font-size: 15px;
 		font-weight: 700;
 		text-decoration: none;
+	}
+	.logout-btn {
+		background: #1f80e0;
+		height: 30px;
+		padding: 0 20px;
+		color: #fff;
+		border-radius: 5px;
+		border: none;
+		outline: none;
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 12px;
+		margin: 0 10px;
+		cursor: pointer;
 	}
 	main {
 		margin-top: 80px;
