@@ -1,8 +1,3 @@
-<script>
-	export let data
-	console.log(data)
-</script>
-
 <main>
 	<h1>Register</h1>
 	<form action="?/register" method="POST" class="auth-form">

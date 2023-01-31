@@ -5,3 +5,4 @@ export async function load(event) {
 		session: await getServerSession(event),
 	}
 }
+

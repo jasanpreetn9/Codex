@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	const { searchAnimes, searchId } = data;
-    console.log(searchAnimes)
 </script>
 
 <h1 class="title">Search Results For: <i>{searchId}</i></h1>
