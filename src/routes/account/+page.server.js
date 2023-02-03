@@ -16,6 +16,9 @@ export const load = async ({ locals }) => {
 			username: user.email.split('@')[0]
 		};
 		let { error } = await locals.sb.from('profiles').upsert(updates);
+	} 
+	else {
+		throw redirect(307, '/');
 	}
 
 	return{

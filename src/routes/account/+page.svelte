@@ -15,11 +15,7 @@
 		<label for="username">Joined</label>
 		<input name="username" value={data?.dateJoined ?? ''} id="username" type="data" disabled />
 
-		<button>Save</button>
-		<div class="social">
-			<div class="go"><i class="fab fa-google" /> Google</div>
-			<div class="fb"><i class="fab fa-facebook" /> Facebook</div>
-		</div>
+		<button type="submit">Save</button>
 	</form>
 </main>
 
@@ -82,28 +78,6 @@
 		font-weight: 600;
 		border-radius: 5px;
 		cursor: pointer;
-	}
-	.social {
-		margin-top: 30px;
-		display: flex;
-	}
-	.social div {
-		background: red;
-		width: 150px;
-		border-radius: 3px;
-		padding: 5px 10px 10px 5px;
-		background-color: rgba(255, 255, 255, 0.27);
-		color: #eaf0fb;
-		text-align: center;
-	}
-	.social div:hover {
-		background-color: rgba(255, 255, 255, 0.47);
-	}
-	.social .fb {
-		margin-left: 25px;
-	}
-	.social i {
-		margin-right: 4px;
 	}
 </style>
 
