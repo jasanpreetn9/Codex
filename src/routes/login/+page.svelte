@@ -3,17 +3,17 @@
 	<form action="?/login" method="POST" class="auth-form">
 		<h3>Login Here</h3>
 
-		<label for="email">Username</label>
+		<label for="email">Email</label>
 		<input type="email" name="email" placeholder="Email" />
 
 		<label for="password">Password</label>
 		<input type="password" name="password" placeholder="Password" />
 
 		<button>Log In</button>
-		<div class="social">
+		<!-- <div class="social">
 			<div class="go"><i class="fab fa-google" /> Google</div>
 			<div class="fb"><i class="fab fa-facebook" /> Facebook</div>
-		</div>
+		</div> -->
 	</form>
 </main>
 

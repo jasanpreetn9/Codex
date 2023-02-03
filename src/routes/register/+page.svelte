@@ -16,10 +16,10 @@
 		<input type="password" name="confirmPassword" placeholder="Confirm Password" />
 
 		<button>Register</button>
-		<div class="social">
+		<!-- <div class="social">
 			<div class="go"><i class="fab fa-google" /> Google</div>
 			<div class="fb"><i class="fab fa-facebook" /> Facebook</div>
-		</div>
+		</div> -->
 	</form>
 </main>
 
