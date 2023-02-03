@@ -1,5 +1,5 @@
 import Trending from './Trending.svelte';
 import PosterCardList from './PosterCardList.svelte';
-import Modal from './Modal.svelte';
+import EpisodeCard from './EpisodeCard.svelte';
 
-export { Trending, PosterCardList, Modal };
+export { Trending, PosterCardList, EpisodeCard };

@@ -1,3 +1,9 @@
+export const load = async ({locals}) => {
+	if(locals.session == null){
+		throw redirect(403, '/')
+	}
+}
+
 export const actions = {
 	updateAccount: async ({ request, locals }) => {
 		const body = Object.fromEntries(await request.formData());

@@ -4,9 +4,6 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { supabaseClient } from '$lib/supabase';
 	import { enhance } from '$app/forms';
-	import { Modal } from '$lib/components';
-	let showModalLogin = false;
-	let showModalRegister = false;
 	import logo from '$lib/images/logo.svg';
 	import '$lib/global.css';
 	let inputValue = '';
@@ -46,46 +43,20 @@
 	</ul>
 
 	<form on:submit|preventDefault={goto('/search/' + inputValue)} class="right-container">
-		<input type="text" id='search-box' class="search-box" bind:value={inputValue} placeholder="search" />
+		<input
+			type="text"
+			id="search-box"
+			class="search-box"
+			bind:value={inputValue}
+			placeholder="search"
+		/>
 	</form>
 	{#if data.session}
 		<form action="/logout" method="POST" use:enhance={submitLogout}>
 			<button type="submit" class="logout-login-btn">Logout</button>
 		</form>
 	{:else}
-		<button class="logout-login-btn" on:click={() => (showModalLogin = true)}>Login</button>
-	{/if}
-
-	{#if showModalLogin}
-		<Modal on:close={() => (showModalLogin = false)}>
-			<h1>Login</h1>
-			<form action="/login" method="POST" class="auth-form">
-				<label for=""> Email </label>
-				<input type="text" name="email" />
-				<label for=""> Password </label>
-				<input type="password" name="password" />
-				<button type="submit" class="btn btn-primary">Login</button>
-			</form>
-			<button
-			class="logout-login-btn"
-			on:click={() => (showModalLogin = false)((showModalRegister = true))}>Register</button
-		>
-		</Modal>
-	{:else if showModalRegister}
-		<Modal on:close={() => (showModalRegister = false)}>
-			<h1>Register</h1>
-			<form action="/login" method="POST" class="auth-form">
-				<label for=""> Email </label>
-				<input type="text" name="email" />
-				<label for=""> Password </label>
-				<input type="password" name="password" />
-				<button type="submit" class="btn btn-primary">Login</button>
-			</form>
-			<button
-				class="logout-login-btn"
-				on:click={() => (showModalLogin = true)((showModalRegister = false))}>Login</button
-			>
-		</Modal>
+		<a class="logout-login-btn" href="/login">Login</a>
 	{/if}
 </nav>
 <main>
@@ -100,7 +71,7 @@
 		top: 0;
 		left: 0;
 		padding: 0 4%;
-		background: #0c111b;
+		background: linear-gradient(#0d111a, 90%, transparent);
 		z-index: 9;
 		display: flex;
 		align-items: center;
@@ -162,7 +133,6 @@
 		margin: 0 10px;
 		cursor: pointer;
 	}
-
 
 	main {
 		margin-top: 80px;

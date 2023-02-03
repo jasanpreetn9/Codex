@@ -89,7 +89,7 @@
 
 	.name {
 		color: #fff;
-		font-size: 15px;
+		font-size: 18px;
 		font-weight: 500;
 		margin-top: 120%;
 		text-transform: capitalize;

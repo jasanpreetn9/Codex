@@ -7,7 +7,7 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each searchAnimes as anime}
-			{#if (anime.title.english = "NULL")}
+			{#if (anime.title.english = 'NULL')}
 				<a href={'/details/' + anime.id}>
 					<div class="card">
 						<img src={anime.image} class="card-img" alt="" />
@@ -53,24 +53,9 @@
 		min-height: 150px;
 		overflow: hidden;
 	}
-	@media (max-width: 768px) {
-		.card-container {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-	@media (min-width: 769px) {
-		.card-container {
-			grid-template-columns: repeat(4, 1fr);
-		}
-	}
-	@media (min-width: 1440px) {
-		.card-container {
-			grid-template-columns: repeat(8, 1fr);
-			grid-template-rows: repeat(1, max-content) repeat(1, 0px);
-		}
-	}
 
 	.card {
+		aspect-ratio: 9/13;
 		position: relative;
 		width: 100%;
 		height: 230px;
