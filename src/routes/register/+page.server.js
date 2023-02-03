@@ -10,6 +10,13 @@ export const load = async ({ locals }) => {
 export const actions = {
 	register: async ({ request, locals }) => {
 		const body = Object.fromEntries(await request.formData());
+		console.log(body);
+		if(body.password !== body.confirmPassword) {
+			return fail(400, {
+				error: 'Passwords do not match',
+				email: body.email
+			})
+		}
 		const { data, error: err } = await locals.sb.auth.signUp({
 			email: body.email,
 			password: body.password

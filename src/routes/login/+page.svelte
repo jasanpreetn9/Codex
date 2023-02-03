@@ -7,7 +7,7 @@
 		<input type="email" name="email" placeholder="Email" />
 
 		<label for="password">Password</label>
-		<input ype="password" name="password" placeholder="Password" />
+		<input type="password" name="password" placeholder="Password" />
 
 		<button>Log In</button>
 		<div class="social">
@@ -25,9 +25,8 @@
 		align-items: center;
 	}
 	form {
-		height: 520px;
 		width: 400px;
-		background-color: rgba(255, 255, 255, 0.13);
+		background-color: #060b11;
 		border-radius: 10px;
 		border: 2px solid rgba(255, 255, 255, 0.1);
 		box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);

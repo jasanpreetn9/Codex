@@ -1,11 +1,11 @@
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 
-export const load = async ({locals}) => {
-	if(locals.session !== null){
-		throw redirect(405, '/')
+export const load = async ({ locals }) => {
+	if (locals.session !== null) {
+		throw redirect(307, '/');
 	}
-}
+};
 
 export const actions = {
 	login: async ({ request, locals }) => {
@@ -26,6 +26,6 @@ export const actions = {
 				message: 'Server error. Try again later.'
 			});
 		}
-		throw redirect(303, '/');
+		throw redirect(303, '/account');
 	}
 };
