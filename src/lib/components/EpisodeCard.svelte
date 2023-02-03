@@ -153,6 +153,6 @@
 		color: white;
 		margin-top: 6%;
 		text-align: right;
-		font-size: 14 qpx;
+		font-size: 14px;
 	}
 </style>
