@@ -11,7 +11,10 @@
 			<div class="progress-background">
 				<div class="progress" style="width: 100%;" />
 			</div>
-			<p class="watch-time">10:21 / 24:58</p>
+			<div class="details">
+				<p class="ep-name">Cruelty: S01 E01</p>
+				<p class="watch-time">10:21 / 24:58</p>
+			</div>
 		</div>
 	</div>
 	<div class="video-card">
@@ -149,10 +152,19 @@
 		background: #e6e9ff;
 		border-radius: 20px;
 	}
-	.watch-time {
+	.details {
 		color: white;
+		display: flex;
+		flex-direction: row;
 		margin-top: 6%;
-		text-align: right;
+		font-size: 14px;
+		width: 100%;
+		justify-content: space-between;
+	}
+	.ep-name {
+		font-size: 14px;
+	}
+	.watch-time {
 		font-size: 14px;
 	}
 </style>

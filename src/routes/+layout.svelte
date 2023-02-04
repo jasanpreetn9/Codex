@@ -36,10 +36,10 @@
 		/></a
 	>
 	<ul class="nav-links">
-		<li class="nav-items"><a href="/">TV</a></li>
-		<li class="nav-items"><a href="/">movies</a></li>
-		<li class="nav-items"><a href="/">sports</a></li>
-		<li class="nav-items"><a href="/">premium</a></li>
+		<li class="nav-items"><a href="/">Movies</a></li>
+		<li class="nav-items"><a href="/">TV series</a></li>
+		<li class="nav-items"><a href="/">Most popular</a></li>
+		<li class="nav-items"><a href="/">Top airing</a></li>
 	</ul>
 
 	<form on:submit|preventDefault={goto('/search/' + inputValue)} class="right-container">
