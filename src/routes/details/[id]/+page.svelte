@@ -88,7 +88,7 @@
 		margin-left: 60px;
 	}
 	.poster {
-		width: 230px;
+		width: 280px;
 		border-radius: 7px;
 	}
 	.details {
@@ -114,5 +114,16 @@
 		line-height: 22px;
 		margin-top: 15px;
 		opacity: 0.8;
+	}
+
+	@media (max-width: 850px) {
+		.content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.poster {
+		width: 100%;
+	}
 	}
 </style>

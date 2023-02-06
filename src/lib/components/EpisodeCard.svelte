@@ -7,13 +7,13 @@
 			alt=""
 		/>
 		<div class="card-body">
-			<h2 class="name">Demon Slayer: ... S01E10</h2>
+			<!-- <h2 class="name">Demon Slayer: Kimetsu no Yaiba</h2> -->
+			<h2 class="name">Cruelty: S01 E01</h2>
+			<div class="details">
+				<p class="ep-name">Demon Slayer: Kimetsu no Yaiba</p>
+			</div>
 			<div class="progress-background">
 				<div class="progress" style="width: 100%;" />
-			</div>
-			<div class="details">
-				<p class="ep-name">Cruelty: S01 E01</p>
-				<p class="watch-time">10:21 / 24:58</p>
 			</div>
 		</div>
 	</div>
@@ -24,10 +24,11 @@
 			alt=""
 		/>
 		<div class="card-body">
-			<h2 class="name">One Piece</h2>
-			<!-- <div class="progress-background">
-				<div class="progress" style="width: 100%;" />
-			</div> -->
+			<h2 class="name">Cruelty: S01 E01</h2>
+			<div class="details">
+				<p class="ep-name">One Piece</p>
+				<p class="ep-name">One Piece</p>
+			</div>
 		</div>
 	</div>
 	<div class="video-card">
@@ -156,7 +157,7 @@
 		color: white;
 		display: flex;
 		flex-direction: row;
-		margin-top: 6%;
+		/* margin-top: 3%; */
 		font-size: 14px;
 		width: 100%;
 		justify-content: space-between;

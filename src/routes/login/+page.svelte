@@ -77,7 +77,7 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
-	.social {
+	/* .social {
 		margin-top: 30px;
 		display: flex;
 	}
@@ -98,5 +98,5 @@
 	}
 	.social i {
 		margin-right: 4px;
-	}
+	} */
 </style>
