@@ -1,75 +1,31 @@
-<h1 class="title">Continue Watching</h1>
+<script>
+	export let episodes, session;
+	console.log(episodes);
+</script>
+
+<h1 class="title">Episodes</h1>
 <div class="video-card-container">
+	{#each episodes as episode}
 	<div class="video-card">
 		<img
-			src="https://artworks.thetvdb.com/banners/series/81797/episodes/5fcc388fc75dd.jpg"
+			src={episode.image}
 			class="video-card-image"
 			alt=""
 		/>
 		<div class="card-body">
-			<!-- <h2 class="name">Demon Slayer: Kimetsu no Yaiba</h2> -->
-			<h2 class="name">Cruelty: S01 E01</h2>
+			<h2 class="name">{episode.title}</h2>
 			<div class="details">
-				<p class="ep-name">Demon Slayer: Kimetsu no Yaiba</p>
+				<p class="ep-name">E{episode.number}</p>
 			</div>
-			<div class="progress-background">
-				<div class="progress" style="width: 100%;" />
-			</div>
+			{#if session}
+				 <!-- content here -->
+				 <div class="progress-background">
+					 <div class="progress" style="width: 100%;" />
+				 </div>
+			{/if}
 		</div>
 	</div>
-	<div class="video-card">
-		<img
-			src="https://artworks.thetvdb.com/banners/series/81797/episodes/5fcc388fc75dd.jpg"
-			class="video-card-image"
-			alt=""
-		/>
-		<div class="card-body">
-			<h2 class="name">Cruelty: S01 E01</h2>
-			<div class="details">
-				<p class="ep-name">One Piece</p>
-				<p class="ep-name">One Piece</p>
-			</div>
-		</div>
-	</div>
-	<div class="video-card">
-		<img
-			src="https://artworks.thetvdb.com/banners/series/81797/episodes/5fcc388fc75dd.jpg"
-			class="video-card-image"
-			alt=""
-		/>
-		<div class="card-body">
-			<h2 class="name">Naruto</h2>
-			<div class="progress-background">
-				<div class="progress" style="width: 100%;" />
-			</div>
-		</div>
-	</div>
-	<div class="video-card">
-		<img
-			src="https://artworks.thetvdb.com/banners/series/81797/episodes/5fcc388fc75dd.jpg"
-			class="video-card-image"
-			alt=""
-		/>
-		<div class="card-body">
-			<h2 class="name">Hunter x Hunter</h2>
-			<div class="progress-background">
-				<div class="progress" style="width: 100%;" />
-			</div>
-		</div>
-	</div>
-	<div class="video-card">
-		<img
-			src="https://artworks.thetvdb.com/banners/series/81797/episodes/5fcc388fc75dd.jpg"
-			class="video-card-image"
-			alt=""
-		/>
-		<div class="card-body">
-			<h2 class="name">Anime Title</h2>
-			<div class="progress-background">
-				<div class="progress" style="width: 50%;" />
-			</div>
-		</div>
-	</div>
+	{/each}
 </div>
 
 <style>
@@ -91,15 +47,16 @@
 		display: grid;
 		gap: 0.6em;
 		/* grid-template-rows: repeat(auto-fill, minmax(170px, 1fr)); */
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 		overflow: hidden;
 	}
 
 	.video-card {
 		position: relative;
-		width: 300px;
+		/* width: 300px; */
 		margin-top: 10px;
-		height: 170px;
+		height: 100%;
+		width: 100%;
 		border-radius: 5px;
 		overflow: hidden;
 		background: #030b17;
@@ -130,7 +87,7 @@
 		color: #fff;
 		font-size: 18px;
 		font-weight: 500;
-		margin-top: 35%;
+		margin-top: 40%;
 		text-transform: capitalize;
 		display: -webkit-box;
 		-webkit-line-clamp: 1;

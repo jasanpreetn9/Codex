@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	import { EpisodeCard } from '$lib/components';
 </script>
 
 <div class="carousel-container">
@@ -27,6 +28,7 @@
 				<h1 class="anime-title-native">{data.title.native}</h1>
 				<p class="anime-des">{@html data.description}</p>
 				<!-- .replace(/\<br\>/g," ") -->
+				<EpisodeCard episodes={data.episodes} session={data.session}/>
 			</div>
 		</div>
 	</div>
@@ -123,7 +125,7 @@
 			align-items: center;
 		}
 		.poster {
-		width: 100%;
-	}
+			width: 100%;
+		}
 	}
 </style>

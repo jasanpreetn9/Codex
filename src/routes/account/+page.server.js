@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals }) => {
 	if (locals.session == null) {
-		throw redirect(403, '/');
+		throw redirect(303, '/');
 	}
 	const { data: { user } } = await locals.sb.auth.getUser()
 	const { data: userProfile, error } = await locals.sb
@@ -17,10 +17,8 @@ export const load = async ({ locals }) => {
 		};
 		let { error } = await locals.sb.from('profiles').upsert(updates);
 	} 
-	else {
-		throw redirect(307, '/');
-	}
-
+	// let { data, error:err } = await supabase.from('users').select('user_id, name')
+	// console.log(data)
 	return{
 		email: user.email,
 		username: userProfile[0].username,

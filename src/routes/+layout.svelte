@@ -25,8 +25,6 @@
 		}
 		cancel();
 	};
-
-
 </script>
 
 <nav class="navbar">
