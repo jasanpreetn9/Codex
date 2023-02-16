@@ -31,7 +31,7 @@
 
 				<p class="anime-des">{@html data.description}</p>
 				<!-- .replace(/\<br\>/g," ") -->
-				<EpisodeCard episodes={data.episodes} session={data.session} />
+				<EpisodeCard episodes={data.episodes} session={data.session} animeId={data.id} />
 			</div>
 		</div>
 	</div>

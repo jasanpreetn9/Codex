@@ -1,37 +1,32 @@
 <script>
-	export let episodes, session;
+	export let episodes, session,animeId;
 	console.log(episodes);
 </script>
 
 <h1 class="title">Episodes</h1>
 <div class="video-card-container">
 	{#each episodes as episode}
-	<div class="video-card">
-		<a href={'/watch/' + episode.id}>
-			<img
-			src={episode.image}
-			class="video-card-image"
-			alt=""
-			/>
-			<div class="card-body">
-				<h2 class="name">{episode.title}</h2>
-				<div class="details">
-					<p class="ep-name">E{episode.number}</p>
+		<div class="video-card">
+			<a href={'/watch/' + animeId + '?epId=' + episode.id}>
+				<img src={episode.image} class="video-card-image" alt="" />
+				<div class="card-body">
+					<h2 class="name">{episode.title}</h2>
+					<div class="details">
+						<p class="ep-name">E{episode.number}</p>
+					</div>
+					{#if session}
+						<!-- content here -->
+						<div class="progress-background">
+							<div class="progress" style="width: 100%;" />
+						</div>
+					{/if}
 				</div>
-				{#if session}
-				<!-- content here -->
-				<div class="progress-background">
-					<div class="progress" style="width: 100%;" />
-				</div>
-				{/if}
-			</div>
-		</a>
+			</a>
 		</div>
 	{/each}
 </div>
 
 <style>
-
 	a {
 		text-decoration: none;
 	}
