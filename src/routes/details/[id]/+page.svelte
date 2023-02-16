@@ -25,10 +25,13 @@
 			</div>
 			<div class="content-right">
 				<h1 class="anime-title">{data.title.english}</h1>
-				<h1 class="anime-title-native">{data.title.native}</h1>
+				{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
+					<h1 class="anime-title-native">{data.title.native}</h1>
+				{/if}
+
 				<p class="anime-des">{@html data.description}</p>
 				<!-- .replace(/\<br\>/g," ") -->
-				<EpisodeCard episodes={data.episodes} session={data.session}/>
+				<EpisodeCard episodes={data.episodes} session={data.session} />
 			</div>
 		</div>
 	</div>

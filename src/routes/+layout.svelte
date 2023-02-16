@@ -56,7 +56,7 @@
 			<button type="submit" class="logout-login-btn">Logout</button>
 		</form>
 	{:else}
-		<a class="logout-login-btn" href="/login">Login</a>
+		<!-- <a class="logout-login-btn" href="/login">Login</a> -->
 	{/if}
 </nav>
 <main>

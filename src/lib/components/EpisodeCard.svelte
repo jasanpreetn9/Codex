@@ -7,28 +7,34 @@
 <div class="video-card-container">
 	{#each episodes as episode}
 	<div class="video-card">
-		<img
+		<a href={'/watch/' + episode.id}>
+			<img
 			src={episode.image}
 			class="video-card-image"
 			alt=""
-		/>
-		<div class="card-body">
-			<h2 class="name">{episode.title}</h2>
-			<div class="details">
-				<p class="ep-name">E{episode.number}</p>
+			/>
+			<div class="card-body">
+				<h2 class="name">{episode.title}</h2>
+				<div class="details">
+					<p class="ep-name">E{episode.number}</p>
+				</div>
+				{#if session}
+				<!-- content here -->
+				<div class="progress-background">
+					<div class="progress" style="width: 100%;" />
+				</div>
+				{/if}
 			</div>
-			{#if session}
-				 <!-- content here -->
-				 <div class="progress-background">
-					 <div class="progress" style="width: 100%;" />
-				 </div>
-			{/if}
+		</a>
 		</div>
-	</div>
 	{/each}
 </div>
 
 <style>
+
+	a {
+		text-decoration: none;
+	}
 	.title {
 		margin-top: 10px;
 		color: #fff;
@@ -48,7 +54,6 @@
 		gap: 0.6em;
 		/* grid-template-rows: repeat(auto-fill, minmax(170px, 1fr)); */
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		overflow: hidden;
 	}
 
 	.video-card {
@@ -114,7 +119,7 @@
 		color: white;
 		display: flex;
 		flex-direction: row;
-		/* margin-top: 3%; */
+		margin-top: 3%;
 		font-size: 14px;
 		width: 100%;
 		justify-content: space-between;
@@ -122,7 +127,7 @@
 	.ep-name {
 		font-size: 14px;
 	}
-	.watch-time {
+	/* .watch-time {
 		font-size: 14px;
-	}
+	} */
 </style>
