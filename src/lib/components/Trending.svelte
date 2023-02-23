@@ -8,7 +8,7 @@
 	let slider, prev, next, radioSlider;
 	trendingAnimes.forEach((anime) => {
 		if (formattedTrending.length <= 9) {
-			if (anime.cover !== anime.image) {
+			if (anime.cover !== anime.image && anime.totalEpisodes !== null) {
 				formattedTrending.push(anime);
 			}
 		}
@@ -27,7 +27,9 @@
 			// loop: true,
 			rtl: false,
 			onInit: () => {},
-			onChange: () => {}
+			onChange: () => {
+				select = slider.currentSlide;
+			}
 		}); //end Siema constructor
 		prev = () => {
 			slider.prev();

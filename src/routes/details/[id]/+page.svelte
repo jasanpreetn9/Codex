@@ -29,9 +29,10 @@
 					<h1 class="anime-title-native">{data.title.native}</h1>
 				{/if}
 
-				<p class="anime-des">{@html data.description}</p>
+				<p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0]}</p>
 				<!-- .replace(/\<br\>/g," ") -->
-				<EpisodeCard episodes={data.episodes} session={data.session} animeId={data.id} />
+				<!-- <EpisodeCard episodes={data.episodes} session={data.session} animeId={data.id} /> -->
+				<button class="watch-btn">Watch Now</button>
 			</div>
 		</div>
 	</div>
@@ -99,8 +100,11 @@
 	.details {
 		color: white;
 		margin-top: 20px;
+		width: 280px;
+		height: 385px;
 		background-color: #060b11;
 	}
+
 	.content-right {
 		margin-top: 10px;
 		margin-left: 30px;
@@ -120,8 +124,26 @@
 		margin-top: 15px;
 		opacity: 0.8;
 	}
-
+	.watch-btn {
+		background: #1f80e0;
+		height: 40px;
+		padding: 0 20px;
+		color: #fff;
+		border-radius: 5px;
+		border: none;
+		outline: none;
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 15px;
+		margin-top: 10px;
+	}
 	@media (max-width: 850px) {
+		.slider {
+			display: none;
+		}
+		.content-left {
+			margin: 0;
+		}
 		.content {
 			display: flex;
 			flex-direction: column;

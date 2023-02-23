@@ -28,13 +28,7 @@
 </script>
 
 <nav class="navbar">
-	<a href="/"
-		><img
-			src="https://github.com/kunaal438/disney-plus-clone/blob/master/images/logo.png?raw=true"
-			class="brand-logo"
-			alt=""
-		/></a
-	>
+	<li class="nav-title"><a href="/">コーデックス</a></li>
 	<ul class="nav-links">
 		<li class="nav-items"><a href="/">Movies</a></li>
 		<li class="nav-items"><a href="/">TV series</a></li>
@@ -77,10 +71,6 @@
 		align-items: center;
 	}
 
-	.brand-logo {
-		height: 70px;
-	}
-
 	.nav-links {
 		margin-top: 10px;
 		display: flex;
@@ -88,6 +78,19 @@
 	}
 
 	.nav-items a {
+		text-decoration: none;
+		margin-left: 20px;
+		text-transform: capitalize;
+		color: #fff;
+		opacity: 0.9;
+	}
+	.nav-title {
+		margin-top: 10px;
+		display: flex;
+		list-style: none;
+	}
+
+	.nav-title a {
 		text-decoration: none;
 		margin-left: 20px;
 		text-transform: capitalize;

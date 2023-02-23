@@ -1,6 +1,5 @@
 <script>
 	export let episodes, session,animeId;
-	console.log(episodes);
 </script>
 
 <h1 class="title">Episodes</h1>
@@ -81,6 +80,7 @@
 		padding: 10px;
 		transition: 0.5s;
 		border-radius: 5px;
+		background-color: transparent;
 	}
 
 	.name {

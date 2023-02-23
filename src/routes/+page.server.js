@@ -10,6 +10,7 @@ export const load = async ({ fetch }) => {
 		'https://api.consumet.org/meta/anilist/advanced-search?status=RELEASING&format=TV&perPage=16'
 	);
 	const fetchRecentAiringData = await fetchRecentAiring.json();
+
 	return {
 		trendingAnimes: fetchTrendingData.results,
 		popularAnimes: fetchPopularData.results,
