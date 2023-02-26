@@ -101,7 +101,7 @@
 		color: white;
 		margin-top: 20px;
 		width: 280px;
-		height: 385px;
+		height: max-content;
 		background-color: #060b11;
 	}
 

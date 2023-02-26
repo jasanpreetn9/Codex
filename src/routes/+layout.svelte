@@ -92,7 +92,6 @@
 
 	.nav-title a {
 		text-decoration: none;
-		margin-left: 20px;
 		text-transform: capitalize;
 		color: #fff;
 		opacity: 0.9;
