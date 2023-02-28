@@ -33,7 +33,7 @@
 		<li class="nav-items"><a href="/">Movies</a></li>
 		<li class="nav-items"><a href="/">TV series</a></li>
 		<li class="nav-items"><a href="/">Most popular</a></li>
-		<li class="nav-items"><a href="/">Top airing</a></li>
+		<li class="nav-items"><a href="/">Lists</a></li>
 	</ul>
 
 	<form on:submit|preventDefault={goto('/search/' + inputValue)} class="right-container">

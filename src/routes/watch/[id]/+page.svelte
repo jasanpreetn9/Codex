@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
 	export let data;
-	const { respDataInfo, respDataWatch } = data;
+	console.log(data);
 	let artplayer;
 	// onMount(() => {
 	// 	artplayer = new Artplayer({
@@ -14,6 +14,7 @@
 </script>
 
 <h1>Welcome to watch</h1>
+<h1>{data.respData.title.english}</h1>
 
 <div class="artplayer-container" />
 
