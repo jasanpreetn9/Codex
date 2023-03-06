@@ -10,6 +10,5 @@ export async function load({ fetch, params }) {
 		});
 	}
 	respData.relations = sortedRelations;
-	console.log(respData.relations);
 	return respData;
 }

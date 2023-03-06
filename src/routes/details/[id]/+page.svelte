@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-	console.log(data)
 </script>
 
 <div class="carousel-container">
@@ -74,6 +73,9 @@
 </div>
 
 <style>
+	a {
+		text-decoration: none;
+	}
 	.carousel-container {
 		position: relative;
 		width: 100%;
@@ -184,23 +186,22 @@
 		position: relative;
 		height: 220px;
 		display: flex;
+		flex-wrap: wrap;
 		margin: 0 auto;
 		align-items: center;
-		overflow-x: auto;
-		overflow-y: visible;
+		/* overflow-x: auto;
+		overflow-y: visible; */
 		scroll-behavior: smooth;
-	}
-	a {
-		text-decoration: none;
 	}
 	.relation-card {
 		border-radius: 7px;
 		display: flex;
-		width: 400px;
+		/* width: 400px; */
 		background-color: #030b17;
 		color: white;
 		height: 200px;
 		margin-right: 11px;
+		width: 420px;
 	}
 
 	.relation-card img {
@@ -258,11 +259,24 @@
 		.content-left {
 			margin: 0;
 		}
-		.content-top {
+		.content-top{
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			margin: 0;
+		}
+		.content-bottom {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 0;
+			align-items: center;
+		}
+		.content-left {
+			width: 100%;
+		}
+		.relation-card {
+			margin-top: 20px;
 		}
 		.poster {
 			width: 100%;
