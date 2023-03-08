@@ -68,6 +68,13 @@
 					{/if}
 				</div>
 			</div>
+			<div class="episodesList">
+				{#each data.episodes as episode, index}
+				<div class="episodeCard">
+					<p>{`${episode.number}: ${episode.title}`}</p>
+				</div>
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>
@@ -251,7 +258,37 @@
 	.relations::-webkit-scrollbar {
 		display: none;
 	}
+	.episodesList {
+		margin-left: 60px;
+		height: max-content;
+		overflow-x: auto;
+		overflow-y: visible;
+		display: grid; 
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		grid-column-gap: 2px;
+		grid-row-gap: 2px; 
+		background-color: #04080f;
+		padding: 10px;
+		border-radius: 7px;
 
+	}
+	.episodeCard{
+		border: 1px solid white;
+		/* width: 250px; */
+		height: 42px;
+		border-radius: 3px;
+		background: rgba(22,22,22,.05);
+		text-align: left;
+		padding: 12px;
+		margin: 5px;
+		background-color: #040f20;
+	}
+	.episodeCard p {
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
 	@media (max-width: 850px) {
 		.slider {
 			display: none;

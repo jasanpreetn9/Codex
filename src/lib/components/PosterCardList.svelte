@@ -81,7 +81,7 @@
 		top: 0;
 		left: 0;
 		z-index: 2;
-		background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%);
+		background: linear-gradient(#04080f00 27.31%, #192133f8 97.9%);
 		padding: 10px;
 		transition: 0.5s;
 		border-radius: 5px;
