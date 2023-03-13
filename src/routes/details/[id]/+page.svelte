@@ -35,46 +35,32 @@
 							<dd>Status: {data.status}</dd>
 							<dd>Release Date: {data.releaseDate}</dd>
 							<dd>Studios: {data.studios}</dd>
+							{#each data.relations as relation}
+								<dd>
+									{relation.relationType.toLowerCase().replace('_', ' ')}:
+									<a href={'/details/' + relation.id}>{relation.title.english.toLowerCase()}</a>
+								</dd>
+							{/each}
 						</dl>
 					</div>
 				</div>
 				<div class="content-right">
-					{#if data.relations !== 0}
-						<div class="relations">
-							{#each data.relations as relation}
-								<a href={'/details/' + relation.id}>
-									<div class="relation-card">
-										<img src={relation.image} alt="" />
-										<div class="details_container">
-											<p class="montserrat">
-												{relation.relationType.toLowerCase().replace('_', ' ')}
-											</p>
-											{#if relation.title.english == null}
-												<h2 class="name">{relation.title.romaji.toLowerCase()}</h2>
-											{:else}
-												<h2 class="name">{relation.title.english.toLowerCase()}</h2>
-											{/if}
-											<p class="description">
-												<i>
-													Type: {relation.type.toLowerCase()}<br />
-													Status: {relation.status}</i
-												>
-											</p>
-										</div>
-									</div>
-								</a>
-							{/each}
-						</div>
-					{/if}
+					<div class="episodesList">
+						{#each data.episodes as episode, index}
+							<div class="episodeCard">
+								<p>{`${episode.number}: ${episode.title}`}</p>
+							</div>
+						{/each}
+					</div>
 				</div>
 			</div>
-			<div class="episodesList">
+			<!-- <div class="episodesList">
 				{#each data.episodes as episode, index}
 				<div class="episodeCard">
 					<p>{`${episode.number}: ${episode.title}`}</p>
 				</div>
 				{/each}
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -145,6 +131,7 @@
 	.content-right {
 		margin-top: 10px;
 		margin-left: 30px;
+		width: 100%;
 	}
 	.poster {
 		width: 280px;
@@ -159,7 +146,9 @@
 		height: 200px;
 		border-radius: 7px;
 	}
-
+	.details dd {
+		text-transform: capitalize;
+	}
 	.anime-title {
 		text-transform: capitalize;
 		margin-top: 80px;
@@ -189,98 +178,33 @@
 		margin-top: 10px;
 		cursor: pointer;
 	}
-	.relations {
-		position: relative;
-		height: 220px;
-		display: flex;
-		flex-wrap: wrap;
-		margin: 0 auto;
-		align-items: center;
+	.episodesList {
+		/* margin-left: 60px; */
+		/* height: max-content; */
 		/* overflow-x: auto;
 		overflow-y: visible; */
-		scroll-behavior: smooth;
+		/* display: grid;  */
+		/* grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); */
+		/* background-color: #04080f; */
+		/* padding: 10px; */
+		/* border-radius: 7px; */
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+		/* background-color: #2196f3; */
+		gap: 1rem;
+		width: 94%;
+		/* padding: 10px; */
+		margin-top: 10px;
 	}
-	.relation-card {
-		border-radius: 7px;
-		display: flex;
-		/* width: 400px; */
-		background-color: #030b17;
-		color: white;
-		height: 200px;
-		margin-right: 11px;
-		width: 420px;
-	}
-
-	.relation-card img {
-		width: 150px;
-		height: 200px;
-		object-fit: cover;
-		border-top-left-radius: 7px;
-		border-bottom-left-radius: 7px;
-	}
-
-	.details_container {
-		color: white;
-		padding-left: 1rem;
-		padding-top: 1rem;
-	}
-	.montserrat {
-		letter-spacing: 1px;
-		font-size: 13px;
-		margin-bottom: 0.75rem;
-		text-transform: capitalize;
-	}
-	.relation-card h2 {
-		color: white;
-		font-weight: 500;
-		margin-bottom: 0.75rem;
-		display: -webkit-box;
-		text-transform: capitalize;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.details_container .description {
-		color: white;
-		font-size: 14px;
-		line-height: 22px;
-		padding-right: 10px;
-		margin-bottom: 1.75rem;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-	i {
-		text-transform: capitalize;
-	}
-	.relations::-webkit-scrollbar {
-		display: none;
-	}
-	.episodesList {
-		margin-left: 60px;
-		height: max-content;
-		overflow-x: auto;
-		overflow-y: visible;
-		display: grid; 
-		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-		grid-column-gap: 2px;
-		grid-row-gap: 2px; 
-		background-color: #04080f;
-		padding: 10px;
-		border-radius: 7px;
-
-	}
-	.episodeCard{
+	.episodeCard {
 		border: 1px solid white;
-		/* width: 250px; */
+		/* width: 375px; */
 		height: 42px;
 		border-radius: 3px;
-		background: rgba(22,22,22,.05);
+		background: rgba(22, 22, 22, 0.05);
 		text-align: left;
 		padding: 12px;
-		margin: 5px;
+		/* margin: 5px; */
 		background-color: #040f20;
 	}
 	.episodeCard p {
@@ -296,7 +220,7 @@
 		.content-left {
 			margin: 0;
 		}
-		.content-top{
+		.content-top {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -311,9 +235,6 @@
 		}
 		.content-left {
 			width: 100%;
-		}
-		.relation-card {
-			margin-top: 20px;
 		}
 		.poster {
 			width: 100%;
