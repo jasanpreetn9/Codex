@@ -15,7 +15,7 @@
 </p>
 
 <!-- PREVIEW IMAGE -->
-<img src="https://github.com/jasanpreetn9/Codex/blob/master/static/preview.png?raw=true">
+<img src="crapihavetoreplace">
 
 <hr/>
 
