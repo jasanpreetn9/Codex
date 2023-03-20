@@ -1,10 +1,13 @@
 import { apiUrl } from '$lib/components';
 
 export async function load({ fetch, params, url }) {
-    let episode = url.searchParams.get('episode');
-    const resp = await fetch(`${apiUrl}/meta/anilist/info/${episode}`);
-	const respData = await resp.json(resp);
+    let episodeId = url.searchParams.get('episode');
+    const info = await fetch(`${apiUrl}/meta/anilist/info/${params.id}`);
+	const infoData = await info.json(info);
+    const episode = await fetch(`${apiUrl}/meta/anilist/watch/${episodeId}`)
+    const episodeData = await episode.json(episode)
 	return {
-        respData
+        details: infoData,
+        episode: episodeData
     };
 }

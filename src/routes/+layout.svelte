@@ -28,7 +28,7 @@
 </script>
 
 <nav class="navbar">
-	<li class="nav-title"><a href="/">Codex</a></li>
+	<li class="nav-title"><a href="/">コーデックス</a></li>
 	<ul class="nav-links">
 		<li class="nav-items"><a href="/">Movies</a></li>
 		<li class="nav-items"><a href="/">TV series</a></li>
@@ -75,7 +75,6 @@
 		margin-top: 10px;
 		display: flex;
 		list-style: none;
-		font-size: 16px;
 	}
 
 	.nav-items a {
@@ -89,9 +88,6 @@
 		margin-top: 10px;
 		display: flex;
 		list-style: none;
-		font-weight: 100;
-		font-size: 25px;
-		font-family: electroharmonix;
 	}
 
 	.nav-title a {

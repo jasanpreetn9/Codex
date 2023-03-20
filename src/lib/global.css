@@ -11,7 +11,3 @@ body{
     font-family: roboto, sans-serif;
 }
 
-@font-face {
-    font-family: electroharmonix;
-    src: url(src/lib/Fonts/electroharmonix/electroharmonix.otf);
-}
