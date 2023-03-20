@@ -1,5 +1,5 @@
 import Trending from './Trending.svelte';
 import PosterCardList from './PosterCardList.svelte';
 import EpisodeCard from './EpisodeCard.svelte';
-
-export { Trending, PosterCardList, EpisodeCard };
+let apiUrl = 'https://consumet-theta.vercel.app';
+export { Trending, PosterCardList, EpisodeCard, apiUrl };

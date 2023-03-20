@@ -1,5 +1,7 @@
+import { apiUrl } from '$lib/components';
+
 export async function load({ fetch, params }) {
-    const resp = await fetch(`https://consumet-ten.vercel.app/meta/anilist/${params.searchId}`);
+    const resp = await fetch(`${apiUrl}/meta/anilist/${params.searchId}`);
 	const respData = await resp.json(resp);
 
 	return {

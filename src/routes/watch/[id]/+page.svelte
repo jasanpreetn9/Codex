@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
 	export let data;
-	console.log(data.respData);
 	let artplayer;
 	onMount(() => {
 		artplayer = new Artplayer({
