@@ -49,7 +49,7 @@
 					<div class="video-card-container">
 						{#each data.episodes as episode}
 						<div class="video-card">
-							<a href={`/watch/${data.id}?episode=${episode.id}`}>
+							<a data-sveltekit-preload-data="off" href={`/watch/${data.id}?episode=${episode.number}`}>
 								<img src={episode.image} class="video-card-image" alt="" />
 								<div class="card-body">
 									<h2 class="ep-title">{episode.number}: {episode.title}</h2>
