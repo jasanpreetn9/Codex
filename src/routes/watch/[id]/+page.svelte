@@ -2,11 +2,12 @@
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
 	export let data;
+	const {details,episode,currentEpisode} = data
+	let artplayer;
 	let episodeSources = [];
 	let sourcesQuality = [];
 	let defaultUrl;
-	let artplayer;
-	data.episode.sources.forEach((element) => {
+	episode.sources.forEach((element) => {
 		if (element.quality !== 'default' && element.quality !== 'backup') {
 			episodeSources.push({
 				url: element.url,
@@ -19,15 +20,16 @@
 	episodeSources.forEach((element) => {
 		if (element.html == Math.max(...sourcesQuality) + 'p') {
 			element.default = true;
-			element.url = defaultUrl;
+			defaultUrl = element.url;
 		}
 	});
 	onMount(() => {
 		artplayer = new Artplayer({
 			container: '.artplayer-container',
-			// url: defaultUrl,
-			pip: true,
+			poster: currentEpisode.image,
+			url: defaultUrl,
 			autoPlayback: true,
+			pip: true,
 			fullscreen: true,
 			airplay: true,
 			theme: '#23ade5',
@@ -36,19 +38,19 @@
 	});
 </script>
 
-<h1 class="title">{data.details.title.english}</h1>
 <main>
 	<div class="artplayer-container" />
+	<h1>E{currentEpisode.number} - {currentEpisode.title}</h1>
+	<p>{currentEpisode.description}</p>
 	<h1 class="title">Episodes</h1>
-	<div class="video-card-container">
-		{#each data.details.episodes as episode}
+	<div class="ep-card-container">
+		{#each details.episodes as episode}
 			<div class="video-card">
-				<a href={`/watch/${data.id}?episode=${episode.id}`}>
+				<a href={`/watch/${details.id}?episode=${episode.number}`}>
 					<img src={episode.image} class="video-card-image" alt="" />
 					<div class="card-body">
 						<h2 class="ep-title">{episode.number}: {episode.title}</h2>
 						{#if data.session}
-							content here
 							<div class="progress-background">
 								<div class="progress" style="width: 100%;" />
 							</div>
@@ -66,7 +68,7 @@
 	}
 	.artplayer-container {
 		aspect-ratio: 16/9;
-		height: 500px;
+		height: max-content;
 	}
 	.title {
 		margin-top: 10px;
@@ -76,7 +78,7 @@
 		font-size: 22px;
 		font-weight: 500;
 	}
-	.video-card-container {
+	.ep-card-container {
 		position: relative;
 		margin: auto;
 		height: max-content;
