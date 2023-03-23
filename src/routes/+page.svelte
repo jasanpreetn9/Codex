@@ -56,7 +56,7 @@
 		{#each formattedTrending as anime}
 			<div class="slider">
 				<div class="slide-content">
-					<h1 class="movie-title">{anime.title.english.toLowerCase()}</h1>
+					<h1 class="movie-title">{anime.title.english.toLowerCase() ?? anime.title.romaji.toLowerCase()}</h1>
 					<div class="badges-container">
 						<p class="badges">Type: {anime.type}</p>
 						<span class="dots" />

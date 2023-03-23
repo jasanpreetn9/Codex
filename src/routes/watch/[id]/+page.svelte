@@ -26,7 +26,6 @@
 	onMount(() => {
 		artplayer = new Artplayer({
 			container: '.artplayer-container',
-			poster: currentEpisode.image,
 			url: defaultUrl,
 			autoPlayback: true,
 			pip: true,
