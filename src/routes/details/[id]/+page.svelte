@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	console.log(data);
 	import { goto } from '$app/navigation';
 </script>
 
@@ -13,9 +14,47 @@
 			<div class="content-top">
 				<div class="content-left">
 					<img class="poster" src={data.image} alt="" />
+					<div class="details">
+						{#if data.nextAiringEpisode}
+							 <div class="detail-item">
+								 <p>Next Airing Episode</p>
+								 <span>{data.nextAiringEpisode.airingTime}</span>
+							 </div>
+						{/if}
+						<div class="detail-item">
+							<p>Format</p>
+							<span>{data.type}</span>
+						</div>
+						<div class="detail-item">
+							<p>Rating</p>
+							<span>{data.rating / 10}</span>
+						</div>
+						<div class="detail-item">
+							<p>Episodes</p>
+							<span>{data.totalEpisodes}</span>
+						</div>
+						<div class="detail-item">
+							<p>Status</p>
+							<span>{data.status}</span>
+						</div>
+						<div class="detail-item">
+							<p>Studios</p>
+							<span>{data.studios}</span>
+						</div>
+						{#each data.relations as relation}
+							<div class="detail-item">
+								<p>{relation.relationType.replace('_', ' ')}</p>
+								<span>
+									<a href={'/details/' + relation.id}>{relation.title.english}</a>
+								</span>
+							</div>
+						{/each}
+					</div>
 				</div>
 				<div class="content-right">
-					<h1 class="anime-title">{data.title.english.toLowerCase() ?? data.title.romaji.toLowerCase()}</h1>
+					<h1 class="anime-title">
+						{data.title.english.toLowerCase() ?? data.title.romaji.toLowerCase()}
+					</h1>
 					{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 						<h1 class="anime-title-native">{data.title.native}</h1>
 					{/if}
@@ -23,45 +62,26 @@
 					<!-- .replace(/\<br\>/g," ") -->
 					<!-- <EpisodeCard episodes={data.episodes} session={data.session} animeId={data.id} /> -->
 					<button on:click={goto('/watch/' + data.id)} class="watch-btn">Watch Now</button>
-				</div>
-			</div>
-			<div class="content-bottom">
-				<div class="content-left">
-					<div class="details">
-						<dl>
-							<dd>Type: {data.type}</dd>
-							<dd>Rating: {data.rating / 10}</dd>
-							<dd>Episodes: {data.totalEpisodes}</dd>
-							<dd>Status: {data.status}</dd>
-							<dd>Release Date: {data.releaseDate}</dd>
-							<dd>Studios: {data.studios}</dd>
-							{#each data.relations as relation}
-								<dd>
-									{relation.relationType.toLowerCase().replace('_', ' ')}:
-									<a href={'/details/' + relation.id}>{relation.title.english.toLowerCase()}</a>
-								</dd>
-							{/each}
-						</dl>
-					</div>
-				</div>
-				<div class="content-right">
 					<h1 class="title">Episodes</h1>
 					<div class="video-card-container">
 						{#each data.episodes as episode}
-						<div class="video-card">
-							<a data-sveltekit-preload-data="off" href={`/watch/${data.id}?episode=${episode.number}`}>
-								<img src={episode.image} class="video-card-image" alt="" />
-								<div class="card-body">
-									<h2 class="ep-title">{episode.number}: {episode.title}</h2>
-									{#if data.session}
-									content here
-									<div class="progress-background">
-										<div class="progress" style="width: 100%;" />
+							<div class="video-card">
+								<a
+									data-sveltekit-preload-data="off"
+									href={`/watch/${data.id}?episode=${episode.number}`}
+								>
+									<img src={episode.image} class="video-card-image" alt="" />
+									<div class="card-body">
+										<h2 class="ep-title">{episode.number}: {episode.title}</h2>
+										{#if data.session}
+											content here
+											<div class="progress-background">
+												<div class="progress" style="width: 100%;" />
+											</div>
+										{/if}
 									</div>
-									{/if}
-								</div>
-							</a>
-						</div>
+								</a>
+							</div>
 						{/each}
 					</div>
 				</div>
@@ -128,11 +148,6 @@
 		flex-direction: row;
 		margin-left: 60px;
 	}
-	.content-bottom {
-		margin-left: 60px;
-		display: flex;
-		flex-direction: row;
-	}
 	.content-right {
 		margin-top: 10px;
 		margin-left: 30px;
@@ -148,11 +163,25 @@
 		width: 280px;
 		height: max-content;
 		background-color: #060b11;
-		height: 200px;
 		border-radius: 7px;
+		padding: 20px;
 	}
-	.details dd {
+	.detail-item {
+		padding-bottom: 5px;
 		text-transform: capitalize;
+	}
+	.detail-item p {
+		font-size: 15px;
+		font-weight: 700;
+	}
+	.detail-item span {
+		font-size: 15px;
+		line-height: 1.3;
+		font-weight: 500;
+	}
+	.detail-item span a{
+		color: white;
+
 	}
 	.anime-title {
 		text-transform: capitalize;

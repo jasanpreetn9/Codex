@@ -6,11 +6,19 @@ export async function load({ fetch, params }) {
 	let sortedRelations = [];
 	if (respData.relations.length !== 0) {
 		respData.relations.forEach((relation, index) => {
-			if (relation.relationType == 'PREQUEL' || relation.relationType == 'SEQUEL') {
-				sortedRelations.push(relation)
+			if (
+				(relation.relationType == 'PREQUEL' || relation.relationType == 'SEQUEL') &&
+				relation.type !== 'OVA'
+			) {
+				sortedRelations.push(relation);
 			}
 		});
 	}
 	respData.relations = sortedRelations;
+	if (respData.nextAiringEpisode){
+		var airingDate = new Date(respData.nextAiringEpisode.airingTime*1000);
+		respData.nextAiringEpisode.airingTime = airingDate.toDateString()
+	}
+
 	return respData;
 }
