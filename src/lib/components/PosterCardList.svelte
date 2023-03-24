@@ -5,7 +5,7 @@
 <h1 class="title">{heading}</h1>
 <div class="cards-list">
 	<div class="card-container">
-		{#each animes as anime, index}
+		{#each animes as anime}
 			<a href={'/details/' + anime.id}>
 				<div class="card">
 					<img src={anime.image} class="card-img" alt="" />

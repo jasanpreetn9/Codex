@@ -1,25 +1,27 @@
 <script>
 	export let data;
-	console.log(data);
 	import { goto } from '$app/navigation';
+	console.log(data);
 </script>
 
 <div class="carousel-container">
 	<div class="carousel">
-		<div class="slider">
-			<div class="banner-gradient" />
-			<img src={data.cover} alt="" />
-		</div>
+		{#if data.cover !== data.image}
+			<div class="slider">
+				<div class="banner-gradient" />
+				<img src={data.cover} alt="" />
+			</div>
+		{/if}
 		<div class="content">
 			<div class="content-top">
 				<div class="content-left">
 					<img class="poster" src={data.image} alt="" />
 					<div class="details">
 						{#if data.nextAiringEpisode}
-							 <div class="detail-item">
-								 <p>Next Airing Episode</p>
-								 <span>{data.nextAiringEpisode.airingTime}</span>
-							 </div>
+							<div class="detail-item">
+								<p>Next Airing Episode</p>
+								<span>{data.nextAiringEpisode.airingTime}</span>
+							</div>
 						{/if}
 						<div class="detail-item">
 							<p>Format</p>
@@ -49,6 +51,12 @@
 								</span>
 							</div>
 						{/each}
+						<div class="detail-item">
+							<p>Genres</p>
+							{#each data.genres as genre}
+								<span>{genre}</span>
+							{/each}
+						</div>
 					</div>
 				</div>
 				<div class="content-right">
@@ -160,7 +168,7 @@
 	.details {
 		color: white;
 		margin-top: 20px;
-		width: 280px;
+		width: 100%;
 		height: max-content;
 		background-color: #060b11;
 		border-radius: 7px;
@@ -169,6 +177,8 @@
 	.detail-item {
 		padding-bottom: 5px;
 		text-transform: capitalize;
+		display: flex;
+		flex-direction: column;
 	}
 	.detail-item p {
 		font-size: 15px;
@@ -178,10 +188,10 @@
 		font-size: 15px;
 		line-height: 1.3;
 		font-weight: 500;
+		padding-left: 4px;
 	}
-	.detail-item span a{
+	.detail-item span a {
 		color: white;
-
 	}
 	.anime-title {
 		text-transform: capitalize;
@@ -304,13 +314,6 @@
 			flex-direction: column;
 			align-items: center;
 			margin: 0;
-		}
-		.content-bottom {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin: 0;
-			align-items: center;
 		}
 		.content-left {
 			width: 100%;
