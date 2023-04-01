@@ -187,7 +187,7 @@
 		font-size: 15px;
 		line-height: 1.3;
 		font-weight: 500;
-		padding-left: 4px;
+		padding-left: 10px;
 	}
 	.detail-item span a {
 		color: white;

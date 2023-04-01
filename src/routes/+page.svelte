@@ -6,16 +6,7 @@
 	import Siema from 'siema';
 	import pre from '$lib/images/pre.png';
 	import nxt from '$lib/images/nxt.png';
-	let formattedTrending = [];
 	let slider, prev, next, radioSlider;
-	trendingAnimes.forEach((anime) => {
-		if (formattedTrending.length <= 9) {
-			if (anime.cover !== anime.image && anime.totalEpisodes !== null) {
-				anime.description = anime.description.replace('<br>','')
-				formattedTrending.push(anime);
-			}
-		}
-	});
 	let select = 0;
 	onMount(() => {
 		slider = new Siema({
@@ -53,7 +44,7 @@
 	<button on:click={prev} class="pre-btn"><img src={pre} alt="" /></button>
 	<button on:click={next} class="nxt-btn"><img src={nxt} alt="" /></button>
 	<div class="carousel">
-		{#each formattedTrending as anime}
+		{#each trendingAnimes as anime}
 			<div class="slider">
 				<div class="slide-content">
 					<h1 class="movie-title">
@@ -78,7 +69,7 @@
 </div>
 
 <div class="bullet">
-	{#each formattedTrending as d, i}
+	{#each trendingAnimes as d, i}
 		<input
 			bind:this={radioSlider}
 			type="radio"
