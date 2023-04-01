@@ -1,6 +1,6 @@
 import { apiUrl } from '$lib/components';
 
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 5;
 const RETRY_DELAY = 1000;
 
 export const load = async ({ fetch, context }) => {
