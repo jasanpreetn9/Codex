@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	console.log(data);
 	import { goto } from '$app/navigation';
 </script>
 
@@ -47,7 +48,7 @@
 								<p>{relation.relationType.replace('_', ' ')}</p>
 								<span>
 									<a data-sveltekit-prefetch="true" href={'/details/' + relation.id}
-										>{relation.title.english}</a
+										>{relation.title.english ?? relation.title.romaji}</a
 									>
 								</span>
 							</div>
@@ -191,6 +192,11 @@
 		line-height: 1.3;
 		font-weight: 500;
 		padding-left: 10px;
+		width: 240px;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 	.detail-item span a {
 		color: white;
