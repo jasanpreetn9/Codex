@@ -11,6 +11,7 @@
 	trendingAnimes.forEach((anime) => {
 		if (formattedTrending.length <= 9) {
 			if (anime.cover !== anime.image && anime.totalEpisodes !== null) {
+				anime.description = anime.description.replace('<br>','')
 				formattedTrending.push(anime);
 			}
 		}
@@ -48,7 +49,6 @@
 		};
 	}); //end onMount
 </script>
-
 <div class="carousel-container">
 	<button on:click={prev} class="pre-btn"><img src={pre} alt="" /></button>
 	<button on:click={next} class="nxt-btn"><img src={nxt} alt="" /></button>
@@ -56,7 +56,9 @@
 		{#each formattedTrending as anime}
 			<div class="slider">
 				<div class="slide-content">
-					<h1 class="movie-title">{anime.title.english.toLowerCase() ?? anime.title.romaji.toLowerCase()}</h1>
+					<h1 class="movie-title">
+						{anime.title.english?.toLowerCase() ?? anime.title.romaji.toLowerCase()}
+					</h1>
 					<div class="badges-container">
 						<p class="badges">Type: {anime.type}</p>
 						<span class="dots" />

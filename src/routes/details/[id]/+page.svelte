@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-	console.log(data);
 </script>
 
 <div class="carousel-container">
@@ -61,7 +60,7 @@
 				</div>
 				<div class="content-right">
 					<h1 class="anime-title">
-						{data.title.english.toLowerCase() ?? data.title.romaji.toLowerCase()}
+						{data.title.english?.toLowerCase() ?? data.title.romaji.toLowerCase()}
 					</h1>
 					{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 						<h1 class="anime-title-native">{data.title.native}</h1>

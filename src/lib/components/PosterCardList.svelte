@@ -10,7 +10,7 @@
 				<div class="card">
 					<img src={anime.image} class="card-img" alt="" />
 					<div class="card-body">
-						<h2 class="name">{anime.title.english.toLowerCase() ?? anime.title.romaji.toLowerCase()}</h2>
+						<h2 class="name">{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}</h2>
 					</div>
 				</div>
 			</a>
