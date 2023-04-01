@@ -6,7 +6,7 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<a href={'/details/' + anime.id}>
+			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 				<div class="card">
 					<img src={anime.image} class="card-img" alt="" />
 					<div class="card-body">

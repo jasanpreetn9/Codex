@@ -7,25 +7,16 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each searchAnimes as anime}
-			{#if (anime.title.english = 'NULL')}
-				<a href={'/details/' + anime.id}>
-					<div class="card">
-						<img src={anime.image} class="card-img" alt="" />
-						<div class="card-body">
-							<h2 class="name">{anime.title.romaji?.toLowerCase()}</h2>
-						</div>
+			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
+				<div class="card">
+					<img src={anime.image} class="card-img" alt="" />
+					<div class="card-body">
+						<h2 class="name">
+							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
+						</h2>
 					</div>
-				</a>
-			{:else}
-				<a href={'/details/' + anime.id}>
-					<div class="card">
-						<img src={anime.image} class="card-img" alt="" />
-						<div class="card-body">
-							<h2 class="name">{anime.title.english?.toLowerCase()}</h2>
-						</div>
-					</div>
-				</a>
-			{/if}
+				</div>
+			</a>
 		{/each}
 	</div>
 </div>

@@ -27,7 +27,7 @@
 </script>
 
 <nav class="navbar">
-	<li class="nav-title"><a href="/">コーデックス</a></li>
+	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
 	<!-- <ul class="nav-links">
 		<li class="nav-items"><a href="/">Movies</a></li>
 		<li class="nav-items"><a href="/">TV series</a></li>

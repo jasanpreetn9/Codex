@@ -58,7 +58,7 @@
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
 					<p class="movie-des">{@html anime.description}</p>
-					<a data-sveltekit-prefetch href={'/details/' + anime.id}>
+					<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 						<button>Watch</button>
 					</a>
 				</div>

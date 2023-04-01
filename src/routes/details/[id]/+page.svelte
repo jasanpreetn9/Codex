@@ -46,7 +46,9 @@
 							<div class="detail-item">
 								<p>{relation.relationType.replace('_', ' ')}</p>
 								<span>
-									<a href={'/details/' + relation.id}>{relation.title.english}</a>
+									<a data-sveltekit-prefetch="true" href={'/details/' + relation.id}
+										>{relation.title.english}</a
+									>
 								</span>
 							</div>
 						{/each}
@@ -74,6 +76,7 @@
 						{#each data.episodes as episode}
 							<div class="video-card">
 								<a
+									data-sveltekit-prefetch
 									data-sveltekit-preload-data="off"
 									href={`/watch/${data.id}?episode=${episode.number}`}
 								>
