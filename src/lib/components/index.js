@@ -1,4 +1,5 @@
 import PosterCardList from './PosterCardList.svelte';
 import EpisodeCard from './EpisodeCard.svelte';
+import Trending from './Trending.svelte';
 let apiUrl = 'https://consumet-one.vercel.app';
-export {PosterCardList, EpisodeCard, apiUrl };
+export {PosterCardList, EpisodeCard, Trending,apiUrl };

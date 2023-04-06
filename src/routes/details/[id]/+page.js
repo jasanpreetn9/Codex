@@ -24,15 +24,11 @@ import { apiUrl } from '$lib/components';
 const MAX_RETRIES = 5;
 const RETRY_DELAY = 1000;
 
-export async function load({ fetch, params, headers }) {
+export async function load({ fetch, params }) {
 	let retryCount = 0;
 	while (retryCount < MAX_RETRIES) {
 		try {
 			const resp = await fetch(`${apiUrl}/meta/anilist/info/${params.id}`);
-			const cacheControl = resp.headers.get('cache-control');
-			if (cacheControl) {
-				setHeaders({ 'cache-control': cacheControl });
-			}
 			const respData = await resp.json();
 			const relationTypes = new Set(['PREQUEL', 'SEQUEL']);
 			respData.relations = respData.relations.filter(

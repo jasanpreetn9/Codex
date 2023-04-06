@@ -2,11 +2,12 @@
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
 	export let data;
-	const {details,episode,currentEpisode} = data
+	const { details, episode, currentEpisode } = data;
 	let artplayer;
 	let episodeSources = [];
 	let sourcesQuality = [];
 	let defaultUrl;
+	console.log(currentEpisode.number);
 	episode.sources.forEach((element) => {
 		if (element.quality !== 'default' && element.quality !== 'backup') {
 			episodeSources.push({
@@ -25,6 +26,8 @@
 	});
 	onMount(() => {
 		artplayer = new Artplayer({
+			id: `${details.id}-${currentEpisode.number}`,
+			title: `${currentEpisode.number} - ${currentEpisode.title}`,
 			container: '.artplayer-container',
 			url: defaultUrl,
 			autoPlayback: true,
@@ -33,37 +36,75 @@
 			airplay: true,
 			theme: '#23ade5',
 			quality: episodeSources,
+			theme: '#23ade5',
+			autoPlayback: true,
+			controls: [
+				{
+					position: 'right',
+					html: 'Next Episode',
+					index: 1,
+					tooltip: 'Next Episode',
+					style: { marginRight: '20px' },
+					click: function () {
+						console.info('You clicked on the custom control');
+					}
+				},
+				{
+					position: 'right',
+					html: 'Previous Episode',
+					index: 1,
+					tooltip: 'Previous Episode',
+					style: { marginRight: '20px' },
+					click: function () {
+						console.info('You clicked on the custom control');
+					}
+				}
+			]
 		});
 	});
 </script>
 
 <main>
 	<div class="artplayer-container" />
-	<h1>E{currentEpisode.number} - {currentEpisode.title}</h1>
-	<p>{currentEpisode.description}</p>
-	<h1 class="title">Episodes</h1>
-	<div class="ep-card-container">
-		{#each details.episodes as episode}
-			<div class="video-card">
-				<a href={`/watch/${details.id}?episode=${episode.number}`}>
-					<img src={episode.image} class="video-card-image" alt="" />
-					<div class="card-body">
-						<h2 class="ep-title">{episode.number}: {episode.title}</h2>
-						{#if data.session}
-							<div class="progress-background">
-								<div class="progress" style="width: 100%;" />
-							</div>
-						{/if}
-					</div>
-				</a>
+	<div class="details">
+		<div class="container-left">
+			<h1>E{currentEpisode.number} - {currentEpisode.title}</h1>
+			<div class="sub-dubBtn">
+				<button>SUB</button>
+				<button>DUB</button>
 			</div>
-		{/each}
+			<p>{currentEpisode.description}</p>
+		</div>
+		<div class="container-right">
+			<h1 class="title">Episodes</h1>
+
+			<div class="ep-card-container">
+				{#each details.episodes as episode}
+					<div class="video-card">
+						<a href={`/watch/${details.id}?episode=${episode.number}`}>
+							<img src={episode.image} class="video-card-image" alt="" />
+							<div class="card-body">
+								<h2 class="ep-title">{episode.number}: {episode.title}</h2>
+								{#if data.session}
+									<div class="progress-background">
+										<div class="progress" style="width: 100%;" />
+									</div>
+								{/if}
+							</div>
+						</a>
+					</div>
+				{/each}
+			</div>
+		</div>
 	</div>
 </main>
 
 <style>
 	* {
 		color: white;
+	}
+	:root {
+		--ep-card-width: 150px;
 	}
 	.artplayer-container {
 		aspect-ratio: 16/9;
@@ -77,21 +118,29 @@
 		font-size: 22px;
 		font-weight: 500;
 	}
+	.details {
+		display: flex;
+		flex-direction: row;
+	}
+	.sub-dubBtn button {
+		color: black;
+	}
+	.container-left {
+		width: 80%;
+	}
 	.ep-card-container {
 		position: relative;
 		margin: auto;
 		height: max-content;
-		display: flex;
 		margin-bottom: 20px;
 		justify-content: space-between;
 		display: grid;
 		gap: 0.6em;
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(var(--ep-card-width), 1fr));
 	}
 
 	.video-card {
 		position: relative;
-		width: 300px;
 		margin-top: 10px;
 		height: 100%;
 		width: 100%;
