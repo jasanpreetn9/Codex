@@ -238,6 +238,6 @@
 		cursor: pointer;
 	}
 	input:checked {
-		background-color: rgb(108, 106, 106);
+		background-color: rgb(0, 0, 0);
 	}
 </style>

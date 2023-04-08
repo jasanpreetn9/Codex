@@ -28,6 +28,10 @@
 							<span>{data.type}</span>
 						</div>
 						<div class="detail-item">
+							<p>Sub / Dub</p>
+							<span>{data.subOrDub}</span>
+						</div>
+						<div class="detail-item">
 							<p>Rating</p>
 							<span>{data.rating / 10}</span>
 						</div>
