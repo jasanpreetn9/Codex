@@ -6,6 +6,7 @@
 	import Siema from 'siema';
 	import pre from '$lib/images/pre.png';
 	import nxt from '$lib/images/nxt.png';
+	import { HtmlTag } from 'svelte/internal';
 	let slider, prev, next, radioSlider;
 	let select = 0;
 	onMount(() => {
