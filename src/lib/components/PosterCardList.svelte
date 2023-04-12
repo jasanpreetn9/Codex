@@ -10,7 +10,9 @@
 				<div class="card">
 					<img src={anime.image} class="card-img" alt="" />
 					<div class="card-body">
-						<h2 class="name">{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}</h2>
+						<h2 class="name">
+							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
+						</h2>
 					</div>
 				</div>
 			</a>
@@ -53,7 +55,7 @@
 	}
 	@media (min-width: 1440px) {
 		.card-container {
-			grid-template-columns: repeat(8, 1fr);
+			grid-template-columns: repeat(9, 1fr);
 			grid-template-rows: repeat(1, max-content) repeat(1, 0px);
 		}
 	}
@@ -61,7 +63,7 @@
 	.card {
 		aspect-ratio: 9/13;
 		position: relative;
-		width: 100%;
+		width: 150px;
 		border-radius: 5px;
 		overflow: hidden;
 		margin-right: 100px;

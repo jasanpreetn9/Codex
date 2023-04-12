@@ -17,7 +17,7 @@ export const load = async ({ fetch, context }) => {
 						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
 					}
 				}),
-				fetch(`${apiUrl}/meta/anilist/advanced-search?status=RELEASING&perPage=16`, {
+				fetch(`${apiUrl}/meta/anilist/advanced-search?status=RELEASING&perPage=8`, {
 					headers: {
 						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
 					}

@@ -1,29 +1,7 @@
 <script>
-	export let data;
-	import { onMount } from 'svelte';
-	import { invalidateAll, goto } from '$app/navigation';
-	import { supabaseClient } from '$lib/supabase';
-	import { enhance } from '$app/forms';
+	import {  goto } from '$app/navigation';
 	import '$lib/global.css';
 	let inputValue = '';
-	onMount(() => {
-		const {
-			data: { subscription }
-		} = supabaseClient.auth.onAuthStateChange(() => {
-			console.log('Auth state change detected');
-			invalidateAll();
-		});
-		return () => {
-			subscription.unsubscribe();
-		};
-	});
-	const submitLogout = async ({ cancel }) => {
-		const { error } = await supabaseClient.auth.signOut();
-		if (error) {
-			console.log(error);
-		}
-		cancel();
-	};
 </script>
 
 <nav class="navbar">
@@ -44,13 +22,6 @@
 			placeholder="search"
 		/>
 	</form>
-	{#if data.session}
-		<form action="/logout" method="POST" use:enhance={submitLogout}>
-			<button type="submit" class="logout-login-btn">Logout</button>
-		</form>
-	{:else}
-		<!-- <a class="logout-login-btn" href="/login">Login</a> -->
-	{/if}
 </nav>
 <main>
 	<slot />
