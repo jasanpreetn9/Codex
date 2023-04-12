@@ -12,12 +12,12 @@ export const load = async ({ fetch, context }) => {
 						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
 					}
 				}),
-				fetch(`${apiUrl}/meta/anilist/popular?perPage=8`, {
+				fetch(`${apiUrl}/meta/anilist/popular?perPage=16`, {
 					headers: {
 						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
 					}
 				}),
-				fetch(`${apiUrl}/meta/anilist/advanced-search?status=RELEASING&perPage=8`, {
+				fetch(`${apiUrl}/meta/anilist/advanced-search?status=RELEASING&perPage=16`, {
 					headers: {
 						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
 					}

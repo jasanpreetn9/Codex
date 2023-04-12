@@ -63,7 +63,7 @@
 	.card {
 		aspect-ratio: 9/13;
 		position: relative;
-		width: 150px;
+		width: 100%;
 		border-radius: 5px;
 		overflow: hidden;
 		margin-right: 100px;
