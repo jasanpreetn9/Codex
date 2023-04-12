@@ -40,10 +40,12 @@
 		display: grid;
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		grid-template-rows: repeat(1, max-content) repeat(1, 0px);
+
 		min-height: 150px;
 		overflow: hidden;
 	}
-	@media (max-width: 768px) {
+	/* @media (max-width: 768px) {
 		.card-container {
 			grid-template-columns: repeat(2, 1fr);
 		}
@@ -58,7 +60,7 @@
 			grid-template-columns: repeat(9, 1fr);
 			grid-template-rows: repeat(1, max-content) repeat(1, 0px);
 		}
-	}
+	} */
 
 	.card {
 		aspect-ratio: 9/13;

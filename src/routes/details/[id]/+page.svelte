@@ -72,9 +72,9 @@
 					{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 						<h1 class="anime-title-native">{data.title.native}</h1>
 					{/if}
-					<p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p>
+					<p class="anime-des">{data.description.split('(Source')[0].split('*')[0].replace("<br>",'')}</p>
+					<!-- <p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p> -->
 					<!-- .replace(/\<br\>/g," ") -->
-					<!-- <EpisodeCard episodes={data.episodes} session={data.session} animeId={data.id} /> -->
 					<button on:click={goto('/watch/' + data.id)} class="watch-btn">Watch Now</button>
 					<h1 class="title">Episodes</h1>
 					<div class="video-card-container">
@@ -198,7 +198,7 @@
 		padding-left: 10px;
 		width: 240px;
 		display: -webkit-box;
-		-webkit-line-clamp: 1;
+		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -231,8 +231,14 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		font-size: 15px;
-		margin-top: 10px;
+		margin-top: 20px;
+		margin-bottom: 100px;
 		cursor: pointer;
+	}
+	@media( max-width:1691px) {
+		.watch-btn {
+			margin-bottom: 80px;
+		}
 	}
 	.title {
 		margin-top: 10px;
