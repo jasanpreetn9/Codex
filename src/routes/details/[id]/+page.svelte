@@ -71,7 +71,7 @@
 					{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 						<h1 class="anime-title-native">{data.title.native}</h1>
 					{/if}
-					<p class="anime-des">{data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,"")}</p>
+					<p class="anime-des">{data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
 					<!-- <p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p> -->
 					<button on:click={goto('/watch/' + data.id)} class="watch-btn">Watch Now</button>
 					<h1 class="title">Episodes</h1>

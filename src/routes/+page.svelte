@@ -60,7 +60,7 @@
 						<span class="dots" />
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
-					<p class="movie-des">{anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,"")}</p>
+					<p class="movie-des">{anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
 					<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 						<button>Watch</button>
 					</a>
@@ -135,7 +135,7 @@
 		height: 100%;
 		position: relative;
 		margin: auto;
-		max-height: 400px;
+		height: 350px;
 		border-radius: 5px;
 	}
 	.slider {
@@ -152,7 +152,8 @@
 	}
 	.slider img {
 		height: 100%;
-		object-fit: cover;
+		object-fit: fill;
+		align-self: center;
 		display: block;
 		margin-left: auto;
 		opacity: 0.7;
@@ -162,7 +163,7 @@
 	.slide-content {
 		position: absolute;
 		width: 100%;
-		height: 50%;
+		height: 60%;
 		padding-left: 50px;
 		z-index: 2;
 		color: #fff;
@@ -170,8 +171,8 @@
 	.movie-title {
 		width: 700px;
 		text-transform: capitalize;
-		margin-top: 50px;
-		font-size: 45px;
+		margin-top: 30px;
+		font-size: 30px;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -209,7 +210,7 @@
 	.movie-des {
 		width: 40%;
 		line-height: 30px;
-		margin-top: 10px;
+		margin-top: 8px;
 		opacity: 0.9;
 		display: -webkit-box;
 		-webkit-line-clamp: 4;
