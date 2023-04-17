@@ -40,6 +40,7 @@
 			}
 		};
 	}); //end onMount
+	
 </script>
 
 <div class="carousel-container">
@@ -59,7 +60,7 @@
 						<span class="dots" />
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
-					<p class="movie-des">{anime.description}</p>
+					<p class="movie-des">{anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,"")}</p>
 					<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 						<button>Watch</button>
 					</a>
@@ -85,6 +86,7 @@
 		/>
 	{/each}
 </div>
+
 
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
 
@@ -133,7 +135,7 @@
 		height: 100%;
 		position: relative;
 		margin: auto;
-		height: 400px;
+		max-height: 400px;
 		border-radius: 5px;
 	}
 	.slider {
