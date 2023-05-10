@@ -13,7 +13,7 @@
 		<li class="nav-items"><a href="/">Lists</a></li>
 	</ul> -->
 
-	<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
+	<form on:submit|preventDefault={() => goto('/search/?query=' + inputValue)} class="right-container">
 		<input
 			type="text"
 			id="search-box"

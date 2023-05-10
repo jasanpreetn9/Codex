@@ -59,7 +59,7 @@
 						<div class="detail-item">
 							<p>Genres</p>
 							{#each data.genres as genre}
-								<span>{genre}</span>
+								<span><a href='/search?genres=["{genre}"]'>{genre}</a></span>
 							{/each}
 						</div>
 					</div>
