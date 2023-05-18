@@ -3,6 +3,7 @@
 	import Artplayer from 'artplayer';
 	export let data;
 	const { details, episode, currentEpisode } = data;
+	console.log(details)
 	let artplayer;
 	let episodeSources = [];
 	let sourcesQuality = [];
