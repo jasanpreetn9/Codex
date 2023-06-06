@@ -22,7 +22,9 @@ export async function load({ fetch, params, url }) {
 				const airingDate = new Date(respData.nextAiringEpisode.airingTime * 1000);
 				respData.nextAiringEpisode.airingTime = airingDate.toDateString();
 			}
-
+			if (respData.status.toLowerCase() !== "ongoing") {
+				respData.episodes.reverse()
+			}
 			return respData;
 		} catch (error) {
 			console.log(error);

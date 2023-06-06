@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
+	console.log(data);
 </script>
 
 <div class="carousel-container">
@@ -65,15 +66,18 @@
 					</div>
 				</div>
 				<div class="content-right">
-					<h1 class="anime-title">
-						{data.title.english?.toLowerCase() ?? data.title.romaji.toLowerCase()}
-					</h1>
-					{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
+					<div class="summary">
+
+						<h1 class="anime-title">
+							{data.title.english?.toLowerCase() ?? data.title.romaji.toLowerCase()}
+						</h1>
+						{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 						<h1 class="anime-title-native">{data.title.native}</h1>
-					{/if}
-					<p class="anime-des">{data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
-					<!-- <p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p> -->
-					<button on:click={goto('/watch/' + data.id)} class="watch-btn">Watch Now</button>
+						{/if}
+						<p class="anime-des">{data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
+						<!-- <p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p> -->
+						<button on:click={goto('/watch/' + data.id)} class="watch-btn">Watch Now</button>
+					</div>
 					<h1 class="title">Episodes</h1>
 					<div class="video-card-container">
 						{#each data.episodes as episode}
@@ -230,13 +234,16 @@
 		font-weight: 700;
 		font-size: 15px;
 		margin-top: 20px;
-		margin-bottom: 100px;
+		/* margin-bottom: 40px; */
 		cursor: pointer;
 	}
 	@media( max-width:1691px) {
 		.watch-btn {
-			margin-bottom: 80px;
+			/* margin-bottom: 80px; */
 		}
+	}
+	.summary {
+		min-height: 300px;
 	}
 	.title {
 		margin-top: 10px;
