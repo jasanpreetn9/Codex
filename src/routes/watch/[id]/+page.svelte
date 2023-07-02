@@ -39,6 +39,7 @@
 			quality: episodeSources,
 			theme: '#23ade5',
 			autoPlayback: true,
+			autoMini: false,
 			controls: [
 				{
 					position: 'right',
@@ -139,7 +140,6 @@
 		gap: 0.6em;
 		grid-template-columns: repeat(auto-fill, minmax(var(--ep-card-width), 1fr));
 	}
-
 	.video-card {
 		position: relative;
 		margin-top: 10px;
@@ -149,7 +149,6 @@
 		overflow: hidden;
 		background: #030b17;
 	}
-
 	.video-card-image {
 		width: 100%;
 		height: 100%;
@@ -157,7 +156,6 @@
 
 		object-fit: cover;
 	}
-
 	.card-body {
 		width: 100%;
 		height: 100%;
@@ -171,7 +169,6 @@
 		border-radius: 5px;
 		background-color: transparent;
 	}
-
 	.ep-title {
 		color: #fff;
 		font-size: 18px;

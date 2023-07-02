@@ -1,7 +1,7 @@
 <script>
 	export let data;
+	console.log(data)
 	import { goto } from '$app/navigation';
-	console.log(data);
 </script>
 
 <div class="carousel-container">
