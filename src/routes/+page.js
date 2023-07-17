@@ -1,5 +1,5 @@
 import { apiUrl } from '$lib/components';
-const MAX_RETRIES = 5;
+const MAX_RETRIES = 10;
 const RETRY_DELAY = 500;
 export const prerender = false;
 export const load = async ({ fetch, context }) => {
@@ -7,21 +7,9 @@ export const load = async ({ fetch, context }) => {
 	while (retryCount < MAX_RETRIES) {
 		try {
 			const [trendingRes, popularRes, airingRes] = await Promise.all([
-				fetch(`${apiUrl}/meta/anilist/trending?perPage=16`, {
-					headers: {
-						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
-					}
-				}),
-				fetch(`${apiUrl}/meta/anilist/popular?perPage=16`, {
-					headers: {
-						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
-					}
-				}),
-				fetch(`${apiUrl}/meta/anilist/advanced-search?status=RELEASING&perPage=16`, {
-					headers: {
-						'Cache-Control': context && context.preview ? 'no-cache' : 'max-age=3600'
-					}
-				})
+				fetch(`${apiUrl}/meta/anilist/trending?perPage=16`),
+				fetch(`${apiUrl}/meta/anilist/popular?perPage=16`),
+				fetch(`${apiUrl}/meta/anilist/advanced-search?status=RELEASING&perPage=16`)
 			]);
 
 			const [trendingAnimes, popularAnimes, airingAnimes] = await Promise.all([

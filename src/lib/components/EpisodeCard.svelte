@@ -1,18 +1,18 @@
 <script>
-	export let episodes, session,animeId;
+	export let episodes, session;
 </script>
 
 <h1 class="title">Episodes</h1>
 <div class="video-card-container">
 	{#each episodes as episode}
 		<div class="video-card">
-			<a data-sveltekit-prefetch="true" href={'/watch/' + animeId + '?epId=' + episode.id}>
+			<a data-sveltekit-prefetch="true" href={'/watch/' + "nothing" + '?epId=' + episode.id}>
 				<img src={episode.image} class="video-card-image" alt="" />
 				<div class="card-body">
-					<h2 class="name">{episode.title}</h2>
-					<div class="details">
+					<h2 class="name">{episode.number}: {episode.title}</h2>
+					<!-- <div class="details">
 						<p class="ep-name">E{episode.number}</p>
-					</div>
+					</div> -->
 					{#if session}
 						<!-- content here -->
 						<div class="progress-background">
@@ -87,10 +87,10 @@
 		color: #fff;
 		font-size: 18px;
 		font-weight: 500;
-		margin-top: 40%;
+		margin-top: 38%;
 		text-transform: capitalize;
 		display: -webkit-box;
-		-webkit-line-clamp: 1;
+		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
