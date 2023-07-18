@@ -1,13 +1,15 @@
 <script>
-	export let episodes, session;
+	export let episodes, session, poster,animeId;
 </script>
 
 <h1 class="title">Episodes</h1>
 <div class="video-card-container">
 	{#each episodes as episode}
 		<div class="video-card">
-			<a data-sveltekit-prefetch="true" href={'/watch/' + "nothing" + '?epId=' + episode.id}>
-				<img src={episode.image} class="video-card-image" alt="" />
+			<a data-sveltekit-prefetch="true" href={'/watch/' + animeId + '?epId=' + episode.id}>
+				{#if episode.image !== poster}
+					 <img src={episode.image} class="video-card-image" alt="" />
+				{/if}
 				<div class="card-body">
 					<h2 class="name">{episode.number}: {episode.title}</h2>
 					<!-- <div class="details">
