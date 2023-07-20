@@ -62,6 +62,7 @@
 		border-radius: 5px;
 		overflow: hidden;
 		background: #030b17;
+		aspect-ratio: 16/9;
 	}
 
 	.video-card-image {
@@ -88,7 +89,7 @@
 
 	.name {
 		color: #fff;
-		font-size: 18px;
+		font-size: 14px;
 		font-weight: 500;
 		margin-top: 38%;
 		text-transform: capitalize;

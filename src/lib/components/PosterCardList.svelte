@@ -98,7 +98,7 @@
 			grid-template-columns: repeat(4, 1fr);
 		}
 		.name {
-			font-size: 1.1em; /* Adjust the font size as needed */
+			font-size: 1em; /* Adjust the font size as needed */
 		}
 	}
 
@@ -107,7 +107,7 @@
 			grid-template-columns: repeat(6, 1fr);
 		}
 		.name {
-			font-size: 1.1em; /* Adjust the font size as needed */
+			font-size: 1em; /* Adjust the font size as needed */
 		}
 	}
 
@@ -116,7 +116,7 @@
 			grid-template-columns: repeat(8, 1fr);
 		}
 		.name {
-			font-size: 1.1em; /* Adjust the font size as needed */
+			font-size: 1em; /* Adjust the font size as needed */
 		}
 	}
 </style>
