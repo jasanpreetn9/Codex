@@ -1,4 +1,3 @@
-
 <script>
 	export let trendingAnimes;
 	import { onMount } from 'svelte';
@@ -115,6 +114,7 @@
 
 	.nxt-btn {
 		right: 0;
+		/* margin-right: 10px; */
 	}
 
 	.pre-btn img,
@@ -150,6 +150,7 @@
 		/* display: block; */
 		margin: 0 auto;
 		height: 100%;
+		width: 100%;
 		object-fit: cover;
 		opacity: 0.7;
 		border-radius: 5px;
@@ -283,9 +284,9 @@
 		}
 	}
 
-	@media (max-width: 576px) {
+	@media (max-width: 756px) {
 		.carousel {
-			height: 200px;
+			height: 280px;
 		}
 
 		.slider {
@@ -293,10 +294,11 @@
 			height: 250px;
 		}
 		.movie-des {
-			display: -webkit-box;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			width: 50%;
+			display: none;
+			visibility: hidden;
+		}
+		.nxt-btn {
+			margin-right: 10px;
 		}
 	}
 </style>

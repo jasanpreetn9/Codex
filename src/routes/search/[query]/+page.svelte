@@ -1,10 +1,10 @@
 <script>
 	export let data;
 	console.log(data);
-	const { searchAnimes } = data;
+	const { searchAnimes,params } = data;
 </script>
 
-<!-- <h1 class="title">Search Results For: <i>{searchId}</i></h1> -->
+<h1 class="title">Search Results For: <i>{params}</i></h1>
 <div class="cards-list">
 	<div class="card-container">
 		{#each searchAnimes as anime}
