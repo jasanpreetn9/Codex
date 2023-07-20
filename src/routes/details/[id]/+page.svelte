@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	console.log(data)
 	import { goto } from '$app/navigation';
 	import {EpisodeCard} from '$lib/components'
 </script>

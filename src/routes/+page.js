@@ -2,7 +2,6 @@ import { META } from '@consumet/extensions';
 
 export const load = async ({ fetch, context }) => {
 	try {
-		
 		const anilist = new META.Anilist();
 		const trendingAnimes = await anilist.fetchTrendingAnime(1,16);
 		const trending = trendingAnimes.results
