@@ -6,7 +6,8 @@
 <div class="video-card-container">
 	{#each episodes as episode}
 		<div class="video-card">
-			<a data-sveltekit-prefetch="true" href={'/watch/' + animeId + '?epId=' + episode.id}>
+			<a href={`/watch/${animeId}?episode=${episode.number}`}>
+				
 				{#if episode.image !== poster}
 					 <img src={episode.image} class="video-card-image" alt="" />
 				{/if}
