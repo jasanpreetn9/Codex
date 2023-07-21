@@ -40,5 +40,7 @@ export async function load({ fetch, params, url }) {
 		respData.description = respData.description.replace(/<br\s*\/?>/gi, '');
 
 		return respData;
-	} catch (error) {}
+	} catch (error) {
+		throw new Error(error);
+	}
 }

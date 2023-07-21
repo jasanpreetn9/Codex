@@ -77,8 +77,7 @@
 						{/if}
 						<p class="anime-des">{data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
 						<!-- <p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p> -->
-						<button on:click={goto('/watch/' + data.id + '?epId=1')} class="watch-btn">Watch Now</button>
-						<!-- href={'/watch/' + animeId + '?epId=' + episode.id} -->
+						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button>
 					</div>
 					<EpisodeCard episodes={data.episodes} animeId={data.id} poster={data.image} />
 				</div>
@@ -216,11 +215,6 @@
 		margin-top: 20px;
 		/* margin-bottom: 40px; */
 		cursor: pointer;
-	}
-	@media( max-width:1691px) {
-		.watch-btn {
-			/* margin-bottom: 80px; */
-		}
 	}
 	.summary {
 		min-height: 300px;
