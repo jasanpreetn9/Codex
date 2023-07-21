@@ -7,16 +7,14 @@ export async function load({ fetch, params, url }) {
 	let dub = url.searchParams.get('dub') || false;
 
 	const anilist = new META.Anilist();
-	// const infoData = await (await fetch(`${apiUrl}/meta/anilist/info/${params.id}?provider=${provider}&dub=${dub}`)).json();
-	const infoData = await anilist.fetchAnimeInfo(params.id, dub);
+	const infoData = await (await fetch(`${apiUrl}/meta/anilist/info/${params.id}?provider=${provider}&dub=${dub}`)).json();
 	const currentEpisode = infoData.episodes.find((episode) => episode.number == episodeNumber);
 
 	if (!currentEpisode) {
 		throw new Error(`Episode ${episodeNumber} not found`);
 	}
 
-	// const episodeData = await (await fetch(`${apiUrl}/meta/anilist/watch/${currentEpisode.id}`)).json();
-	const episodeData = await anilist.fetchEpisodeSources(currentEpisode.id)
+	const episodeData = await (await fetch(`${apiUrl}/meta/anilist/watch/${currentEpisode.id}`)).json();
 
 	return {
 		details: infoData,
