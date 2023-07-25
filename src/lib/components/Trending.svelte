@@ -293,10 +293,6 @@
 			margin-right: 10px;
 			height: 250px;
 		}
-		.movie-des {
-			display: none;
-			visibility: hidden;
-		}
 		.nxt-btn {
 			margin-right: 10px;
 		}

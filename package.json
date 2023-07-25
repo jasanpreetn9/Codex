@@ -23,6 +23,7 @@
 		"@supabase/auth-helpers-sveltekit": "^0.8.7",
 		"@supabase/supabase-js": "^2.4.1",
 		"artplayer": "^4.6.2",
+		"pocketbase": "^0.15.3",
 		"siema": "^1.5.1"
 	}
 }

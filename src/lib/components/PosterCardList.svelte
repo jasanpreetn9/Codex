@@ -40,7 +40,7 @@
 	.card-container {
 		display: grid;
 		gap: 1rem;
-		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
 		min-height: 150px;
 		overflow: hidden;
 	}
@@ -75,7 +75,7 @@
 
 	.name {
 		color: #fff;
-		/* font-size: 1.1em; Adjust the font size as needed */
+		font-size: 1.1em;
 		font-weight: 500;
 		margin-top: 120%;
 		text-transform: capitalize;
@@ -84,12 +84,12 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-	@media (max-width: 768px) {
+	/* @media (max-width: 768px) {
 		.card-container {
 			grid-template-columns: repeat(2, 1fr);
 		}
 		.name {
-			font-size: 1.3em; /* Adjust the font size as needed */
+			font-size: 1.3em;
 		}
 	}
 
@@ -98,7 +98,7 @@
 			grid-template-columns: repeat(4, 1fr);
 		}
 		.name {
-			font-size: 1em; /* Adjust the font size as needed */
+			font-size: 1em;
 		}
 	}
 
@@ -107,7 +107,7 @@
 			grid-template-columns: repeat(6, 1fr);
 		}
 		.name {
-			font-size: 1em; /* Adjust the font size as needed */
+			font-size: 1em; 
 		}
 	}
 
@@ -116,7 +116,7 @@
 			grid-template-columns: repeat(8, 1fr);
 		}
 		.name {
-			font-size: 1em; /* Adjust the font size as needed */
+			font-size: 1em;
 		}
-	}
+	} */
 </style>

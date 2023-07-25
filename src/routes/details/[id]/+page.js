@@ -38,6 +38,8 @@ export async function load({ fetch, params, url }) {
 
 		// Remove <br> tags
 		respData.description = respData.description.replace(/<br\s*\/?>/gi, '');
+		
+		respData.genres = respData.genres.join(', ')
 
 		return respData;
 	} catch (error) {

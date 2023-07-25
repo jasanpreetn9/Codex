@@ -1,8 +1,7 @@
 <script>
 	export let data;
-	console.log(data)
 	import { goto } from '$app/navigation';
-	import {EpisodeCard} from '$lib/components'
+	import {EpisodeCard,PosterCardList} from '$lib/components'
 </script>
 
 <div class="carousel-container">
@@ -26,7 +25,7 @@
 						{/if}
 						<div class="detail-item">
 							<p>Format</p>
-							<span>{data.type}</span>
+							<span>{data.type.toLowerCase()}</span>
 						</div>
 						<div class="detail-item">
 							<p>Sub / Dub</p>
@@ -60,9 +59,7 @@
 						{/each}
 						<div class="detail-item">
 							<p>Genres</p>
-							{#each data.genres as genre}
-								<span><a href='/search?genres=["{genre}"]'>{genre}</a></span>
-							{/each}
+							<span>{data.genres}</span>
 						</div>
 					</div>
 				</div>
@@ -75,11 +72,14 @@
 						{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 						<h1 class="anime-title-native">{data.title.native}</h1>
 						{/if}
-						<p class="anime-des">{data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
-						<!-- <p class="anime-des">{@html data.description.split('(Source')[0].split('*')[0].replace("＜",'').replace(">",'')}</p> -->
+						<p class="anime-des">{@html data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
 						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button>
 					</div>
-					<EpisodeCard episodes={data.episodes} animeId={data.id} poster={data.image} />
+					{#if data.type.toLowerCase() !== "movie"}
+						 <EpisodeCard episodes={data.episodes} animeId={data.id} poster={data.image} scrollable={true} title={true}/>
+					{/if}
+					<PosterCardList animes={data.recommendations} heading={'Recommended'} />
+
 				</div>
 			</div>
 		</div>
@@ -153,7 +153,7 @@
 		width: 280px;
 		border-radius: 7px;
 	}
-	.details {
+	/* .details {
 		color: white;
 		margin-top: 20px;
 		width: 100%;
@@ -178,14 +178,49 @@
 		font-weight: 500;
 		padding-left: 10px;
 		width: 240px;
+		text-transform: capitalize;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 	.detail-item span a {
 		color: white;
-	}
+	} */
+	.details {
+		background-color: #060b11;
+		border-radius: 7px;
+		padding: 20px;
+		/* width: 100%; */
+		width: 280px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Creates grid columns with minimum width of 240px and maximum 1fr (equal width) */
+    /* gap: 10px; Adds a gap between the detail items */
+    margin-top: 20px;
+	
+  }
+
+  .detail-item {
+    padding-bottom: 5px;
+    text-transform: capitalize;
+	
+  }
+
+  .detail-item p {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .detail-item span {
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .detail-item span a {
+    color: white;
+  }
 	.anime-title {
 		text-transform: capitalize;
 		margin-top: 80px;
@@ -223,7 +258,7 @@
 		.slider {
 			display: none;
 		}
-		.content-left {
+		.content-left, .content  {
 			margin: 0;
 		}
 		.content-top {
@@ -235,7 +270,7 @@
 		.content-left {
 			width: 100%;
 		}
-		.poster {
+		.poster, .details {
 			width: 100%;
 		}
 	}

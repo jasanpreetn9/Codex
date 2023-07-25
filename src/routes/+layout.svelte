@@ -1,17 +1,11 @@
 <script>
-	import {  goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import '$lib/global.css';
 	let inputValue = '';
 </script>
 
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
-	<!-- <ul class="nav-links">
-		<li class="nav-items"><a href="/">Movies</a></li>
-		<li class="nav-items"><a href="/">TV series</a></li>
-		<li class="nav-items"><a href="/">Most popular</a></li>
-		<li class="nav-items"><a href="/">Lists</a></li>
-	</ul> -->
 
 	<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
 		<input
@@ -22,12 +16,16 @@
 			placeholder="search"
 		/>
 	</form>
+	<a href="/login" class="login-btn">Login</a>
 </nav>
 <main>
 	<slot />
 </main>
 
 <style>
+	a {
+		text-decoration: none;
+	}
 	.navbar {
 		width: 100%;
 		height: 80px;
@@ -41,7 +39,7 @@
 		align-items: center;
 	}
 
-	.nav-links {
+	/* .nav-links {
 		margin-top: 10px;
 		display: flex;
 		list-style: none;
@@ -53,7 +51,7 @@
 		text-transform: capitalize;
 		color: #fff;
 		opacity: 0.9;
-	}
+	} */
 	.nav-title {
 		margin-top: 10px;
 		display: flex;
@@ -86,15 +84,9 @@
 		transition: 0.5s;
 	}
 
-	.search-box:focus {
-		width: 400px;
-		border-color: #1f80e0;
-	}
-
-	.logout-login-btn {
+	.login-btn {
 		background: #1f80e0;
-		height: 30px;
-		padding: 0 20px;
+		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
 		border: none;
@@ -105,13 +97,8 @@
 		margin: 0 10px;
 		cursor: pointer;
 	}
-
 	main {
 		margin-top: 80px;
 		padding: 0 4%;
-	}
-	@media (max-width: 576px) {
-		.search-box:focus {
-		width: 350px;	}
 	}
 </style>

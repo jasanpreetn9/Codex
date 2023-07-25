@@ -68,7 +68,12 @@
 </script>
 
 <main>
-	<div class="artplayer-container"></div>
+	<div class="video">
+		<EpisodeCard episodes={details.episodes} animeId={details.id}/>
+		<div class="artplayer-container"></div>
+
+	</div>
+
 	<div class="details">
 		<div class="container-left">
 			<h1>E{currentEpisode.number} - {currentEpisode.title}</h1>
@@ -79,7 +84,7 @@
 			<p>{currentEpisode.description}</p>
 		</div>
 		<div class="container-right">
-			<EpisodeCard episodes={details.episodes} animeId={details.id} />
+			<!-- <EpisodeCard episodes={details.episodes} animeId={details.id} /> -->
 		</div>
 	</div>
 </main>
@@ -93,9 +98,13 @@
 		--ep-card-width: 150px;
 	}
 	
+	.video {
+		display: flex;
+		flex-direction: row;
+	}
 	.artplayer-container {
 		aspect-ratio: 16/9;
-		height: max-content;
+		height: 500px;
 	}
 	
 	

@@ -1,8 +1,10 @@
 <script>
-	export let episodes, session, poster,animeId;
+	export let episodes, session, poster,animeId, title;
 </script>
 
-<h1 class="title">Episodes</h1>
+{#if title}
+	 <h1 class="title">Episodes</h1>
+{/if}
 <div class="video-card-container">
 	{#each episodes as episode}
 		<div class="video-card">
@@ -42,7 +44,7 @@
 	}
 	.video-card-container {
 		position: relative;
-		margin: auto;
+		/* margin: auto; */
 		height: max-content;
 		display: flex;
 		margin-bottom: 20px;
