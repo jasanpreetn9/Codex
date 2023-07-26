@@ -16,7 +16,7 @@
 			placeholder="search"
 		/>
 	</form>
-	<a href="/login" class="login-btn">Login</a>
+	<!-- <a href="/login" class="login-btn">Login</a> -->
 </nav>
 <main>
 	<slot />
