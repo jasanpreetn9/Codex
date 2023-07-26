@@ -1,10 +1,17 @@
 <script>
-	export let episodes, session, poster,animeId, title;
+	export let episodes, session, poster,animeId;
+	import svgIcon from "$lib/images/filter.png"
 </script>
 
-{#if title}
-	 <h1 class="title">Episodes</h1>
-{/if}
+<div class="header">
+
+	<h1 class="title">Episodes</h1>
+	<button class="filter" on:click={() => episodes.reverse()}><img src={svgIcon} alt="Filter"></button>
+
+</div>
+<div style="overflow-y: auto; max-height: 400px;">
+
+
 <div class="video-card-container">
 	{#each episodes as episode}
 		<div class="video-card">
@@ -29,10 +36,14 @@
 		</div>
 	{/each}
 </div>
-
+</div>
 <style>
 	a {
 		text-decoration: none;
+	}
+	.header {
+		display: flex;
+		justify-content: space-between;
 	}
 	.title {
 		margin-top: 10px;
@@ -41,6 +52,17 @@
 		text-transform: capitalize;
 		font-size: 22px;
 		font-weight: 500;
+	}
+
+	.filter img {
+		height: 17px;
+
+		/* background-color: #0d111a; */
+	}
+	.filter {
+		cursor: pointer;
+		background-color: transparent;
+		border: none;
 	}
 	.video-card-container {
 		position: relative;
@@ -116,7 +138,7 @@
 		background: #e6e9ff;
 		border-radius: 20px;
 	}
-	.details {
+	/* .details {
 		color: white;
 		display: flex;
 		flex-direction: row;
@@ -127,7 +149,7 @@
 	}
 	.ep-name {
 		font-size: 14px;
-	}
+	} */
 	/* .watch-time {
 		font-size: 14px;
 	} */

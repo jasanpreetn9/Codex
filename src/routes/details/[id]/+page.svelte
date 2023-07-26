@@ -76,7 +76,7 @@
 						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button>
 					</div>
 					{#if data.type.toLowerCase() !== "movie"}
-						 <EpisodeCard episodes={data.episodes} animeId={data.id} poster={data.image} scrollable={true} title={true}/>
+						 <EpisodeCard episodes={data.episodes} animeId={data.id} poster={data.image}/>
 					{/if}
 					<PosterCardList animes={data.recommendations} heading={'Recommended'} />
 
@@ -273,5 +273,8 @@
 		.poster, .details {
 			width: 100%;
 		}
+		.content-right {
+		margin-left: 0px;
+	}
 	}
 </style>

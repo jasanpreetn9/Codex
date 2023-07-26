@@ -1,15 +1,15 @@
 <script>
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
-	import {EpisodeCard} from '$lib/components'
-	
+	import { EpisodeCard } from '$lib/components';
+
 	export let data;
 	const { details, episode, currentEpisode } = data;
 	let artplayer;
 	let episodeSources = [];
 	let sourcesQuality = [];
 	let defaultUrl;
-	
+
 	episode.sources.forEach((element) => {
 		if (element.quality !== 'default' && element.quality !== 'backup') {
 			episodeSources.push({
@@ -20,14 +20,14 @@
 			sourcesQuality.push(parseInt(element.quality.replace('p', '')));
 		}
 	});
-	
+
 	episodeSources.forEach((element) => {
 		if (element.html == Math.max(...sourcesQuality) + 'p') {
 			element.default = true;
 			defaultUrl = element.url;
 		}
 	});
-	
+
 	onMount(() => {
 		artplayer = new Artplayer({
 			id: `${details.id}-${currentEpisode.number}`,
@@ -69,9 +69,8 @@
 
 <main>
 	<div class="video">
-		<EpisodeCard episodes={details.episodes} animeId={details.id}/>
-		<div class="artplayer-container"></div>
-
+		<EpisodeCard episodes={details.episodes} animeId={details.id} />
+		<div class="artplayer-container" />
 	</div>
 
 	<div class="details">
@@ -83,9 +82,6 @@
 			</div>
 			<p>{currentEpisode.description}</p>
 		</div>
-		<div class="container-right">
-			<!-- <EpisodeCard episodes={details.episodes} animeId={details.id} /> -->
-		</div>
 	</div>
 </main>
 
@@ -93,11 +89,11 @@
 	* {
 		color: white;
 	}
-	
+
 	:root {
 		--ep-card-width: 150px;
 	}
-	
+
 	.video {
 		display: flex;
 		flex-direction: row;
@@ -106,8 +102,7 @@
 		aspect-ratio: 16/9;
 		height: 500px;
 	}
-	
-	
+
 	.container-left {
 		width: 80%;
 	}
@@ -126,10 +121,9 @@
 	}
 	@media (max-width: 756px) {
 		.artplayer-container {
-		aspect-ratio: 16/9;
-		height: max-content;
-		widows: 1000px;
+			aspect-ratio: 16/9;
+			height: max-content;
+			widows: 1000px;
+		}
 	}
-	}
-	
 </style>
