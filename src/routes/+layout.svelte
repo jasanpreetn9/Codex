@@ -1,8 +1,14 @@
 <script>
 	import { goto } from '$app/navigation';
+	import logo from "$lib/images/logo.png"
 	import '$lib/global.css';
 	let inputValue = '';
 </script>
+
+<svelte:head>
+	<title>Codex</title> 
+	<link rel="icon" href={logo} />
+</svelte:head>
 
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
