@@ -1,42 +1,41 @@
 <script>
-	export let episodes, session, poster,animeId;
-	import svgIcon from "$lib/images/filter.png"
+	export let episodes, session, poster, animeId;
+	import svgIcon from '$lib/images/filter.png';
+
+	function reverseEpisodes() {
+		episodes = episodes.slice().reverse();
+	}
 </script>
 
 <div class="header">
-
 	<h1 class="title">Episodes</h1>
-	<button class="filter" on:click={() => episodes.reverse()}><img src={svgIcon} alt="Filter"></button>
-
+	<button class="filter" on:click={reverseEpisodes}>
+		<img src={svgIcon} alt="Filter" />
+	</button>
 </div>
+
 <div style="overflow-y: auto; max-height: 400px;">
-
-
-<div class="video-card-container">
-	{#each episodes as episode}
-		<div class="video-card">
-			<a href={`/watch/${animeId}?episode=${episode.number}`}>
-				
-				{#if episode.image !== poster}
-					 <img src={episode.image} class="video-card-image" alt="" />
-				{/if}
-				<div class="card-body">
-					<h2 class="name">{episode.number}: {episode.title}</h2>
-					<!-- <div class="details">
-						<p class="ep-name">E{episode.number}</p>
-					</div> -->
-					{#if session}
-						<!-- content here -->
-						<div class="progress-background">
-							<div class="progress" style="width: 100%;" />
-						</div>
+	<div class="video-card-container">
+		{#each episodes as episode}
+			<div class="video-card">
+				<a href={`/watch/${animeId}?episode=${episode.number}`}>
+					{#if episode.image !== poster}
+						<img src={episode.image} class="video-card-image" alt="" />
 					{/if}
-				</div>
-			</a>
-		</div>
-	{/each}
+					<div class="card-body">
+						<h2 class="name">{episode.number}: {episode.title}</h2>
+						{#if session}
+							<div class="progress-background">
+								<div class="progress" style="width: 100%;" />
+							</div>
+						{/if}
+					</div>
+				</a>
+			</div>
+		{/each}
+	</div>
 </div>
-</div>
+
 <style>
 	a {
 		text-decoration: none;
