@@ -2,31 +2,11 @@
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
 	import { EpisodeCard } from '$lib/components';
-
+	import pre from '$lib/images/pre-carousel.png';
+	import nxt from '$lib/images/nxt-carousel.png';
 	export let data;
-	const { details, episode, currentEpisode } = data;
+	const { details, episode, currentEpisode, defaultUrl, episodeSources } = data;
 	let artplayer;
-	let episodeSources = [];
-	let sourcesQuality = [];
-	let defaultUrl;
-
-	episode.sources.forEach((element) => {
-		if (element.quality !== 'default' && element.quality !== 'backup') {
-			episodeSources.push({
-				url: element.url,
-				html: element.quality,
-				default: false
-			});
-			sourcesQuality.push(parseInt(element.quality.replace('p', '')));
-		}
-	});
-
-	episodeSources.forEach((element) => {
-		if (element.html == Math.max(...sourcesQuality) + 'p') {
-			element.default = true;
-			defaultUrl = element.url;
-		}
-	});
 
 	onMount(() => {
 		artplayer = new Artplayer({
@@ -44,22 +24,22 @@
 			controls: [
 				{
 					position: 'right',
-					html: 'Next Ep',
+					html: `<img width="10" src="${nxt}">`,
 					index: 1,
 					tooltip: 'Next Episode',
-					style: { marginRight: '20px' },
+					style: { marginRight: '5px' },
 					click: function () {
-						console.info('You clicked on the custom control');
+						console.info('You clicked on the next control');
 					}
 				},
 				{
 					position: 'right',
-					html: 'Previous Ep',
+					html: `<img width="10" src="${pre}">`,
 					index: 1,
 					tooltip: 'Previous Episode',
-					style: { marginRight: '20px' },
+					style: { marginRight: '5px' },
 					click: function () {
-						console.info('You clicked on the custom control');
+						console.info('You clicked on the previous control');
 					}
 				}
 			]

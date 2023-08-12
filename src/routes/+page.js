@@ -12,12 +12,16 @@ export const load = async ({ fetch, context }) => {
 			description: anime.description.replace(/<br>|\n/g, '')
 		}));
 		const popularAnimes = await anilist.fetchPopularAnime(1,16);
+
+		// const recentAiringAnimes = await anilist.advancedSearch()
+
 		return {
 			trendingAnimes: trending,
 			popularAnimes: popularAnimes.results,
-			recentAiringAnimes: []
+			// recentAiringAnimes: recentAiringAnimes.result
 		};
 	} catch (error) {
+		console.log(error)
 		throw new Error('Failed to load anime data after multiple retries.');
 	}
 };

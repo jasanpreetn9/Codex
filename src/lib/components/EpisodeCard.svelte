@@ -19,9 +19,7 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a href={`/watch/${animeId}?episode=${episode.number}`}>
-					{#if episode.image !== poster}
 						<img src={episode.image} class="video-card-image" alt="" />
-					{/if}
 					<div class="card-body">
 						<h2 class="name">{episode.number}: {episode.title}</h2>
 						{#if session}
@@ -64,12 +62,12 @@
 		border: none;
 	}
 	.video-card-container {
-		position: relative;
+		/* position: relative; */
 		/* margin: auto; */
-		height: max-content;
-		display: flex;
-		margin-bottom: 20px;
-		justify-content: space-between;
+		/* height: max-content; */
+		/* display: flex; */
+		/* margin-bottom: 20px; */
+		/* justify-content: space-between; */
 		display: grid;
 		gap: 0.6em;
 		/* grid-template-rows: repeat(auto-fill, minmax(170px, 1fr)); */
