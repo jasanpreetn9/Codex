@@ -4,12 +4,12 @@ import { META, PROVIDERS_LIST } from '@consumet/extensions';
 export async function load({ fetch, params, url }) {
     try {
         const episodeNumber = url.searchParams.get('episode') || 1;
-        const dub = url.searchParams.get('dub') || false;
-
+        const dubStr = url.searchParams.get('dub') || false;
+        var dubBool = (dubStr?.toLowerCase?.() === 'true');
         const anilist = new META.Anilist();
 
         // Fetch infoData
-        const animeDetails = await anilist.fetchAnimeInfo(params.id);
+        const animeDetails = await anilist.fetchAnimeInfo(params.id,dubBool);
 
         // Find currentEpisodeDetail
         const currentEpisodeDetail = animeDetails.episodes.find(
