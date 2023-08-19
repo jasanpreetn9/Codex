@@ -2,6 +2,7 @@
 	export let data;
 	import { goto } from '$app/navigation';
 	import {EpisodeCard,PosterCardList} from '$lib/components'
+	console.log(data)
 </script>
 
 <div class="carousel-container">
@@ -76,7 +77,7 @@
 						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button>
 					</div>
 					{#if data.type.toLowerCase() !== "movie"}
-						 <EpisodeCard episodes={data.episodes} animeId={data.id} poster={data.image}/>
+						 <EpisodeCard episodes={data.episodes} animeId={data.id} />
 					{/if}
 					<PosterCardList animes={data.recommendations} heading={'Recommended'} />
 

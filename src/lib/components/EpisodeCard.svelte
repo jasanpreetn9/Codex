@@ -1,5 +1,5 @@
 <script>
-	export let episodes, session, poster, animeId;
+	export let episodes, session, animeId;
 	import svgIcon from '$lib/images/filter.png';
 
 	function reverseEpisodes() {

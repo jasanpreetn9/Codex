@@ -1,19 +1,16 @@
 <script>
 	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
-	import { EpisodeCard } from '$lib/components';
-	import pre from '$lib/images/pre-carousel.png';
-	import nxt from '$lib/images/nxt-carousel.png';
+	import { EpisodeCard, pre, nxt } from '$lib/components';
 	export let data;
-	const { details, episode, currentEpisode, defaultUrl, episodeSources } = data;
+	const { details, episodeSources, currentEpisodeDetail } = data;
 	let artplayer;
 
 	onMount(() => {
 		artplayer = new Artplayer({
-			id: `${details.id}-${currentEpisode.number}`,
-			title: `${currentEpisode.number} - ${currentEpisode.title}`,
+			id: `${details.id}-${currentEpisodeDetail.number}`,
+			title: `${currentEpisodeDetail.number} - ${currentEpisodeDetail.title}`,
 			container: '.artplayer-container',
-			url: defaultUrl,
 			autoPlayback: true,
 			pip: true,
 			fullscreen: true,
@@ -21,6 +18,7 @@
 			theme: '#23ade5',
 			quality: episodeSources,
 			autoMini: false,
+			hotkey: true,
 			controls: [
 				{
 					position: 'right',
@@ -44,23 +42,33 @@
 				}
 			]
 		});
+		// artplayer.on('video:timeupdate', () => {
+		// 	console.info(artplayer.played);
+		// });
 	});
+	// setInterval(function () {
+	// 	let storedValue = localStorage.getItem('artplayer_settings');
+	// 	console.log(storedValue);
+	// }, 3000);
 </script>
 
 <main>
 	<div class="video">
-		<EpisodeCard episodes={details.episodes} animeId={details.id} />
 		<div class="artplayer-container" />
 	</div>
 
 	<div class="details">
 		<div class="container-left">
-			<h1>E{currentEpisode.number} - {currentEpisode.title}</h1>
-			<div class="sub-dubBtn">
-				<button class="logout-login-btn">SUB</button>
-				<button class="logout-login-btn">DUB</button>
+			<div class="detailmeta">
+				<h1 class="title">E{currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
+				<div class="sub-dubBtn">
+					<button class="logout-login-btn">SUB</button>
+					<button class="logout-login-btn">DUB</button>
+				</div>
 			</div>
-			<p>{currentEpisode.description}</p>
+
+			<p class="description">{currentEpisodeDetail.description}</p>
+			<EpisodeCard episodes={details.episodes} animeId={details.id} />
 		</div>
 	</div>
 </main>
@@ -73,19 +81,29 @@
 	:root {
 		--ep-card-width: 150px;
 	}
+	.description {
+	}
+	.title {
+		display: flex;
+		justify-content: center;
+	}
 
 	.video {
 		display: flex;
 		flex-direction: row;
+		width: 100%;
+	}
+	.detailmeta {
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+		padding: 20px;
 	}
 	.artplayer-container {
 		aspect-ratio: 16/9;
 		height: 500px;
 	}
 
-	.container-left {
-		width: 80%;
-	}
 	.logout-login-btn {
 		background: #1f80e0;
 		height: 30px;
@@ -98,6 +116,7 @@
 		font-size: 15px;
 		/* margin: 0 10px; */
 		cursor: pointer;
+		margin-top: 2px;
 	}
 	@media (max-width: 756px) {
 		.artplayer-container {

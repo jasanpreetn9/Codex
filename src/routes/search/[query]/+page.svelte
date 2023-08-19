@@ -1,6 +1,5 @@
 <script>
 	export let data;
-	console.log(data);
 	const { searchAnimes,params } = data;
 </script>
 

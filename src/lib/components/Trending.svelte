@@ -9,34 +9,30 @@
 	onMount(() => {
 		slider = new Siema({
 			selector: '.carousel',
-			duration: 200,
+			duration: 500,
 			easing: 'ease-in-out',
 			perPage: 1,
 			startIndex: 0,
 			draggable: true,
 			multipleDrag: true,
 			threshold: 20,
-			// loop: true,
+			loop: true,
 			rtl: false,
 			onInit: () => {},
 			onChange: () => {
 				select = slider.currentSlide;
 			}
 		});
-
 		prev = () => {
 			slider.prev();
-			if (select > 0) {
-				select--;
-			}
 		};
-
 		next = () => {
 			slider.next();
-			if (select >= 0) {
-				select++;
-			}
 		};
+
+		setInterval(function () {
+			slider.next();
+		}, 3000);
 	});
 </script>
 
@@ -47,7 +43,7 @@
 		{#each trendingAnimes as anime}
 			<div class="slider">
 				<div class="slide-content">
-					<h1 class="movie-title">
+					<h1 class="anime-title">
 						{anime.title.english?.toLowerCase() ?? anime.title.romaji.toLowerCase()}
 					</h1>
 					<div class="badges-container">
@@ -57,7 +53,7 @@
 						<span class="dots" />
 						<p class="badges">Eps: {anime.totalEpisodes}</p>
 					</div>
-					<p class="movie-des">
+					<p class="anime-des">
 						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 					</p>
 					<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
@@ -165,7 +161,7 @@
 		color: #fff;
 	}
 
-	.movie-title {
+	.anime-title {
 		width: 100%;
 		max-width: 300px; /* Adjust the max-width as needed */
 		text-transform: capitalize;
@@ -209,7 +205,7 @@
 		display: inline-block;
 	}
 
-	.movie-des {
+	.anime-des {
 		width: 40%;
 		line-height: 30px;
 		margin-top: 5px;
@@ -276,7 +272,7 @@
 		.slider img {
 			border-radius: 3px;
 		}
-		.movie-des {
+		.anime-des {
 			display: -webkit-box;
 			-webkit-line-clamp: 2;
 			-webkit-box-orient: vertical;
