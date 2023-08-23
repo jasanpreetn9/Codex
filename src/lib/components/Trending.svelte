@@ -30,9 +30,9 @@
 			slider.next();
 		};
 
-		setInterval(function () {
-			slider.next();
-		}, 3000);
+		// setInterval(function () {
+		// 	slider.next();
+		// }, 3000);
 	});
 </script>
 

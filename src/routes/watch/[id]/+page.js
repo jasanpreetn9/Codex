@@ -12,15 +12,12 @@ export async function load({ fetch, params, url }) {
         const animeDetails = await anilist.fetchAnimeInfo(params.id,dubBool);
 
         // Find currentEpisodeDetail
-        const currentEpisodeDetail = animeDetails.episodes.find(
-            (episode) => episode.number == episodeNumber
-        );
+        const currentEpisodeDetail = animeDetails.episodes.find((episode) => episode.number == episodeNumber);
         if (!currentEpisodeDetail) {
             throw new Error(`Episode ${episodeNumber} not found`);
         }
 
         // Fetch episodeUrls
-        // const episodeUrls = await anilist.fetchEpisodeSources(currentEpisodeDetail.id);
         const episodeUrlsResponse = await fetch(`${apiUrl}/meta/anilist/watch/${currentEpisodeDetail.id}`);
 		const episodeUrls = await episodeUrlsResponse.json();
 
