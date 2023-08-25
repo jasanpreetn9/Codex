@@ -22,7 +22,7 @@
 			placeholder="search"
 		/>
 	</form>
-	<a href="/login" class="login-btn">Login</a>
+	<!-- <a href="/login" class="login-btn">Login</a> -->
 </nav>
 <main>
 	<slot />
@@ -90,7 +90,7 @@
 		transition: 0.5s;
 	}
 
-	.login-btn {
+	/* .login-btn {
 		background: #1f80e0;
 		padding: 10px;
 		color: #fff;
@@ -102,7 +102,7 @@
 		font-size: 12px;
 		margin: 0 10px;
 		cursor: pointer;
-	}
+	} */
 	main {
 		margin-top: 80px;
 		padding: 0 4%;
