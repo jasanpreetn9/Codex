@@ -2,7 +2,6 @@
 	export let data;
 	import { goto } from '$app/navigation';
 	import {EpisodeCard,PosterCardList} from '$lib/components'
-	console.log(data)
 </script>
 
 <div class="carousel-container">

@@ -1,5 +1,4 @@
 import { META } from '@consumet/extensions';
-
 export const load = async ({ fetch, context }) => {
 	try {
 		const anilist = new META.Anilist();
@@ -15,58 +14,18 @@ export const load = async ({ fetch, context }) => {
 
 		// const recentAiringAnimes = await anilist.advancedSearch()
 
-		let continueWatching = ''; // Initialize continueWatching
-		let parsedData = null; // Initialize parsedData
-		let transformedArray = []; // Initialize transformedArray
-	
-		if (!import.meta.env.SSR) {
-			// Only use localStorage in the browser environment
-			continueWatching = localStorage.getItem('artplayer_settings');
-	
-			// Parse the JSON data from localStorage
-			if (continueWatching) {
-				parsedData = JSON.parse(continueWatching);
-	
-				// Transform the nested object into an array of objects
-				if (parsedData && parsedData.times) {
-					transformedArray = Object.entries(parsedData.times).map(([key, time]) => {
-						const [id, ep] = key.split('-');
-						return {
-							id: parseInt(id),
-							time: time,
-							ep: parseInt(ep)
-						};
-					});
-				}
-			}
-		}
-		// Filter the array to keep only the highest ep values for each id
-		let filteredArray = [];
-		const idToMaxEp = {}; // Lookup object for max ep values
-	
-		transformedArray.forEach((item) => {
-			const { id, ep } = item;
-			if (!idToMaxEp[id] || ep > idToMaxEp[id]) {
-				idToMaxEp[id] = ep;
-			}
-		});
-	
-		filteredArray = transformedArray.filter((item) => {
-			const { id, ep } = item;
-			return ep === idToMaxEp[id];
-		});
-		console.log(filteredArray);
-		
-		for (let index = 0; index < filteredArray.length; index++) {
-			const anime = filteredArray[index];
-			const respData = await anilist.fetchAnimeInfo(anime.id);
-			const matchedEp = respData.episodes.find(epItem => {
-				return parseInt(epItem.number) === anime.ep;
-			});
-			console.log(matchedEp)
-			
-		}
+		// Check if page was rendered using SSR
+		// if (!import.meta.env.SSR) {
+		// 	// get local storage
+		// 	let artplayer_settings = localStorage.getItem('artplayer_settings');
 
+		// 	// Parse the JSON data from localStorage
+		// 	if (artplayer_settings) {
+		// 		let parsedData = JSON.parse(artplayer_settings);
+		// 		let continueWatching = artPlayerSettings(parsedData);
+		// 		console.log(continueWatching);
+		// 	}
+		// }
 
 		return {
 			trendingAnimes: trending,

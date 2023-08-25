@@ -2,8 +2,8 @@
 	export let trendingAnimes;
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
-	import pre from '$lib/images/pre-carousel.png';
-	import nxt from '$lib/images/nxt-carousel.png';
+	import { pre,nxt } from '$lib';
+
 	let slider, prev, next, radioSlider;
 	let select = 0;
 	onMount(() => {

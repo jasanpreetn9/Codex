@@ -1,4 +1,4 @@
-import { apiUrl } from '$lib/components';
+import { apiUrl } from '$lib/utils';
 import { META } from '@consumet/extensions';
 export async function load({ fetch, params }) {
 	const anilist = new META.Anilist()

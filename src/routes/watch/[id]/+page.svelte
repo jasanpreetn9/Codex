@@ -1,17 +1,19 @@
 <script>
-	import { onMount } from 'svelte';
 	import Artplayer from 'artplayer';
-	import { EpisodeCard, pre, nxt } from '$lib/components';
+	import { onMount } from 'svelte';
+	import { EpisodeCard } from '$lib/components';
+	import { pre, nxt } from '$lib';
+
 	export let data;
 	const { details, episodeSources, currentEpisodeDetail } = data;
 	let artplayer;
-
+	let playing;
 	onMount(() => {
 		artplayer = new Artplayer({
 			id: `${details.id}-${currentEpisodeDetail.number}`,
 			title: `${currentEpisodeDetail.number} - ${currentEpisodeDetail.title}`,
 			container: '.artplayer-container',
-			autoPlayback: true,
+			// autoPlayback: true,
 			pip: true,
 			fullscreen: true,
 			airplay: true,
@@ -32,7 +34,7 @@
 				},
 				{
 					position: 'right',
-					html: `<img width="10" src="${pre}">`,
+					html: `<a href="/"><img width="10" src="${pre}"></a>`,
 					index: 1,
 					tooltip: 'Previous Episode',
 					style: { marginRight: '5px' },
@@ -42,14 +44,12 @@
 				}
 			]
 		});
-		// artplayer.on('video:timeupdate', () => {
-		// 	console.info(artplayer.played);
-		// });
+		setInterval(function () {
+			if (artplayer.playing) {
+				console.log(Math.floor(artplayer.currentTime));
+			}
+		}, 1000);
 	});
-	// setInterval(function () {
-	// 	let storedValue = localStorage.getItem('artplayer_settings');
-	// 	console.log(storedValue);
-	// }, 3000);
 </script>
 
 <main>
@@ -62,8 +62,8 @@
 			<div class="detailmeta">
 				<h1 class="title">E{currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
 				<div class="sub-dubBtn">
-					<button class="logout-login-btn">SUB</button>
-					<button class="logout-login-btn">DUB</button>
+					<a href={"/watch/" + details.id + "?episode=" + (currentEpisodeDetail.number + 1) + "&dub=true"} class="subDub-btn">SUB</a>
+					<a href={"/watch/" + details.id + "?episode=" + (currentEpisodeDetail.number + 1) + "&dub=false"} class="subDub-btn">DUB</a>
 				</div>
 			</div>
 
@@ -81,8 +81,8 @@
 	:root {
 		--ep-card-width: 150px;
 	}
-	.description {
-	}
+	/* .description {
+	} */
 	.title {
 		display: flex;
 		justify-content: center;
@@ -104,19 +104,18 @@
 		height: 500px;
 	}
 
-	.logout-login-btn {
+	.subDub-btn {
 		background: #1f80e0;
-		height: 30px;
-		padding: 0 20px;
+		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
 		border: none;
 		outline: none;
-		font-weight: 500;
-		font-size: 15px;
-		/* margin: 0 10px; */
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 12px;
+		margin: 0 10px;
 		cursor: pointer;
-		margin-top: 2px;
 	}
 	@media (max-width: 756px) {
 		.artplayer-container {
