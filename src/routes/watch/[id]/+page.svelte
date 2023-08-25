@@ -7,7 +7,6 @@
 	export let data;
 	const { details, episodeSources, currentEpisodeDetail } = data;
 	let artplayer;
-	let playing;
 	onMount(() => {
 		artplayer = new Artplayer({
 			id: `${details.id}-${currentEpisodeDetail.number}`,
@@ -44,12 +43,13 @@
 				}
 			]
 		});
-		setInterval(function () {
-			if (artplayer.playing) {
-				console.log(Math.floor(artplayer.currentTime));
-			}
-		}, 1000);
 	});
+
+	setInterval(function () {
+		if (artplayer.playing) {
+			console.log('Current Duration: ' + Math.floor(artplayer.currentTime));
+		}
+	}, 1000);
 </script>
 
 <main>
@@ -62,8 +62,22 @@
 			<div class="detailmeta">
 				<h1 class="title">E{currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
 				<div class="sub-dubBtn">
-					<a href={"/watch/" + details.id + "?episode=" + (currentEpisodeDetail.number + 1) + "&dub=true"} class="subDub-btn">SUB</a>
-					<a href={"/watch/" + details.id + "?episode=" + (currentEpisodeDetail.number + 1) + "&dub=false"} class="subDub-btn">DUB</a>
+					<a
+						href={'/watch/' +
+							details.id +
+							'?episode=' +
+							(currentEpisodeDetail.number + 1) +
+							'&dub=true'}
+						class="subDub-btn">SUB</a
+					>
+					<a
+						href={'/watch/' +
+							details.id +
+							'?episode=' +
+							(currentEpisodeDetail.number + 1) +
+							'&dub=false'}
+						class="subDub-btn">DUB</a
+					>
 				</div>
 			</div>
 

@@ -1,5 +1,5 @@
 <script>
-	export let episodes, session, animeId;
+	export let episodes, animeId;
 	import svgIcon from '$lib/images/filter.png';
 
 	function reverseEpisodes() {
@@ -22,11 +22,11 @@
 						<img src={episode.image} class="video-card-image" alt="" />
 					<div class="card-body">
 						<h2 class="name">{episode.number}: {episode.title}</h2>
-						{#if session}
+<!-- 						
 							<div class="progress-background">
 								<div class="progress" style="width: 100%;" />
 							</div>
-						{/if}
+						 -->
 					</div>
 				</a>
 			</div>

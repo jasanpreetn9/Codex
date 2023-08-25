@@ -14,18 +14,6 @@ export const load = async ({ fetch, context }) => {
 
 		const recentAiringAnimes = await anilist.fetchRecentEpisodes("gogoanime",1,16)
 
-		// Check if page was rendered using SSR
-		// if (!import.meta.env.SSR) {
-		// 	// get local storage
-		// 	let artplayer_settings = localStorage.getItem('artplayer_settings');
-
-		// 	// Parse the JSON data from localStorage
-		// 	if (artplayer_settings) {
-		// 		let parsedData = JSON.parse(artplayer_settings);
-		// 		let continueWatching = artPlayerSettings(parsedData);
-		// 		console.log(continueWatching);
-		// 	}
-		// }
 
 		return {
 			trendingAnimes: trending,

@@ -1,7 +1,7 @@
 // import { apiUrl } from '$lib';
 import { META } from '@consumet/extensions';
 import { redirect } from '@sveltejs/kit';
-
+import {getContinueWatching} from '$lib'
 export async function load({ fetch, params, url }) {
     const episodeNumber = url.searchParams.get('episode') || 1;
     const dubStr = url.searchParams.get('dub') || false;
@@ -35,7 +35,7 @@ export async function load({ fetch, params, url }) {
             return currentQuality > maxQuality ? currentSource : maxSource;
         }, episodeSources[0]);
         maxQualitySource.default = true;
-
+        console.log(getContinueWatching)
         return {
                 details: animeDetails,
                 episodeSources,

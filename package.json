@@ -19,9 +19,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@consumet/extensions": "^1.4.18",
+		"@consumet/extensions": "^1.5.1",
 		"artplayer": "^4.6.2",
-		"pocketbase": "^0.15.3",
 		"siema": "^1.5.1"
 	}
 }
