@@ -47,7 +47,8 @@
 
 	setInterval(function () {
 		if (artplayer.playing) {
-			console.log('Current Duration: ' + Math.floor(artplayer.currentTime));
+			console.log('Current Time: ' + Math.floor(artplayer.currentTime));
+			console.log('Duration: ' + artplayer.duration);
 		}
 	}, 1000);
 </script>
