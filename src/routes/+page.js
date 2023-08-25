@@ -12,7 +12,7 @@ export const load = async ({ fetch, context }) => {
 			}));
 		const popularAnimes = await anilist.fetchPopularAnime(1, 16);
 
-		// const recentAiringAnimes = await anilist.advancedSearch()
+		const recentAiringAnimes = await anilist.fetchRecentEpisodes("gogoanime",1,16)
 
 		// Check if page was rendered using SSR
 		// if (!import.meta.env.SSR) {
@@ -29,8 +29,8 @@ export const load = async ({ fetch, context }) => {
 
 		return {
 			trendingAnimes: trending,
-			popularAnimes: popularAnimes.results
-			// recentAiringAnimes: recentAiringAnimes.result
+			popularAnimes: popularAnimes.results,
+			recentAiringAnimes: recentAiringAnimes.results
 		};
 	} catch (error) {
 		console.log(error);
