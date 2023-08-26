@@ -18,7 +18,7 @@
 	let currentWatchingIndex = continueWatching.findIndex(
 		(item) => item.animeId === parseInt(details.id)
 	);
-	if(currentWatchingIndex < 0) {
+	if (currentWatchingIndex < 0) {
 		continueWatching.push(currentEpisodeDetail);
 		currentWatchingIndex = continueWatching.length - 1;
 	}
@@ -62,8 +62,8 @@
 			]
 		});
 		artplayer.on('start', () => {
-			artplayer.currentTime= continueWatching[currentWatchingIndex].currentTime;
-		})
+			artplayer.currentTime = continueWatching[currentWatchingIndex].currentTime;
+		});
 	});
 
 	setInterval(function () {
@@ -71,7 +71,7 @@
 			// console.log('Current Time: ' + Math.floor(artplayer.currentTime));
 			continueWatching[currentWatchingIndex].duration = artplayer.duration;
 			continueWatching[currentWatchingIndex].currentTime = Math.floor(artplayer.currentTime);
-			localStorage.setItem('continueWatching',JSON.stringify(continueWatching))
+			localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
 		}
 	}, 1000);
 </script>
