@@ -11,9 +11,9 @@
 			}
 		}
 </script>
+<Trending {trendingAnimes} />
 {#if continueWatching.length > 0}
-	 <Trending {trendingAnimes} />
-{/if}
 <EpisodeCard episodes={continueWatching} scrollAble={false} header={"Continue Watching"}/>
+{/if}
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
 <PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} />
