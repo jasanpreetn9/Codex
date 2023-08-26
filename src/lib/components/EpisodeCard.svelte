@@ -1,5 +1,5 @@
 <script>
-	export let episodes, animeId;
+	export let episodes, animeId, scrollAble;
 	import svgIcon from '$lib/images/filter.png';
 
 	function reverseEpisodes() {
@@ -14,19 +14,25 @@
 	</button>
 </div>
 
-<div style="overflow-y: auto; max-height: 400px;">
+<div class={scrollAble ? 'scrollAble' : ''}>
 	<div class="video-card-container">
 		{#each episodes as episode}
 			<div class="video-card">
-				<a href={`/watch/${animeId}?episode=${episode.number}`}>
-						<img src={episode.image} class="video-card-image" alt="" />
+				<!-- <a href={`/watch/${animeId}?episode=${episode.number}`}> -->
+				<a href={'/watch/' + (animeId ? animeId : episode.animeId) + '?episode=' + episode.number}>
+					<img src={episode.image} class="video-card-image" alt="" />
 					<div class="card-body">
-						<h2 class="name">{episode.number}: {episode.title}</h2>
-<!-- 						
+						<h2 class="name" style={scrollAble ? 'margin-top: 38%;' : 'margin-top: 30%;'}>
+							{episode.number}: {episode.title}
+						</h2>
+						{#if episode.duration}
 							<div class="progress-background">
-								<div class="progress" style="width: 100%;" />
+								<div
+									class="progress"
+									style="width: {(episode.currentTime / episode.duration) * 100}%;"
+								/>
 							</div>
-						 -->
+						{/if}
 					</div>
 				</a>
 			</div>
@@ -37,6 +43,10 @@
 <style>
 	a {
 		text-decoration: none;
+	}
+	.scrollAble {
+		overflow-y: auto;
+		max-height: 400px;
 	}
 	.header {
 		display: flex;
@@ -112,7 +122,6 @@
 		color: #fff;
 		font-size: 18px;
 		font-weight: 500;
-		margin-top: 38%;
 		text-transform: capitalize;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;

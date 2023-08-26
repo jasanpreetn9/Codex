@@ -1,11 +1,29 @@
 <script>
+	export let data;
+	const { details, episodeSources, currentEpisodeDetail } = data;
 	import Artplayer from 'artplayer';
 	import { onMount } from 'svelte';
 	import { EpisodeCard } from '$lib/components';
 	import { pre, nxt } from '$lib';
 
-	export let data;
-	const { details, episodeSources, currentEpisodeDetail } = data;
+	let continueWatching = [];
+
+	if (!import.meta.env.SSR) {
+		const storedData = localStorage.getItem('continueWatching');
+		if (storedData) {
+			continueWatching = JSON.parse(storedData);
+		}
+	}
+
+	let currentWatchingIndex = continueWatching.findIndex(
+		(item) => item.animeId === parseInt(details.id)
+	);
+	if(currentWatchingIndex < 0) {
+		continueWatching.push(currentEpisodeDetail);
+		currentWatchingIndex = continueWatching.length - 1;
+	}
+	console.log(currentEpisodeDetail);
+
 	let artplayer;
 	onMount(() => {
 		artplayer = new Artplayer({
@@ -43,12 +61,17 @@
 				}
 			]
 		});
+		artplayer.on('start', () => {
+			artplayer.currentTime= continueWatching[currentWatchingIndex].currentTime;
+		})
 	});
 
 	setInterval(function () {
 		if (artplayer.playing) {
-			console.log('Current Time: ' + Math.floor(artplayer.currentTime));
-			console.log('Duration: ' + artplayer.duration);
+			// console.log('Current Time: ' + Math.floor(artplayer.currentTime));
+			continueWatching[currentWatchingIndex].duration = artplayer.duration;
+			continueWatching[currentWatchingIndex].currentTime = Math.floor(artplayer.currentTime);
+			localStorage.setItem('continueWatching',JSON.stringify(continueWatching))
 		}
 	}, 1000);
 </script>

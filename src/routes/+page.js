@@ -1,24 +1,25 @@
 import { META } from '@consumet/extensions';
+
 export const load = async ({ fetch, context }) => {
 	try {
 		const anilist = new META.Anilist();
-		const trendingAnimes = await anilist.fetchTrendingAnime(1, 16);
-		const trending = trendingAnimes.results
-			.filter((anime) => anime.cover !== anime.image && anime.totalEpisodes !== null)
+
+		const trending = await anilist.fetchTrendingAnime(1, 16);
+		const filteredTrending = trending.results
+			.filter(anime => anime.cover !== anime.image && anime.totalEpisodes !== null)
 			.slice(0, 10)
-			.map((anime) => ({
+			.map(anime => ({
 				...anime,
 				description: anime.description.replace(/<br>|\n/g, '')
 			}));
-		const popularAnimes = await anilist.fetchPopularAnime(1, 16);
 
-		const recentAiringAnimes = await anilist.fetchRecentEpisodes("gogoanime",1,16)
-
+		const popular = await anilist.fetchPopularAnime(1, 16);
+		const recentAiring = await anilist.fetchRecentEpisodes("gogoanime", 1, 16);
 
 		return {
-			trendingAnimes: trending,
-			popularAnimes: popularAnimes.results,
-			recentAiringAnimes: recentAiringAnimes.results
+			trendingAnimes: filteredTrending,
+			popularAnimes: popular.results,
+			recentAiringAnimes: recentAiring.results,
 		};
 	} catch (error) {
 		console.log(error);
