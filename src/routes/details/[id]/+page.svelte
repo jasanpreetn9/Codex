@@ -76,7 +76,7 @@
 						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button>
 					</div>
 					{#if data.type.toLowerCase() !== "movie"}
-						 <EpisodeCard episodes={data.episodes} animeId={data.id} scrollAble={true}  header={"Episodes"}/>
+						 <EpisodeCard episodes={data.episodes} animeId={data.id} scrollAble={true}  header={"Episodes"} filter={true}/>
 					{/if}
 					<PosterCardList animes={data.recommendations} heading={'Recommended'} />
 

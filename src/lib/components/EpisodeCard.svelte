@@ -1,5 +1,5 @@
 <script>
-	export let episodes, animeId, scrollAble, header;
+	export let episodes, animeId, scrollAble, header,filter;
 	import svgIcon from '$lib/images/filter.png';
 
 	function reverseEpisodes() {
@@ -9,9 +9,11 @@
 
 <div class="header">
 	<h1 class="title">{header}</h1>
-	<button class="filter" on:click={reverseEpisodes}>
-		<img src={svgIcon} alt="Filter" />
-	</button>
+	{#if filter}
+		 <button class="filter" on:click={reverseEpisodes}>
+			<img src={svgIcon} alt="Filter" />
+		</button>
+		{/if}
 </div>
 
 <div class={scrollAble ? 'scrollAble' : ''}>
