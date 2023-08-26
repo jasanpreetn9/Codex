@@ -22,7 +22,7 @@
 		continueWatching.push(currentEpisodeDetail);
 		currentWatchingIndex = continueWatching.length - 1;
 	}
-	console.log(currentEpisodeDetail);
+	continueWatching[currentWatchingIndex].animeTitle= details.title.english;
 
 	let artplayer;
 	onMount(() => {
