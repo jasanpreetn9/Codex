@@ -21,7 +21,7 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<!-- <a href={`/watch/${animeId}?episode=${episode.number}`}> -->
-				<a href={'/watch/' + (animeId ? animeId : episode.animeId) + '?episode=' + episode.number}>
+				<a href={'/watch/' + (animeId ? animeId : episode.animeId) + '?episode=' + episode.number} data-sveltekit-prefetch="true">
 					<img src={episode.image} class="video-card-image" alt="" />
 					<div class="card-body">
 						<h2 class="name" style={scrollAble ? 'margin-top: 38%;' : 'margin-top: 30%;'}>

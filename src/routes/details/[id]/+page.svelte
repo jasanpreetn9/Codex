@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	import { goto } from '$app/navigation';
-	import {EpisodeCard,PosterCardList} from '$lib/components'
+	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
 <div class="carousel-container">
@@ -65,21 +65,29 @@
 				</div>
 				<div class="content-right">
 					<div class="summary">
-
 						<h1 class="anime-title">
 							{data.title.english?.toLowerCase() ?? data.title.romaji.toLowerCase()}
 						</h1>
 						{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
-						<h1 class="anime-title-native">{data.title.native}</h1>
+							<h1 class="anime-title-native">{data.title.native}</h1>
 						{/if}
-						<p class="anime-des">{@html data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g,'')}</p>
-						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button>
+						<p class="anime-des">
+							{@html data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
+						</p>
+						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn"
+							>Watch Now</button
+						>
 					</div>
-					{#if data.type.toLowerCase() !== "movie"}
-						 <EpisodeCard episodes={data.episodes} animeId={data.id} scrollAble={true}  header={"Episodes"} filter={true}/>
+					{#if data.type.toLowerCase() !== 'movie'}
+						<EpisodeCard
+							episodes={data.episodes}
+							animeId={data.id}
+							scrollAble={true}
+							header={'Episodes'}
+							filter={true}
+						/>
 					{/if}
 					<PosterCardList animes={data.recommendations} heading={'Recommended'} />
-
 				</div>
 			</div>
 		</div>
@@ -193,34 +201,35 @@
 		padding: 20px;
 		/* width: 100%; */
 		width: 280px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Creates grid columns with minimum width of 240px and maximum 1fr (equal width) */
-    /* gap: 10px; Adds a gap between the detail items */
-    margin-top: 20px;
-	
-  }
+		display: grid;
+		grid-template-columns: repeat(
+			auto-fill,
+			minmax(150px, 1fr)
+		); /* Creates grid columns with minimum width of 240px and maximum 1fr (equal width) */
+		/* gap: 10px; Adds a gap between the detail items */
+		margin-top: 20px;
+	}
 
-  .detail-item {
-    padding-bottom: 5px;
-    text-transform: capitalize;
-	
-  }
+	.detail-item {
+		padding-bottom: 5px;
+		text-transform: capitalize;
+	}
 
-  .detail-item p {
-    font-size: 15px;
-    font-weight: 700;
-  }
+	.detail-item p {
+		font-size: 15px;
+		font-weight: 700;
+	}
 
-  .detail-item span {
-    font-size: 15px;
-    line-height: 1.3;
-    font-weight: 500;
-    text-transform: capitalize;
-  }
+	.detail-item span {
+		font-size: 15px;
+		line-height: 1.3;
+		font-weight: 500;
+		text-transform: capitalize;
+	}
 
-  .detail-item span a {
-    color: white;
-  }
+	.detail-item span a {
+		color: white;
+	}
 	.anime-title {
 		text-transform: capitalize;
 		margin-top: 80px;
@@ -258,7 +267,8 @@
 		.slider {
 			display: none;
 		}
-		.content-left, .content  {
+		.content-left,
+		.content {
 			margin: 0;
 		}
 		.content-top {
@@ -270,11 +280,12 @@
 		.content-left {
 			width: 100%;
 		}
-		.poster, .details {
+		.poster,
+		.details {
 			width: 100%;
 		}
 		.content-right {
-		margin-left: 0px;
-	}
+			margin-left: 0px;
+		}
 	}
 </style>

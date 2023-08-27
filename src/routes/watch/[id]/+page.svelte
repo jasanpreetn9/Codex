@@ -8,11 +8,9 @@
 
 	let continueWatching = [];
 
-	if (!import.meta.env.SSR) {
-		const storedData = localStorage.getItem('continueWatching');
-		if (storedData) {
-			continueWatching = JSON.parse(storedData);
-		}
+	const storedData = localStorage.getItem('continueWatching');
+	if (storedData) {
+		continueWatching = JSON.parse(storedData);
 	}
 
 	let currentWatchingIndex = continueWatching.findIndex(
@@ -22,7 +20,7 @@
 		continueWatching.push(currentEpisodeDetail);
 		currentWatchingIndex = continueWatching.length - 1;
 	}
-	continueWatching[currentWatchingIndex].animeTitle= details.title.english;
+	continueWatching[currentWatchingIndex].animeTitle = details.title.english;
 
 	let artplayer;
 	onMount(() => {
@@ -83,7 +81,7 @@
 
 	<div class="details">
 		<div class="container-left">
-			<div class="detailmeta">
+			<div class="details">
 				<h1 class="title">E{currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
 				<div class="sub-dubBtn">
 					<a
@@ -106,7 +104,13 @@
 			</div>
 
 			<p class="description">{currentEpisodeDetail.description}</p>
-			<EpisodeCard episodes={details.episodes} animeId={details.id} />
+			<EpisodeCard
+				episodes={details.episodes}
+				animeId={details.id}
+				scrollable={true}
+				filter={true}
+				header={'Episodes'}
+			/>
 		</div>
 	</div>
 </main>
@@ -127,19 +131,19 @@
 	}
 
 	.video {
-		display: flex;
 		flex-direction: row;
 		width: 100%;
 	}
-	.detailmeta {
+	.artplayer-container {
+		aspect-ratio: 16/9;
+		/* height: 500px; */
+	}
+	.details {
 		display: flex;
+		flex-direction: columns;
 		justify-content: center;
 		gap: 20px;
 		padding: 20px;
-	}
-	.artplayer-container {
-		aspect-ratio: 16/9;
-		height: 500px;
 	}
 
 	.subDub-btn {

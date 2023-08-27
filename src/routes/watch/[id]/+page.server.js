@@ -1,7 +1,6 @@
 // import { apiUrl } from '$lib';
 import { META } from '@consumet/extensions';
 import { redirect } from '@sveltejs/kit';
-import {getContinueWatching} from '$lib'
 export async function load({ fetch, params, url }) {
     const episodeNumber = url.searchParams.get('episode') || 1;
     const dubStr = url.searchParams.get('dub') || false;
@@ -12,9 +11,8 @@ export async function load({ fetch, params, url }) {
         const animeDetails = await anilist.fetchAnimeInfo(params.id, dubBool);
 
         const currentEpisodeDetail = animeDetails.episodes.find(episode => episode.number == episodeNumber);
-        if (!currentEpisodeDetail) {
-            return redirect(`/watch/${animeDetails.id}?episode=1`);
-        }
+        
+        console.log(currentEpisodeDetail);
 
         const episodeUrlsResponse = await fetch(`https://api.consumet.org/meta/anilist/watch/${currentEpisodeDetail.id}`);
         const episodeUrls = await episodeUrlsResponse.json();
@@ -35,7 +33,6 @@ export async function load({ fetch, params, url }) {
             return currentQuality > maxQuality ? currentSource : maxSource;
         }, episodeSources[0]);
         maxQualitySource.default = true;
-        console.log(getContinueWatching)
         return {
                 details: animeDetails,
                 episodeSources,
