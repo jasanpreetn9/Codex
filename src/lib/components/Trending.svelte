@@ -121,11 +121,9 @@
 	}
 
 	.carousel {
-		width: 100%;
-		height: 100%;
 		position: relative;
 		margin: auto;
-		height: 350px;
+		height: 300px;
 		border-radius: 5px;
 	}
 
@@ -146,7 +144,7 @@
 		/* display: block; */
 		margin: 0 auto;
 		height: 100%;
-		width: 100%;
+		/* width: 100%; */
 		object-fit: cover;
 		opacity: 0.7;
 		border-radius: 5px;
@@ -166,7 +164,7 @@
 		max-width: 300px; /* Adjust the max-width as needed */
 		text-transform: capitalize;
 		margin-top: 20px;
-		font-size: 30px;
+		font-size: 27px;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -184,7 +182,7 @@
 		padding: 6px;
 		border-radius: 16px;
 		text-align: center;
-		font-size: 16px;
+		font-size: 14px;
 		margin-right: 3px;
 		opacity: 85%;
 		display: flex;
@@ -207,13 +205,14 @@
 
 	.anime-des {
 		width: 40%;
-		line-height: 30px;
+		line-height: 24px;
 		margin-top: 5px;
 		opacity: 0.9;
 		display: -webkit-box;
 		-webkit-line-clamp: 4;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		font-size: 14px;
 	}
 
 	button {
