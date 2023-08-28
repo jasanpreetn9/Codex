@@ -83,7 +83,7 @@
     color: #fff;
 	}
 
-	.card-body .name {		
+	.card-body .name {
 		font-size: 1.1em;
 		font-weight: 500;
 		text-transform: capitalize;
@@ -128,7 +128,7 @@
 			grid-template-columns: repeat(6, 1fr);
 		}
 		.name {
-			font-size: 1em; 
+			font-size: 1em;
 		}
 	}
 
@@ -195,6 +195,8 @@
 		width: 100%;
 		border-radius: 5px;
 		overflow: hidden;
+		font-size: 14px;
+		
 	}
 
 	.card-img {
@@ -251,7 +253,7 @@
 			grid-template-columns: repeat(6, 1fr);
 		}
 		.name {
-			font-size: 1em; 
+			font-size: 1em;
 		}
 	}
 
