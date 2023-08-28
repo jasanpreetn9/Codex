@@ -1,27 +1,34 @@
 <script>
 	import { goto } from '$app/navigation';
-	import logo from "$lib/images/logo.png"
+	import logo from '$lib/images/logo.png';
+  import userIcon from '$lib/images/user.svg';
 	import '$lib/global.css';
 	let inputValue = '';
 </script>
 
 <svelte:head>
-	<title>Codex</title> 
+	<title>Codex</title>
 	<link rel="icon" href={logo} />
 </svelte:head>
 
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
-
-	<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
-		<input
-			type="text"
-			id="search-box"
-			class="search-box"
-			bind:value={inputValue}
-			placeholder="search"
-		/>
-	</form>
+	<div class="search-tools">
+		<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
+			<input
+				type="text"
+				id="search-box"
+				class="search-box"
+				bind:value={inputValue}
+				placeholder="search"
+			/>
+		</form>
+    <div>
+      <a href="#" class="login-button">
+        <img src="{userIcon}" alt="user" width="15px" height="15px" />
+      </a>
+    </div>
+	</div>
 	<!-- <a href="/login" class="login-btn">Login</a> -->
 </nav>
 <main>
@@ -42,7 +49,8 @@
 		background: linear-gradient(#0d111a, 90%, transparent);
 		z-index: 9;
 		display: flex;
-		align-items: center;
+		justify-content: space-between;
+    align-items: center;
 	}
 
 	/* .nav-links {
@@ -76,33 +84,39 @@
 		margin-left: auto;
 	}
 
+  .search-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 	.search-box {
 		border: none;
-		border-bottom: 1px solid #aaa;
-		background: transparent;
+		background: #161b24;
 		outline: none;
 		height: 30px;
 		color: #fff;
-		width: 250px;
+		width: 400px;
 		text-transform: capitalize;
 		font-size: 16px;
 		font-weight: 500;
 		transition: 0.5s;
+		padding: 18px 12px;
+		border-radius: 12px;
+		font-size: 13px;
+		font-weight: 600;
 	}
 
-	/* .login-btn {
-		background: #1f80e0;
-		padding: 10px;
-		color: #fff;
-		border-radius: 5px;
+  .login-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 		border: none;
+		background: #161b24;
 		outline: none;
-		text-transform: uppercase;
-		font-weight: 700;
-		font-size: 12px;
-		margin: 0 10px;
-		cursor: pointer;
-	} */
+		padding: 10px;
+		border-radius: 999px;
+	}
+
 	main {
 		margin-top: 80px;
 		padding: 0 4%;
