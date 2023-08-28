@@ -88,8 +88,8 @@
 	.video-card-container {
 		display: grid;
 		gap: 0.6em;
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		grid-template-rows: repeat(auto-fill, minmax(150px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+		/* grid-template-rows: repeat(auto-fill, minmax(150px, 1fr)); */
 	}
 
 	.video-card {
@@ -116,11 +116,11 @@
 
 	.name {
 		color: #fff;
-		font-size: 18px;
+		font-size: 15px;
 		font-weight: 500;
 		text-transform: capitalize;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
