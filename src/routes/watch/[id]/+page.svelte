@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { EpisodeCard } from '$lib/components';
 	import { pre, nxt } from '$lib';
-
+console.log(episodeSources)
 	let continueWatching = [];
 
 	const storedData = localStorage.getItem('continueWatching');
