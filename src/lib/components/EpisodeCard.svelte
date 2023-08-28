@@ -1,6 +1,7 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
 	import svgIcon from '$lib/images/filter.png';
+	import {filterIcon} from '$lib'
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -20,8 +21,7 @@
 	<h1 class="title">{header}</h1>
 	{#if filter}
 		<button class="filter" on:click={toggleFilter}>
-			<h1 class="filtervalue">{filterState ? 'Increasing Episodes' : 'Decreasing Episodes'}</h1>
-			<img src={svgIcon} alt="Filter" />
+			<img style={filterState ? "transform: scaleY(-1);" : ""} src={filterIcon} alt="Filter" />
 		</button>
 	{/if}
 </div>
@@ -77,29 +77,23 @@
 	}
 	.title {
 		margin-top: 10px;
-		color: #fff;
 		opacity: 0.9;
 		text-transform: capitalize;
-		font-size: 22px;
+		font-size: 19px;
 		font-weight: 500;
-		margin-left: 23px;
 	}
 
 	.filter img {
-		height: 17px;
+		height:20px;
 	}
 	.filter {
 		cursor: pointer;
 		background-color: transparent;
 		border: none;
 		display: flex;
-		padding-top: 20px;
+		padding-top: 13px;
 	}
-	.filtervalue {
-		color: white;
-		font-size: 10px;
-		margin-right: 10px;
-	}
+
 	.video-card-container {
 		display: grid;
 		gap: 0.6em;
