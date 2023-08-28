@@ -12,7 +12,6 @@ export async function load({ fetch, params, url }) {
 
         const currentEpisodeDetail = animeDetails.episodes.find(episode => episode.number == episodeNumber);
         
-        console.log(currentEpisodeDetail);
 
         const episodeUrlsResponse = await fetch(`https://api.consumet.org/meta/anilist/watch/${currentEpisodeDetail.id}`);
         const episodeUrls = await episodeUrlsResponse.json();

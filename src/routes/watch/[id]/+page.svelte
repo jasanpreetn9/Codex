@@ -21,6 +21,7 @@
 		currentWatchingIndex = continueWatching.length - 1;
 	}
 	continueWatching[currentWatchingIndex].animeTitle = details.title.english;
+	continueWatching[currentWatchingIndex].animeId = details.id;
 
 	let artplayer;
 	onMount(() => {
