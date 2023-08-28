@@ -51,6 +51,8 @@
 		display: flex;
 		justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0 20px;
 	}
 
 	/* .nav-links {
@@ -88,6 +90,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex: 1;
   }
 	.search-box {
 		border: none;
@@ -121,4 +124,15 @@
 		margin-top: 80px;
 		padding: 0 4%;
 	}
+
+  @media (max-width: 850px) {
+    .search-box {
+      min-width: 200px;
+      width: 100%;
+    }
+
+    .right-container {
+      flex: 1;
+    }
+  }
 </style>
