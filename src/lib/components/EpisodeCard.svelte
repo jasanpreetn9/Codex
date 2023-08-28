@@ -5,16 +5,22 @@
 		episodes = episodes.slice().reverse();
 	}
 	function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-    }
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = Math.floor(seconds % 60);
+		return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+	}
+	let filterState = false;
+	function toggleFilter() {
+		filterState = !filterState;
+		reverseEpisodes()
+	}
 </script>
 
 <div class="header">
 	<h1 class="title">{header}</h1>
 	{#if filter}
-		<button class="filter" on:click={reverseEpisodes}>
+		<button class="filter" on:click={toggleFilter}>
+			<h1 class="filtervalue">{filterState ? 'Increasing Episodes' : 'Decreasing Episodes'}</h1>
 			<img src={svgIcon} alt="Filter" />
 		</button>
 	{/if}
@@ -45,7 +51,8 @@
 							</div>
 							<div class="progress-duration-container">
 								<span class="progress-duration"
-									>{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) || '--:--'}</span
+									>{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) ||
+										'--:--'}</span
 								>
 							</div>
 						{/if}
@@ -75,6 +82,7 @@
 		text-transform: capitalize;
 		font-size: 22px;
 		font-weight: 500;
+		margin-left: 23px;
 	}
 
 	.filter img {
@@ -84,6 +92,13 @@
 		cursor: pointer;
 		background-color: transparent;
 		border: none;
+		display: flex;
+		padding-top: 20px;
+	}
+	.filtervalue {
+		color: white;
+		font-size: 10px;
+		margin-right: 10px;
 	}
 	.video-card-container {
 		display: grid;
