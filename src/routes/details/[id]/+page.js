@@ -4,7 +4,7 @@ export async function load({ fetch, params, url }) {
 	let dub = url.searchParams.get('dub') || false;
 
 	try {
-		const anilist = new META.Anilist();
+		const anilist = new META.Anilist(undefined, {url: "https://cors-anywhere.marsnebulasoup.workers.dev?"});
 		const respData = await anilist.fetchAnimeInfo(params.id, dub);
 		respData.relations = respData.relations.filter(
 			(relation) => relation.relationType === 'PREQUEL' || relation.relationType === 'SEQUEL'
