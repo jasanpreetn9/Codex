@@ -1,10 +1,11 @@
 import { META } from '@consumet/extensions';
+import { proxyUrl } from '$lib';
 
 export async function load({ fetch, params, url }) {
 	let dub = url.searchParams.get('dub') || false;
 
 	try {
-		const anilist = new META.Anilist(undefined, {url: "https://proxy.jasanpreetn9.workers.dev/?"});
+		const anilist = new META.Anilist(undefined, {url: proxyUrl});
 		const respData = await anilist.fetchAnimeInfo(params.id, dub);
 		respData.relations = respData.relations.filter(
 			(relation) => relation.relationType === 'PREQUEL' || relation.relationType === 'SEQUEL'

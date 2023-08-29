@@ -1,13 +1,14 @@
 // import { apiUrl } from '$lib';
 import { META,PROVIDERS_LIST } from '@consumet/extensions';
 import { redirect } from '@sveltejs/kit';
+import {proxyUrl} from '$lib'
 export async function load({ fetch, params, url }) {
     const episodeNumber = url.searchParams.get('episode') || 1;
     const dubStr = url.searchParams.get('dub') || false;
     var dubBool = (dubStr?.toLowerCase?.() === 'true');
     
     try {
-		const anilist = new META.Anilist(undefined, {url: "https://proxy.jasanpreetn9.workers.dev/?"});
+		const anilist = new META.Anilist(undefined, {url: proxyUrl});
         const animeDetails = await anilist.fetchAnimeInfo(params.id, dubBool);
 
         const currentEpisodeDetail = animeDetails.episodes.find(episode => episode.number == episodeNumber);

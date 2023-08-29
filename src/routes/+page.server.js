@@ -1,8 +1,9 @@
 import { META } from '@consumet/extensions';
+import {proxyUrl} from '$lib'
 
 export const load = async ({ fetch, context }) => {
 	try {
-		const anilist = new META.Anilist(undefined, {url: "https://proxy.jasanpreetn9.workers.dev/?"});
+		const anilist = new META.Anilist(undefined, {url: proxyUrl});
 
 		const trending = await anilist.fetchTrendingAnime(1, 16);
 		const filteredTrending = trending.results

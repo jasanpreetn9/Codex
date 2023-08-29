@@ -4,7 +4,7 @@ import filterIcon from '$lib/images/filter-icon.png';
 
 export {nxt,pre,filterIcon }
 export const apiUrl = 'https://api.consumet.org';
-
+export const proxyUrl = "https://proxy.jasanpreetn9.workers.dev/?";
 
 const { randomBytes } = await import('node:crypto');
 
