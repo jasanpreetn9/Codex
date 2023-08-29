@@ -1,5 +1,5 @@
 // import { apiUrl } from '$lib';
-import { META } from '@consumet/extensions';
+import { META,PROVIDERS_LIST } from '@consumet/extensions';
 import { redirect } from '@sveltejs/kit';
 export async function load({ fetch, params, url }) {
     const episodeNumber = url.searchParams.get('episode') || 1;
@@ -17,10 +17,13 @@ export async function load({ fetch, params, url }) {
         const episodeUrlsResponse = await fetch(`https://api.consumet.org/meta/anilist/watch/${currentEpisodeDetail.id}`);
         const episodeUrls = await episodeUrlsResponse.json();
 
+
+        if (!episodeUrls) {
+            return redirect(`/watch/${animeDetails.id}?episode=1`);
+        }
         const filteredSources = episodeUrls.sources.filter(element =>
             element.quality !== 'default' && element.quality !== 'backup'
         );
-
         const episodeSources = filteredSources.map(element => ({
             url: element.url,
             html: element.quality.replace('p', ''),
@@ -37,6 +40,7 @@ export async function load({ fetch, params, url }) {
                 details: animeDetails,
                 episodeSources,
                 currentEpisodeDetail,
+                // providerList: PROVIDERS_LIST
         };
     } catch (error) {
         console.error('An error occurred:', error);

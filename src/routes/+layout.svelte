@@ -3,6 +3,7 @@
 	import logo from '$lib/images/logo.png';
 	import userIcon from '$lib/images/user.svg';
 	import '$lib/global.css';
+	export let data;
 	let inputValue = '';
 </script>
 
@@ -31,6 +32,18 @@
 			<a href="/login">
 				<p class="loginp">Login</p>
 			</a>
+			{#if !data.user}
+				 <a href="/login" class="login-button">
+					 <p>Login</p>
+				 </a>
+			{:else}
+				 <a href="/" class="login-button">
+					 <img src={userIcon} alt="user" width="15px" height="15px" />
+				 </a>
+				 <form action="/logout" method="POST">
+					<button type="submit">Logout</button>
+				</form>
+			{/if}
 		</div>
 	</div>
 	<!-- <a href="/login" class="login-btn">Login</a> -->
