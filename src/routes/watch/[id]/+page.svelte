@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	const { details, episodeSources, currentEpisodeDetail } = data;
+	const { details, episodeSources, currentEpisodeDetail,providerList } = data;
 	import Artplayer from 'artplayer';
 	import { onMount } from 'svelte';
 	import { EpisodeCard } from '$lib/components';
