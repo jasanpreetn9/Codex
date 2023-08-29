@@ -21,6 +21,9 @@
 	"dependencies": {
 		"@consumet/extensions": "^1.5.1",
 		"artplayer": "^4.6.2",
+		"install": "^0.13.0",
+		"npm": "^9.8.1",
+		"pocketbase": "^0.17.2",
 		"siema": "^1.5.1"
 	}
 }

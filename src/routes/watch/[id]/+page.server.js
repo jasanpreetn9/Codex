@@ -38,7 +38,7 @@ export async function load({ fetch, params, url }) {
                 details: animeDetails,
                 episodeSources,
                 currentEpisodeDetail,
-                providerList: PROVIDERS_LIST
+                // providerList: PROVIDERS_LIST
         };
     } catch (error) {
         console.error('An error occurred:', error);
