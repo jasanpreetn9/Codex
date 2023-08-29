@@ -1,7 +1,7 @@
-<!-- <script>
+<script>
 	export let animes, heading;
 </script>
-
+<!-- 
 <h1 class="title">{heading}</h1>
 <div class="cards-list">
 	<div class="card-container">
@@ -142,9 +142,6 @@
 	} */
 </style> -->
 
-<script>
-	export let animes, heading;
-</script>
 
 <h1 class="title">{heading}</h1>
 <div class="cards-list">

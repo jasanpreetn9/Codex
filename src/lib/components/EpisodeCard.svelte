@@ -1,6 +1,6 @@
 <script>
+
 	export let episodes, animeId, scrollAble, header, filter;
-	import svgIcon from '$lib/images/filter.png';
 	import {filterIcon} from '$lib'
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();

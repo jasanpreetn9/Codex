@@ -36,10 +36,10 @@
 				 <form action="/logout" method="POST">
 					<button type="submit">Logout</button>
 				</form>
+				
 			{/if}
 		</div>
 	</div>
-	<!-- <a href="/login" class="login-btn">Login</a> -->
 </nav>
 <main>
 	<slot />
