@@ -12,11 +12,9 @@
 	if (storedData) {
 		continueWatching = JSON.parse(storedData);
 	}
-console.log(continueWatching)
 	let currentWatchingIndex = continueWatching.findIndex(
 		(item) => parseInt(item.animeId) === parseInt(details.id)
 	);
-	console.log(currentWatchingIndex)
 	if (currentWatchingIndex < 0) {
 		continueWatching.push(currentEpisodeDetail);
 		currentWatchingIndex = continueWatching.length - 1;
@@ -68,7 +66,6 @@ console.log(continueWatching)
 
 	setInterval(function () {
 		if (artplayer.playing) {
-			// console.log('Current Time: ' + Math.floor(artplayer.currentTime));
 			continueWatching[currentWatchingIndex].duration = artplayer.duration;
 			continueWatching[currentWatchingIndex].currentTime = Math.floor(artplayer.currentTime);
 			localStorage.setItem('continueWatching', JSON.stringify(continueWatching));

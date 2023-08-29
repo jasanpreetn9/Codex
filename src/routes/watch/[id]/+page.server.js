@@ -10,7 +10,6 @@ export async function load({ fetch, params, url }) {
     try {
 		const anilist = new META.Anilist(undefined, {url: proxyUrl});
         const animeDetails = await anilist.fetchAnimeInfo(params.id, dubBool);
-        console.log(animeDetails)
 
         const currentEpisodeDetail = animeDetails.episodes.find(episode => episode.number == episodeNumber);
 
