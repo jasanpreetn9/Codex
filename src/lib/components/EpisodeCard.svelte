@@ -1,6 +1,4 @@
 <script>
-	import { EpisodeCard } from '$lib/components';
-
 	export let episodes, animeId, scrollAble, header, filter;
 	import {filterIcon,proxyUrl} from '$lib'
 	function reverseEpisodes() {

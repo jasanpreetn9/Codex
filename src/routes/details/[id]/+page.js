@@ -1,12 +1,11 @@
 import { META } from '@consumet/extensions';
 import { proxyUrl } from '$lib';
 
-export async function load({ fetch, params, url }) {
-	let dub = url.searchParams.get('dub') || false;
+export async function load({params}) {
 
 	try {
 		const anilist = new META.Anilist(undefined, {url: proxyUrl});
-		const respData = await anilist.fetchAnimeInfo(params.id, dub);
+		const respData = await anilist.fetchAnimeInfo(params.id);
 		respData.relations = respData.relations.filter(
 			(relation) => relation.relationType === 'PREQUEL' || relation.relationType === 'SEQUEL'
 		);
