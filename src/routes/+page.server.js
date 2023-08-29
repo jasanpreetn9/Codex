@@ -2,7 +2,7 @@ import { META } from '@consumet/extensions';
 
 export const load = async ({ fetch, context }) => {
 	try {
-		const anilist = new META.Anilist();
+		const anilist = new META.Anilist(undefined, {url: "https://proxy.jasanpreetn9.workers.dev/?"});
 
 		const trending = await anilist.fetchTrendingAnime(1, 16);
 		const filteredTrending = trending.results

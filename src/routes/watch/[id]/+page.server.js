@@ -7,26 +7,30 @@ export async function load({ fetch, params, url }) {
     var dubBool = (dubStr?.toLowerCase?.() === 'true');
     
     try {
-        const anilist = new META.Anilist();
+		const anilist = new META.Anilist(undefined, {url: "https://proxy.jasanpreetn9.workers.dev/?"});
         const animeDetails = await anilist.fetchAnimeInfo(params.id, dubBool);
 
         const currentEpisodeDetail = animeDetails.episodes.find(episode => episode.number == episodeNumber);
         
 
-        const episodeUrlsResponse = await fetch(`https://api.consumet.org/meta/anilist/watch/${currentEpisodeDetail.id}`);
-        const episodeUrls = await episodeUrlsResponse.json();
-        
+        const episodeUrls = await anilist.fetchEpisodeSources(currentEpisodeDetail.id)
+        // const episodeUrls = await episodeUrlsResponse.json();
+
         if (!episodeUrls) {
             return redirect(`/watch/${animeDetails.id}?episode=1`);
         }
-        const filteredSources = episodeUrls.sources.filter(element =>
+        const episodeSources = episodeUrls.sources.filter(element =>
             element.quality !== 'default' && element.quality !== 'backup'
-        );
-        const episodeSources = filteredSources.map(element => ({
+        ).map(element => ({
             url: element.url,
             html: element.quality.replace('p', ''),
             default: false
         }));
+        // const episodeSources = filteredSources.map(element => ({
+        //     url: element.url,
+        //     html: element.quality.replace('p', ''),
+        //     default: false
+        // }));
 
         const maxQualitySource = episodeSources.reduce((maxSource, currentSource) => {
             const currentQuality = parseInt(currentSource.html);
@@ -34,6 +38,7 @@ export async function load({ fetch, params, url }) {
             return currentQuality > maxQuality ? currentSource : maxSource;
         }, episodeSources[0]);
         maxQualitySource.default = true;
+
         return {
                 details: animeDetails,
                 episodeSources,

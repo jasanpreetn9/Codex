@@ -12,10 +12,11 @@
 	if (storedData) {
 		continueWatching = JSON.parse(storedData);
 	}
-
+console.log(continueWatching)
 	let currentWatchingIndex = continueWatching.findIndex(
-		(item) => item.animeId === parseInt(details.id)
+		(item) => parseInt(item.animeId) === parseInt(details.id)
 	);
+	console.log(currentWatchingIndex)
 	if (currentWatchingIndex < 0) {
 		continueWatching.push(currentEpisodeDetail);
 		currentWatchingIndex = continueWatching.length - 1;

@@ -37,7 +37,7 @@
 				>
 					<div
 						class="card-body"
-						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({episode.image})"
+						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url(https://proxy.jasanpreetn9.workers.dev/?{episode.image})"
 					>
 						<h2 class="name">
 							{episode.number}: {episode.title}
