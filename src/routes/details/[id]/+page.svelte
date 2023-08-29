@@ -138,7 +138,7 @@
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(to top, #0c111b, #0c111b00);
+		background: linear-gradient(to top,#0c111b,#0c111b00);
 	}
 	.content {
 		margin-top: 135px;
@@ -158,7 +158,7 @@
 		width: 100%;
 	}
 	.poster {
-		width: 280px;
+		width: 220px;
 		border-radius: 7px;
 	}
 	/* .details {
@@ -200,13 +200,9 @@
 		border-radius: 7px;
 		padding: 20px;
 		/* width: 100%; */
-		width: 280px;
+		width: 220px;
 		display: grid;
-		grid-template-columns: repeat(
-			auto-fill,
-			minmax(150px, 1fr)
-		); /* Creates grid columns with minimum width of 240px and maximum 1fr (equal width) */
-		/* gap: 10px; Adds a gap between the detail items */
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		margin-top: 20px;
 	}
 
@@ -216,12 +212,12 @@
 	}
 
 	.detail-item p {
-		font-size: 15px;
+		font-size: 12px;
 		font-weight: 700;
 	}
 
 	.detail-item span {
-		font-size: 15px;
+		font-size: 12px;
 		line-height: 1.3;
 		font-weight: 500;
 		text-transform: capitalize;
@@ -234,9 +230,10 @@
 		text-transform: capitalize;
 		margin-top: 80px;
 		font-weight: 550;
+		font-size: 26px;
 	}
 	.anime-title-native {
-		font-size: 20px;
+		font-size: 18px;
 		font-weight: 400;
 	}
 	.anime-des {
@@ -244,24 +241,25 @@
 		line-height: 22px;
 		margin-top: 15px;
 		opacity: 0.8;
+		font-size: 14px;
 	}
 	.watch-btn {
 		background: #1f80e0;
-		height: 40px;
-		padding: 0 20px;
+		height: 33px;
+		padding: 0 15px;
 		color: #fff;
 		border-radius: 5px;
 		border: none;
 		outline: none;
 		text-transform: uppercase;
-		font-weight: 700;
-		font-size: 15px;
-		margin-top: 20px;
+		font-weight: 500;
+		font-size: 12px;
+		margin-top: 10px;
 		/* margin-bottom: 40px; */
 		cursor: pointer;
 	}
 	.summary {
-		min-height: 300px;
+		min-height: 200px;
 	}
 	@media (max-width: 850px) {
 		.slider {

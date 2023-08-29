@@ -21,6 +21,7 @@
 		currentWatchingIndex = continueWatching.length - 1;
 	}
 	continueWatching[currentWatchingIndex].animeTitle = details.title.english;
+	continueWatching[currentWatchingIndex].animeId = details.id;
 
 	let artplayer;
 	onMount(() => {
@@ -78,11 +79,15 @@
 	<div class="video">
 		<div class="artplayer-container" />
 	</div>
+	<div class="blank" />
 
 	<div class="details">
 		<div class="container-left">
 			<div class="details">
-				<h1 class="title">E{currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
+				<h1 class="title">Episode {currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
+				<div class="reviews">
+
+				</div>
 				<div class="sub-dubBtn">
 					<a
 						href={'/watch/' +
@@ -103,7 +108,10 @@
 				</div>
 			</div>
 
+
+
 			<p class="description">{currentEpisodeDetail.description}</p>
+			<div class="episodeCards">
 			<EpisodeCard
 				episodes={details.episodes}
 				animeId={details.id}
@@ -111,6 +119,7 @@
 				filter={true}
 				header={'Episodes'}
 			/>
+		</div>
 		</div>
 	</div>
 </main>
@@ -120,30 +129,42 @@
 		color: white;
 	}
 
+	.blank {
+		padding: 40px;
+	}
 	:root {
 		--ep-card-width: 150px;
 	}
 	/* .description {
 	} */
 	.title {
-		display: flex;
-		justify-content: center;
+		margin-bottom: 10px;
+		padding: 17px;
 	}
 
 	.video {
 		flex-direction: row;
 		width: 100%;
 	}
+	.episodeCards{
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+	}
 	.artplayer-container {
 		aspect-ratio: 16/9;
 		/* height: 500px; */
 	}
 	.details {
-		display: flex;
-		flex-direction: columns;
-		justify-content: center;
 		gap: 20px;
-		padding: 20px;
+		padding: 0px 5px;
+		padding-bottom: 20px;
+		background: #121821;
+		border-radius: 10px;
+	}
+	.description{
+		color: rgb(147, 147, 147);
+		margin: 5px 25px;
 	}
 
 	.subDub-btn {
@@ -155,8 +176,9 @@
 		outline: none;
 		text-transform: uppercase;
 		font-weight: 700;
+		margin: 20px;
 		font-size: 12px;
-		margin: 0 10px;
+		margin-right: -5px;
 		cursor: pointer;
 	}
 	@media (max-width: 756px) {

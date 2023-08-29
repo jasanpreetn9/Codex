@@ -1,19 +1,18 @@
 import nxt from '$lib/images/nxt-carousel.png';
 import pre from '$lib/images/pre-carousel.png';
+import filterIcon from '$lib/images/filter-icon.png';
 
-export {nxt,pre }
+export {nxt,pre,filterIcon }
 export const apiUrl = 'https://api.consumet.org';
 
-export const getContinueWatching = () => {
-		if (!import.meta.env.SSR) {
-			// get local storage
-			let object = localStorage.getItem('continueWatching');
 
-			if (object) {
-				let parsedData = JSON.parse(object);
-				return parsedData;
-			}
-		}
+const { randomBytes } = await import('node:crypto');
+
+export const serializeNonPOJOs = (obj) => {
+	return structuredClone(obj);
 };
 
-
+export const generateUsername = (name) => {
+	const id = randomBytes(2).toString('hex');
+	return `${name.slice(0, 5)}${id}`;
+};
