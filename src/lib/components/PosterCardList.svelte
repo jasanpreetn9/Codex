@@ -1,18 +1,15 @@
 <script>
 	export let animes, heading;
 </script>
-<!-- 
+
+
 <h1 class="title">{heading}</h1>
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
 			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 				<div class="card">
-					<div
-						class="image"
-						style="background: linear-gradient(to bottom, transparent 0%, transparent 50%, #0c111b 100%),
-            no-repeat center/100% url({anime.image});"
-					/>
+					<img src={anime.image} class="card-img" alt="" />
 					<div class="card-body">
 						<h2 class="name">
 							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
@@ -49,7 +46,7 @@
 	.card-container {
 		display: grid;
 		gap: 1rem;
-		grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		/* min-height: 150px; */
 		overflow: hidden;
 	}
@@ -57,19 +54,17 @@
 	.card {
 		position: relative;
 		width: 100%;
-    height: 100%;
-		border-radius: 5px;
+    	height: 100%;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 	}
 
-	.card .image {
-		width: 100%;
-		height: 250px;
-	}
+.card-img{
+	border-radius: 5px;
 
+}
 	.card .card-body {
 		display: flex;
 		flex-direction: column;
@@ -77,27 +72,27 @@
 		flex: 1;
 		width: 100%;
 		height: 100%;
-		padding-top: 20px;
+		padding-top: 10px;
 		transition: 0.5s;
 		border-radius: 5px;
-    color: #fff;
+    	color: #fff;
 	}
 
 	.card-body .name {
-		font-size: 1.1em;
+		font-size: 1em;
 		font-weight: 500;
 		text-transform: capitalize;
 		text-decoration: none;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 
   .card-body .details {
     margin-top: 2px;
-    font-size: 0.8em;
-    font-weight: 700;
+    font-size: 0.7em;
+    font-weight: 400;
     text-transform: capitalize;
     text-decoration: none;
     display: -webkit-box;
@@ -140,10 +135,9 @@
 			font-size: 1em;
 		}
 	} */
-</style> -->
+</style>
 
-
-<h1 class="title">{heading}</h1>
+<!-- <h1 class="title">{heading}</h1>
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
@@ -154,6 +148,10 @@
 						<h2 class="name">
 							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
 						</h2>
+						<span class="details"
+							>{anime?.type || ''}
+							{anime?.genres?.length ? '‧ ' + anime.genres.slice(0, 2).join(', ') : ''}</span
+						>
 					</div>
 				</div>
 			</a>
@@ -193,7 +191,6 @@
 		border-radius: 5px;
 		overflow: hidden;
 		font-size: 14px;
-		
 	}
 
 	.card-img {
@@ -227,6 +224,7 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
+	
 	/* @media (max-width: 768px) {
 		.card-container {
 			grid-template-columns: repeat(2, 1fr);
@@ -262,4 +260,4 @@
 			font-size: 1em;
 		}
 	} */
-</style>
+</style> -->

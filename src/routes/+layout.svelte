@@ -29,13 +29,10 @@
 				<img src={userIcon} alt="user" width="15px" height="15px" />
 
 			</a> -->
+			{#if !data.user}
 			<a href="/login">
 				<p class="loginp">Login</p>
 			</a>
-			{#if !data.user}
-				 <a href="/login" class="login-button">
-					 <p>Login</p>
-				 </a>
 			{:else}
 				 <a href="/" class="login-button">
 					 <img src={userIcon} alt="user" width="15px" height="15px" />
@@ -74,10 +71,10 @@
 	}
 	.loginp{
 		color: white;
-		font-weight: 600;
+		font-weight: 500;
 		background: #161b24;
 		padding: 10px;
-		border-radius: 999px;
+		border-radius: 12px;
 	}
 
 	/* .nav-links {

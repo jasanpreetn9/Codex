@@ -1,4 +1,5 @@
 <script>
+	import { EpisodeCard } from '$lib/components';
 
 	export let episodes, animeId, scrollAble, header, filter;
 	import {filterIcon,proxyUrl} from '$lib'
@@ -30,7 +31,6 @@
 	<div class="video-card-container">
 		{#each episodes as episode}
 			<div class="video-card">
-				<!-- <a href={`/watch/${animeId}?episode=${episode.number}`}> -->
 				<a
 					href={'/watch/' + (animeId ? animeId : episode.animeId) + '?episode=' + episode.number}
 					data-sveltekit-prefetch="true"
@@ -39,6 +39,7 @@
 						class="card-body"
 						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({proxyUrl}{episode.image})"
 					>
+					<!-- <p class="episode-number">X</p> -->
 						<h2 class="name">
 							{episode.number}: {episode.title}
 						</h2>
@@ -122,7 +123,16 @@
 		flex-direction: column;
 		justify-content: flex-end;
 	}
-
+	.episode-number {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #fff;
+        font-size: 16px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        z-index: 1;
+    }
 	.name {
 		color: #fff;
 		font-size: 15px;
