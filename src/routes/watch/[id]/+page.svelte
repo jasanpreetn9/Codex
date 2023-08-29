@@ -85,9 +85,18 @@
 		<div class="container-left">
 			<div class="details">
 				<h1 class="title">Episode {currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
-				<div class="reviews">
+				<p class="description">{currentEpisodeDetail.description}</p>
+				<div class="episodeCards">
+					<EpisodeCard
+						episodes={details.episodes}
+						animeId={details.id}
+						scrollable={true}
+						filter={true}
+						header={'Episodes'}
+					/>
 
 				</div>
+				<div class="reviews" />
 				<div class="sub-dubBtn">
 					<a
 						href={'/watch/' +
@@ -107,19 +116,6 @@
 					>
 				</div>
 			</div>
-
-
-
-			<p class="description">{currentEpisodeDetail.description}</p>
-			<div class="episodeCards">
-			<EpisodeCard
-				episodes={details.episodes}
-				animeId={details.id}
-				scrollable={true}
-				filter={true}
-				header={'Episodes'}
-			/>
-		</div>
 		</div>
 	</div>
 </main>
@@ -140,16 +136,22 @@
 	.title {
 		margin-bottom: 10px;
 		padding: 17px;
+		font-size: 40px;
+		display: flex;
+		justify-content: center;
 	}
 
 	.video {
 		flex-direction: row;
 		width: 100%;
 	}
-	.episodeCards{
+	.episodeCards {
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: column;
+		position: absolute;
+		top: 60%;
+		left: 60%;
 	}
 	.artplayer-container {
 		aspect-ratio: 16/9;
@@ -161,8 +163,9 @@
 		padding-bottom: 20px;
 		background: #121821;
 		border-radius: 10px;
+		height: 700px;
 	}
-	.description{
+	.description {
 		color: rgb(147, 147, 147);
 		margin: 5px 25px;
 	}

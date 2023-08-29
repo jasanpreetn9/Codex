@@ -5,17 +5,18 @@ export async function load({ fetch, params, url }) {
     const episodeNumber = url.searchParams.get('episode') || 1;
     const dubStr = url.searchParams.get('dub') || false;
     var dubBool = (dubStr?.toLowerCase?.() === 'true');
-    
+
     try {
         const anilist = new META.Anilist();
         const animeDetails = await anilist.fetchAnimeInfo(params.id, dubBool);
+        console.log(animeDetails)
 
         const currentEpisodeDetail = animeDetails.episodes.find(episode => episode.number == episodeNumber);
-        
+
 
         const episodeUrlsResponse = await fetch(`https://api.consumet.org/meta/anilist/watch/${currentEpisodeDetail.id}`);
         const episodeUrls = await episodeUrlsResponse.json();
-        
+
         const filteredSources = episodeUrls.sources.filter(element =>
             element.quality !== 'default' && element.quality !== 'backup'
         );

@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import logo from '$lib/images/logo.png';
-  import userIcon from '$lib/images/user.svg';
+	import userIcon from '$lib/images/user.svg';
 	import '$lib/global.css';
 	let inputValue = '';
 </script>
@@ -23,11 +23,15 @@
 				placeholder="search"
 			/>
 		</form>
-    <div>
-      <a href="#" class="login-button">
-        <img src="{userIcon}" alt="user" width="15px" height="15px" />
-      </a>
-    </div>
+		<div>
+			<!-- <a href="/profile" class="login-button">
+				<img src={userIcon} alt="user" width="15px" height="15px" />
+
+			</a> -->
+			<a href="/login">
+				<p class="loginp">Login</p>
+			</a>
+		</div>
 	</div>
 	<!-- <a href="/login" class="login-btn">Login</a> -->
 </nav>
@@ -50,9 +54,17 @@
 		z-index: 9;
 		display: flex;
 		justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0 20px;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0 20px;
+		z-index: 100;
+	}
+	.loginp{
+		color: white;
+		font-weight: 600;
+		background: #161b24;
+		padding: 10px;
+		border-radius: 999px;
 	}
 
 	/* .nav-links {
@@ -86,12 +98,12 @@
 		margin-left: auto;
 	}
 
-  .search-tools {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-  }
+	.search-tools {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex: 1;
+	}
 	.search-box {
 		border: none;
 		background: #161b24;
@@ -109,10 +121,10 @@
 		font-weight: 600;
 	}
 
-  .login-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	.login-button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		border: none;
 		background: #161b24;
 		outline: none;
@@ -125,14 +137,14 @@
 		padding: 0 4%;
 	}
 
-  @media (max-width: 850px) {
-    .search-box {
-      min-width: 200px;
-      width: 100%;
-    }
+	@media (max-width: 850px) {
+		.search-box {
+			min-width: 200px;
+			width: 100%;
+		}
 
-    .right-container {
-      flex: 1;
-    }
-  }
+		.right-container {
+			flex: 1;
+		}
+	}
 </style>
