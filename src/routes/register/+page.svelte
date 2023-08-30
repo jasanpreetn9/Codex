@@ -1,66 +1,123 @@
+<head>
+	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+</head>
 
-<div class="form-container">
-	<form action="?/register" method="POST">
-		<h3>Register</h3>
+<body>
+	<form action="?/login" method="POST">
+		<div class="container">
+			<div class="left-box">
 
-		<label for="email">Email</label>
-		<input type="email" placeholder="Email" name="email" />
-		
-		<label for="username">Username</label>
-		<input type="username" placeholder="Username" name="username" />
 
-		<label for="password">Password</label>
-		<input type="password" placeholder="Password" name="password" />
-		
-		<label for="passwordConfirm">Confirm Password</label>
-		<input type="password" placeholder="Confirm Password" name="passwordConfirm" />
+				<h1>Get Started Now</h1>
+				<p class="head">Welcome in our service, create an account to start your anime experience.</p>
 
-		<button type="submit">Log In</button>
-		<p class="message">Have a account? <a href="/login">Login</a></p>
+				<div class="socials">
+					<button><i class="fa-brands fa-discord" id="facebok" /> Sign Up with Discord</button>
+					<button
+					><img
+					src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+					id="google"
+					alt="s"
+					/>Sign Up with Google</button
+					>
+				</div>
+			</div>
+			<div class="inputs">
+				<label for="email">Email</label>
+				<input type="text" placeholder="Example@gmail.com" />
+
+				<label for="email">Username</label>
+				<input type="text" placeholder="Username" />
+
+				<label for="email">Password</label>
+				<input type="password" placeholder="Password" />
+
+				<label for="email">Confirm Password</label>
+				<input type="password" placeholder="Password" />
+
+				<input type="checkbox" />Remember Me
+
+				<button>Sign Up</button>
+			</div>
+
+			<p>Already have an account? <a href="/login">Sign In</a></p>
+		</div>
 	</form>
-</div>
+</body>
 
-<style media="screen">
-	*,
-	*:before,
-	*:after {
-		padding: 0;
+<style>
+	* {
 		margin: 0;
+		padding: 0;
 		box-sizing: border-box;
 	}
-	.form-container {
+	.container {
+		display: flex;
+		justify-content: center;
+		padding: 0px 30px;
+		background: #161b24;
+		border-radius: 10px;
+		height: 85vh;
+		border: 0.1px solid rgb(54, 54, 54);
+		--tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+		--tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+			0 4px 6px -4px var(--tw-shadow-color);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+			var(--tw-shadow);
+	}
+	.left-box{
+		display: flex;
+		flex-direction: column;
+		margin-top: 80px;
+		margin-right: 10px;
+		gap: 20px;
+	}
+	.socials {
+		gap: 5px;
+		display: flex;
+		height: 40px;
+		/* margin: 20px; */
+		/* padding: 0; */
+	}
+	.socials button {
+		background: #24272e;
+		border: none;
+		color: white;
+		padding: 10px;
+		width: 175px;
+		border-radius: 12px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		border: 0.1px solid rgb(54, 54, 54);
+		--tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+		--tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+			0 4px 6px -4px var(--tw-shadow-color);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+			var(--tw-shadow);
 	}
-	form {
-		width: 400px;
-		/* background-color: rgba(255, 255, 255, 0.13); */
-		background-color: #161b24;
-		/* position: absolute;
-		transform: translate(-50%, -50%);
-		top: 50%;
-		left: 50%; */
-		border-radius: 10px;
-		backdrop-filter: blur(10px);
-		border: 2px solid rgba(255, 255, 255, 0.1);
-		box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-		padding: 50px 35px;
+	#facebok {
+		margin-right: 10px;
+		padding: 0;
+		font-size: 20px;
+		color: #5865f2;
 	}
-	form * {
-		font-family: 'Poppins', sans-serif;
-		color: #ffffff;
-		letter-spacing: 0.5px;
-		outline: none;
-		border: none;
+	#google {
+		margin-right: 10px;
+		width: 18px;
+		height: 18px;
 	}
-	form h3 {
-		font-size: 32px;
-		font-weight: 500;
-		line-height: 42px;
-		text-align: center;
+	h1 {
+		top: 12%;
+		left: 10%;
 	}
-
+	.head {
+		width: 330px;
+		/* : 20%;top
+		left: 10%; */
+		color: rgb(100, 100, 100);
+		font-size: 13px;
+	}
 	label {
 		display: block;
 		margin-top: 15px;
@@ -69,32 +126,28 @@
 	}
 	input {
 		display: block;
-		height: 50px;
-		width: 100%;
-		background-color: rgba(255, 255, 255, 0.07);
+		height: 60px;
+		width: 400px;
+		background-color: rgba(15, 15, 18, 0.07);
 		border-radius: 3px;
 		padding: 0 10px;
 		margin-top: 8px;
 		font-size: 14px;
 		font-weight: 300;
+		border-radius: 10px;
+		border: none;
+		color: white;
+
 	}
 	::placeholder {
 		color: #e5e5e5;
-	}
-	button {
-		margin-top: 30px;
-		width: 100%;
-		background-color: #ffffff;
-		color: #080710;
-		padding: 15px 0;
-		font-size: 18px;
-		font-weight: 600;
-		border-radius: 5px;
-		cursor: pointer;
-	}
-	.message {
 		font-size: 13px;
-		padding: 20px;
-		text-align: center;
+		font-weight: 100;
+		color: white;
+	}
+	.inputs {
+		display: flex;
+		flex-direction: column;
+		color: rgb(100, 100, 100);
 	}
 </style>
