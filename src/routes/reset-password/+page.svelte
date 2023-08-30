@@ -1,41 +1,22 @@
+<script>
+	export let form;
+</script>
 
 <body>
-	<form action="?/register" method="POST">
+	<form action="?/resetPassword" method="POST">
 		<div class="container">
 			<div class="left-box">
-				<h1>Welcome Back</h1>
-				<p class="head">Sign in to access your account.</p>
-
-				<div class="socials">
-					<button><i class="fa-brands fa-discord" id="facebok" /> Sign In with Discord</button>
-					<button
-						><img
-							src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-							id="google"
-							alt="s"
-						/>Sign In with Google</button
-					>
-				</div>
+				<h1>Reset Password</h1>
+				<p class="head">We'll send you an email with a link to reset your password.</p>
 			</div>
 			<div class="inputs">
 				<label for="email">Email</label>
 				<input name="email" type="text" placeholder="Example@gmail.com" />
 
-				<label for="username">Username</label>
-				<input name="username" type="text" placeholder="Username" />
-
-				<label for="password">Password</label>
-				<input name="password" type="password" placeholder="Password" />
-
-				<label for="email">Confirm Password</label>
-				<input name="passwordConfirm" type="password" placeholder="Password" />
-
-				<div class="rememberMe">
-					<input type="checkbox" />Remember Me
-				</div>
-
-				<button type="submit" class="signUp">Register</button>
-				<p class="account">Already have an account? <a href="/login">Sign In</a></p>
+				<button type="submit" class="signUp">Submit</button>
+				{#if form?.success}
+					 <p class="account">Check your email</p>
+					 {/if}
 			</div>
 		</div>
 	</form>
@@ -139,7 +120,13 @@
 		font-size: 13px;
 		font-weight: 100;
 		color: white;
-		opacity: .5;
+		opacity: 0.5;
+	}
+	.forgotPass {
+		text-decoration: none;
+		color: gray;
+		margin-top: 10px;
+		font-size: 12px;
 	}
 	.inputs {
 		display: flex;
@@ -170,6 +157,7 @@
 		border-radius: 50%;
 		width: 20px;
 		height: 20px;
+		margin-right: 10px;
 	}
 	.signUp {
 		background: #3f43fc;
@@ -189,51 +177,51 @@
 		text-decoration: none;
 		color: gray;
 	}
-	@media (max-width: 768px) and (min-width: 200px) { /* Small screens */
-        .container {
-            flex-direction: column;
-            height: auto;
+	@media (max-width: 768px) and (min-width: 200px) {
+		/* Small screens */
+		.container {
+			flex-direction: column;
+			height: auto;
 			display: flex;
-			justify-content: center	;
+			justify-content: center;
 			align-items: center;
 			margin-top: 120px;
-        }
-        .left-box {
-            margin: 10px;
+		}
+		.left-box {
+			margin: 10px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-        }
-		.left-box p{
+		}
+		.left-box p {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 		}
-		.socials{
+		.socials {
 			flex-direction: column;
 		}
-        .inputs {
-            margin: 20px;
+		.inputs {
+			margin: 20px;
 			display: flex;
 			align-items: center;
-
-        }
-		input{
+		}
+		input {
 			width: 200px;
 		}
-        .signUp {
-            width: 100%;
+		.signUp {
+			width: 100%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-        }
-    }
+		}
+	}
 
-    @media (min-width: 769px) and (max-width: 1024px) { /* Medium screens */
-        .container {
-            padding: 0 20px;
-        }
-
-    }
+	@media (min-width: 769px) and (max-width: 1024px) {
+		/* Medium screens */
+		.container {
+			padding: 0 20px;
+		}
+	}
 </style>

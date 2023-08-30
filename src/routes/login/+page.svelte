@@ -1,6 +1,6 @@
-<head>
-	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
-</head>
+<script>
+	export let form;
+</script>
 
 <body>
 	<form action="?/login" method="POST">
@@ -24,8 +24,6 @@
 				<label for="email">Email</label>
 				<input name="email" type="text" placeholder="Example@gmail.com" />
 
-
-
 				<label for="email">Password</label>
 				<input name="password" type="password" placeholder="Password" />
 
@@ -37,7 +35,9 @@
 
 				<button type="submit" class="signUp">Sign In</button>
 				<p class="account">Don't have an account? <a href="/register">Register</a></p>
-
+				{#if form?.notVerified}
+					<p>You must verify your email before you can login.</p>
+				{/if}
 			</div>
 		</div>
 	</form>
@@ -141,9 +141,9 @@
 		font-size: 13px;
 		font-weight: 100;
 		color: white;
-		opacity: .5;
+		opacity: 0.5;
 	}
-	.forgotPass{
+	.forgotPass {
 		text-decoration: none;
 		color: gray;
 		margin-top: 10px;
@@ -198,51 +198,51 @@
 		text-decoration: none;
 		color: gray;
 	}
-	@media (max-width: 768px) and (min-width: 200px) { /* Small screens */
-        .container {
-            flex-direction: column;
-            height: auto;
+	@media (max-width: 768px) and (min-width: 200px) {
+		/* Small screens */
+		.container {
+			flex-direction: column;
+			height: auto;
 			display: flex;
-			justify-content: center	;
+			justify-content: center;
 			align-items: center;
 			margin-top: 120px;
-        }
-        .left-box {
-            margin: 10px;
+		}
+		.left-box {
+			margin: 10px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-        }
-		.left-box p{
+		}
+		.left-box p {
 			display: flex;
 			align-items: center;
 			justify-content: center;
 		}
-		.socials{
+		.socials {
 			flex-direction: column;
 		}
-        .inputs {
-            margin: 20px;
+		.inputs {
+			margin: 20px;
 			display: flex;
 			align-items: center;
-
-        }
-		input{
+		}
+		input {
 			width: 200px;
 		}
-        .signUp {
-            width: 100%;
+		.signUp {
+			width: 100%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-        }
-    }
+		}
+	}
 
-    @media (min-width: 769px) and (max-width: 1024px) { /* Medium screens */
-        .container {
-            padding: 0 20px;
-        }
-
-    }
+	@media (min-width: 769px) and (max-width: 1024px) {
+		/* Medium screens */
+		.container {
+			padding: 0 20px;
+		}
+	}
 </style>
