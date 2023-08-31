@@ -40,7 +40,7 @@
 				 <form action="/logout" method="POST">
 					<button type="submit">Logout</button>
 				</form>
-				
+
 			{/if}
 		</div>
 	</div>
@@ -72,9 +72,13 @@
 	.loginp{
 		color: white;
 		font-weight: 500;
-		background: #161b24;
-		padding: 10px;
-		border-radius: 12px;
+		padding: 10px 14px;
+		/* width: 80px; */
+		display: flex;
+		justify-content: center;
+		border-radius: 5px;
+		font-size: 15px;
+		background: #1f80e0;
 	}
 
 	/* .nav-links {
@@ -91,7 +95,7 @@
 		opacity: 0.9;
 	} */
 	.nav-title {
-		margin-top: 10px;
+		margin-top: 2px;
 		display: flex;
 		list-style: none;
 	}
@@ -127,6 +131,7 @@
 		transition: 0.5s;
 		padding: 18px 12px;
 		border-radius: 12px;
+		width: 300px;
 		font-size: 13px;
 		font-weight: 600;
 	}
@@ -149,12 +154,19 @@
 
 	@media (max-width: 850px) {
 		.search-box {
-			min-width: 200px;
+			min-width: 100px;
 			width: 100%;
 		}
 
 		.right-container {
-			flex: 1;
+			/* flex: 1; */
+		}	.search-box {
+			width: 168px;
+			transition: width 1s;
 		}
+		.search-box:focus{
+			width: 168px;
+		}
+
 	}
 </style>

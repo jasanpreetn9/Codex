@@ -1,21 +1,24 @@
-
+<head>
+	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+</head>
 <body>
 	<form action="?/register" method="POST">
 		<div class="container">
 			<div class="left-box">
 				<h1>Welcome Back</h1>
-				<p class="head">Sign in to access your account.</p>
+				<p class="head">Sign up to create an account and track your anime progress!</p>
 
 				<div class="socials">
-					<button><i class="fa-brands fa-discord" id="facebok" /> Sign In with Discord</button>
+					<button><i class="fa-brands fa-discord" id="facebok" /> Sign Up with Discord</button>
 					<button
 						><img
 							src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
 							id="google"
 							alt="s"
-						/>Sign In with Google</button
+						/>Sign Up with Google</button
 					>
 				</div>
+				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="">
 			</div>
 			<div class="inputs">
 				<label for="email">Email</label>
@@ -46,6 +49,9 @@
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
+	}
+	.img{
+		width: 400px;
 	}
 	.container {
 		display: flex;

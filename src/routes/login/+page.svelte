@@ -2,6 +2,9 @@
 	export let form;
 </script>
 
+<head>
+	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+</head>
 <body>
 	<form action="?/login" method="POST">
 		<div class="container">
@@ -19,6 +22,7 @@
 						/>Sign In with Google</button
 					>
 				</div>
+				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="">
 			</div>
 			<div class="inputs">
 				<label for="email">Email</label>
@@ -48,6 +52,9 @@
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
+	}
+	.img{
+		width: 400px;
 	}
 	.container {
 		display: flex;
@@ -157,6 +164,8 @@
 		color: rgb(100, 100, 100);
 		width: 100%;
 	}
+	.inputs:focus {
+	}
 	.inputs label {
 		display: flex;
 		align-items: flex-end;
@@ -189,6 +198,9 @@
 		color: white;
 		font-weight: 600;
 		margin-top: 30px;
+	}
+	.signUp:hover {
+		cursor: pointer;
 	}
 	.account {
 		color: white;
