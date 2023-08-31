@@ -1,8 +1,10 @@
 <script>
+	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import logo from '$lib/images/logo.png';
 	import userIcon from '$lib/images/user.svg';
 	import '$lib/global.css';
+
 	export let data;
 	let inputValue = '';
 </script>
@@ -30,21 +32,21 @@
 
 			</a> -->
 			{#if !data.user}
-			<a href="/login">
-				<p class="loginp">Login</p>
-			</a>
+				<a href="/login">
+					<p class="loginp">Login</p>
+				</a>
 			{:else}
-				 <a href="/" class="login-button">
-					 <img src={userIcon} alt="user" width="15px" height="15px" />
-				 </a>
-				 <form action="/logout" method="POST">
+				<a href="/" class="login-button">
+					<img src={userIcon} alt="user" width="15px" height="15px" />
+				</a>
+				<form action="/logout" method="POST">
 					<button type="submit">Logout</button>
 				</form>
-
 			{/if}
 		</div>
 	</div>
 </nav>
+
 <main>
 	<slot />
 </main>
@@ -69,7 +71,7 @@
 		gap: 0 20px;
 		z-index: 100;
 	}
-	.loginp{
+	.loginp {
 		color: white;
 		font-weight: 500;
 		padding: 10px 14px;
@@ -160,13 +162,13 @@
 
 		.right-container {
 			/* flex: 1; */
-		}	.search-box {
+		}
+		.search-box {
 			width: 168px;
 			transition: width 1s;
 		}
-		.search-box:focus{
+		.search-box:focus {
 			width: 168px;
 		}
-
 	}
 </style>

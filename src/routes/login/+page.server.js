@@ -1,8 +1,8 @@
 import { error, redirect } from '@sveltejs/kit';
 
-export async function load({locals}) {
-    if (locals.user) {
-		throw redirect(303,"/")
+export async function load({ locals }) {
+	if (locals.user) {
+		throw redirect(303, '/');
 	}
 }
 
@@ -11,9 +11,10 @@ export const actions = {
 		const body = Object.fromEntries(await request.formData());
 
 		try {
-			await locals.pb.collection('users').authWithPassword(body.email, body.password);
+			await locals.pb.collection('users').authWithPassword(body.email.toLowerCase(), body.password);
 			if (!locals.pb?.authStore?.model?.verified) {
 				locals.pb.authStore.clear();
+				console.log('not verified');
 				return {
 					notVerified: true
 				};

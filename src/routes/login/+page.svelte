@@ -1,9 +1,10 @@
 <script>
-	export let form;
+export let form;
+	console.log(form?.notVerified)
 </script>
 
 <head>
-	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+	<!-- <link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" /> -->
 </head>
 <body>
 	<form action="?/login" method="POST">
