@@ -2,7 +2,7 @@
 	export let data;
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
-	import { downArrow,logo } from '$lib';
+	import { downArrow, logo } from '$lib';
 	let inputValue = '';
 	let dropdownVisible = false; // Add this line
 	let downarrow = false; // Add this line
@@ -15,6 +15,13 @@
 
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
+	<ul class="nav-links">
+		<li class="nav-items"><a href="/">Movies</a></li>
+		<li class="nav-items"><a href="/">TV series</a></li>
+		<li class="nav-items"><a href="/">My List</a></li>
+		<li class="nav-items"><a href="/">Most popular</a></li>
+	</ul>
+
 	<div class="search-tools">
 		<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
 			<input
@@ -27,25 +34,14 @@
 		</form>
 		<div>
 			{#if !data?.user}
-				<a href="/login">
-					<p class="loginp">Login</p>
-				</a>
+				<a class="login" href="/login"> Login </a>
 			{:else if data?.user}
 				<button class="container" on:click={() => (dropdownVisible = !dropdownVisible)}>
 					<img
-						class="avatar"
+						class="avatar-btn"
 						src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
 						alt=""
 					/>
-					<h1 class="username">{data.user?.username}</h1>
-					<div class="plan">
-						<p class="planText">PRO</p>
-					</div>
-					<div class="arrow">
-						<button on:click={() => (downarrow = !downarrow)}>
-							<img src={downArrow} alt="icon" />
-						</button>
-					</div>
 					<div class="dropdown-content" style="display: {dropdownVisible ? 'block' : 'none'}">
 						<img
 							class="avatarDropdown"
@@ -53,14 +49,10 @@
 							alt="avatar"
 						/>
 						<h1 class="username">{data.user?.username}</h1>
-						<div class="plan">
-							<p class="planText">PRO</p>
-						</div>
 						<h2 class="email">{data.user?.email}</h2>
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
-							<li><a href="/profile"><i class="fa-solid fa-sliders" />Profile Settings</a></li>
-							<li><a href="/subscriptions"><i class="fa-solid fa-turn-up" />Upgrade Plan</a></li>
+							<li><a href="/user"><i class="fa-solid fa-sliders" />Profile Settings</a></li>
 							<li><i class="fa-regular fa-sun" />Light Mode</li>
 							<li><a href="/help?"><i class="fa-solid fa-question" />Help Center</a></li>
 						</ul>
@@ -94,12 +86,6 @@
 			<li><a href="/">My List</a></li>
 			<li><a href="/">Account</a></li>
 		</ul>
-	</div>
-	<div class="footer-contact">
-		<p>Contact Us:</p>
-		<p>Email: info@animestreamhub.com</p>
-		<p>Phone: [Your Phone Number]</p>
-		<p>Address: [Your Address]</p>
 	</div>
 </footer>
 
@@ -151,7 +137,7 @@
 	.dropdown-content h1 {
 		position: relative;
 	}
-	.loginp {
+	.login {
 		color: white;
 		font-weight: 500;
 		padding: 10px 14px;
@@ -178,11 +164,6 @@
 		position: absolute;
 		top: 8px;
 		left: 60px;
-	}
-	.dropdown-content .plan {
-		position: absolute;
-		top: 8px;
-		left: 110px;
 	}
 	.dropdown-content .email {
 		color: gray;
@@ -235,7 +216,7 @@
 		font-size: 14px;
 	}
 
-	/* .nav-links {
+	.nav-links {
 		margin-top: 10px;
 		display: flex;
 		list-style: none;
@@ -247,7 +228,7 @@
 		text-transform: capitalize;
 		color: #fff;
 		opacity: 0.9;
-	} */
+	}
 	.nav-title {
 		margin-top: 2px;
 		display: flex;
@@ -290,31 +271,18 @@
 		font-weight: 600;
 	}
 
-	/* .login-button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: none;
-		background: #161b24;
-		outline: none;
-		padding: 10px;
-		border-radius: 999px;
-	} */
-
 	main {
 		margin-top: 80px;
 		padding: 0 4%;
 	}
 
 	.footer {
-		background-color: #161b24;
-		margin: 20px;
-		color: #fff;
-		padding: 20px;
+		width: 100%;
+		height: 80px;
+		padding: 0 4%;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		border-radius: 20px;
 	}
 
 	.footer-links ul {
@@ -325,7 +293,7 @@
 
 	.footer-links li {
 		display: inline;
-		margin-right: 20px;
+		margin-left: 20px;
 	}
 	li:hover {
 		cursor: pointer;
@@ -337,15 +305,6 @@
 	}
 	.footer-links:hover {
 		cursor: pointer;
-	}
-
-	.footer-contact p {
-		margin: 0;
-	}
-
-	.footer-contact p:first-child {
-		font-weight: bold;
-		margin-bottom: 10px;
 	}
 
 	@media (max-width: 850px) {
@@ -365,21 +324,12 @@
 	.container {
 		display: flex;
 		border: none;
-		width: 250px;
-		height: 40px;
-		border-radius: 14px;
-		background: #161b24;
+		border-radius: 100%;
 		color: white;
 	}
-	.avatar {
-		width: 20px;
+	.avatar-btn {
+		width: 36px;
 		border-radius: 50%;
-		display: flex;
-		position: relative;
-		margin-top: 8px;
-		margin-left: 12px;
-		margin-right: 10px;
-		margin-bottom: 10px;
 	}
 
 	.username {
@@ -387,30 +337,8 @@
 		margin-top: 9px;
 		font-size: 15px;
 		font-weight: 600;
+		text-transform: capitalize;
 	}
-	.plan {
-		display: flex;
-		margin-left: 15px;
-		justify-content: center;
-		align-items: center;
-		margin: 10.9px 10px;
-		text-shadow: 0px 0px 4px gold;
-	}
-	.planText {
-		color: gold;
-		font-weight: 700;
-		font-size: 10px;
-		font-family: sans-serif;
 
-		padding: 3px 5px;
-		border-radius: 7px;
-	}
-	.arrow img {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-left: 60px;
-		margin-top: 10px;
-		width: 17px;
-	}
+	
 </style>
