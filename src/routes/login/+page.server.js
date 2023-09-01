@@ -16,7 +16,7 @@ export const actions = {
 				locals.pb.authStore.clear();
 				console.log('not verified');
 				return {
-					success:true,
+					success: false,
 					notVerified: true
 				};
 			}

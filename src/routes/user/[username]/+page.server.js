@@ -6,13 +6,7 @@ export async function load({ locals, params }) {
 	}
 	const username = params.username;
 
-	let users = await locals.pb.collection('users').getFullList({
-		sort: '-created'
-	});
-	const resultList = await pb.collection('users').getList(1, 50, {
-		filter: 'created >= "2022-01-01 00:00:00"',
-	});
-	console.log(resultList)
-	console.log("Users: " + resultList)
+	const user = await locals.pb.collection('users').getFirstListItem('username="jasanpreetn9"', {});
+	console.log(user)
 
 }

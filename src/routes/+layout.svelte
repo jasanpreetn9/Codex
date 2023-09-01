@@ -1,23 +1,16 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
-	import { goto } from '$app/navigation';
-	import logo from '$lib/images/logo.png';
-	import userIcon from '$lib/images/user.svg';
-	import downArrow from '$lib/images/down.svg';
-	import upArrow from '$lib/images/up.svg';
-	import '$lib/global.css';
-console.log(data.user?.username)
 	export let data;
+	import '$lib/global.css';
+	import { goto } from '$app/navigation';
+	import { downArrow,logo } from '$lib';
 	let inputValue = '';
 	let dropdownVisible = false; // Add this line
-	let downarrw = false; // Add this line
-
+	let downarrow = false; // Add this line
 </script>
 
 <svelte:head>
 	<title>Codex</title>
 	<link rel="icon" href={logo} />
-	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
 </svelte:head>
 
 <nav class="navbar">
@@ -33,23 +26,25 @@ console.log(data.user?.username)
 			/>
 		</form>
 		<div>
-			{#if !data.user}
+			{#if !data?.user}
 				<a href="/login">
 					<p class="loginp">Login</p>
 				</a>
-			{:else if data.user}
+			{:else if data?.user}
 				<button class="container" on:click={() => (dropdownVisible = !dropdownVisible)}>
 					<img
 						class="avatar"
 						src={'https://img.flawlessfiles.com/_r/100x100/100/avatar/dragon_ball/av-db-01.jpeg'}
 						alt=""
 					/>
-					<h1 class="username">Hunter</h1>
+					<h1 class="username">{data.user?.username}</h1>
 					<div class="plan">
 						<p class="planText">PRO</p>
 					</div>
 					<div class="arrow">
-						<img src={downArrow} on:click={() => (downarrw = !downarrw)}/>
+						<button on:click={() => (downarrow = !downarrow)}>
+							<img src={downArrow} alt="icon" />
+						</button>
 					</div>
 					<div class="dropdown-content" style="display: {dropdownVisible ? 'block' : 'none'}">
 						<img
@@ -57,11 +52,11 @@ console.log(data.user?.username)
 							src={`https://ui-avatars.com/api/?name=${data.user?.name}`}
 							alt="avatar"
 						/>
-						<h1 class="username">Hunter</h1>
+						<h1 class="username">{data.user?.username}</h1>
 						<div class="plan">
 							<p class="planText">PRO</p>
 						</div>
-						<h2 class="email">hunter@gmail.com</h2>
+						<h2 class="email">{data.user?.email}</h2>
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
 							<li><a href="/profile"><i class="fa-solid fa-sliders" />Profile Settings</a></li>
@@ -70,9 +65,11 @@ console.log(data.user?.username)
 							<li><a href="/help?"><i class="fa-solid fa-question" />Help Center</a></li>
 						</ul>
 						<span class="lineSeparate" />
-					<form action="/logout" method="POST">
-						<button class="signOut"type="submit"><i class="fa-solid fa-left-long"></i>Logout</button>
-					</form>
+						<form action="/logout" method="POST">
+							<button class="signOut" type="submit"
+								><i class="fa-solid fa-left-long" />Logout</button
+							>
+						</form>
 					</div>
 				</button>
 			{:else}
@@ -87,6 +84,24 @@ console.log(data.user?.username)
 <main>
 	<slot />
 </main>
+<footer class="footer">
+	<div class="footer-logo">コーデックス</div>
+	<div class="footer-links">
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/">Browse</a></li>
+			<li><a href="/">Categories</a></li>
+			<li><a href="/">My List</a></li>
+			<li><a href="/">Account</a></li>
+		</ul>
+	</div>
+	<div class="footer-contact">
+		<p>Contact Us:</p>
+		<p>Email: info@animestreamhub.com</p>
+		<p>Phone: [Your Phone Number]</p>
+		<p>Address: [Your Address]</p>
+	</div>
+</footer>
 
 <style>
 	a {
@@ -118,7 +133,6 @@ console.log(data.user?.username)
 		color: white;
 		gap: 30px;
 		align-items: flex-start;
-
 	}
 	.settingOptions i {
 		color: gray;
@@ -159,7 +173,6 @@ console.log(data.user?.username)
 		flex-direction: column;
 		width: 250px;
 		height: 300px;
-
 	}
 	.dropdown-content .username {
 		position: absolute;
@@ -188,12 +201,11 @@ console.log(data.user?.username)
 		border: none;
 		color: white;
 	}
-	.signOut i{
-		margin-right: 12px ;
+	.signOut i {
+		margin-right: 12px;
 		padding: 2px;
 		color: gray;
 		margin-left: 1px;
-
 	}
 	ul {
 		list-style-type: none;
@@ -278,7 +290,7 @@ console.log(data.user?.username)
 		font-weight: 600;
 	}
 
-	.login-button {
+	/* .login-button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -287,11 +299,53 @@ console.log(data.user?.username)
 		outline: none;
 		padding: 10px;
 		border-radius: 999px;
-	}
+	} */
 
 	main {
 		margin-top: 80px;
 		padding: 0 4%;
+	}
+
+	.footer {
+		background-color: #161b24;
+		margin: 20px;
+		color: #fff;
+		padding: 20px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 20px;
+	}
+
+	.footer-links ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.footer-links li {
+		display: inline;
+		margin-right: 20px;
+	}
+	li:hover {
+		cursor: pointer;
+	}
+
+	.footer-links a {
+		color: #fff;
+		text-decoration: none;
+	}
+	.footer-links:hover {
+		cursor: pointer;
+	}
+
+	.footer-contact p {
+		margin: 0;
+	}
+
+	.footer-contact p:first-child {
+		font-weight: bold;
+		margin-bottom: 10px;
 	}
 
 	@media (max-width: 850px) {
@@ -300,9 +354,6 @@ console.log(data.user?.username)
 			width: 100%;
 		}
 
-		.right-container {
-			/* flex: 1; */
-		}
 		.search-box {
 			width: 168px;
 			transition: width 1s;
@@ -330,13 +381,7 @@ console.log(data.user?.username)
 		margin-right: 10px;
 		margin-bottom: 10px;
 	}
-	.cont {
-		width: 100%;
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+
 	.username {
 		padding: 0;
 		margin-top: 9px;
