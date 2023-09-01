@@ -6,7 +6,7 @@
 	import downArrow from '$lib/images/down.svg';
 	import upArrow from '$lib/images/up.svg';
 	import '$lib/global.css';
-
+console.log(data.user?.username)
 	export let data;
 	let inputValue = '';
 	let dropdownVisible = false; // Add this line
@@ -54,7 +54,7 @@
 					<div class="dropdown-content" style="display: {dropdownVisible ? 'block' : 'none'}">
 						<img
 							class="avatarDropdown"
-							src={'https://img.flawlessfiles.com/_r/100x100/100/avatar/dragon_ball/av-db-01.jpeg'}
+							src={`https://ui-avatars.com/api/?name=${data.user?.name}`}
 							alt="avatar"
 						/>
 						<h1 class="username">Hunter</h1>
