@@ -2,6 +2,7 @@
 	export let data;
 	const { trendingAnimes, popularAnimes, recentAiringAnimes } = data;
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
+	import { Icon, ArrowUp, Filter } from "svelte-hero-icons";
 	let continueWatching;
 	if (!import.meta.env.SSR) {
 		// get local storage
