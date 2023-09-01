@@ -4,11 +4,13 @@
 	import logo from '$lib/images/logo.png';
 	import userIcon from '$lib/images/user.svg';
 	import downArrow from '$lib/images/down.svg';
+	import upArrow from '$lib/images/up.svg';
 	import '$lib/global.css';
 
 	export let data;
 	let inputValue = '';
 	let dropdownVisible = false; // Add this line
+	let downarrw = false; // Add this line
 
 </script>
 
@@ -46,8 +48,8 @@
 					<div class="plan">
 						<p class="planText">PRO</p>
 					</div>
-					<div class="downarrow">
-						<img src={downArrow} alt="" />
+					<div class="arrow">
+						<img src={downArrow} on:click={() => (downarrw = !downarrw)}/>
 					</div>
 					<div class="dropdown-content" style="display: {dropdownVisible ? 'block' : 'none'}">
 						<img
@@ -100,6 +102,7 @@
 		padding: 0 4%;
 		z-index: 9;
 		display: flex;
+		background: linear-gradient(#0d111a, 90%, transparent);
 		justify-content: space-between;
 		align-items: center;
 		flex-wrap: wrap;
@@ -357,7 +360,7 @@
 		padding: 3px 5px;
 		border-radius: 7px;
 	}
-	.downarrow img {
+	.arrow img {
 		display: flex;
 		justify-content: center;
 		align-items: center;
