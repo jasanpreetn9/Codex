@@ -34,7 +34,7 @@
 				<button class="container" on:click={() => (dropdownVisible = !dropdownVisible)}>
 					<img
 						class="avatar"
-						src={'https://img.flawlessfiles.com/_r/100x100/100/avatar/dragon_ball/av-db-01.jpeg'}
+						src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
 						alt=""
 					/>
 					<h1 class="username">{data.user?.username}</h1>
@@ -49,7 +49,7 @@
 					<div class="dropdown-content" style="display: {dropdownVisible ? 'block' : 'none'}">
 						<img
 							class="avatarDropdown"
-							src={`https://ui-avatars.com/api/?name=${data.user?.name}`}
+							src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
 							alt="avatar"
 						/>
 						<h1 class="username">{data.user?.username}</h1>
