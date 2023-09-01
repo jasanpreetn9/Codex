@@ -1,10 +1,8 @@
 <script>
 	export let form;
+	console.log(form?.notVerified);
 </script>
 
-<head>
-	<link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
-</head>
 <body>
 	<form action="?/login" method="POST">
 		<div class="container">
@@ -14,6 +12,9 @@
 
 				<div class="socials">
 					<button><i class="fa-brands fa-discord" id="facebok" /> Sign In with Discord</button>
+					{#if form?.notVerified}
+						<p>You must verify your email before you can login.</p>
+					{/if}
 					<button
 						><img
 							src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -22,7 +23,7 @@
 						/>Sign In with Google</button
 					>
 				</div>
-				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="">
+				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="" />
 			</div>
 			<div class="inputs">
 				<label for="email">Email</label>
@@ -39,9 +40,6 @@
 
 				<button type="submit" class="signUp">Sign In</button>
 				<p class="account">Don't have an account? <a href="/register">Register</a></p>
-				{#if form?.notVerified}
-					<p>You must verify your email before you can login.</p>
-				{/if}
 			</div>
 		</div>
 	</form>
@@ -53,7 +51,7 @@
 		padding: 0;
 		box-sizing: border-box;
 	}
-	.img{
+	.img {
 		width: 400px;
 	}
 	.container {

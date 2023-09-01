@@ -1,12 +1,13 @@
 <script>
+	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import logo from '$lib/images/logo.png';
 	import userIcon from '$lib/images/user.svg';
 	import downArrow from '$lib/images/down.svg';
 	import '$lib/global.css';
+
 	export let data;
 	let inputValue = '';
-	import { onMount } from 'svelte';
 	let dropdownVisible = false; // Add this line
 
 </script>
@@ -80,6 +81,7 @@
 		</div>
 	</div>
 </nav>
+
 <main>
 	<slot />
 </main>

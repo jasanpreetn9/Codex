@@ -15,7 +15,6 @@
 		reverseEpisodes()
 	}
 </script>
-
 <div class="header">
 	<h1 class="title">{header}</h1>
 	{#if filter}
