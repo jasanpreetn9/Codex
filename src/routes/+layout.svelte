@@ -28,6 +28,7 @@
 				type="text"
 				id="search-box"
 				class="search-box"
+				name="searchValue"
 				bind:value={inputValue}
 				placeholder="search"
 			/>

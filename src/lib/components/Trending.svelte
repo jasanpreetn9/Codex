@@ -1,5 +1,6 @@
 <script>
 	export let trendingAnimes;
+	console.log(trendingAnimes)
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
 	import { pre,nxt } from '$lib';
@@ -47,11 +48,11 @@
 						{anime.title.english?.toLowerCase() ?? anime.title.romaji.toLowerCase()}
 					</h1>
 					<div class="badges-container">
-						<p class="badges">Type: {anime.type}</p>
+						<p class="badges">Type: {anime.format}</p>
 						<span class="dots" />
-						<p class="badges">Rating: {anime.rating / 10}</p>
+						<p class="badges">Rating: {anime.meanScore / 10}</p>
 						<span class="dots" />
-						<p class="badges">Eps: {anime.totalEpisodes}</p>
+						<p class="badges">Eps: {anime.nextAiringEpisode.episode ? anime.nextAiringEpisode.episode -1 : anime.episode}</p>
 					</div>
 					<p class="anime-des">
 						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
