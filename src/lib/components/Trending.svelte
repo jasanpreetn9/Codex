@@ -1,5 +1,6 @@
 <script>
 	export let trendingAnimes;
+	console.log(trendingAnimes)
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
 	import { pre,nxt } from '$lib';
