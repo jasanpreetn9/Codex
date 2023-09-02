@@ -1,0 +1,65 @@
+{
+  trending: Page(page: 1, perPage: 10) {
+    media(type: ANIME, sort: [TRENDING_DESC]) {
+      id
+      bannerImage
+      coverImage {
+        extraLarge
+        large
+        medium
+        color
+      }
+      description
+      title {
+        english
+        romaji
+      }
+      format
+      genres
+      meanScore
+      episodes
+    }
+  }
+  popular: Page(page: 1, perPage: 10) {
+    media(type: ANIME, sort: [POPULARITY_DESC]) {
+      id
+      bannerImage
+      coverImage {
+        extraLarge
+        large
+        medium
+        color
+      }
+      description
+      title {
+        english
+        romaji
+      }
+      format
+      genres
+      meanScore
+      episodes
+    }
+  }
+  recent: Page(page: 1, perPage: 10) {
+    media(type: ANIME, sort: [UPDATED_AT_DESC, POPULARITY_DESC]) {
+      id
+      bannerImage
+      coverImage {
+        extraLarge
+        large
+        medium
+        color
+      }
+      description
+      title {
+        english
+        romaji
+      }
+      format
+      genres
+      meanScore
+      episodes
+    }
+  }
+}
