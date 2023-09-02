@@ -1,0 +1,23 @@
+query ($page: Int, $search: String,  $size: Int) {
+  Page(page: $page, perPage: $size) {
+    pageInfo {
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    media(search: $search,type: ANIME) {
+      id
+      title {
+        romaji
+        english
+      }
+      coverImage {
+        extraLarge
+        large
+      }
+      
+      format
+      genres
+    }
+  }
+}

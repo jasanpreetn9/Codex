@@ -3,12 +3,6 @@
     media(type: ANIME, sort: [TRENDING_DESC]) {
       id
       bannerImage
-      coverImage {
-        extraLarge
-        large
-        medium
-        color
-      }
       description
       title {
         english
@@ -18,9 +12,14 @@
       genres
       meanScore
       episodes
+          nextAiringEpisode {
+      airingAt
+      timeUntilAiring
+      episode
+    }
     }
   }
-  popular: Page(page: 1, perPage: 10) {
+  popular: Page(page: 1, perPage: 16) {
     media(type: ANIME, sort: [POPULARITY_DESC]) {
       id
       bannerImage
@@ -41,7 +40,7 @@
       episodes
     }
   }
-  recent: Page(page: 1, perPage: 10) {
+  recent: Page(page: 1, perPage: 8) {
     media(type: ANIME, sort: [UPDATED_AT_DESC, POPULARITY_DESC]) {
       id
       bannerImage
