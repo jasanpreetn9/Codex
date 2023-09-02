@@ -339,6 +339,4 @@
 		font-weight: 600;
 		text-transform: capitalize;
 	}
-
-	
 </style>
