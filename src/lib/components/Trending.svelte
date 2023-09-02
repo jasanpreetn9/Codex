@@ -61,7 +61,7 @@
 						<button>Watch</button>
 					</a>
 				</div>
-				<img src={anime.cover} alt="" />
+				<img src={anime.bannerImage} alt="" />
 			</div>
 		{/each}
 	</div>
