@@ -1,141 +1,171 @@
-// import { META } from '@consumet/extensions';
-// import { proxyUrl } from '$lib';
 
-// export async function load({params,fetch}) {
-
+// export async function load({ params, fetch }) {
 // 	try {
-// 		const response = await fetch("https://api.enime.moe/mapping/anilist/" + params.id);
-// 		const episodes = await response.json().episodes;
-// 		const anilist = new META.Anilist(undefined, {url: proxyUrl});
-// 		const respData = await anilist.fetchAnimeInfo(params.id);
-// 		respData.relations = respData.relations.filter(
+// 		const EpResp = await fetch('https://api.enime.moe/mapping/anilist/' + params.id);
+// 		const episodes = await EpResp.json();
+
+// 		const query = await fetch('../graphql/details.graphql');
+
+// 		let animeDetails = null;
+// 		const detailsResp = await fetch('https://graphql.anilist.co/', {
+// 			method: 'POST',
+// 			headers: {
+// 				'Content-Type': 'application/json',
+// 				Accept: 'application/json'
+// 			},
+// 			body: JSON.stringify({
+// 				query: await query.text(),
+// 				variables: {
+// 					id: params.id
+// 				}
+// 			})
+// 		});
+// 		animeDetails = await detailsResp.json();
+// 		animeDetails = animeDetails.data.Media;
+
+// 		animeDetails.relations = animeDetails.relations.edges.filter(
 // 			(relation) => relation.relationType === 'PREQUEL' || relation.relationType === 'SEQUEL'
 // 		);
 
-// 		if (respData.nextAiringEpisode) {
-// 			const airingDate = new Date(respData.nextAiringEpisode.airingTime * 1000);
-// 			respData.nextAiringEpisode.airingTime = airingDate.toDateString();
-// 		}
-// 		if (respData.status.toLowerCase() !== 'ongoing') {
-// 			respData.episodes.reverse();
-// 		}
+// 		let studiosArray = [];
+// 		animeDetails.studios.edges.forEach((studio) => {
+// 			studiosArray.push(studio.node.name);
+// 		});
 
-// 		// Combine studios into a single string
-// 		respData.studios = respData.studios.join(', ');
+// 		animeDetails.studios = studiosArray.join(', ');
 
-// 		// Convert startDate into "Oct 20, 1999" format
+// 		if (animeDetails.nextAiringEpisode) {
+// 			const airingDate = new Date(animeDetails.nextAiringEpisode.airingAt * 1000);
+// 			animeDetails.nextAiringEpisode.airingAt = airingDate.toDateString();
+// 		}
+// 		animeDetails.genres = animeDetails.genres.join(', ');
+
+// 		animeDetails.episodes = episodes.episodes;
+
+// 		// // Convert startDate into "Oct 20, 1999" format
 // 		const startDate = new Date(
-// 			respData.startDate.year,
-// 			respData.startDate.month - 1,
-// 			respData.startDate.day
+// 			animeDetails.startDate.year,
+// 			animeDetails.startDate.month - 1,
+// 			animeDetails.startDate.day
 // 		);
-// 		respData.startDate = startDate.toLocaleString('en-US', {
+// 		animeDetails.startDate = startDate.toLocaleString('en-US', {
 // 			month: 'short',
 // 			day: 'numeric',
 // 			year: 'numeric'
 // 		});
 
-// 		// Remove anything after the asterisk (*)
-// 		respData.description = respData.description.split('*')[0].trim();
+// 		const endDate = new Date(
+// 			animeDetails.endDate.year,
+// 			animeDetails.endDate.month - 1,
+// 			animeDetails.endDate.day
+// 		);
+// 		animeDetails.endDate = endDate.toLocaleString('en-US', {
+// 			month: 'short',
+// 			day: 'numeric',
+// 			year: 'numeric'
+// 		});
 
-// 		// Remove <br> tags
-// 		respData.description = respData.description.replace(/<br\s*\/?>/gi, '');
+// 		animeDetails.description = animeDetails.description.split('*')[0].trim();
+// 		animeDetails.description = animeDetails.description.replace(/<br\s*\/?>/gi, '');
+// 		let relationsArray = [];
+// 		animeDetails.relations.forEach((relation) => {
+// 			relation.node.relationType = relation.relationType;
+// 			relationsArray.push(relation.node);
+// 		});
+// 		animeDetails.relations = relationsArray;
+// 		let recommendationsArray = [];
+// 		animeDetails.recommendations.edges.forEach((recommendation) => {
+// 			recommendationsArray.push(recommendation.node.mediaRecommendation);
+// 		});
+// 		animeDetails.recommendations = recommendationsArray;
+// 		console.log(animeDetails);
+// 		animeDetails.episodes.sort((a, b) => a.number - b.number);
 
-// 		respData.genres = respData.genres.join(', ')
-
-// 		return respData;
+// 		return animeDetails;
 // 	} catch (error) {
 // 		throw new Error(error);
 // 	}
 // }
-
-import { META } from '@consumet/extensions';
-import { proxyUrl } from '$lib';
-
 export async function load({ params, fetch }) {
-	try {
-		const EpResp = await fetch('https://api.enime.moe/mapping/anilist/' + params.id);
-		const episodes = await EpResp.json();
+    try {
+        // Fetch episodes
+        const epResp = await fetch(`https://api.enime.moe/mapping/anilist/${params.id}`);
+        const episodes = await epResp.json();
 
-		const query = await fetch('../graphql/details.graphql');
+        // Fetch GraphQL query for anime details
+        const query = await fetch('../graphql/details.graphql');
+        const queryText = await query.text();
 
-		let animeDetails = null;
-		const detailsResp = await fetch('https://graphql.anilist.co/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			},
-			body: JSON.stringify({
-				query: await query.text(),
-				variables: {
-					id: params.id
-				}
-			})
-		});
-		animeDetails = await detailsResp.json();
-		animeDetails = animeDetails.data.Media;
+        // Fetch anime details
+        const detailsResp = await fetch('https://graphql.anilist.co/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                query: queryText,
+                variables: { id: params.id },
+            }),
+        });
 
-		animeDetails.relations = animeDetails.relations.edges.filter(
-			(relation) => relation.relationType === 'PREQUEL' || relation.relationType === 'SEQUEL'
-		);
+        const animeDetails = await detailsResp.json();
+        const media = animeDetails.data.Media;
+        // Filter and format relations
+        const relations = media.relations.edges
+            .filter((relation) => relation.node && relation.node.relationType)
+            .map((relation) => {
+                // Ensure relation.node is not null and has a relationType property
+                return {
+                    relationType: relation.node.relationType.replace(
+                        // ... (replace logic)
+                    ),
+                    // ... (other properties you want to include)
+                };
+            });
 
-		let studiosArray = [];
-		animeDetails.studios.edges.forEach((studio) => {
-			studiosArray.push(studio.node.name);
-		});
+        // Format studios
+        const studios = media.studios.edges.map((studio) => studio.node.name).join(', ');
 
-		animeDetails.studios = studiosArray.join(', ');
+        // Format airing date
+        if (media.nextAiringEpisode) {
+            const airingDate = new Date(media.nextAiringEpisode.airingAt * 1000);
+            media.nextAiringEpisode.airingAt = airingDate.toDateString();
+        }
 
-		if (animeDetails.nextAiringEpisode) {
-			const airingDate = new Date(animeDetails.nextAiringEpisode.airingAt * 1000);
-			animeDetails.nextAiringEpisode.airingAt = airingDate.toDateString();
-		}
-		animeDetails.genres = animeDetails.genres.join(', ');
+        // Format date fields
+        const formatDate = (date) => {
+            const formattedDate = new Date(date.year, date.month - 1, date.day);
+            return formattedDate.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+            });
+        };
 
-		animeDetails.episodes = episodes.episodes;
+        media.startDate = formatDate(media.startDate);
+        media.endDate = formatDate(media.endDate);
 
-		// // Convert startDate into "Oct 20, 1999" format
-		const startDate = new Date(
-			animeDetails.startDate.year,
-			animeDetails.startDate.month - 1,
-			animeDetails.startDate.day
-		);
-		animeDetails.startDate = startDate.toLocaleString('en-US', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric'
-		});
+        // Remove HTML tags and trim description
+        media.description = media.description.split('*')[0].trim().replace(/<br\s*\/?>/gi, '');
 
-		const endDate = new Date(
-			animeDetails.endDate.year,
-			animeDetails.endDate.month - 1,
-			animeDetails.endDate.day
-		);
-		animeDetails.endDate = endDate.toLocaleString('en-US', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric'
-		});
+        // Extract and format recommendations
+        const recommendations = media.recommendations.edges.map(
+            (recommendation) => recommendation.node.mediaRecommendation
+        );
 
-		animeDetails.description = animeDetails.description.split('*')[0].trim();
-		animeDetails.description = animeDetails.description.replace(/<br\s*\/?>/gi, '');
-		let relationsArray = [];
-		animeDetails.relations.forEach((relation) => {
-			relation.node.relationType = relation.relationType;
-			relationsArray.push(relation.node);
-		});
-		animeDetails.relations = relationsArray;
-		let recommendationsArray = [];
-		animeDetails.recommendations.edges.forEach((recommendation) => {
-			recommendationsArray.push(recommendation.node.mediaRecommendation);
-		});
-		animeDetails.recommendations = recommendationsArray;
-		console.log(animeDetails);
-		animeDetails.episodes.sort((a, b) => a.number - b.number);
+        // Sort episodes
+		media.episodes = episodes.episodes
+        media.episodes.sort((a, b) => a.number - b.number);
 
-		return animeDetails;
-	} catch (error) {
-		throw new Error(error);
-	}
+        // Update the media object with the formatted data
+        media.relations = relations;
+        media.studios = studios;
+        media.genres = media.genres.join(', ');
+        media.recommendations = recommendations;
+
+        return media;
+    } catch (error) {
+        throw new Error(error);
+    }
 }
