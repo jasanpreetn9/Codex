@@ -23,5 +23,5 @@
 	/>
 {/if}
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
-<!-- <PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} /> -->
+<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} />
 

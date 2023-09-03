@@ -10,4 +10,3 @@ export const load = ({ locals }) => {
 		user: undefined
 	};
 };
-

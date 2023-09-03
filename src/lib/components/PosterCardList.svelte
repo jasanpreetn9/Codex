@@ -2,27 +2,21 @@
 	export let animes, heading;
 </script>
 
-{#if heading}
-	<h1 class="title">{heading}</h1>
-{/if}
+<h1 class="title">{heading}</h1>
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
 			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 				<div class="card">
-<<<<<<< Updated upstream
 					<img src={anime.image} class="card-img" alt="" />
-=======
-					<img src={anime.coverImage?.large} class="card-img" alt="" />
->>>>>>> Stashed changes
 					<div class="card-body">
 						<h2 class="name">
 							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
 						</h2>
-						<span class="details">
-							{anime?.format || ''}
-							{anime?.genres?.length ? '‧ ' + anime.genres.slice(0, 2).join(', ') : ''}
-						</span>
+						<span class="details"
+							>{anime?.type || ''}
+							{anime?.genres?.length ? '‧ ' + anime.genres.slice(0, 2).join(', ') : ''}</span
+						>
 					</div>
 				</div>
 			</a>
