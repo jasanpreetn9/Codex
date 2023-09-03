@@ -25,19 +25,23 @@
 						{/if}
 						<div class="detail-item">
 							<p>Format</p>
-							<span>{data.format?.toLowerCase()}</span>
+							<span>{data.type?.toLowerCase()}</span>
+						</div>
+						<div class="detail-item">
+							<p>Sub / Dub</p>
+							<span>{data.subOrDub}</span>
 						</div>
 						<div class="detail-item">
 							<p>Rating</p>
-							<span>{data.meanScore / 10}</span>
+							<span>{data.rating / 10}</span>
 						</div>
 						<div class="detail-item">
 							<p>Episodes</p>
-							<span>{data.episodes.length}</span>
+							<span>{data.totalEpisodes}</span>
 						</div>
 						<div class="detail-item">
 							<p>Status</p>
-							<span>{data.status.toLowerCase()}</span>
+							<span>{data.status}</span>
 						</div>
 						<div class="detail-item">
 							<p>Studios</p>
