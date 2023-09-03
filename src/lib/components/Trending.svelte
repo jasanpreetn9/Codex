@@ -52,7 +52,8 @@
 						<span class="dots" />
 						<p class="badges">Rating: {anime.meanScore / 10}</p>
 						<span class="dots" />
-						<p class="badges">Eps: {anime.nextAiringEpisode.episode ? anime.nextAiringEpisode.episode -1 : anime.episode}</p>
+						<p class="badges">Eps: {anime.nextAiringEpisode && anime.nextAiringEpisode.episode !== null ? anime.nextAiringEpisode.episode : anime.episode}</p>
+
 					</div>
 					<p class="anime-des">
 						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
