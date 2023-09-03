@@ -6,16 +6,16 @@
 
 <div class="carousel-container">
 	<div class="carousel">
-		{#if data.bannerImage !== data.image}
+		{#if data.cover !== data.image}
 			<div class="slider">
 				<div class="banner-gradient" />
-				<img src={data.bannerImage} alt="" />
+				<img src={data.cover} alt="" />
 			</div>
 		{/if}
 		<div class="content">
 			<div class="content-top">
 				<div class="content-left">
-					<img class="poster" src={data.coverImage.extraLarge} alt="" />
+					<img class="poster" src={data.image} alt="" />
 					<div class="details">
 						{#if data.nextAiringEpisode}
 							<div class="detail-item">
@@ -25,7 +25,7 @@
 						{/if}
 						<div class="detail-item">
 							<p>Format</p>
-							<span>{data.type?.toLowerCase()}</span>
+							<span>{data.type.toLowerCase()}</span>
 						</div>
 						<div class="detail-item">
 							<p>Sub / Dub</p>
@@ -51,9 +51,9 @@
 							<div class="detail-item">
 								<p>{relation.relationType.replace('_', ' ')}</p>
 								<span>
-									<a data-sveltekit-prefetch="true" href={'/details/' + relation.id}>
-										{relation.title.english ?? relation.title.romaji}
-									</a>
+									<a data-sveltekit-prefetch="true" href={'/details/' + relation.id}
+										>{relation.title.english ?? relation.title.romaji}</a
+									>
 								</span>
 							</div>
 						{/each}
@@ -68,7 +68,7 @@
 						<h1 class="anime-title">
 							{data.title.english?.toLowerCase() ?? data.title.romaji.toLowerCase()}
 						</h1>
-						{#if data.title.english?.toLowerCase() !== data.title.native.toLowerCase()}
+						{#if data.title.english.toLowerCase() !== data.title.native.toLowerCase()}
 							<h1 class="anime-title-native">{data.title.native}</h1>
 						{/if}
 						<p class="anime-des">
@@ -78,7 +78,7 @@
 							>Watch Now</button
 						>
 					</div>
-					{#if data.type?.toLowerCase() !== 'movie'}
+					{#if data.type.toLowerCase() !== 'movie'}
 						<EpisodeCard
 							episodes={data.episodes}
 							animeId={data.id}
@@ -138,7 +138,7 @@
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(to top, #0c111b, #0c111b00);
+		background: linear-gradient(to top,#0c111b,#0c111b00);
 	}
 	.content {
 		margin-top: 135px;
