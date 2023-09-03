@@ -1,5 +1,5 @@
 
-query ($id: Int=21) { # Define which variables will be used in the query (id)
+query ($id: Int) { # Define which variables will be used in the query (id)
   Media (id: $id, type: ANIME) {
     id
     title {
@@ -26,7 +26,6 @@ query ($id: Int=21) { # Define which variables will be used in the query (id)
     description
     format
     status(version: 2)
-    episodes
     genres
     meanScore
     nextAiringEpisode {
@@ -64,8 +63,6 @@ query ($id: Int=21) { # Define which variables will be used in the query (id)
           title {
             romaji
             english
-            native
-            userPreferred
           }
         }
       }
