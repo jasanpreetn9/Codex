@@ -47,11 +47,12 @@
 						{anime.title.english?.toLowerCase() ?? anime.title.romaji.toLowerCase()}
 					</h1>
 					<div class="badges-container">
-						<p class="badges">Type: {anime.type}</p>
+						<p class="badges">Type: {anime.format}</p>
 						<span class="dots" />
-						<p class="badges">Rating: {anime.rating / 10}</p>
+						<p class="badges">Rating: {anime.meanScore / 10}</p>
 						<span class="dots" />
-						<p class="badges">Eps: {anime.totalEpisodes}</p>
+						<p class="badges">Eps: {anime.nextAiringEpisode && anime.nextAiringEpisode.episode !== null ? anime.nextAiringEpisode.episode : anime.episode}</p>
+
 					</div>
 					<p class="anime-des">
 						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
@@ -60,7 +61,7 @@
 						<button>Watch</button>
 					</a>
 				</div>
-				<img src={anime.cover} alt="" />
+				<img src={anime.bannerImage} alt="" />
 			</div>
 		{/each}
 	</div>
@@ -293,4 +294,3 @@
 		}
 	}
 </style>
-
