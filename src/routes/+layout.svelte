@@ -76,7 +76,7 @@
 <main>
 	<slot />
 </main>
-<footer class="footer">
+<!-- <footer class="footer">
 	<div class="footer-logo">コーデックス</div>
 	<div class="footer-links">
 		<ul>
@@ -87,7 +87,7 @@
 			<li><a href="/">Account</a></li>
 		</ul>
 	</div>
-</footer>
+</footer> -->
 
 <style>
 	a {
@@ -240,6 +240,7 @@
 		text-transform: capitalize;
 		color: #fff;
 		opacity: 0.9;
+		margin-top: 5px;
 	}
 
 	.right-container {
@@ -276,7 +277,7 @@
 		padding: 0 4%;
 	}
 
-	.footer {
+	/* .footer {
 		width: 100%;
 		height: 80px;
 		padding: 0 4%;
@@ -294,18 +295,18 @@
 	.footer-links li {
 		display: inline;
 		margin-left: 20px;
-	}
+	} */
 	li:hover {
 		cursor: pointer;
 	}
 
-	.footer-links a {
+	/* .footer-links a {
 		color: #fff;
 		text-decoration: none;
 	}
 	.footer-links:hover {
 		cursor: pointer;
-	}
+	} */
 
 	@media (max-width: 850px) {
 		.search-box {
