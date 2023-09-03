@@ -73,7 +73,6 @@
 	.header {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: 10px;
 	}
 	.title {
 		margin-top: 10px;

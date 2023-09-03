@@ -77,7 +77,7 @@
 <main>
 	<slot />
 </main>
-<!-- <footer class="footer">
+<footer class="footer">
 	<div class="footer-logo">コーデックス</div>
 	<div class="footer-links">
 		<ul>
@@ -88,7 +88,7 @@
 			<li><a href="/">Account</a></li>
 		</ul>
 	</div>
-</footer> -->
+</footer>
 
 <style>
 	a {
@@ -277,7 +277,7 @@
 		padding: 0 4%;
 	}
 
-	/* .footer {
+	.footer {
 		width: 100%;
 		height: 80px;
 		padding: 0 4%;
@@ -306,7 +306,7 @@
 	}
 	.footer-links:hover {
 		cursor: pointer;
-	} */
+	}
 
 	@media (max-width: 850px) {
 		.search-box {
