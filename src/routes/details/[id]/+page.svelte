@@ -70,9 +70,8 @@
 						<p class="anime-des">
 							{@html data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 						</p>
-						<button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn"
-							>Watch Now</button
-						>
+						<!-- <button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button> -->
+						<a href={'/watch/' + data.id + '?episode=1'} class="watch-btn">Watch Now</a>
 					</div>
 					{#if data.type?.toLowerCase() !== 'movie'}
 						<EpisodeCard
@@ -238,20 +237,19 @@
 		margin-top: 15px;
 		opacity: 0.8;
 		font-size: 14px;
+		margin-bottom: 10px;
 	}
 	.watch-btn {
 		background: #1f80e0;
-		height: 33px;
-		padding: 0 15px;
+		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
 		border: none;
 		outline: none;
 		text-transform: uppercase;
-		font-weight: 500;
+		font-weight: 700;
 		font-size: 12px;
-		margin-top: 10px;
-		/* margin-bottom: 40px; */
+		margin-top: 20px;
 		cursor: pointer;
 	}
 	.summary {
