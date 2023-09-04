@@ -57,9 +57,7 @@
 					<p class="anime-des">
 						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 					</p>
-					<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
-						<button>Watch</button>
-					</a>
+					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a>
 				</div>
 				<img src={anime.bannerImage} alt="" />
 			</div>
@@ -214,9 +212,10 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		font-size: 14px;
+		margin-bottom: 15px;
 	}
 
-	button {
+	.watch-btn {
 		background: #1f80e0;
 		padding: 10px;
 		color: #fff;
@@ -226,8 +225,6 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		font-size: 12px;
-		text-decoration: none;
-		margin-top: 10px;
 		cursor: pointer;
 	}
 
