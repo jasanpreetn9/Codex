@@ -237,7 +237,7 @@
 		margin-top: 15px;
 		opacity: 0.8;
 		font-size: 14px;
-		margin-bottom: 10px;
+		margin-bottom: 15px;
 	}
 	.watch-btn {
 		background: #1f80e0;
@@ -254,6 +254,7 @@
 	}
 	.summary {
 		min-height: 200px;
+		margin-bottom: 10px;
 	}
 	@media (max-width: 850px) {
 		.slider {
