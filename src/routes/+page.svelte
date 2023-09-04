@@ -10,6 +10,8 @@
 			continueWatching = JSON.parse(object);
 		}
 	}
+	console.log(trendingAnimes);
+	console.log(recentAiringAnimes);
 </script>
 
 <Trending {trendingAnimes} />
@@ -23,5 +25,6 @@
 	/>
 {/if}
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
-<!-- <PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} /> -->
-
+{#if recentAiringAnimes.length > 0}
+	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} />
+{/if}
