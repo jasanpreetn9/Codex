@@ -1,6 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
-	import {filterIcon,proxyUrl} from '$lib'
+	import { filterIcon, proxyUrl } from '$lib';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -12,14 +12,15 @@
 	let filterState = false;
 	function toggleFilter() {
 		filterState = !filterState;
-		reverseEpisodes()
+		reverseEpisodes();
 	}
 </script>
+
 <div class="header">
 	<h1 class="title">{header}</h1>
 	{#if filter}
 		<button class="filter" on:click={toggleFilter}>
-			<img style={filterState ? "transform: scaleY(-1);" : ""} src={filterIcon} alt="Filter" />
+			<img style={filterState ? 'transform: scaleY(-1);' : ''} src={filterIcon} alt="Filter" />
 		</button>
 	{/if}
 </div>
@@ -36,8 +37,7 @@
 						class="card-body"
 						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({proxyUrl}{episode.image})"
 					>
-
-					<!-- <p class="episode-number">X</p> -->
+						<!-- <p class="episode-number">X</p> -->
 						<h2 class="name">
 							{episode.number}: {episode.title}
 						</h2>
@@ -49,10 +49,7 @@
 								/>
 							</div>
 							<div class="progress-duration-container">
-								<span class="progress-duration"
-									>{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) ||
-										'--:--'}</span
-								>
+								<span class="progress-duration">{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) || '--:--'}</span>
 							</div>
 						{/if}
 					</div>
@@ -83,7 +80,7 @@
 	}
 
 	.filter img {
-		height:20px;
+		height: 20px;
 	}
 	.filter {
 		cursor: pointer;
@@ -122,15 +119,15 @@
 		justify-content: flex-end;
 	}
 	.episode-number {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        color: #fff;
-        font-size: 16px;
-        padding: 5px 10px;
-        border-radius: 5px;
-        z-index: 1;
-    }
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		color: #fff;
+		font-size: 16px;
+		padding: 5px 10px;
+		border-radius: 5px;
+		z-index: 1;
+	}
 	.name {
 		color: #fff;
 		font-size: 15px;
