@@ -3,4 +3,4 @@ import EpisodeCard from './EpisodeCard.svelte';
 import Trending from './Trending.svelte';
 
 let apiUrl = 'https://api.consumet.org';
-export { PosterCardList, EpisodeCard, Trending, apiUrl };
+export { PosterCardList, EpisodeCard, Trending };
