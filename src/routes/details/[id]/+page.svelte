@@ -62,11 +62,10 @@
 				<div class="content-right">
 					<div class="summary">
 						<h1 class="anime-title">
-							{data.title.english?.toLowerCase() ?? data.title.romaji.toLowerCase()}
+							{data.title.english?.toLowerCase() ?? data.title.native?.toLowerCase()}
 						</h1>
-						{#if data.title.english?.toLowerCase() !== data.title.native.toLowerCase()}
-							<h1 class="anime-title-native">{data.title.native}</h1>
-						{/if}
+
+						<h1 class="anime-title-native">{data.title.native}</h1>
 						<p class="anime-des">
 							{@html data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 						</p>

@@ -28,3 +28,4 @@
 {#if recentAiringAnimes.length > 0}
 	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} />
 {/if}
+
