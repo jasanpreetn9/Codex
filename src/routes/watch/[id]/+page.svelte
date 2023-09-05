@@ -4,7 +4,7 @@
 	import Artplayer from 'artplayer';
 	import { onMount } from 'svelte';
 	import { EpisodeCard } from '$lib/components';
-	import { pre, nxt } from '$lib';
+	import { pre, nxt } from '$lib/utils';
 
 	let continueWatching = [];
 

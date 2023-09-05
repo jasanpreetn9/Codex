@@ -1,6 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
-	import { filterIcon, proxyUrl } from '$lib';
+	import { filterIcon, proxyUrl } from '$lib/utils';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}

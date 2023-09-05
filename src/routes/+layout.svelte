@@ -2,7 +2,7 @@
 	export let data;
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
-	import { logo } from '$lib';
+	import { logo } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });

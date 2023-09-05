@@ -1,4 +1,4 @@
-import { proxyUrl } from '$lib';
+import { proxyUrl } from '$lib/utils';
 
 
 export async function load({ fetch }) {

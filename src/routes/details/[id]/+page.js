@@ -46,7 +46,7 @@
 // 		throw new Error(error);
 // 	}
 // }
-import { formatDetails } from '$lib';
+import { formatDetails } from '$lib/utils';
 export async function load({ params, fetch }) {
 	try {
 		// Fetch episodes

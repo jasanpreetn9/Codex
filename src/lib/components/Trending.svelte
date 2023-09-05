@@ -2,7 +2,7 @@
 	export let trendingAnimes;
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
-	import { pre,nxt } from '$lib';
+	import { pre,nxt } from '$lib/utils';
 
 	let slider, prev, next, radioSlider;
 	let select = 0;
