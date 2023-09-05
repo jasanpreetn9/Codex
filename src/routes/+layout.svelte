@@ -3,6 +3,9 @@
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
 	import { downArrow, logo } from '$lib';
+	import { dev } from '$app/environment';
+	import { inject } from '@vercel/analytics';
+	inject({ mode: dev ? 'development' : 'production' });
 	let inputValue = '';
 	let dropdownVisible = false; // Add this line
 	let downarrow = false; // Add this line
@@ -76,6 +79,7 @@
 <main>
 	<slot />
 </main>
+
 <!-- <footer class="footer">
 	<div class="footer-logo">コーデックス</div>
 	<div class="footer-links">
@@ -340,6 +344,4 @@
 		font-weight: 600;
 		text-transform: capitalize;
 	}
-
-	
 </style>
