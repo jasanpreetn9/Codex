@@ -1,6 +1,5 @@
 <script>
 	export let form;
-	console.log(form?.notVerified);
 </script>
 
 <body>
@@ -11,7 +10,7 @@
 				<p class="head">Sign in to access your account.</p>
 
 				<div class="socials">
-					<button><i class="fa-brands fa-discord" id="facebok" /> Sign In with Discord</button>
+					<button><i class="fa-brands fa-discord" id="facebook" /> Sign In with Discord</button>
 					{#if form?.notVerified}
 						<p>You must verify your email before you can login.</p>
 					{/if}
@@ -99,7 +98,7 @@
 		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
 			var(--tw-shadow);
 	}
-	#facebok {
+	#facebook {
 		margin-right: 10px;
 		padding: 0;
 		font-size: 20px;
@@ -161,8 +160,6 @@
 		align-items: center;
 		color: rgb(100, 100, 100);
 		width: 100%;
-	}
-	.inputs:focus {
 	}
 	.inputs label {
 		display: flex;
