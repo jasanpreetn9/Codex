@@ -1,4 +1,7 @@
-export async function load({ fetch,setHeaders }) {
+import { proxyUrl } from '$lib';
+
+
+export async function load({ fetch }) {
     try {
         const queryResponse = await fetch('graphql/home.graphql');
         const queryText = await queryResponse.text();
@@ -15,7 +18,7 @@ export async function load({ fetch,setHeaders }) {
         });
         let anilistData = await anilistRes.json();
 
-        const enimeResponse = await fetch('https://api.enime.moe/recent?page=1&perPage=30');
+        const enimeResponse = await fetch( proxyUrl + 'https://api.enime.moe/recent?page=1&perPage=30');
         const enimeData = await enimeResponse.json();
 
         let enime = null;
