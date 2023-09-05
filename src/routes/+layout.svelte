@@ -2,13 +2,22 @@
 	export let data;
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
-	import { downArrow, logo } from '$lib';
+	import { logo } from '$lib';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
 	let inputValue = '';
-	let dropdownVisible = false; // Add this line
-	let downarrow = false; // Add this line
+	let menuOpen = false;
+	function handleMenuOpen() {
+		menuOpen = true
+		console.log('open')
+		document.body.addEventListener('click', handleMenuClose)
+	}
+	function handleMenuClose() {
+		menuOpen = false
+		console.log('close')
+		document.body.removeEventListener('click', handleMenuClose)
+	}
 </script>
 
 <svelte:head>
@@ -39,13 +48,16 @@
 			{#if !data?.user}
 				<a class="login" href="/login"> Login </a>
 			{:else if data?.user}
-				<button class="container" on:click={() => (dropdownVisible = !dropdownVisible)}>
+				<button class="container" on:click|stopPropagation={handleMenuOpen}>
 					<img
 						class="avatar-btn"
 						src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
 						alt=""
 					/>
-					<div class="dropdown-content" style="display: {dropdownVisible ? 'block' : 'none'}">
+				</button>
+				{#if menuOpen}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<div class="dropdown-content"  on:click|stopPropagation={()=>{}}>
 						<img
 							class="avatarDropdown"
 							src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
@@ -66,7 +78,7 @@
 							>
 						</form>
 					</div>
-				</button>
+				{/if}
 			{:else}
 				<a href="/login">
 					<p class="loginp">Login</p>
@@ -159,7 +171,7 @@
 		border-radius: 8px;
 		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 		z-index: 10;
-		display: none;
+		/* display: none; */
 		flex-direction: column;
 		width: 250px;
 		height: 300px;
@@ -331,6 +343,7 @@
 		border: none;
 		border-radius: 100%;
 		color: white;
+		cursor: pointer;
 	}
 	.avatar-btn {
 		width: 36px;
