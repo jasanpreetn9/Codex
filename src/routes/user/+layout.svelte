@@ -29,10 +29,6 @@
 		/* border-top: 1px solid #ddd; */
 	}
 
-	input {
-		display: none;
-	}
-
 	a {
 		display: inline-block;
 		margin: 0 0 -1px;

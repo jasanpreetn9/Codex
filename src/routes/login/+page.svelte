@@ -1,5 +1,6 @@
 <script>
 	export let form;
+	import {Alert} from '$lib/components'
 </script>
 
 <body>
@@ -11,9 +12,6 @@
 
 				<div class="socials">
 					<button><i class="fa-brands fa-discord" id="facebook" /> Sign In with Discord</button>
-					{#if form?.notVerified}
-						<p>You must verify your email before you can login.</p>
-					{/if}
 					<button
 						><img
 							src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -39,6 +37,11 @@
 
 				<button type="submit" class="signUp">Sign In</button>
 				<p class="account">Don't have an account? <a href="/register">Register</a></p>
+				<!-- <div class="alert">
+				</div> -->
+				<!-- {#if form?.notVerified}
+				{/if} -->
+				<Alert message="You must verify your email before you can login." type="error"/>
 			</div>
 		</div>
 	</form>
