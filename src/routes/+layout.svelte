@@ -2,6 +2,7 @@
 	export let data;
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
+	import { Icon, MagnifyingGlass } from 'svelte-hero-icons';
 	import { logo } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
@@ -9,14 +10,14 @@
 	let inputValue = '';
 	let menuOpen = false;
 	function handleMenuOpen() {
-		menuOpen = true
-		console.log('open')
-		document.body.addEventListener('click', handleMenuClose)
+		menuOpen = true;
+		console.log('open');
+		document.body.addEventListener('click', handleMenuClose);
 	}
 	function handleMenuClose() {
-		menuOpen = false
-		console.log('close')
-		document.body.removeEventListener('click', handleMenuClose)
+		menuOpen = false;
+		console.log('close');
+		document.body.removeEventListener('click', handleMenuClose);
 	}
 </script>
 
@@ -36,13 +37,17 @@
 
 	<div class="search-tools">
 		<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
-			<input
-				type="text"
-				id="search-box"
-				class="search-box"
-				bind:value={inputValue}
-				placeholder="search"
-			/>
+			<div class="icons">
+				<Icon src={MagnifyingGlass} size="22px"/>
+				<p class="iconside">|</p>
+				<input
+					type="text"
+					id="search-box"
+					class="search-box"
+					bind:value={inputValue}
+					placeholder="search"
+				/>
+			</div>
 		</form>
 		<div>
 			{#if !data?.user}
@@ -57,7 +62,7 @@
 				</button>
 				{#if menuOpen}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<div class="dropdown-content"  on:click|stopPropagation={()=>{}}>
+					<div class="dropdown-content" on:click|stopPropagation={() => {}}>
 						<img
 							class="avatarDropdown"
 							src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
@@ -109,7 +114,24 @@
 	a {
 		text-decoration: none;
 	}
-
+	.icons{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-left: 10px;
+		background: #161b24;
+		color: gray;
+		border-radius: 12px;
+	}
+	.iconside{
+		margin-left: 10px;
+		font-size: smaller;
+		font-weight: 100;
+		justify-content: center;
+		display: flex;
+		align-items: center;
+		margin-bottom: 2px;
+	}
 	.navbar {
 		width: 100%;
 		height: 80px;
@@ -283,9 +305,10 @@
 		transition: 0.5s;
 		padding: 18px 12px;
 		border-radius: 12px;
-		width: 300px;
+		width: 260px;
 		font-size: 13px;
 		font-weight: 600;
+		border-right: 12px;
 	}
 
 	main {
