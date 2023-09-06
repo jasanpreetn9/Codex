@@ -53,6 +53,13 @@
 .active {
     color: white;
     border-top: 2px solid #1f80e0;
+	--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+		--tw-shadow-color: #303030;
+		--tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color);
+    --tw-shadow: var(--tw-shadow-colored),
+			0 2px 4px -2px var(--tw-shadow-color);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+			var(--tw-shadow);
 }
 	/* #tab1:checked ~ #content1,
 	#tab2:checked ~ #content2,
