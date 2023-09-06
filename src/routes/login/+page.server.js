@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 
-export async function load({ locals }) {
-	if (locals.user) {
+export async function load({ locals, url }) {
+	if (locals.pb.authStore.isValid) {
 		throw redirect(303, '/');
 	}
 }

@@ -1,10 +1,15 @@
 <script>
-    import {Icon, XCircle} from 'svelte-hero-icons'
+    import {Icon, XCircle,CheckCircle, ExclamationCircle} from 'svelte-hero-icons'
 	export let type, message;
+    const typeObject = {
+        error: XCircle,
+        success: CheckCircle,
+        warning: ExclamationCircle
+    }
 </script>
 
-<div class="error">
-    <Icon src={XCircle} size="35" />
+<div class="{type}">
+    <Icon src={typeObject[type]} size="35" />
 	<p>{message}</p>
 </div>
 
@@ -21,6 +26,12 @@
     }
     .error {
         background-color: #f87372;
+    }
+    .success {
+        background-color: #37D39A;
+    }
+    .warning {
+        background-color: #FABD22;
     }
     p {
         margin-left: 5px;

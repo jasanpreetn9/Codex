@@ -2,28 +2,21 @@
 	export let data;
 	const { trendingAnimes, popularAnimes, recentAiringAnimes } = data;
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
-	let continueWatching;
-	if (!import.meta.env.SSR) {
-		// get local storage
-		let object = localStorage.getItem('continueWatching');
-		if (object) {
-			continueWatching = JSON.parse(object);
-		}
-	}
-	console.log(trendingAnimes);
-	console.log(recentAiringAnimes);
+	console.log(recentAiringAnimes)
+	// console.log(trendingAnimes);
+	// console.log(recentAiringAnimes);
 </script>
 
 <Trending {trendingAnimes} />
 
-{#if continueWatching.length > 0}
+<!-- {#if continueWatching.length > 0}
 	<EpisodeCard
 		episodes={continueWatching}
 		scrollAble={false}
 		header={'Continue Watching'}
 		filter={false}
 	/>
-{/if}
+{/if} -->
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
 {#if recentAiringAnimes.length > 0}
 	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} />
