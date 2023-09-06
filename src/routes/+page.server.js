@@ -1,40 +1,27 @@
+import { proxyUrl } from '$lib/utils';
+
+
 export async function load({ fetch }) {
-    const query = await fetch('graphql/home.graphql');
-
-    let animes = null;
-    let enime = null;
-
     try {
-        const responsePromise = fetch('https://graphql.anilist.co/', {
+        const queryResponse = await fetch('graphql/home.graphql');
+        const queryText = await queryResponse.text();
+
+        const anilistRes = await fetch('https://graphql.anilist.co/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
             },
             body: JSON.stringify({
-                query: await query.text(),
+                query: queryText,
             }),
         });
+        let anilistData = await anilistRes.json();
 
-        const enimePromise = new Promise((resolve, reject) => {
-            const timeoutId = setTimeout(() => {
-                clearTimeout(timeoutId);
-                reject(new Error('Enime request timed out'));
-            }, 500);
+        const enimeResponse = await fetch( proxyUrl + 'https://api.enime.moe/recent?page=1&perPage=30');
+        const enimeData = await enimeResponse.json();
 
-            fetch('https://api.enime.moe/recent?page=1&perPage=30')
-                .then((enimeResp) => {
-                    clearTimeout(timeoutId); // Clear the timeout since the request completed within 500ms
-                    resolve(enimeResp.json());
-                })
-                .catch((error) => {
-                    clearTimeout(timeoutId); // Clear the timeout in case of an error
-                    reject(error);
-                });
-        });
-
-        const [response, enimeData] = await Promise.all([responsePromise, enimePromise]);
-        animes = await response.json();
+        let enime = null;
 
         if (enimeData) {
             enime = enimeData?.data?.map((item) => ({
@@ -49,14 +36,19 @@ export async function load({ fetch }) {
             }));
             enime = enime.filter((item) => item.format === 'TV').slice(0, 16);
         }
+
+        const results = {
+            trendingAnimes: anilistData?.data?.trending?.media || [],
+            popularAnimes: anilistData?.data?.popular?.media || [],
+            recentAiringAnimes: enime || [],
+        };
+        return results;
     } catch (error) {
         console.log(error);
+        return {
+            trendingAnimes: [],
+            popularAnimes: [],
+            recentAiringAnimes: [],
+        };
     }
-
-    const results = {
-        trendingAnimes: animes?.data?.trending?.media || [],
-        popularAnimes: animes?.data?.popular?.media || [],
-        recentAiringAnimes: enime || [],
-    };
-    return results;
 }

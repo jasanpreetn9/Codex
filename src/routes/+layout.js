@@ -1,4 +1,4 @@
-export const ssr = false
+// export const ssr = false
 
 export const load = async () => {
     if (!import.meta.env.SSR) {

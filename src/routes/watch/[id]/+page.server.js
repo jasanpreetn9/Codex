@@ -1,7 +1,7 @@
 // import { apiUrl } from '$lib';
 import { META,PROVIDERS_LIST } from '@consumet/extensions';
 import { redirect } from '@sveltejs/kit';
-import {proxyUrl} from '$lib'
+import {proxyUrl} from '$lib/utils'
 export async function load({ fetch, params, url }) {
     const episodeNumber = url.searchParams.get('episode') || 1;
     const dubStr = url.searchParams.get('dub') || false;

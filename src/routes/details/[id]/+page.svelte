@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	console.log(data)
 	import { goto } from '$app/navigation';
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
@@ -20,7 +21,7 @@
 						{#if data.nextAiringEpisode}
 							<div class="detail-item">
 								<p>Next Airing Episode</p>
-								<span>{data.nextAiringEpisode.airingTime}</span>
+								<span>{data.nextAiringEpisode.airingAt}</span>
 							</div>
 						{/if}
 						<div class="detail-item">
