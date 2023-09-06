@@ -6,21 +6,6 @@
 	import { EpisodeCard } from '$lib/components';
 	import { pre, nxt } from '$lib/utils';
 
-	let continueWatching = [];
-
-	const storedData = localStorage.getItem('continueWatching');
-	if (storedData) {
-		continueWatching = JSON.parse(storedData);
-	}
-	let currentWatchingIndex = continueWatching.findIndex(
-		(item) => parseInt(item.animeId) === parseInt(details.id)
-	);
-	if (currentWatchingIndex < 0) {
-		continueWatching.push(currentEpisodeDetail);
-		currentWatchingIndex = continueWatching.length - 1;
-	}
-	continueWatching[currentWatchingIndex].animeTitle = details.title.english;
-	continueWatching[currentWatchingIndex].animeId = details.id;
 
 	let artplayer;
 	onMount(() => {
@@ -59,18 +44,7 @@
 				}
 			]
 		});
-		artplayer.on('start', () => {
-			artplayer.currentTime = continueWatching[currentWatchingIndex].currentTime;
-		});
 	});
-
-	setInterval(function () {
-		if (artplayer.playing) {
-			continueWatching[currentWatchingIndex].duration = artplayer.duration;
-			continueWatching[currentWatchingIndex].currentTime = Math.floor(artplayer.currentTime);
-			localStorage.setItem('continueWatching', JSON.stringify(continueWatching));
-		}
-	}, 1000);
 </script>
 
 <main>

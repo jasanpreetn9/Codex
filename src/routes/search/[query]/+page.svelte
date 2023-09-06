@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	const { results,page,params } = data;
-	console.log(results)
 	import { PosterCardList } from '$lib/components';
 
 </script>

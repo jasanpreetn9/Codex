@@ -33,7 +33,6 @@ export async function load({ fetch,params }) {
 	}
   
   
-  console.log(animes)
 	return {
 		page: animes?.data?.Page?.pageinfo || {},
 		results: animes?.data?.Page?.media || [],
