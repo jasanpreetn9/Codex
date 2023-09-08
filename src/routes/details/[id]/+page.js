@@ -3,6 +3,12 @@ export async function load({ params, fetch }) {
 	try {
 		// Fetch episodes
 		const enimeResp = await fetch(`https://api.enime.moe/mapping/anilist/${params.id}`);
+		
+		const enimeCacheControl = enimeResp.headers.get("cache-control")
+
+		if (enimeCacheControl) {
+			setHeaders({ "cache-control": enimeCacheControl })
+		}
 		const enime = await enimeResp.json();
 
 		// Fetch GraphQL query for anime details
