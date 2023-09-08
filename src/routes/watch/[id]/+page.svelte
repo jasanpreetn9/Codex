@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	console.log(data)
+	const {animeDetails,currentEpObject} = data;
 	import { EpisodeCard } from '$lib/components';
 	
 </script>
@@ -9,7 +9,7 @@
 	<h1>Watch Page</h1>
 </main>
 
-<!-- <main>
+<main>
 	<div class="video">
 	</div>
 	<div class="blank" />
@@ -17,12 +17,12 @@
 	<div class="details">
 		<div class="container-left">
 			<div class="details">
-				<h1 class="title">Episode {currentEpisodeDetail.number} - {currentEpisodeDetail.title}</h1>
-				<p class="description">{currentEpisodeDetail.description}</p>
+				<h1 class="title">Episode {currentEpObject.number} - {currentEpObject.title}</h1>
+				<p class="description">{currentEpObject.description}</p>
 				<div class="episodeCards">
 					<EpisodeCard
-						episodes={details.episodes}
-						animeId={details.id}
+						episodes={animeDetails.episodes}
+						animeId={animeDetails.id}
 						scrollable={true}
 						filter={true}
 						header={'Episodes'}
@@ -33,18 +33,18 @@
 				<div class="sub-dubBtn">
 					<a
 						href={'/watch/' +
-							details.id +
+							animeDetails.id +
 							'?episode=' +
-							(currentEpisodeDetail.number + 1) +
-							'&dub=true'}
+							(currentEpObject.number) +
+							'&dub=false'}
 						class="subDub-btn">SUB</a
 					>
 					<a
 						href={'/watch/' +
-							details.id +
+							animeDetails.id +
 							'?episode=' +
-							(currentEpisodeDetail.number + 1) +
-							'&dub=false'}
+							(currentEpObject.number) +
+							'&dub=true'}
 						class="subDub-btn">DUB</a
 					>
 				</div>
@@ -113,4 +113,4 @@
 		margin-right: -5px;
 		cursor: pointer;
 	}
-</style> -->
+</style>

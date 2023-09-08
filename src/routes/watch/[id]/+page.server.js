@@ -64,54 +64,55 @@ import { redirect } from '@sveltejs/kit';
 import { proxyUrl, formatDetails } from '$lib/utils';
 
 export async function load({ fetch, params, url }) {
-    const episodeNumber = url.searchParams.get('episode') || 1;
-    const dubStr = url.searchParams.get('dub') || false;
-    const dubBool = dubStr?.toLowerCase?.() === 'true';
+	const episodeNumber = url.searchParams.get('episode') || 1;
+	const dubStr = url.searchParams.get('dub') || false;
+	const dubBool = dubStr?.toLowerCase?.() === 'true';
 
-    try {
-        const anilistMeta = new META.Anilist(undefined, { url: proxyUrl });
+	try {
+		const anilistMeta = new META.Anilist(undefined, { url: proxyUrl });
 
-        // Fetch episodeUrlsSub and episodeUrlsDub concurrently
-        const [enimeResp, anilistResp] = await Promise.all([
-            fetch(`https://api.enime.moe/mapping/anilist/${params.id}`),
-            fetch('https://graphql.anilist.co/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify({
-                    query: await (await fetch('../graphql/details.graphql')).text(),
-                    variables: { id: params.id }
-                })
-            })
-        ]);
+		// Fetch episodeUrlsSub and episodeUrlsDub concurrently
+		const [enimeResp, anilistResp] = await Promise.all([
+			fetch(`https://api.enime.moe/mapping/anilist/${params.id}`),
+			fetch('https://graphql.anilist.co/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json'
+				},
+				body: JSON.stringify({
+					query: await (await fetch('../graphql/details.graphql')).text(),
+					variables: { id: params.id }
+				})
+			})
+		]);
 
-        const enime = await enimeResp.json();
-        const anilist = await anilistResp.json();
-        
+		const enime = await enimeResp.json();
+		const anilist = await anilistResp.json();
+
 		const details = formatDetails(anilist.data.Media, enime);
-        
-		let currentEpObject = details.episodes.find((episode) => parseInt(episode.number) == parseInt(episodeNumber));
 
-        const currentEpIdSub = currentEpObject.sources[0].target;
-        const currentEpIdDub = currentEpIdSub.replace('episode', 'dub-episode');
+		let currentEpObject = details.episodes.find(
+			(episode) => parseInt(episode.number) == parseInt(episodeNumber)
+		);
 
-        const [episodeUrlsSub, episodeUrlsDub] = await Promise.all([
-            anilistMeta.fetchEpisodeSources(currentEpIdSub),
-            anilistMeta.fetchEpisodeSources(currentEpIdDub).catch(error => null) // Handle errors and set to null
-        ]);
+		const currentEpIdSub = currentEpObject.sources[0].target;
+		const currentEpIdDub = currentEpIdSub.replace('episode', 'dub-episode');
 
-        currentEpObject.sourcesSub = episodeUrlsSub?.sources;
-        currentEpObject.sourcesDub = episodeUrlsDub?.sources;
+		const [episodeUrlsSub, episodeUrlsDub] = await Promise.all([
+			anilistMeta.fetchEpisodeSources(currentEpIdSub),
+			anilistMeta.fetchEpisodeSources(currentEpIdDub).catch((error) => null) // Handle errors and set to null
+		]);
 
-        return {
-            animeDetails: details,
-            currentEpObject,
-            success: true
-        };
-    } catch (error) {
-        console.error('An error occurred:', error);
-        throw error;
-    }
+		currentEpObject.sourcesSub = episodeUrlsSub?.sources;
+		currentEpObject.sourcesDub = episodeUrlsDub?.sources;
+
+		return {
+			animeDetails: details,
+			currentEpObject
+		};
+	} catch (error) {
+		console.error('An error occurred:', error);
+		throw error;
+	}
 }
