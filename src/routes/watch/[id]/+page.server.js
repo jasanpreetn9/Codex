@@ -59,7 +59,7 @@
 // 	}
 // }
 // import { apiUrl } from '$lib';
-import { META, PROVIDERS_LIST, ANIME } from '@consumet/extensions';
+import { META } from '@consumet/extensions';
 import { redirect } from '@sveltejs/kit';
 import { proxyUrl, formatDetails } from '$lib/utils';
 
@@ -70,7 +70,6 @@ export async function load({ fetch, params, url }) {
 
     try {
         const anilistMeta = new META.Anilist(undefined, { url: proxyUrl });
-        const animeGogoanime = new ANIME.Gogoanime();
 
         // Fetch episodeUrlsSub and episodeUrlsDub concurrently
         const [enimeResp, anilistResp] = await Promise.all([
@@ -90,13 +89,14 @@ export async function load({ fetch, params, url }) {
 
         const enime = await enimeResp.json();
         const anilist = await anilistResp.json();
-        const details = formatDetails(anilist.data.Media, enime);
-        let currentEpObject = details.episodes.find((episode) => parseInt(episode.number) == parseInt(episodeNumber));
+        
+		const details = formatDetails(anilist.data.Media, enime);
+        
+		let currentEpObject = details.episodes.find((episode) => parseInt(episode.number) == parseInt(episodeNumber));
 
         const currentEpIdSub = currentEpObject.sources[0].target;
         const currentEpIdDub = currentEpIdSub.replace('episode', 'dub-episode');
 
-        // Fetch episodeUrlsSub and handle errors for episodeUrlsDub
         const [episodeUrlsSub, episodeUrlsDub] = await Promise.all([
             anilistMeta.fetchEpisodeSources(currentEpIdSub),
             anilistMeta.fetchEpisodeSources(currentEpIdDub).catch(error => null) // Handle errors and set to null
