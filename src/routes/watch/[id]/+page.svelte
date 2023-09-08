@@ -1,12 +1,15 @@
 <script>
 	export let data;
-	const { details, episodeSources, currentEpisodeDetail } = data;
+	console.log(data)
 	import { EpisodeCard } from '$lib/components';
-
-
+	
 </script>
 
 <main>
+	<h1>Watch Page</h1>
+</main>
+
+<!-- <main>
 	<div class="video">
 	</div>
 	<div class="blank" />
@@ -110,4 +113,4 @@
 		margin-right: -5px;
 		cursor: pointer;
 	}
-</style>
+</style> -->
