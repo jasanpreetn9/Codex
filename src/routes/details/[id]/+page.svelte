@@ -1,6 +1,5 @@
 <script>
 	export let data;
-	console.log(data)
 	import { goto } from '$app/navigation';
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>

@@ -10,7 +10,7 @@
 		{#each animes as anime}
 			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
 				<div class="card">
-					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" />
+					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy"/>
 					<div class="card-body">
 						<h2 class="name">
 							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}

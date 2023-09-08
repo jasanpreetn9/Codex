@@ -1,17 +1,15 @@
 <script>
+	import { page } from '$app/stores';
 	export let data;
-	const {animeDetails,currentEpObject} = data;
+	const { animeDetails, currentEpObject } = data;
+	const dubBool = $page.url.searchParams.get("dub")?.toLowerCase?.() === 'true'
 	import { EpisodeCard } from '$lib/components';
-	
+	// $$page.url.searchParams.get('dub') === true ? 'active' : ''
 </script>
 
 <main>
 	<h1>Watch Page</h1>
-</main>
-
-<main>
-	<div class="video">
-	</div>
+	<div class="video" />
 	<div class="blank" />
 
 	<div class="details">
@@ -20,33 +18,25 @@
 				<h1 class="title">Episode {currentEpObject.number} - {currentEpObject.title}</h1>
 				<p class="description">{currentEpObject.description}</p>
 				<div class="episodeCards">
-					<EpisodeCard
-						episodes={animeDetails.episodes}
-						animeId={animeDetails.id}
-						scrollable={true}
-						filter={true}
-						header={'Episodes'}
-					/>
-
+					<EpisodeCard episodes={animeDetails.episodes} animeId={animeDetails.id} scrollAble={true} filter={true} header={'Episodes'}/>
 				</div>
 				<div class="reviews" />
 				<div class="sub-dubBtn">
 					<a
-						href={'/watch/' +
-							animeDetails.id +
-							'?episode=' +
-							(currentEpObject.number) +
-							'&dub=false'}
-						class="subDub-btn">SUB</a
+						href={'/watch/' + animeDetails.id + '?episode=' + currentEpObject.number + '&dub=false'}
+						class={$page.url.searchParams.get('dub') !== "true" ? 'subDub-btn-active subDub-btn' : 'subDub-btn'}>SUB</a
 					>
-					<a
-						href={'/watch/' +
-							animeDetails.id +
-							'?episode=' +
-							(currentEpObject.number) +
-							'&dub=true'}
-						class="subDub-btn">DUB</a
-					>
+					{#if currentEpObject.sourcesDub}
+						<a
+							href={'/watch/' +
+								animeDetails.id +
+								'?episode=' +
+								currentEpObject.number +
+								'&dub=true'}
+								
+							class={$page.url.searchParams.get('dub') === "true" ? 'subDub-btn-active subDub-btn' : 'subDub-btn'}>DUB</a
+						>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -100,7 +90,7 @@
 	}
 
 	.subDub-btn {
-		background: #1f80e0;
+		background: #16222d;
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
@@ -112,5 +102,8 @@
 		font-size: 12px;
 		margin-right: -5px;
 		cursor: pointer;
+	}
+	.subDub-btn-active {
+		background: #1f80e0;
 	}
 </style>

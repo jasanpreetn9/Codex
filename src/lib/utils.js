@@ -20,16 +20,16 @@ export const userNavigation = [
 		href: '/user/profile'
 	},
 	{
+		title: 'Account',
+		href: '/user/account'
+	},
+	{
 		title: 'Continue Watching',
 		href: '/user/continue-watching'
 	},
 	{
 		title: 'Watch Lists',
 		href: '/user/watch-list'
-	},
-	{
-		title: 'Account',
-		href: '/user/account'
 	},
 ];
 

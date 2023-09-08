@@ -59,7 +59,7 @@
 					</p>
 					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a>
 				</div>
-				<img src={anime.bannerImage} alt="" />
+				<img src={anime.bannerImage} alt="" loading="lazy" />
 			</div>
 		{/each}
 	</div>
