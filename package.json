@@ -23,7 +23,6 @@
 		"@consumet/extensions": "^1.5.1",
 		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@vercel/analytics": "^1.0.2",
-		"artplayer": "^4.6.2",
 		"install": "^0.13.0",
 		"npm": "^9.8.1",
 		"pocketbase": "^0.17.2",
