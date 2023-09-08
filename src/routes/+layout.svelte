@@ -3,7 +3,7 @@
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
-	import { logo } from '$lib/utils';
+	import { logo,userNavigation } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
@@ -73,15 +73,12 @@
 						<h2 class="email">{data.user?.email}</h2>
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
-							<li>
-								<a href="/">Profile</a>
-							</li>
-							<li><a href="/">Account</a></li>
-							<li><a href="/">Profile</a></li>
-							<li><a href="/">Continue Watching</a></li>
+							{#each userNavigation as navItem}
+								 <li><a href={navItem.href}>{navItem.title}</a></li>
+							{/each}
 						</ul>
 						<span class="lineSeparate" />
-							<form action="/logout" method="POST">
+						<form action="/logout" method="POST">
 							<button class="signOut" type="submit">
 								<Icon src={ArrowRightOnRectangle} size="22px" />
 								Logout

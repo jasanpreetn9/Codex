@@ -14,6 +14,25 @@ export const serializeNonPOJOs = (obj) => {
 };
 
 
+export const userNavigation = [
+	{
+		title: 'Profile',
+		href: '/user/profile'
+	},
+	{
+		title: 'Continue Watching',
+		href: '/user/continue-watching'
+	},
+	{
+		title: 'Watch Lists',
+		href: '/user/watch-list'
+	},
+	{
+		title: 'Account',
+		href: '/user/account'
+	},
+];
+
 export const formatDetails = (media, episodes) => {
 	
 	// Filter and format relations
