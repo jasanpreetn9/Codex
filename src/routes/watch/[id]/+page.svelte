@@ -2,14 +2,11 @@
 	import { page } from '$app/stores';
 	export let data;
 	const { animeDetails, currentEpObject } = data;
-	const dubBool = $page.url.searchParams.get("dub")?.toLowerCase?.() === 'true'
 	import { EpisodeCard } from '$lib/components';
-	// $$page.url.searchParams.get('dub') === true ? 'active' : ''
 </script>
 
 <main>
 	<h1>Watch Page</h1>
-	<div class="video" />
 	<div class="blank" />
 
 	<div class="details">
@@ -18,13 +15,21 @@
 				<h1 class="title">Episode {currentEpObject.number} - {currentEpObject.title}</h1>
 				<p class="description">{currentEpObject.description}</p>
 				<div class="episodeCards">
-					<EpisodeCard episodes={animeDetails.episodes} animeId={animeDetails.id} scrollAble={true} filter={true} header={'Episodes'}/>
+					<EpisodeCard
+						episodes={animeDetails.episodes}
+						animeId={animeDetails.id}
+						scrollAble={true}
+						filter={true}
+						header={'Episodes'}
+					/>
 				</div>
 				<div class="reviews" />
 				<div class="sub-dubBtn">
 					<a
 						href={'/watch/' + animeDetails.id + '?episode=' + currentEpObject.number + '&dub=false'}
-						class={$page.url.searchParams.get('dub') !== "true" ? 'subDub-btn-active subDub-btn' : 'subDub-btn'}>SUB</a
+						class={$page.url.searchParams.get('dub') !== 'true'
+							? 'subDub-btn-active subDub-btn'
+							: 'subDub-btn'}>SUB</a
 					>
 					{#if currentEpObject.sourcesDub}
 						<a
@@ -33,8 +38,9 @@
 								'?episode=' +
 								currentEpObject.number +
 								'&dub=true'}
-								
-							class={$page.url.searchParams.get('dub') === "true" ? 'subDub-btn-active subDub-btn' : 'subDub-btn'}>DUB</a
+							class={$page.url.searchParams.get('dub') === 'true'
+								? 'subDub-btn-active subDub-btn'
+								: 'subDub-btn'}>DUB</a
 						>
 					{/if}
 				</div>
