@@ -11,6 +11,8 @@ export async function load({ fetch, setHeaders }) {
 			const anilistCached = await redis.get(anilistRedisKey);
 
 			if (anilistCached) {
+				const anilistTtl = redis.ttl(anilistRedisKey)
+				setHeaders({'cache-control': `max-age=${anilistTtl}`})
 				console.log('Cache hit anilist!');
 
 				return JSON.parse(anilistCached);
@@ -48,7 +50,8 @@ export async function load({ fetch, setHeaders }) {
 
 		if (enimeCached) {
 			console.log('Cache hit enime!');
-
+			const enimeTtl = redis.ttl(enimeRedisKey)
+			setHeaders({'cache-control': `max-age=${enimeTtl}`})
 			return JSON.parse(enimeCached);
 		}
 

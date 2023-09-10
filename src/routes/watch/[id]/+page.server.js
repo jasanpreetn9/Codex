@@ -16,7 +16,6 @@ export async function load({ fetch, params, url }) {
 		const detailsAnilistCached = await redis.get(detailsCacheKey);
 
 		if (!detailsAnilistCached) {
-			console.log('Cache hit details!');
 			// Fetch episodeUrlsSub and episodeUrlsDub concurrently
 			const [enimeResp, anilistResp] = await Promise.all([
 				fetch(`https://api.enime.moe/mapping/anilist/${params.id}`),
