@@ -53,4 +53,4 @@ Now build and start the production build of the site using
 npm build
 ```
 
-This will start the app on http://localhost:3000
+This will start the app on http://localhost:5173
