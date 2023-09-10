@@ -36,7 +36,7 @@ export const userNavigation = [
 export const formatDetails = (media, episodes) => {
 	
 	// Filter and format relations
-	const relations = media.relations.edges
+	const relations = media.relations?.edges
 		.filter((relation) => relation.node && relation.node.relationType)
 		.map((relation) => {
 			// Ensure relation.node is not null and has a relationType property
