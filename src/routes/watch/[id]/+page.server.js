@@ -8,6 +8,7 @@ export async function load({ fetch, params, url }) {
 	const dubStr = url.searchParams.get('dub') || false;
 	const dubBool = dubStr?.toLowerCase?.() === 'true';
 	const detailsCacheKey = `details-${params.id}`;
+	const episodeCacheKey = `watch-${params.id}-${episodeNumber}`;
 
 	try {
 		const anilistMeta = new META.Anilist(undefined, { url: proxyUrl });
@@ -43,9 +44,7 @@ export async function load({ fetch, params, url }) {
 
 			details = formatDetails(anilist.data.Media, enime);
 			redis.set(detailsCacheKey, JSON.stringify(details), 'EX', 600);
-
 		} else if (detailsAnilistCached) {
-			
 			console.log('Cache hit watch details!');
 			details = JSON.parse(detailsAnilistCached);
 		}
@@ -54,14 +53,32 @@ export async function load({ fetch, params, url }) {
 			(episode) => parseInt(episode.number) == parseInt(episodeNumber)
 		);
 
-		const currentEpIdSub = currentEpObject.sources[0].target;
-		const currentEpIdDub = currentEpIdSub.replace('episode', 'dub-episode');
+		const episodeCached = await redis.get(episodeCacheKey);
+		let episodeUrlsSub;
+		let episodeUrlsDub;
+		if (!episodeCached) {
+			const currentEpIdSub = currentEpObject.sources[0].target;
+			const currentEpIdDub = currentEpIdSub.replace('episode', 'dub-episode');
 
-		const [episodeUrlsSub, episodeUrlsDub] = await Promise.all([
-			anilistMeta.fetchEpisodeSources(currentEpIdSub),
-			anilistMeta.fetchEpisodeSources(currentEpIdDub).catch((error) => null) // Handle errors and set to null
-		]);
-
+			[episodeUrlsSub, episodeUrlsDub] = await Promise.all([
+				anilistMeta.fetchEpisodeSources(currentEpIdSub),
+				anilistMeta.fetchEpisodeSources(currentEpIdDub).catch((error) => null) // Handle errors and set to null
+			]);
+			redis.set(
+				episodeCacheKey,
+				JSON.stringify({
+					episodeUrlsSub,
+					episodeUrlsDub
+				}),
+				'EX',
+				600
+			);
+		} else if (episodeCached) {
+			const episodeCachedObject = JSON.parse(episodeCached);
+			episodeUrlsSub = episodeCachedObject.episodeUrlsSub;
+			episodeUrlsDub = episodeCachedObject.episodeUrlsDub;
+			console.log("Cache hit episodes!")
+		}
 		currentEpObject.sourcesSub = episodeUrlsSub?.sources;
 		currentEpObject.sourcesDub = episodeUrlsDub?.sources;
 
