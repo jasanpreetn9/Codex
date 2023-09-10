@@ -2,10 +2,12 @@
 	export let trendingAnimes;
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
-	import { pre,nxt } from '$lib/utils';
+	import { pre, nxt } from '$lib/utils';
 
 	let slider, prev, next, radioSlider;
 	let select = 0;
+	let timer;
+
 	onMount(() => {
 		slider = new Siema({
 			selector: '.carousel',
@@ -21,18 +23,31 @@
 			onInit: () => {},
 			onChange: () => {
 				select = slider.currentSlide;
+				restartTimer();
 			}
 		});
+
 		prev = () => {
 			slider.prev();
-		};
-		next = () => {
-			slider.next();
+			restartTimer();
 		};
 
-		setInterval(function () {
+		next = () => {
 			slider.next();
-		}, 3000);
+			restartTimer();
+		};
+
+		startTimer();
+		function startTimer() {
+			timer = setInterval(function () {
+				slider.next();
+			}, 3000);
+		}
+
+		function restartTimer() {
+			clearInterval(timer);
+			startTimer();
+		}
 	});
 </script>
 
@@ -51,13 +66,17 @@
 						<span class="dots" />
 						<p class="badges">Rating: {anime.meanScore / 10}</p>
 						<span class="dots" />
-						<p class="badges">Eps: {anime.nextAiringEpisode && anime.nextAiringEpisode.episode !== null ? anime.nextAiringEpisode.episode : anime.episode}</p>
-
+						<p class="badges">
+							Eps: {anime.nextAiringEpisode && anime.nextAiringEpisode.episode !== null
+								? anime.nextAiringEpisode.episode
+								: anime.episode}
+						</p>
 					</div>
 					<p class="anime-des">
 						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 					</p>
-					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a>
+					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a
+					>
 				</div>
 				<img src={anime.bannerImage} alt="" loading="lazy" />
 			</div>
@@ -136,7 +155,7 @@
 		left: 0;
 		transition: 1s;
 		overflow: hidden;
-		height: 400px;
+		height: 300px;
 	}
 
 	.slider img {
