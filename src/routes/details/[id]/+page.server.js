@@ -1,8 +1,22 @@
+import { redis } from '$lib/server/redis';
 import { formatDetails } from '$lib/utils';
 export async function load({ params, fetch }) {
+	const cacheKey = `details-${params.id}`
 	try {
+		const detailsAnilistCached = await redis.get(cacheKey);
+		if (detailsAnilistCached) {
+			console.log('Cache hit details!');
+
+			return JSON.parse(detailsAnilistCached);
+		}
 		// Fetch episodes
 		const enimeResp = await fetch(`https://api.enime.moe/mapping/anilist/${params.id}`);
+		
+		const enimeCacheControl = enimeResp.headers.get("cache-control")
+
+		if (enimeCacheControl) {
+			setHeaders({ "cache-control": enimeCacheControl })
+		}
 		const enime = await enimeResp.json();
 
 		// Fetch GraphQL query for anime details
@@ -26,6 +40,7 @@ export async function load({ params, fetch }) {
 		const media = anilist.data.Media;
 
 		const details = formatDetails(media, enime);
+		redis.set(cacheKey, JSON.stringify(details), 'EX', 600);
 		
 		return details;
 	} catch (error) {

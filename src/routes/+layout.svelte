@@ -2,15 +2,15 @@
 	export let data;
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
-	import { Icon, MagnifyingGlass } from 'svelte-hero-icons';
-	import { logo } from '$lib/utils';
+	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
+	import { logo,userNavigation } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
 	let inputValue = '';
 	let menuOpen = false;
 	function handleMenuOpen() {
-		menuOpen = true;
+		menuOpen = !menuOpen;
 		console.log('open');
 		document.body.addEventListener('click', handleMenuClose);
 	}
@@ -37,9 +37,9 @@
 
 	<div class="search-tools">
 		<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
-			<div class="icons">
-				<Icon src={MagnifyingGlass} size="22px"/>
-				<p class="iconside">|</p>
+			<div class="search-div">
+				<Icon src={MagnifyingGlass} size="22px" />
+				<p class="iconSide">|</p>
 				<input
 					type="text"
 					id="search-box"
@@ -69,25 +69,23 @@
 							alt="avatar"
 						/>
 						<h1 class="username">{data.user?.username}</h1>
+
 						<h2 class="email">{data.user?.email}</h2>
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
-							<li><a href="/user"><i class="fa-solid fa-sliders" />Profile Settings</a></li>
-							<li><i class="fa-regular fa-sun" />Light Mode</li>
-							<li><a href="/help?"><i class="fa-solid fa-question" />Help Center</a></li>
+							{#each userNavigation as navItem}
+								 <li><a href={navItem.href}>{navItem.title}</a></li>
+							{/each}
 						</ul>
 						<span class="lineSeparate" />
 						<form action="/logout" method="POST">
-							<button class="signOut" type="submit"
-								><i class="fa-solid fa-left-long" />Logout</button
-							>
+							<button class="signOut" type="submit">
+								<Icon src={ArrowRightOnRectangle} size="22px" />
+								Logout
+							</button>
 						</form>
 					</div>
 				{/if}
-			{:else}
-				<a href="/login">
-					<p class="loginp">Login</p>
-				</a>
 			{/if}
 		</div>
 	</div>
@@ -114,7 +112,7 @@
 	a {
 		text-decoration: none;
 	}
-	.icons{
+	.search-div {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -123,7 +121,7 @@
 		color: gray;
 		border-radius: 12px;
 	}
-	.iconside{
+	.iconSide {
 		margin-left: 10px;
 		font-size: smaller;
 		font-weight: 100;
@@ -157,13 +155,6 @@
 		color: white;
 		gap: 30px;
 		align-items: flex-start;
-	}
-	.settingOptions i {
-		color: gray;
-		width: 20px;
-		margin-right: 10px;
-		font-size: 15px;
-		margin-left: 20px;
 	}
 	.settingOptions li {
 		display: flex;
@@ -219,12 +210,6 @@
 		background: transparent;
 		border: none;
 		color: white;
-	}
-	.signOut i {
-		margin-right: 12px;
-		padding: 2px;
-		color: gray;
-		margin-left: 1px;
 	}
 	ul {
 		list-style-type: none;

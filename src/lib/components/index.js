@@ -2,6 +2,7 @@ import PosterCardList from './PosterCardList.svelte';
 import EpisodeCard from './EpisodeCard.svelte';
 import Trending from './Trending.svelte';
 import Alert from './Alert.svelte';
+import Input from './Input.svelte';
 
 let apiUrl = 'https://api.consumet.org';
-export { PosterCardList, EpisodeCard, Trending,Alert };
+export { PosterCardList, EpisodeCard, Trending, Alert, Input };

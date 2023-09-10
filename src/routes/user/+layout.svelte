@@ -1,19 +1,10 @@
 <script>
     	import { page } from '$app/stores';
-    const navigation = [
-		{
-			title: 'Profile',
-			href: '/user/profile'
-		},
-		{
-			title: 'Account',
-			href: '/user/account'
-		},
-	];
+		import {userNavigation} from '$lib/utils'
 </script>
 
 <main>
-    {#each navigation as navItem}
+    {#each userNavigation as navItem}
     <a href={navItem.href} class={$page.url.pathname === navItem.href ? 'active' : ''}>{navItem.title}</a>
     {/each}
 

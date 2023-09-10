@@ -14,10 +14,29 @@ export const serializeNonPOJOs = (obj) => {
 };
 
 
+export const userNavigation = [
+	{
+		title: 'Profile',
+		href: '/user/profile'
+	},
+	{
+		title: 'Account',
+		href: '/user/account'
+	},
+	{
+		title: 'Continue Watching',
+		href: '/user/continue-watching'
+	},
+	{
+		title: 'Watch Lists',
+		href: '/user/watch-list'
+	},
+];
+
 export const formatDetails = (media, episodes) => {
 	
 	// Filter and format relations
-	const relations = media.relations.edges
+	const relations = media.relations?.edges
 		.filter((relation) => relation.node && relation.node.relationType)
 		.map((relation) => {
 			// Ensure relation.node is not null and has a relationType property

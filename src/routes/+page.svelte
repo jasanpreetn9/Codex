@@ -2,10 +2,7 @@
 	export let data;
 	const { trendingAnimes, popularAnimes, recentAiringAnimes } = data;
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
-	console.log(recentAiringAnimes)
-	// console.log(trendingAnimes);
-	// console.log(recentAiringAnimes);
-</script>
+	</script>
 
 <Trending {trendingAnimes} />
 
