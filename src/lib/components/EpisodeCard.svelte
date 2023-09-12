@@ -18,11 +18,16 @@
 
 <div class="header">
 	<h1 class="title">{header}</h1>
-	{#if filter}
-		<button class="filter" on:click={toggleFilter}>
-			<img style={filterState ? 'transform: scaleY(-1);' : ''} src={filterIcon} alt="Filter" />
-		</button>
-	{/if}
+	<div class="right-container">
+		<div class="switch-block">
+			
+		</div>
+		{#if filter}
+			<button class="filter" on:click={toggleFilter}>
+				<img style={filterState ? 'transform: scaleY(-1);' : ''} src={filterIcon} alt="Filter" />
+			</button>
+		{/if}
+	</div>
 </div>
 
 <div class={scrollAble ? 'scrollAble' : ''}>
@@ -49,7 +54,10 @@
 								/>
 							</div>
 							<div class="progress-duration-container">
-								<span class="progress-duration">{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) || '--:--'}</span>
+								<span class="progress-duration"
+									>{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) ||
+										'--:--'}</span
+								>
 							</div>
 						{/if}
 					</div>
@@ -69,7 +77,6 @@
 	}
 	.header {
 		display: flex;
-		justify-content: space-between;
 	}
 	.title {
 		margin-top: 10px;
@@ -77,6 +84,13 @@
 		text-transform: capitalize;
 		font-size: 19px;
 		font-weight: 500;
+	}
+	.right-container {
+		display: flex;
+		margin-left: auto;
+	}
+	.switch-block {
+		width: 300px;
 	}
 
 	.filter img {
