@@ -14,7 +14,6 @@ export const actions = {
 			await locals.pb.collection('users').authWithPassword(body.email.toLowerCase(), body.password);
 			if (!locals.pb?.authStore?.model?.verified) {
 				locals.pb.authStore.clear();
-				console.log('not verified');
 				return {
 					notVerified: true
 				};

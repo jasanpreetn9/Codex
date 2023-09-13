@@ -11,12 +11,10 @@
 	let menuOpen = false;
 	function handleMenuOpen() {
 		menuOpen = !menuOpen;
-		console.log('open');
 		document.body.addEventListener('click', handleMenuClose);
 	}
 	function handleMenuClose() {
 		menuOpen = false;
-		console.log('close');
 		document.body.removeEventListener('click', handleMenuClose);
 	}
 </script>

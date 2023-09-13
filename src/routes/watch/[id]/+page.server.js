@@ -5,8 +5,6 @@ import { proxyUrl, formatDetails } from '$lib/utils';
 
 export async function load({ fetch, params, url }) {
 	const episodeNumber = url.searchParams.get('episode') || 1;
-	const dubStr = url.searchParams.get('dub') || false;
-	const dubBool = dubStr?.toLowerCase?.() === 'true';
 	const detailsCacheKey = `details-${params.id}`;
 	const episodeCacheKey = `watch-${params.id}-${episodeNumber}`;
 
@@ -44,7 +42,6 @@ export async function load({ fetch, params, url }) {
 			details = formatDetails(anilist.data.Media, enime);
 			redis.set(detailsCacheKey, JSON.stringify(details), 'EX', 600);
 		} else if (detailsAnilistCached) {
-			console.log('Cache hit watch details!');
 			details = JSON.parse(detailsAnilistCached);
 		}
 
@@ -76,7 +73,6 @@ export async function load({ fetch, params, url }) {
 			const episodeCachedObject = JSON.parse(episodeCached);
 			episodeUrlsSub = episodeCachedObject.episodeUrlsSub;
 			episodeUrlsDub = episodeCachedObject.episodeUrlsDub;
-			console.log("Cache hit episodes!")
 		}
 		currentEpObject.sourcesSub = episodeUrlsSub?.sources;
 		currentEpObject.sourcesDub = episodeUrlsDub?.sources;

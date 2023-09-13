@@ -5,8 +5,6 @@ export async function load({ params, fetch }) {
 	try {
 		const detailsAnilistCached = await redis.get(cacheKey);
 		if (detailsAnilistCached) {
-			console.log('Cache hit details!');
-
 			return JSON.parse(detailsAnilistCached);
 		}
 		// Fetch episodes

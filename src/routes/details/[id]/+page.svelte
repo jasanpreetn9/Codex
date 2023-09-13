@@ -31,10 +31,13 @@
 							<p>Rating</p>
 							<span>{data.meanScore / 10}</span>
 						</div>
-						<div class="detail-item">
-							<p>Episodes</p>
-							<span>{data.episodes.length}</span>
-						</div>
+						{#if data.format?.toLowerCase() !== 'movie'}
+							<!-- content here -->
+							<div class="detail-item">
+								<p>Episodes</p>
+								<span>{data.episodes.length}</span>
+							</div>
+						{/if}
 						<div class="detail-item">
 							<p>Status</p>
 							<span>{data.status.toLowerCase()}</span>
@@ -72,7 +75,7 @@
 						<!-- <button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button> -->
 						<a href={'/watch/' + data.id + '?episode=1'} class="watch-btn">Watch Now</a>
 					</div>
-					{#if data.type?.toLowerCase() !== 'movie'}
+					{#if data.format?.toLowerCase() !== 'movie'}
 						<EpisodeCard
 							episodes={data.episodes}
 							animeId={data.id}
