@@ -13,7 +13,6 @@ export const serializeNonPOJOs = (obj) => {
 	return structuredClone(obj);
 };
 
-
 export const userNavigation = [
 	{
 		title: 'Profile',
@@ -30,11 +29,10 @@ export const userNavigation = [
 	{
 		title: 'Watch Lists',
 		href: '/user/watch-list'
-	},
+	}
 ];
 
-export const formatDetails = (media, episodes) => {
-	
+export const formatDetails = (media, enime) => {
 	// Filter and format relations
 	const relations = media.relations?.edges
 		.filter((relation) => relation.node && relation.node.relationType)
@@ -83,8 +81,10 @@ export const formatDetails = (media, episodes) => {
 	);
 
 	// Sort episodes
-	media.episodes = episodes.episodes;
-	media.episodes.sort((a, b) => a.number - b.number);
+	if (enime) {
+		media.episodes = enime?.episodes;
+		media.episodes?.sort((a, b) => a.number - b.number);
+	}
 
 	// Update the media object with the formatted data
 	media.relations = relations;
@@ -92,5 +92,5 @@ export const formatDetails = (media, episodes) => {
 	media.genres = media.genres.join(', ');
 	media.recommendations = recommendations;
 
-	return media
+	return media;
 };

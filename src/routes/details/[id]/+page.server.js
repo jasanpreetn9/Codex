@@ -1,47 +1,41 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails } from '$lib/utils';
+import { META } from '@consumet/extensions';
 export async function load({ params, fetch }) {
-	const cacheKey = `details-${params.id}`
-	try {
-		const detailsAnilistCached = await redis.get(cacheKey);
-		if (detailsAnilistCached) {
-			return JSON.parse(detailsAnilistCached);
+	const cacheKey = `details-${params.id}`;
+	const fetchDetails = async () => {
+		try {
+			const query = await fetch('../../graphql/details.graphql');
+			const queryText = await query.text();
+
+			const anilistResp = await fetch('https://graphql.anilist.co/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json'
+				},
+				body: JSON.stringify({
+					query: queryText,
+					variables: { id: params.id }
+				})
+			});
+
+			const anilist = await anilistResp.json();
+			return formatDetails(anilist.data.Media);
+		} catch (error) {
+			throw new Error(error);
 		}
-		// Fetch episodes
-		const enimeResp = await fetch(`https://api.enime.moe/mapping/anilist/${params.id}`);
-		
-		const enimeCacheControl = enimeResp.headers.get("cache-control")
-
-		if (enimeCacheControl) {
-			setHeaders({ "cache-control": enimeCacheControl })
-		}
-		const enime = await enimeResp.json();
-
-		// Fetch GraphQL query for anime details
-		const query = await fetch('../graphql/details.graphql');
-		const queryText = await query.text();
-
-		// Fetch anime details
-		const anilistResp = await fetch('https://graphql.anilist.co/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			},
-			body: JSON.stringify({
-				query: queryText,
-				variables: { id: params.id }
-			})
-		});
-
-		const anilist = await anilistResp.json();
-		const media = anilist.data.Media;
-
-		const details = formatDetails(media, enime);
-		redis.set(cacheKey, JSON.stringify(details), 'EX', 600);
-		
-		return details;
-	} catch (error) {
-		throw new Error(error);
-	}
+	};
+	const fetchEpisodes = async () => {
+		const anilist = new META.Anilist();
+		const info = await anilist.fetchAnimeInfo(params.id);
+		return info.episodes;
+	};
+	const anime = {
+		details: fetchDetails(),
+		streamed: {
+			episodes: fetchEpisodes()
+		  }
+	};
+	return anime;
 }
