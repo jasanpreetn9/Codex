@@ -137,6 +137,7 @@
 		object-fit: cover;
 		display: block;
 		margin-left: auto;
+		height: 300px;
 	}
 
 	.banner-gradient {

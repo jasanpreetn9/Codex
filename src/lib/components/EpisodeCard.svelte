@@ -1,5 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
+	console.log(episodes)
 	import { filterIcon, proxyUrl } from '$lib/utils';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -40,7 +41,7 @@
 				>
 					<div
 						class="card-body"
-						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({proxyUrl}{episode.image})"
+						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({episode.image})"
 					>
 						<!-- <p class="episode-number">X</p> -->
 						<h2 class="name">
