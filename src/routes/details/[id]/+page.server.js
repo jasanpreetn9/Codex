@@ -34,7 +34,6 @@ export async function load({ params, fetch, url }) {
 		// 	throw redirect(300,`/details/${params.id}?dub=false`)
 		// 	// console.log("dub does not exits")
 		// }
-		await sleep(10000);
 		return episodesArray;
 	};
 	const anime = {
