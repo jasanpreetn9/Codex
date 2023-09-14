@@ -1,5 +1,7 @@
 <script>
-	export let animes, heading;
+	export let animes,
+		heading,
+		dub = false;
 </script>
 
 {#if heading}
@@ -8,9 +10,9 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
+			<a data-sveltekit-prefetch="true" href={`/details/${anime.id}?dub=${dub}`}>
 				<div class="card">
-					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy"/>
+					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
 					<div class="card-body">
 						<h2 class="name">
 							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}

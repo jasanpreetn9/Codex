@@ -4,10 +4,10 @@
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
 	import { logo,userNavigation } from '$lib/utils';
-	console.log(userNavigation)
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
+	
 	let inputValue = '';
 	let menuOpen = false;
 	function handleMenuOpen() {

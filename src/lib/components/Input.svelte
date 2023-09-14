@@ -1,13 +1,26 @@
 <script>
-	export let placeholder,
-		type,
-		name,
-		label;
-		
+	export let value = '';
+	export let placeholder = '';
+	export let name;
+	export let label;
+	export let type = 'text';
+	export let disabled = false;
+	export let required = false;
+
+	export let errors;
 </script>
 
 <label for={name}>{label?.toLowerCase()}</label>
-<input {name} {type} {placeholder} />
+<input {type} {placeholder} {required} {disabled} {name} {value} />
+{#if errors}
+		{#each errors as error}
+			<label for={name}>
+				<span>
+					{error}
+				</span>
+			</label>
+		{/each}
+	{/if}
 
 <style>
 	label {
