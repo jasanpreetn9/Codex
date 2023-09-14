@@ -12,8 +12,8 @@
 				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="" />
 			</div>
 			<div class="inputs">
-				<Input name="email" type="text" placeholder="Example@gmail.com" />
-				<Input name="password" type="password" placeholder="Password" />
+				<Input label="email" name="email" type="text" placeholder="Example@gmail.com" />
+				<Input label="password" name="password" type="password" placeholder="Password" />
 				<a href="/reset-password" class="forgotPass">Forgot Password?</a>
 
 				<button type="submit" class="signUp">Sign In</button>

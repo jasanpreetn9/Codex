@@ -1,11 +1,12 @@
 <script>
 	export let placeholder,
 		type,
-		name;
+		name,
+		label;
 		
 </script>
 
-<label for={name}>{name?.toLowerCase()}</label>
+<label for={name}>{label?.toLowerCase()}</label>
 <input {name} {type} {placeholder} />
 
 <style>
