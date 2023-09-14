@@ -2,6 +2,7 @@ import nxt from '$lib/images/nxt-carousel.png';
 import pre from '$lib/images/pre-carousel.png';
 import filterIcon from '$lib/images/filter-icon.png';
 import downArrow from '$lib/images/down.svg';
+import{MagnifyingGlass,AdjustmentsVertical} from 'svelte-hero-icons'
 import logo from '$lib/images/logo.png';
 export { nxt, pre, filterIcon, downArrow, logo };
 export const apiUrl = 'https://api.consumet.org';
@@ -16,7 +17,8 @@ export const serializeNonPOJOs = (obj) => {
 export const userNavigation = [
 	{
 		title: 'Profile',
-		href: '/user/profile'
+		href: '/user/profile',
+		icon: AdjustmentsVertical
 	},
 	{
 		title: 'Account',

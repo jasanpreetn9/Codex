@@ -1,4 +1,4 @@
-query ($page: Int, $search: String = "naruto",  $size: Int) {
+query ($page: Int, $search: String,  $size: Int) {
   Page(page: $page, perPage: $size) {
     pageInfo {
       currentPage
@@ -15,11 +15,11 @@ query ($page: Int, $search: String = "naruto",  $size: Int) {
         extraLarge
         large
       }
-      
+
       format
-     
+
       genres
-      
+
     }
   }
 }
