@@ -6,7 +6,7 @@
 
 <div class="carousel-container">
 	<div class="carousel">
-		{#if details.bannerImage !== details.image}
+		{#if details?.bannerImage !== details.image}
 			<div class="slider">
 				<div class="banner-gradient" />
 				<img src={details.bannerImage} alt="" />

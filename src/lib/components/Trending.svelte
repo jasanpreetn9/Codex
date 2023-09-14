@@ -73,7 +73,7 @@
 						</p>
 					</div>
 					<p class="anime-des">
-						{@html anime.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
+						{@html anime.description?.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 					</p>
 					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a
 					>

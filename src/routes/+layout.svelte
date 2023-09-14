@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
 	import { logo,userNavigation } from '$lib/utils';
+	console.log(userNavigation)
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
@@ -17,6 +18,8 @@
 		menuOpen = false;
 		document.body.removeEventListener('click', handleMenuClose);
 	}
+
+	let icon = null
 </script>
 
 <svelte:head>
@@ -72,7 +75,7 @@
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
 							{#each userNavigation as navItem}
-								 <li><a href={navItem.href}>{navItem.title}</a></li>
+								 <li><a href={navItem.href}><Icon src={navItem.icon} size="22px" />{navItem.title}</a></li>
 							{/each}
 						</ul>
 						<span class="lineSeparate" />
