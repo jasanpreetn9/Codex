@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	const { details, streamed } = data;
+	$: ({ details, streamed } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
@@ -31,7 +31,7 @@
 							<p>Rating</p>
 							<span>{details.meanScore / 10}</span>
 						</div>
-						{#await data.streamed.episodes then value}
+						{#await streamed.episodes then value}
 							{#if details.format?.toLowerCase() !== 'movie'}
 								<div class="detail-item">
 									<p>Episodes</p>
@@ -77,7 +77,7 @@
 						<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
-						{#await data.streamed.episodes}
+						{#await streamed.episodes}
 							Loading...
 						{:then value}
 							<EpisodeCard
