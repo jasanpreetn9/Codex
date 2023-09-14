@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	$: ({ details, streamed } = data);
+	$: ({ details, streamed,dubBool } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
@@ -23,6 +23,10 @@
 								<span>{details.nextAiringEpisode.airingAt}</span>
 							</div>
 						{/if}
+						<div class="detail-item">
+							<p>Sub or Dub</p>
+							<span>{dubBool === true ? 'Dub' : 'Sub'}</span>
+						</div>
 						<div class="detail-item">
 							<p>Format</p>
 							<span>{details.format?.toLowerCase()}</span>
@@ -73,7 +77,6 @@
 						<p class="anime-des">
 							{@html details.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 						</p>
-						<!-- <button on:click={goto('/watch/' + details.id + '?episode=1')} class="watch-btn">Watch Now</button> -->
 						<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
