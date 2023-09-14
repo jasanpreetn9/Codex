@@ -1,9 +1,12 @@
 <script>
-	export let placeholder, type, name,value='';
+	export let placeholder,
+		type,
+		name;
+		
 </script>
 
 <label for={name}>{name?.toLowerCase()}</label>
-<input {name} {type} {placeholder} {value} />
+<input {name} {type} {placeholder} />
 
 <style>
 	label {
@@ -11,7 +14,7 @@
 		margin-top: 15px;
 		font-size: 14px;
 		font-weight: 500;
-        text-transform: capitalize;
+		text-transform: capitalize;
 	}
 	input {
 		display: block;

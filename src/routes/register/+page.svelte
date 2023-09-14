@@ -1,11 +1,11 @@
-<head>
-	<!-- <link href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet"> -->
-</head>
+<script>
+	import {Input} from '$lib/components'
+</script>
 <body>
 	<form action="?/register" method="POST">
 		<div class="container">
 			<div class="left-box">
-				<h1>Welcome Back</h1>
+				<h1>Welcome</h1>
 				<p class="head">Sign up to create an account and track your anime progress!</p>
 
 				<div class="socials">
@@ -32,10 +32,6 @@
 
 				<label for="email">Confirm Password</label>
 				<input name="passwordConfirm" type="password" placeholder="Password" />
-
-				<div class="rememberMe">
-					<input type="checkbox" />Remember Me
-				</div>
 
 				<button type="submit" class="signUp">Register</button>
 				<p class="account">Already have an account? <a href="/login">Sign In</a></p>
