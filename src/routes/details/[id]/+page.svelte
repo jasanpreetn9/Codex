@@ -163,40 +163,6 @@
 		width: 220px;
 		border-radius: 7px;
 	}
-	/* .details {
-		color: white;
-		margin-top: 20px;
-		width: 100%;
-		height: max-content;
-		background-color: #060b11;
-		border-radius: 7px;
-		padding: 20px;
-	}
-	.detail-item {
-		padding-bottom: 5px;
-		text-transform: capitalize;
-		display: flex;
-		flex-direction: column;
-	}
-	.detail-item p {
-		font-size: 15px;
-		font-weight: 700;
-	}
-	.detail-item span {
-		font-size: 15px;
-		line-height: 1.3;
-		font-weight: 500;
-		padding-left: 10px;
-		width: 240px;
-		text-transform: capitalize;
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-	.detail-item span a {
-		color: white;
-	} */
 	.details {
 		background-color: #060b11;
 		border-radius: 7px;
