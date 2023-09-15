@@ -36,10 +36,6 @@
 						class="card-body"
 						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({episode.image})"
 					>
-						<!-- <p class="episode-number">X</p> -->
-						<h2 class="name">
-							{episode.number}: {episode.title}
-						</h2>
 						{#if episode.duration}
 							<div class="progress-background">
 								<div
@@ -56,6 +52,15 @@
 						{/if}
 					</div>
 				</a>
+				<!-- Create a container for title and number under the card -->
+				<div class="title-container">
+					<h2 class="name">
+						{episode.title}
+					</h2>
+					<p class="episode-number">
+						E{episode.number}
+					</p>
+				</div>
 			</div>
 		{/each}
 	</div>
@@ -78,6 +83,10 @@
 		text-transform: capitalize;
 		font-size: 19px;
 		font-weight: 500;
+		margin-bottom: 3px;
+	}
+	.title-container {
+		padding-bottom: 15px; /* Add padding to the bottom */
 	}
 	.right-container {
 		display: flex;
@@ -103,37 +112,27 @@
 		gap: 0.6em;
 		grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
 	}
-
 	.video-card {
 		position: relative;
 		margin-top: 10px;
 		height: 100%;
 		width: 100%;
 		border-radius: 5px;
-		overflow: hidden;
 		background: #030b17;
 		aspect-ratio: 16/9;
+		padding-bottom: 1px;
+		margin-bottom: 10px;
 	}
 
 	.card-body {
 		width: 100%;
-		height: 100%;
-		padding: 10px;
+		height: 80%;
+		padding: 20px;
 		border-radius: 5px;
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-end;
 	}
-	.episode-number {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		color: #fff;
-		font-size: 16px;
-		padding: 5px 10px;
-		border-radius: 5px;
-		z-index: 1;
-	}
+
 	.name {
 		color: #fff;
 		font-size: 15px;
@@ -143,6 +142,16 @@
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		padding-bottom: 1px;
+		background: #0c111b;
+	}
+	.episode-number {
+		color: rgb(194, 194, 194);
+		font-size: 12px;
+		font-weight: 300;
+		text-transform: capitalize;
+		padding: 1px;
+		background: #0c111b;
 	}
 	.progress-background {
 		height: 4px;

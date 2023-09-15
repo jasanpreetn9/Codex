@@ -1,4 +1,3 @@
-
 query ($id: Int) { # Define which variables will be used in the query (id)
   Media (id: $id, type: ANIME) {
     id
@@ -40,7 +39,7 @@ query ($id: Int) { # Define which variables will be used in the query (id)
               romaji
               english
             }
-        
+
             coverImage {
               extraLarge
             }

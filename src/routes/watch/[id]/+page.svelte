@@ -68,10 +68,6 @@
 		justify-content: center;
 	}
 
-	.video {
-		flex-direction: row;
-		width: 100%;
-	}
 	.episodeCards {
 		display: flex;
 		flex-wrap: wrap;

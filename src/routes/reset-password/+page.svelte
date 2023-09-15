@@ -49,6 +49,7 @@
 		margin-right: 100px;
 		margin-left: 100px;
 		gap: 20px;
+		justify-content: center;
 	}
 	.socials {
 		gap: 5px;
