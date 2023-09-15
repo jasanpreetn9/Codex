@@ -10,25 +10,36 @@
 	export let errors;
 </script>
 
-<label for={name}>{label?.toLowerCase()}</label>
-<input {type} {placeholder} {required} {disabled} {name} {value} />
+<label class="input-label" for={name}>{label?.toLowerCase()}</label>
+<input
+	class={errors ? 'error-input' : ''}
+	{type}
+	{placeholder}
+	{required}
+	{disabled}
+	{name}
+	{value}
+/>
 {#if errors}
-		{#each errors as error}
-			<label for={name}>
-				<span>
-					{error}
-				</span>
-			</label>
-		{/each}
-	{/if}
+	{#each errors as error}
+		<label class="error" for={name}>
+			<span>
+				{error}
+			</span>
+		</label>
+	{/each}
+{/if}
 
 <style>
-	label {
+	.input-label {
 		display: block;
 		margin-top: 15px;
 		font-size: 14px;
 		font-weight: 500;
 		text-transform: capitalize;
+		display: flex;
+		align-items: flex-end;
+		width: 54%;
 	}
 	input {
 		display: block;
@@ -57,13 +68,15 @@
 		color: white;
 		opacity: 0.5;
 	}
-
-	label {
-		display: flex;
-		align-items: flex-end;
-		width: 54%;
+	.error-input {
+		border: 0.1px solid #f87372;
 	}
-
+	.error {
+		color: #f87372;
+		font-size: 12px;
+		align-items: left;
+		margin-top: 8px;
+	}
 	@media (max-width: 768px) and (min-width: 200px) {
 		input {
 			width: 200px;
