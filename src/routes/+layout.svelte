@@ -3,11 +3,11 @@
 	import '$lib/global.css';
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
-	import { logo,userNavigation } from '$lib/utils';
+	import { logo, userNavigation } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
-	
+
 	let inputValue = '';
 	let menuOpen = false;
 	function handleMenuOpen() {
@@ -19,7 +19,7 @@
 		document.body.removeEventListener('click', handleMenuClose);
 	}
 
-	let icon = null
+	let icon = null;
 </script>
 
 <svelte:head>
@@ -75,7 +75,15 @@
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
 							{#each userNavigation as navItem}
-								 <li><a href={navItem.href}><Icon src={navItem.icon} size="22px" />{navItem.title}</a></li>
+								<li class="navItem">
+									<a class="navItem" href={navItem.href}
+										><Icon
+											style={'margin-left: 10px; margin-right: 10px; margin-bottom: 30px'}
+											src={navItem.icon}
+											size="22px"
+										/><p class="title">{navItem.title}</p></a
+									>
+								</li>
 							{/each}
 						</ul>
 						<span class="lineSeparate" />
@@ -122,6 +130,14 @@
 		color: gray;
 		border-radius: 12px;
 	}
+	.navItem{
+		display: flex;
+		margin-bottom: 0px;
+		padding-bottom: 0;
+	}
+	.title{
+		margin-top: 3px;
+	}
 	.iconSide {
 		margin-left: 10px;
 		font-size: smaller;
@@ -154,12 +170,13 @@
 		padding: 10px 0px;
 		font-size: 15px;
 		color: white;
-		gap: 30px;
+
 		align-items: flex-start;
 	}
 	.settingOptions li {
 		display: flex;
 		align-items: center;
+		padding: 0;
 	}
 	.settingOptions a {
 		padding-left: 10px;
@@ -188,7 +205,7 @@
 		/* display: none; */
 		flex-direction: column;
 		width: 250px;
-		height: 300px;
+		height: 350px;
 	}
 	.dropdown-content .username {
 		position: absolute;
