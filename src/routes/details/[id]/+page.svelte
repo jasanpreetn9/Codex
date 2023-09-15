@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	$: ({ details, streamed,dubBool } = data);
+	$: ({ details, streamed,dubBool,user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
@@ -92,7 +92,7 @@
 							/>
 						{/await}
 					{/if}
-					<PosterCardList animes={details.recommendations} heading={'Recommended'} />
+					<PosterCardList animes={details.recommendations} heading={'Recommended'} dub={user?.alwaysDub}/>
 				</div>
 			</div>
 		</div>

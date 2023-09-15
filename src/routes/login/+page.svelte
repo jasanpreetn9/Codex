@@ -1,6 +1,7 @@
 <script>
 	export let form;
 	import { Alert, Input } from '$lib/components';
+	console.log(form);
 </script>
 
 <body>
@@ -12,14 +13,29 @@
 				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="" />
 			</div>
 			<div class="inputs">
-				<Input label="email" name="email" type="text" placeholder="Example@gmail.com" />
-				<Input label="password" name="password" type="password" placeholder="Password" />
+				<Input
+					label="email"
+					name="email"
+					type="text"
+					placeholder="Example@gmail.com"
+					value={form?.data?.email ?? ''}
+					errors={form?.errors?.email}
+				/>
+				<Input
+					label="password"
+					name="password"
+					type="password"
+					placeholder="Password"
+					errors={form?.errors?.password}
+				/>
 				<a href="/reset-password" class="forgotPass">Forgot Password?</a>
-
 				<button type="submit" class="signUp">Sign In</button>
 				<p class="account">Don't have an account? <a href="/register">Register</a></p>
 				{#if form?.notVerified}
 					<Alert message="You must verify your email before you can login." type="error" />
+				{/if}
+				{#if form?.pocketbase}
+					<Alert message={form?.pocketbase.message} type="error" />
 				{/if}
 			</div>
 		</div>

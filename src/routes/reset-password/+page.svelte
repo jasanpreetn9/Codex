@@ -16,7 +16,7 @@
 				<button type="submit" class="signUp">Submit</button>
 				{#if form?.success}
 					 <p class="account">Check your email</p>
-					 {/if}
+				{/if}
 			</div>
 		</div>
 	</form>
