@@ -1,7 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
 	import { filterIcon } from '$lib/utils';
-	import { formatTime } from '$lib/utils';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -32,35 +31,22 @@
 					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
 					data-sveltekit-prefetch="true"
 				>
-					<div
-						class="card-body"
-						style="background: linear-gradient(rgba(4, 8, 15, 0) 27.31%, #192133f8 97.9%), no-repeat center/cover url({episode.image})"
-					>
-						{#if episode.duration}
-							<div class="progress-background">
-								<div
-									class="progress"
-									style="width: {(episode.currentTime / episode.duration) * 100}%;"
-								/>
-							</div>
-							<div class="progress-duration-container">
-								<span class="progress-duration"
-									>{formatTime(episode.currentTime) || '--:--'} / {formatTime(episode.duration) ||
-										'--:--'}</span
-								>
-							</div>
-						{/if}
+					<img src={episode.image} alt="" />
+					{#if episode.duration}
+						<div class="progress-background">
+							<div class="progress" style="width: {(12 / 24) * 100}%;" />
+						</div>
+					{/if}
+
+					<div class="title-container">
+						<h2 class="name">
+							{episode.title}
+						</h2>
+						<p class="episode-number">
+							Ep: {episode.number}
+						</p>
 					</div>
 				</a>
-				<!-- Create a container for title and number under the card -->
-				<div class="title-container">
-					<h2 class="name">
-						{episode.title}
-					</h2>
-					<p class="episode-number">
-						E{episode.number}
-					</p>
-				</div>
 			</div>
 		{/each}
 	</div>
@@ -114,23 +100,13 @@
 	}
 	.video-card {
 		position: relative;
-		margin-top: 10px;
-		height: 100%;
 		width: 100%;
 		border-radius: 5px;
-		background: #030b17;
 		aspect-ratio: 16/9;
-		padding-bottom: 1px;
-		margin-bottom: 10px;
 	}
-
-	.card-body {
+	.video-card img {
 		width: 100%;
-		height: 80%;
-		padding: 20px;
 		border-radius: 5px;
-		display: flex;
-		flex-direction: column;
 	}
 
 	.name {
@@ -154,28 +130,16 @@
 		background: #0c111b;
 	}
 	.progress-background {
+		z-index: 2;
 		height: 4px;
-		margin-top: 10px;
-		padding-top: 1px;
 		background: #424345;
 		border-radius: 20px;
 	}
 	.progress {
 		height: 4px;
 		margin-top: -1px;
-		background: #ad3535;
+		/* background: #ad3535; */
+		background: white;
 		border-radius: 20px;
-	}
-
-	.progress-duration-container {
-		display: flex;
-		justify-content: flex-end;
-		padding-top: 5px;
-	}
-
-	.progress-duration {
-		font-size: 12px;
-		color: #fff;
-		opacity: 0.8;
 	}
 </style>
