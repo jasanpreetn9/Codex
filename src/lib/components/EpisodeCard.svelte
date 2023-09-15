@@ -1,7 +1,7 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
 	import { filterIcon } from '$lib/utils';
-	import {formatTime} from '$lib/utils'
+	import { formatTime } from '$lib/utils';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -15,9 +15,7 @@
 <div class="header">
 	<h1 class="title">{header}</h1>
 	<div class="right-container">
-		<div class="switch-block">
-			
-		</div>
+		<div class="switch-block" />
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
 				<img style={filterState ? 'transform: scaleY(-1);' : ''} src={filterIcon} alt="Filter" />
@@ -31,7 +29,7 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={'/watch/' + (animeId ? animeId : episode.animeId) + '?episode=' + episode.number}
+					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
 					data-sveltekit-prefetch="true"
 				>
 					<div
@@ -104,12 +102,10 @@
 		display: grid;
 		gap: 0.6em;
 		grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-		/* grid-template-rows: repeat(auto-fill, minmax(150px, 1fr)); */
 	}
 
 	.video-card {
 		position: relative;
-		/* width: 300px; */
 		margin-top: 10px;
 		height: 100%;
 		width: 100%;

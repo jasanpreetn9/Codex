@@ -178,7 +178,6 @@
 		color: gray;
 	}
 	@media (max-width: 768px) and (min-width: 200px) {
-		/* Small screens */
 		.container {
 			flex-direction: column;
 			height: auto;

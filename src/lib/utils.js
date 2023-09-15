@@ -38,7 +38,6 @@ export const userNavigation = [
 ];
 
 export const formatDetails = (media, enime) => {
-	// Filter and format relations
 	const relations = media.relations?.edges
 		.filter((relation) => relation.node && relation.node.relationType)
 		.map((relation) => {
@@ -49,13 +48,16 @@ export const formatDetails = (media, enime) => {
 			};
 		});
 
+	// Format studios
 	const studios = media.studios.edges.map((studio) => studio.node.name).join(', ');
 
+	// Format airing date
 	if (media.nextAiringEpisode) {
 		const airingDate = new Date(media.nextAiringEpisode.airingAt * 1000);
 		media.nextAiringEpisode.airingAt = airingDate.toDateString();
 	}
 
+	// Format date fields
 	const formatDate = (date) => {
 		const formattedDate = new Date(date.year, date.month - 1, date.day);
 		return formattedDate.toLocaleString('en-US', {
@@ -71,18 +73,22 @@ export const formatDetails = (media, enime) => {
 	// Remove HTML tags and trim description
 	media.description = media.description
 		.split('*')[0]
+		.split('Note')[0]
 		.trim()
 		.replace(/<br\s*\/?>/gi, '');
 
-	const recommendations = media.recommendations.edges.map(
+	// Extract and format recommendations
+	const recommendations = media?.recommendations?.edges?.map(
 		(recommendation) => recommendation.node.mediaRecommendation
 	);
 
+	// Sort episodes
 	if (enime) {
 		media.episodes = enime?.episodes;
 		media.episodes?.sort((a, b) => a.number - b.number);
 	}
 
+	// Update the media object with the formatted data
 	media.relations = relations;
 	media.studios = studios;
 	media.genres = media.genres.join(', ');

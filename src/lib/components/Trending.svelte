@@ -128,7 +128,6 @@
 
 	.nxt-btn {
 		right: 0;
-		/* margin-right: 10px; */
 	}
 
 	.pre-btn img,
@@ -159,10 +158,8 @@
 	}
 
 	.slider img {
-		/* display: block; */
 		margin: 0 auto;
 		height: 100%;
-		/* width: 100%; */
 		object-fit: cover;
 		opacity: 0.7;
 		border-radius: 5px;
@@ -179,7 +176,7 @@
 
 	.anime-title {
 		width: 100%;
-		max-width: 300px; /* Adjust the max-width as needed */
+		max-width: 300px;
 		text-transform: capitalize;
 		margin-top: 20px;
 		font-size: 27px;
@@ -192,7 +189,7 @@
 	.badges-container {
 		display: flex;
 		flex-wrap: wrap;
-		max-width: 300px; /* Adjust the max-width as needed */
+		max-width: 300px;
 	}
 
 	.badges {

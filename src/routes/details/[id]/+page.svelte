@@ -119,7 +119,6 @@
 
 	.slider {
 		flex: 0 0 auto;
-		/* margin-right: 30px; */
 		position: relative;
 		background: rgba(0, 0, 0, 0.5);
 		border-radius: 5px;
