@@ -27,10 +27,7 @@ export const actions = {
 				};
 			}
 		} catch (err) {
-			console.log('Error: ', err);
-			return { pocketbase: err.response };
-
-			// throw error(err.status, err.message);
+			throw error(err.status, err.message);
 		}
 
 		throw redirect(303, '/');

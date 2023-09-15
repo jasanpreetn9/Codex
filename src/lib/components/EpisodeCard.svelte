@@ -1,13 +1,9 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
 	import { filterIcon } from '$lib/utils';
+	import {formatTime} from '$lib/utils'
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
-	}
-	function formatTime(seconds) {
-		const minutes = Math.floor(seconds / 60);
-		const remainingSeconds = Math.floor(seconds % 60);
-		return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 	}
 	let filterState = false;
 	function toggleFilter() {

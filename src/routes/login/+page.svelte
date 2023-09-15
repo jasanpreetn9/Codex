@@ -1,11 +1,35 @@
 <script>
+	import { enhance } from '$app/forms';
+	import { Input, Alert } from '$lib/components';
+	import toast from 'svelte-french-toast';
 	export let form;
-	import { Alert, Input } from '$lib/components';
-	console.log(form);
-</script>
+	let loading = false;
 
+	const submitLogin = () => {
+		loading = true;
+		return async ({ result, update }) => {
+			switch (result.type) {
+				case 'success':
+					await update();
+					break;
+				case 'fail':
+					toast.error('Invalid credentials');
+					await update();
+					break;
+				case 'error':
+					toast.error(result.error.message, {
+						style: 'background: #161b24; color: white;',
+					});
+					break;
+				default:
+					await update();
+			}
+			loading = false;
+		};
+	};
+</script>
 <body>
-	<form action="?/login" method="POST">
+	<form action="?/login" method="POST" use:enhance={submitLogin}>
 		<div class="container">
 			<div class="left-box">
 				<h1>Welcome Back</h1>
@@ -20,6 +44,7 @@
 					placeholder="Example@gmail.com"
 					value={form?.data?.email ?? ''}
 					errors={form?.errors?.email}
+					disabled={loading}
 				/>
 				<Input
 					label="password"
@@ -27,15 +52,13 @@
 					type="password"
 					placeholder="Password"
 					errors={form?.errors?.password}
+					disabled={loading}
 				/>
 				<a href="/reset-password" class="forgotPass">Forgot Password?</a>
-				<button type="submit" class="signUp">Sign In</button>
+				<button type="submit" class="loginBtn" disabled={loading}>Sign In</button>
 				<p class="account">Don't have an account? <a href="/register">Register</a></p>
 				{#if form?.notVerified}
 					<Alert message="You must verify your email before you can login." type="error" />
-				{/if}
-				{#if form?.pocketbase}
-					<Alert message={form?.pocketbase.message} type="error" />
 				{/if}
 			</div>
 		</div>
@@ -95,8 +118,8 @@
 		width: 100%;
 	}
 
-	.signUp {
-		background: #3f43fc;
+	.loginBtn {
+		background: #1f80e0;
 		border: none;
 		border-radius: 10px;
 		width: 400px;
@@ -105,7 +128,7 @@
 		font-weight: 600;
 		margin-top: 30px;
 	}
-	.signUp:hover {
+	.loginBtn:hover {
 		cursor: pointer;
 	}
 	.account {
@@ -138,7 +161,7 @@
 			align-items: center;
 			justify-content: center;
 		}
-		.signUp {
+		.loginBtn {
 			width: 100%;
 			display: flex;
 			align-items: center;

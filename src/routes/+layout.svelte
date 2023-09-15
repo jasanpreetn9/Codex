@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	import '$lib/global.css';
+	import { Toaster } from 'svelte-french-toast';
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
 	import { logo, userNavigation } from '$lib/utils';
@@ -26,7 +27,7 @@
 	<title>Codex</title>
 	<link rel="icon" href={logo} />
 </svelte:head>
-
+<Toaster />
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
 	<ul class="nav-links">
