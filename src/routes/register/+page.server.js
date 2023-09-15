@@ -2,7 +2,7 @@ import { error, redirect, fail } from '@sveltejs/kit';
 import { registerUserSchema } from '$lib/schemas';
 import { validateData } from '$lib/utils';
 
-export async function load({ local }) {
+export async function load({ locals }) {
 	if (locals.pb.authStore.isValid) {
 		throw redirect(303, '/');
 	}
