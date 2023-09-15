@@ -1,6 +1,5 @@
 import { redis } from '$lib/server/redis';
 import { META } from '@consumet/extensions';
-import { redirect } from '@sveltejs/kit';
 import { proxyUrl, formatDetails } from '$lib/utils';
 
 export async function load({ fetch, params, url }) {

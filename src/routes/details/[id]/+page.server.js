@@ -1,7 +1,6 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails } from '$lib/utils';
 import { META } from '@consumet/extensions';
-import { redirect } from '@sveltejs/kit';
 export async function load({ params, fetch, url }) {
 	const dubBool = url.searchParams.get('dub')?.toLowerCase?.() === 'true' || false;
 	const fetchDetails = async () => {
