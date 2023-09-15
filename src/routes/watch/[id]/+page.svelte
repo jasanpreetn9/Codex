@@ -60,8 +60,6 @@
 	:root {
 		--ep-card-width: 150px;
 	}
-	/* .description {
-	} */
 	.title {
 		margin-bottom: 10px;
 		padding: 17px;

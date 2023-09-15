@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	const { trendingAnimes, popularAnimes, recentAiringAnimes,user } = data;
-	console.log(user)
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
 	</script>
 

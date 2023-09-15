@@ -178,7 +178,6 @@
 		color: gray;
 	}
 	@media (max-width: 768px) and (min-width: 200px) {
-		/* Small screens */
 		.container {
 			flex-direction: column;
 			height: auto;
@@ -219,7 +218,6 @@
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
-		/* Medium screens */
 		.container {
 			padding: 0 20px;
 		}
