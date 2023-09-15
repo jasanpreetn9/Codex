@@ -10,7 +10,6 @@ export async function load({ local }) {
 export const actions = {
 	register: async ({ locals, request }) => {
 		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
-		// const body = Object.fromEntries(await request.formData());
 		if (errors) {
 			return fail(400, {
 				data: formData,

@@ -52,12 +52,6 @@
 		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
 			var(--tw-shadow);
 }
-	/* #tab1:checked ~ #content1,
-	#tab2:checked ~ #content2,
-	#tab3:checked ~ #content3,
-	#tab4:checked ~ #content4 {
-		display: block;
-	} */
 
 	@media screen and (max-width: 650px) {
 		a {

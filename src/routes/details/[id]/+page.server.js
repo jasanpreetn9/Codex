@@ -30,10 +30,6 @@ export async function load({ params, fetch, url }) {
 	const fetchEpisodes = async () => {
 		const anilist = new META.Anilist();
 		const episodesArray = await anilist.fetchEpisodesListById(params.id, dubBool,true);
-		// if(episodesArray.length <= 0) {
-		// 	throw redirect(300,`/details/${params.id}?dub=false`)
-		// 	// console.log("dub does not exits")
-		// }
 		return episodesArray;
 	};
 	const anime = {

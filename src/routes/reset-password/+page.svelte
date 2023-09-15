@@ -219,7 +219,6 @@
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
-		/* Medium screens */
 		.container {
 			padding: 0 20px;
 		}

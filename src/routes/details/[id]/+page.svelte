@@ -106,7 +106,6 @@
 	.carousel-container {
 		position: relative;
 		width: 100%;
-		/* height: 400px; */
 		padding: 20px 0;
 		margin-top: 80px;
 	}
@@ -171,7 +170,6 @@
 		background-color: #060b11;
 		border-radius: 7px;
 		padding: 20px;
-		/* width: 100%; */
 		width: 220px;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
