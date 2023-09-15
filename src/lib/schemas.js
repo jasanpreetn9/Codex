@@ -19,16 +19,12 @@ export const registerUserSchema = z
 			.email({ message: 'Email must be a valid email' }),
 		password: z
 			.string({ required_error: 'Password is required' })
-			.regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
+			.min(8, { message: 'Password must be at least 8 characters' })
+			.regex(/^(?=.*\d)[A-Za-z\d@$!%*#?&]+$/, {
 				message:
-					'Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.'
+					'Password must contain at least one number and can include letters and special characters.'
 			}),
-		passwordConfirm: z
-			.string({ required_error: 'Confirm Password is required' })
-			.regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
-				message:
-					'Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.'
-			})
+		passwordConfirm: z.string({ required_error: 'Confirm Password is required' })
 	})
 	.superRefine(({ passwordConfirm, password }, ctx) => {
 		if (passwordConfirm !== password) {
