@@ -1,8 +1,7 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails } from '$lib/utils';
+import { formatDetails, combineSubAndDub } from '$lib/utils';
 import { META } from '@consumet/extensions';
 export async function load({ params, fetch, url }) {
-	const dubBool = url.searchParams.get('dub')?.toLowerCase?.() === 'true' || false;
 	const fetchDetails = async () => {
 		try {
 			const query = await fetch('../../graphql/details.graphql');
@@ -28,12 +27,15 @@ export async function load({ params, fetch, url }) {
 	};
 	const fetchEpisodes = async () => {
 		const anilist = new META.Anilist();
-		const episodesArray = await anilist.fetchEpisodesListById(params.id, dubBool,true);
-		return episodesArray;
+
+		const [episodesSubArray, episodesDubArray] = await Promise.all([
+			anilist.fetchEpisodesListById(params.id, false, true),
+			anilist.fetchEpisodesListById(params.id, true, true),
+		  ]);
+		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 	const anime = {
 		details: fetchDetails(),
-		dubBool,
 		streamed: {
 			episodes: fetchEpisodes()
 		}
