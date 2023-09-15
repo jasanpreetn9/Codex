@@ -2,7 +2,7 @@ import nxt from '$lib/images/nxt-carousel.png';
 import pre from '$lib/images/pre-carousel.png';
 import filterIcon from '$lib/images/filter-icon.png';
 import downArrow from '$lib/images/down.svg';
-import{MagnifyingGlass,AdjustmentsVertical} from 'svelte-hero-icons'
+import{MagnifyingGlass,AdjustmentsVertical, Eye, User, Tv} from 'svelte-hero-icons'
 import logo from '$lib/images/logo.png';
 export { nxt, pre, filterIcon, downArrow, logo };
 export const apiUrl = 'https://api.consumet.org';
@@ -22,15 +22,18 @@ export const userNavigation = [
 	},
 	{
 		title: 'Account',
-		href: '/user/account'
+		href: '/user/account',
+		icon: User
 	},
 	{
 		title: 'Continue Watching',
-		href: '/user/continue-watching'
+		href: '/user/continue-watching',
+		icon: Eye
 	},
 	{
 		title: 'Watch Lists',
-		href: '/user/watch-list'
+		href: '/user/watch-list',
+		icon: Tv
 	}
 ];
 
