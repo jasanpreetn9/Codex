@@ -1,6 +1,5 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
-	console.log(episodes)
 	import { filterIcon } from '$lib/utils';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -108,7 +107,6 @@
 	.video-card img {
 		width: 100%;
 		border-radius: 5px;
-		aspect-ratio: 16/9;
 	}
 
 	.name {

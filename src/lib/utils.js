@@ -42,7 +42,9 @@ export const formatDetails = (media, enime) => {
 		.filter((relation) => relation.node && relation.node.relationType)
 		.map((relation) => {
 			return {
-				relationType: relation.node.relationType.replace()
+				relationType: relation.node.relationType
+					.replace
+					()
 			};
 		});
 
@@ -118,11 +120,4 @@ export const formatTime = (seconds) => {
 	const minutes = Math.floor(seconds / 60);
 	const remainingSeconds = Math.floor(seconds % 60);
 	return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-};
-
-export const combineSubAndDub = (subArray, dubArray) => {
-	return subArray.map((subEpisode) => ({
-		...subEpisode,
-		dub: dubArray.some((dubEpisode) => dubEpisode.number === subEpisode.number)
-	}));
 };
