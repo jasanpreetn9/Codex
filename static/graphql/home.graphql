@@ -9,7 +9,7 @@
         medium
         color
       }
-      description
+      description(asHtml: false)
       title {
         english
         romaji

@@ -39,13 +39,18 @@ export const userNavigation = [
 
 export const formatDetails = (media, enime) => {
 	const relations = media.relations?.edges
-		.filter((relation) => relation.node && relation.node.relationType)
 		.map((relation) => {
 			return {
-				relationType: relation.node.relationType.replace()
+				relationType: relation?.relationType,
+				id: relation?.node?.id,
+				title: {
+					romaji: relation?.node?.title?.romaji,
+					english: relation?.node?.title?.english
+				}
 			};
-		});
-
+		})
+		.filter((relation) => relation?.relationType == 'SEQUEL' || relation?.relationType == 'PREQUEL');
+	console.log(relations);
 	// Format studios
 	const studios = media.studios.edges.map((studio) => studio.node.name).join(', ');
 
@@ -91,7 +96,6 @@ export const formatDetails = (media, enime) => {
 	media.studios = studios;
 	media.genres = media.genres.join(', ');
 	media.recommendations = recommendations;
-
 	return media;
 };
 

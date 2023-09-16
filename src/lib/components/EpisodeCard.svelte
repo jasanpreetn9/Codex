@@ -1,6 +1,5 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
-	console.log(episodes)
 	import { filterIcon } from '$lib/utils';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -44,7 +43,7 @@
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number}
+							Ep: {episode.number + ' ‧ ' + 'Sub' +(episode.dub ? '/Dub' : '')}
 						</p>
 					</div>
 				</a>
