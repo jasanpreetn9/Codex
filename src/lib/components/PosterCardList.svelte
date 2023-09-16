@@ -1,7 +1,5 @@
 <script>
-	export let animes,
-		heading,
-		dub = false;
+	export let animes, heading;
 </script>
 
 {#if heading}
@@ -10,7 +8,7 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<a data-sveltekit-prefetch="true" href={`/details/${anime.id}?dub=${dub}`}>
+			<a data-sveltekit-prefetch="true" href={`/details/${anime.id}`}>
 				<div class="card">
 					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
 					<div class="card-body">
@@ -108,5 +106,4 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-
 </style>

@@ -1,7 +1,8 @@
 <script>
 	export let data;
-	$: ({ details, streamed,dubBool,user } = data);
+	$: ({ details, streamed,user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
+	// console.log($streamed.episodes)
 </script>
 
 <div class="carousel-container">
@@ -23,10 +24,12 @@
 								<span>{details.nextAiringEpisode.airingAt}</span>
 							</div>
 						{/if}
-						<div class="detail-item">
-							<p>Sub or Dub</p>
-							<span>{dubBool === true ? 'Dub' : 'Sub'}</span>
-						</div>
+						<!-- {#await streamed.dubBool then value}
+							<div class="detail-item">
+								<p>Sub or Dub</p>
+								<span>{value === true ? 'Dub' : 'Sub'}</span>
+							</div>
+						{/await} -->
 						<div class="detail-item">
 							<p>Format</p>
 							<span>{details.format?.toLowerCase()}</span>
