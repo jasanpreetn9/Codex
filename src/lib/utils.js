@@ -50,6 +50,7 @@ export const formatDetails = (media, enime) => {
 			};
 		})
 		.filter((relation) => relation?.relationType == 'SEQUEL' || relation?.relationType == 'PREQUEL');
+	console.log(relations);
 	// Format studios
 	const studios = media.studios.edges.map((studio) => studio.node.name).join(', ');
 
