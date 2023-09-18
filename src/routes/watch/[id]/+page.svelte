@@ -1,10 +1,9 @@
 <script>
-	import { page } from '$app/stores';
 	export let data;
-	const { animeDetails, currentEpObject } = data;
-	import { EpisodeCard } from '$lib/components';
+	$: ({ details, streamed,user } = data);
+	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
-
+<!-- 
 <main>
 	<h1>Watch Page</h1>
 	<div class="blank" />
@@ -106,4 +105,4 @@
 	.subDub-btn-active {
 		background: #1f80e0;
 	}
-</style>
+</style> -->
