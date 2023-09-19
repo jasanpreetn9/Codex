@@ -65,7 +65,7 @@
 		display: flex;
 		justify-content: center;
 		padding: 0px 30px;
-		background: #161b24;
+		background: var(--secondary);
 		border-radius: 10px;
 		height: 85vh;
 		border: 0.1px solid rgb(54, 54, 54);

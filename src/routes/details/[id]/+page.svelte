@@ -223,7 +223,7 @@
 		margin-top: 20px;
 	}
 	.watch-btn {
-		background: #1f80e0;
+		background: var( --primary);
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
@@ -236,13 +236,12 @@
 		margin-right: 5px;
 	}
 	.list-btn {
-		background: #161b24;
+		background: var(--secondary);
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
 		border: none;
 		outline: none;
-		text-transform: uppercase;
 		font-weight: 700;
 		font-size: 12px;
 		cursor: pointer;

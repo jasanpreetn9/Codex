@@ -127,7 +127,7 @@
 		align-items: center;
 		justify-content: center;
 		padding-left: 10px;
-		background: #161b24;
+		background: var(--secondary);
 		color: gray;
 		border-radius: 12px;
 	}
@@ -193,13 +193,13 @@
 		justify-content: center;
 		border-radius: 5px;
 		font-size: 15px;
-		background: #1f80e0;
+		background: var( --primary);
 	}
 	.dropdown-content {
 		position: absolute;
 		top: 100%;
 		right: 50px;
-		background: #161b24;
+		background: var(--secondary);
 		border-radius: 8px;
 		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 		z-index: 10;
@@ -297,7 +297,7 @@
 	}
 	.search-box {
 		border: none;
-		background: #161b24;
+		background: var(--secondary);
 		outline: none;
 		height: 30px;
 		color: #fff;
