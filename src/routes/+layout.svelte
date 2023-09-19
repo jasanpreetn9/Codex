@@ -1,31 +1,33 @@
 <script>
 	export let data;
 	import '$lib/global.css';
+	import { Toaster } from 'svelte-french-toast';
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
-	import { logo,userNavigation } from '$lib/utils';
+	import { logo, userNavigation } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
+
 	let inputValue = '';
 	let menuOpen = false;
 	function handleMenuOpen() {
 		menuOpen = !menuOpen;
-		console.log('open');
 		document.body.addEventListener('click', handleMenuClose);
 	}
 	function handleMenuClose() {
 		menuOpen = false;
-		console.log('close');
 		document.body.removeEventListener('click', handleMenuClose);
 	}
+
+	let icon = null;
 </script>
 
 <svelte:head>
 	<title>Codex</title>
 	<link rel="icon" href={logo} />
 </svelte:head>
-
+<Toaster />
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
 	<ul class="nav-links">
@@ -74,7 +76,15 @@
 						<span class="lineSeparate" />
 						<ul class="settingOptions">
 							{#each userNavigation as navItem}
-								 <li><a href={navItem.href}>{navItem.title}</a></li>
+								<li class="navItem">
+									<a class="navItem" href={navItem.href}
+										><Icon
+											style={'margin-left: 10px; margin-right: 10px; margin-bottom: 30px'}
+											src={navItem.icon}
+											size="22px"
+										/><p class="title">{navItem.title}</p></a
+									>
+								</li>
 							{/each}
 						</ul>
 						<span class="lineSeparate" />
@@ -121,6 +131,14 @@
 		color: gray;
 		border-radius: 12px;
 	}
+	.navItem{
+		display: flex;
+		margin-bottom: 0px;
+		padding-bottom: 0;
+	}
+	.title{
+		margin-top: 3px;
+	}
 	.iconSide {
 		margin-left: 10px;
 		font-size: smaller;
@@ -153,12 +171,13 @@
 		padding: 10px 0px;
 		font-size: 15px;
 		color: white;
-		gap: 30px;
+
 		align-items: flex-start;
 	}
 	.settingOptions li {
 		display: flex;
 		align-items: center;
+		padding: 0;
 	}
 	.settingOptions a {
 		padding-left: 10px;
@@ -184,10 +203,9 @@
 		border-radius: 8px;
 		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 		z-index: 10;
-		/* display: none; */
 		flex-direction: column;
 		width: 250px;
-		height: 300px;
+		height: 350px;
 	}
 	.dropdown-content .username {
 		position: absolute;
@@ -233,7 +251,7 @@
 	}
 
 	.dropdown-content a {
-		color: white; /* Change the text color */
+		color: white;
 		text-decoration: none;
 		padding: 0;
 		font-size: 14px;
@@ -301,36 +319,9 @@
 		padding: 0 4%;
 	}
 
-	/* .footer {
-		width: 100%;
-		height: 80px;
-		padding: 0 4%;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.footer-links ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	.footer-links li {
-		display: inline;
-		margin-left: 20px;
-	} */
 	li:hover {
 		cursor: pointer;
 	}
-
-	/* .footer-links a {
-		color: #fff;
-		text-decoration: none;
-	}
-	.footer-links:hover {
-		cursor: pointer;
-	} */
 
 	@media (max-width: 850px) {
 		.search-box {

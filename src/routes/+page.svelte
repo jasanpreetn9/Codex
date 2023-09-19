@@ -1,8 +1,8 @@
 <script>
 	export let data;
-	const { trendingAnimes, popularAnimes, recentAiringAnimes } = data;
+	const { trendingAnimes, popularAnimes, recentAiringAnimes, user } = data;
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
-	</script>
+</script>
 
 <Trending {trendingAnimes} />
 
@@ -13,9 +13,8 @@
 		header={'Continue Watching'}
 		filter={false}
 	/>
-{/if} -->
+{/if}  -->
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
-{#if recentAiringAnimes.length > 0}
-	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} />
-{/if}
-
+<!-- {#if recentAiringAnimes.length > 0}
+	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} dub={user?.alwaysDub} />
+{/if} -->

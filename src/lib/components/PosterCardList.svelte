@@ -8,9 +8,9 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<a data-sveltekit-prefetch="true" href={'/details/' + anime.id}>
+			<a data-sveltekit-prefetch="true" href={`/details/${anime.id}`}>
 				<div class="card">
-					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy"/>
+					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
 					<div class="card-body">
 						<h2 class="name">
 							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
@@ -54,7 +54,6 @@
 		display: grid;
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-		/* min-height: 150px; */
 		overflow: hidden;
 	}
 
@@ -107,39 +106,4 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
-	/* @media (max-width: 768px) {
-		.card-container {
-			grid-template-columns: repeat(2, 1fr);
-		}
-		.name {
-			font-size: 1.3em;
-		}
-	}
-
-	@media (min-width: 769px) {
-		.card-container {
-			grid-template-columns: repeat(4, 1fr);
-		}
-		.name {
-			font-size: 1em;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.card-container {
-			grid-template-columns: repeat(6, 1fr);
-		}
-		.name {
-			font-size: 1em;
-		}
-	}
-
-	@media (min-width: 1440px) {
-		.card-container {
-			grid-template-columns: repeat(8, 1fr);
-		}
-		.name {
-			font-size: 1em;
-		}
-	} */
 </style>

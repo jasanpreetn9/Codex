@@ -1,10 +1,9 @@
 <script>
-	import { page } from '$app/stores';
 	export let data;
-	const { animeDetails, currentEpObject } = data;
-	import { EpisodeCard } from '$lib/components';
+	$: ({ details, streamed,user } = data);
+	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
-
+<!-- 
 <main>
 	<h1>Watch Page</h1>
 	<div class="blank" />
@@ -60,8 +59,6 @@
 	:root {
 		--ep-card-width: 150px;
 	}
-	/* .description {
-	} */
 	.title {
 		margin-bottom: 10px;
 		padding: 17px;
@@ -70,10 +67,6 @@
 		justify-content: center;
 	}
 
-	.video {
-		flex-direction: row;
-		width: 100%;
-	}
 	.episodeCards {
 		display: flex;
 		flex-wrap: wrap;
@@ -112,4 +105,4 @@
 	.subDub-btn-active {
 		background: #1f80e0;
 	}
-</style>
+</style> -->

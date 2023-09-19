@@ -1,6 +1,8 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
+import { validateData } from '$lib/utils';
+import { loginUserSchema } from '$lib/schemas';
 
-export async function load({ locals, url }) {
+export async function load({ locals }) {
 	if (locals.pb.authStore.isValid) {
 		throw redirect(303, '/');
 	}
@@ -8,20 +10,24 @@ export async function load({ locals, url }) {
 
 export const actions = {
 	login: async ({ request, locals }) => {
-		const body = Object.fromEntries(await request.formData());
+		const { formData, errors } = await validateData(await request.formData(), loginUserSchema);
 
+		if (errors) {
+			return fail(400, {
+				data: formData,
+				errors: errors.fieldErrors
+			});
+		}
 		try {
-			await locals.pb.collection('users').authWithPassword(body.email.toLowerCase(), body.password);
+			await locals.pb.collection('users').authWithPassword(formData.email, formData.password);
 			if (!locals.pb?.authStore?.model?.verified) {
 				locals.pb.authStore.clear();
-				console.log('not verified');
 				return {
 					notVerified: true
 				};
 			}
 		} catch (err) {
-			console.log('Error: ', err);
-			throw error(500, 'Something went wrong logging in');
+			throw error(err.status, err.message);
 		}
 
 		throw redirect(303, '/');

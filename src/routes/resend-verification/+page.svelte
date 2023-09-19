@@ -13,7 +13,7 @@
                 <div class="inputs">
                     <label for="email">Email</label>
                     <input name="email" type="text" placeholder="Example@gmail.com" />
-    
+
                     <button type="submit" class="signUp">Submit</button>
                 </div>
                 {#if form?.success}
@@ -59,8 +59,6 @@
 		font-size: 13px;
 	}
 	label {
-		/* display: block; */
-		/* margin-top: 15px; */
 		font-size: 14px;
 		font-weight: 500;
 	}
@@ -113,7 +111,6 @@
 		margin-top: 30px;
 	}
 	@media (max-width: 768px) and (min-width: 200px) {
-		/* Small screens */
 		.container {
 			flex-direction: column;
 			height: auto;
@@ -151,7 +148,6 @@
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
-		/* Medium screens */
 		.container {
 			padding: 0 20px;
 		}

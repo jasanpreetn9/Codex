@@ -23,6 +23,7 @@
         justify-content: center;
         align-items: center;
         padding: 10px;
+        width: 100%;
     }
     .error {
         background-color: #f87372;

@@ -3,13 +3,7 @@
     media(type: ANIME, sort: [TRENDING_DESC]) {
       id
       bannerImage
-      coverImage {
-        extraLarge
-        large
-        medium
-        color
-      }
-      description
+      description(asHtml: false)
       title {
         english
         romaji
@@ -26,22 +20,15 @@
   popular: Page(page: 1, perPage: 16) {
     media(type: ANIME, sort: [POPULARITY_DESC]) {
       id
-      bannerImage
       coverImage {
         extraLarge
-        large
-        medium
-        color
       }
-      description
       title {
         english
         romaji
       }
       format
       genres
-      meanScore
-      episodes
     }
   }
 }

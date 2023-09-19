@@ -1,13 +1,21 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, fail } from '@sveltejs/kit';
+import { registerUserSchema } from '$lib/schemas';
+import { validateData } from '$lib/utils';
 
-export async function load({locals}) {
-    if (locals.user) {
-		throw redirect(303,"/")
+export async function load({ locals }) {
+	if (locals.pb.authStore.isValid) {
+		throw redirect(303, '/');
 	}
 }
 export const actions = {
 	register: async ({ locals, request }) => {
-		const body = Object.fromEntries(await request.formData());
+		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
+		if (errors) {
+			return fail(400, {
+				data: formData,
+				errors: errors.fieldErrors
+			});
+		}
 		try {
 			await locals.pb.collection('users').create({ ...body });
 			await locals.pb.collection('users').requestVerification(body.email);

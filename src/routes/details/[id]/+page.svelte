@@ -1,49 +1,53 @@
 <script>
 	export let data;
-	import { goto } from '$app/navigation';
+	$: ({ details, streamed,user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
 <div class="carousel-container">
 	<div class="carousel">
-		{#if data.bannerImage !== data.image}
+		{#if details?.bannerImage !== details.image}
 			<div class="slider">
 				<div class="banner-gradient" />
-				<img src={data.bannerImage} alt="" />
+				<img src={details.bannerImage} alt="" />
 			</div>
 		{/if}
 		<div class="content">
 			<div class="content-top">
 				<div class="content-left">
-					<img class="poster" src={data.coverImage.extraLarge} alt="" />
+					<img class="poster" src={details.coverImage?.extraLarge} alt="" />
 					<div class="details">
-						{#if data.nextAiringEpisode}
+						{#if details.nextAiringEpisode}
 							<div class="detail-item">
 								<p>Next Airing Episode</p>
-								<span>{data.nextAiringEpisode.airingAt}</span>
+								<span>{details.nextAiringEpisode.airingAt}</span>
 							</div>
 						{/if}
 						<div class="detail-item">
 							<p>Format</p>
-							<span>{data.format?.toLowerCase()}</span>
+							<span>{details.format?.toLowerCase()}</span>
 						</div>
 						<div class="detail-item">
 							<p>Rating</p>
-							<span>{data.meanScore / 10}</span>
+							<span>{details.meanScore / 10}</span>
 						</div>
-						<div class="detail-item">
-							<p>Episodes</p>
-							<span>{data.episodes.length}</span>
-						</div>
+						{#await streamed.episodes then value}
+							{#if details.format?.toLowerCase() !== 'movie'}
+								<div class="detail-item">
+									<p>Episodes</p>
+									<span>{value?.length}</span>
+								</div>
+							{/if}
+						{/await}
 						<div class="detail-item">
 							<p>Status</p>
-							<span>{data.status.toLowerCase()}</span>
+							<span>{details.status.toLowerCase()}</span>
 						</div>
 						<div class="detail-item">
 							<p>Studios</p>
-							<span>{data.studios}</span>
+							<span>{details.studios}</span>
 						</div>
-						{#each data.relations as relation}
+						{#each details.relations as relation}
 							<div class="detail-item">
 								<p>{relation.relationType.replace('_', ' ')}</p>
 								<span>
@@ -55,33 +59,36 @@
 						{/each}
 						<div class="detail-item">
 							<p>Genres</p>
-							<span>{data.genres}</span>
+							<span>{details.genres}</span>
 						</div>
 					</div>
 				</div>
 				<div class="content-right">
 					<div class="summary">
 						<h1 class="anime-title">
-							{data.title.english?.toLowerCase() ?? data.title.native?.toLowerCase()}
+							{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
 						</h1>
 
-						<h1 class="anime-title-native">{data.title.native}</h1>
+						<h1 class="anime-title-native">{details.title.native}</h1>
 						<p class="anime-des">
-							{@html data.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
+							{@html details.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 						</p>
-						<!-- <button on:click={goto('/watch/' + data.id + '?episode=1')} class="watch-btn">Watch Now</button> -->
-						<a href={'/watch/' + data.id + '?episode=1'} class="watch-btn">Watch Now</a>
+						<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 					</div>
-					{#if data.type?.toLowerCase() !== 'movie'}
-						<EpisodeCard
-							episodes={data.episodes}
-							animeId={data.id}
-							scrollAble={true}
-							header={'Episodes'}
-							filter={true}
-						/>
+					{#if details.format?.toLowerCase() !== 'movie'}
+						{#await streamed.episodes}
+							Loading...
+						{:then value}
+							<EpisodeCard
+								episodes={value}
+								animeId={details.id}
+								scrollAble={true}
+								header={'Episodes'}
+								filter={true}
+							/>
+						{/await}
 					{/if}
-					<PosterCardList animes={data.recommendations} heading={'Recommended'} />
+					<PosterCardList animes={details.recommendations} heading={'Recommended'} />
 				</div>
 			</div>
 		</div>
@@ -95,7 +102,6 @@
 	.carousel-container {
 		position: relative;
 		width: 100%;
-		/* height: 400px; */
 		padding: 20px 0;
 		margin-top: 80px;
 	}
@@ -109,7 +115,6 @@
 
 	.slider {
 		flex: 0 0 auto;
-		/* margin-right: 30px; */
 		position: relative;
 		background: rgba(0, 0, 0, 0.5);
 		border-radius: 5px;
@@ -126,6 +131,7 @@
 		object-fit: cover;
 		display: block;
 		margin-left: auto;
+		height: 300px;
 	}
 
 	.banner-gradient {
@@ -155,45 +161,10 @@
 		width: 220px;
 		border-radius: 7px;
 	}
-	/* .details {
-		color: white;
-		margin-top: 20px;
-		width: 100%;
-		height: max-content;
-		background-color: #060b11;
-		border-radius: 7px;
-		padding: 20px;
-	}
-	.detail-item {
-		padding-bottom: 5px;
-		text-transform: capitalize;
-		display: flex;
-		flex-direction: column;
-	}
-	.detail-item p {
-		font-size: 15px;
-		font-weight: 700;
-	}
-	.detail-item span {
-		font-size: 15px;
-		line-height: 1.3;
-		font-weight: 500;
-		padding-left: 10px;
-		width: 240px;
-		text-transform: capitalize;
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-	.detail-item span a {
-		color: white;
-	} */
 	.details {
 		background-color: #060b11;
 		border-radius: 7px;
 		padding: 20px;
-		/* width: 100%; */
 		width: 220px;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
