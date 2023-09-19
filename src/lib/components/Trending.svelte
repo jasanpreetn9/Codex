@@ -242,6 +242,7 @@
 		font-weight: 700;
 		font-size: 12px;
 		cursor: pointer;
+		text-decoration: none;
 	}
 
 	.bullet {
