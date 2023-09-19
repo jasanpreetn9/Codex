@@ -1,8 +1,7 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, combineSubAndDub } from '$lib/utils';
+import { formatDetails, combineSubAndDub, proxyUrl } from '$lib/utils';
 import { META } from '@consumet/extensions';
 export async function load({ params, fetch, url }) {
-	
 	const fetchDetails = async () => {
 		try {
 			const query = await fetch('../../graphql/details.graphql');
@@ -26,17 +25,19 @@ export async function load({ params, fetch, url }) {
 			throw new Error(error);
 		}
 	};
-	
+
 	const fetchEpisodes = async () => {
-		const anilist = new META.Anilist();
+		const anilist = new META.Anilist(undefined, {
+			url: 'https://cors-anywhere.marsnebulasoup.workers.dev?'
+		});
 
 		const [episodesSubArray, episodesDubArray] = await Promise.all([
 			anilist.fetchEpisodesListById(params.id, false, true),
-			anilist.fetchEpisodesListById(params.id, true, true),
-		  ]);
+			anilist.fetchEpisodesListById(params.id, true, true)
+		]);
 		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
-	
+
 	const anime = {
 		details: fetchDetails(),
 		streamed: {
@@ -45,3 +46,7 @@ export async function load({ params, fetch, url }) {
 	};
 	return anime;
 }
+
+export const actions = {
+	
+};

@@ -28,6 +28,7 @@
 		text-align: center;
 		color: #bbb;
 		border: 1px solid transparent;
+		text-decoration: none;
 	}
 
 	a:hover {
