@@ -5,7 +5,7 @@
 </script>
 
 <h1 class="title">Search Results For: <i>{params}</i></h1>
-<PosterCardList animes={results} dub={user?.alwaysDub} />
+<PosterCardList animes={results} />
 
 <style>
 	.title {
