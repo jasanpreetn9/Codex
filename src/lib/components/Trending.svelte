@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
 	import { pre, nxt } from '$lib/utils';
-	console.log(trendingAnimes);
 	let slider, prev, next, radioSlider;
 	let select = 0;
 	let timer;
