@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
 	import { pre, nxt } from '$lib/utils';
-
+	console.log(trendingAnimes);
 	let slider, prev, next, radioSlider;
 	let select = 0;
 	let timer;
@@ -68,7 +68,7 @@
 						<span class="dots" />
 						<p class="badges">
 							Eps: {anime.nextAiringEpisode && anime.nextAiringEpisode.episode !== null
-								? anime.nextAiringEpisode.episode
+								? anime.nextAiringEpisode.episode - 1
 								: anime.episode}
 						</p>
 					</div>

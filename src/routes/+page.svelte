@@ -14,7 +14,7 @@
 		filter={false}
 	/>
 {/if}  -->
-<PosterCardList animes={popularAnimes} heading={'Popular Animes'} dub={user?.alwaysDub} />
+<PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
 <!-- {#if recentAiringAnimes.length > 0}
 	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} dub={user?.alwaysDub} />
 {/if} -->
