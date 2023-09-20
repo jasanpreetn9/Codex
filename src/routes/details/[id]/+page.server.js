@@ -1,6 +1,8 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails, combineSubAndDub, proxyUrl } from '$lib/utils';
+import { watchListQuery } from '$lib/anilistGraphqlQuery';
 import { META } from '@consumet/extensions';
+
 export async function load({ params, fetch, url }) {
 	const fetchDetails = async () => {
 		try {
@@ -48,5 +50,36 @@ export async function load({ params, fetch, url }) {
 }
 
 export const actions = {
-	
+	addToList: async ({ request, locals }) => {
+		const data = await request.formData();
+		const animeId = data.get('animeId');
+		try {
+			const anilistResp = await fetch('https://graphql.anilist.co/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json'
+				},
+				body: JSON.stringify({
+					query: watchListQuery,
+					variables: { id: animeId }
+				})
+			});
+
+			const anilist = await anilistResp.json();
+			const media = anilist.data.Media;
+			console.log(media);
+			await locals.pb.collection('lists').create({
+				user: locals.user.id,
+				animeId: media.id,
+				coverImage: media.coverImage,
+				title: media.title,
+				genres: media.genres,
+				format: media.format
+			});
+		} catch (error) {
+			// console.log(error.response.data.title);
+			throw new Error(error);
+		}
+	}
 };
