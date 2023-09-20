@@ -1,9 +1,9 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, combineSubAndDub, proxyUrl } from '$lib/utils';
+import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
 import { watchListQuery } from '$lib/anilistGraphqlQuery';
 import { META } from '@consumet/extensions';
 
-export async function load({ params, fetch, url }) {
+export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {
 		try {
 			const query = await fetch('../../graphql/details.graphql');
@@ -40,7 +40,14 @@ export async function load({ params, fetch, url }) {
 		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
+	const fetchList = async () => {
+		const list = await locals.pb.collection('lists').getFirstListItem(`animeId="${params.id}"`);
+		console.log(list)
+		return list;
+	};
+
 	const anime = {
+		list: fetchList(),
 		details: fetchDetails(),
 		streamed: {
 			episodes: fetchEpisodes()

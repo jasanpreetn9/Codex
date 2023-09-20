@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	$: ({ details, streamed, user } = data);
+	$: ({ list, details, streamed, user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
@@ -74,13 +74,12 @@
 							{@html details.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 						</p>
 						<div class="btn-container">
-
 							<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 							{#if user}
-								 <form method="POST" action="?/addToList">
-									 <button type="submit" class="list-btn">Add to list</button>
-									 <input type="hidden" name="animeId" value={details.id}>
-								 </form>
+								<form method="POST" action="?/addToList">
+									<button type="submit" class="list-btn">{list.listType?? 'Add to list'}</button>
+									<input type="hidden" name="animeId" value={details.id} />
+								</form>
 							{/if}
 						</div>
 					</div>
@@ -224,7 +223,7 @@
 		margin-top: 20px;
 	}
 	.watch-btn {
-		background: var( --primary);
+		background: var(--primary);
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
@@ -246,6 +245,7 @@
 		font-weight: 700;
 		font-size: 12px;
 		cursor: pointer;
+		text-transform: capitalize;
 	}
 	.summary {
 		min-height: 200px;
