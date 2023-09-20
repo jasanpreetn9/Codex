@@ -41,9 +41,12 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchList = async () => {
-		const list = await locals.pb.collection('lists').getFirstListItem(`animeId="${params.id}"`);
-		console.log(list)
-		return list;
+		try {
+			const list = await locals.pb.collection('lists').getFirstListItem(`animeId="${params.id}"`);
+			return list;
+		} catch (error) {
+			return null;
+		}
 	};
 
 	const anime = {

@@ -77,7 +77,7 @@
 							<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 							{#if user}
 								<form method="POST" action="?/addToList">
-									<button type="submit" class="list-btn">{list.listType?? 'Add to list'}</button>
+									<button type="submit" class="list-btn">{list.listType ?? 'Add to list'}</button>
 									<input type="hidden" name="animeId" value={details.id} />
 								</form>
 							{/if}
