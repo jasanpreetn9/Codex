@@ -103,6 +103,6 @@
 		cursor: pointer;
 	}
 	.subDub-btn-active {
-		background: #1f80e0;
+		background: var( --primary);
 	}
 </style> -->

@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	$: ({ details, streamed,user } = data);
+	$: ({ list, details, streamed, user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
 
@@ -73,7 +73,15 @@
 						<p class="anime-des">
 							{@html details.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 						</p>
-						<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
+						<div class="btn-container">
+							<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
+							{#if user}
+								<form method="POST" action="?/addToList">
+									<button type="submit" class="list-btn">{list.listType ?? 'Add to list'}</button>
+									<input type="hidden" name="animeId" value={details.id} />
+								</form>
+							{/if}
+						</div>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
 						{#await streamed.episodes}
@@ -209,8 +217,13 @@
 		font-size: 14px;
 		margin-bottom: 15px;
 	}
+	.btn-container {
+		display: flex;
+		flex-direction: row;
+		margin-top: 20px;
+	}
 	.watch-btn {
-		background: #1f80e0;
+		background: var(--primary);
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;
@@ -219,8 +232,20 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		font-size: 12px;
-		margin-top: 20px;
 		cursor: pointer;
+		margin-right: 5px;
+	}
+	.list-btn {
+		background: var(--secondary);
+		padding: 10px;
+		color: #fff;
+		border-radius: 5px;
+		border: none;
+		outline: none;
+		font-weight: 700;
+		font-size: 12px;
+		cursor: pointer;
+		text-transform: capitalize;
 	}
 	.summary {
 		min-height: 200px;

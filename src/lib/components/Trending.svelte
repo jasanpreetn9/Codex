@@ -231,7 +231,7 @@
 	}
 
 	.watch-btn {
-		background: #1f80e0;
+		background: var( --primary);
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;

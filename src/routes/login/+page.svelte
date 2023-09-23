@@ -18,7 +18,7 @@
 					break;
 				case 'error':
 					toast.error(result.error.message, {
-						style: 'background: #161b24; color: white;',
+						style: 'background: var(--secondary); color: white;',
 					});
 					break;
 				default:
@@ -78,7 +78,7 @@
 		display: flex;
 		justify-content: center;
 		padding: 0px 30px;
-		background: #161b24;
+		background: var(--secondary);
 		border-radius: 10px;
 		height: 85vh;
 		border: 0.1px solid rgb(54, 54, 54);
@@ -119,7 +119,7 @@
 	}
 
 	.loginBtn {
-		background: #1f80e0;
+		background: var( --primary);
 		border: none;
 		border-radius: 10px;
 		width: 400px;

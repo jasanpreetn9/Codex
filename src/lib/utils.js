@@ -31,8 +31,8 @@ export const userNavigation = [
 		icon: Eye
 	},
 	{
-		title: 'Watch Lists',
-		href: '/user/watch-list',
+		title: 'Lists',
+		href: '/user/lists',
 		icon: Tv
 	}
 ];

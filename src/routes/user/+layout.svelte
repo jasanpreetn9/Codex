@@ -28,6 +28,7 @@
 		text-align: center;
 		color: #bbb;
 		border: 1px solid transparent;
+		text-decoration: none;
 	}
 
 	a:hover {
@@ -42,7 +43,7 @@
 	}
 	.active {
 		color: white;
-		border-top: 2px solid #1f80e0;
+		border-top: 2px solid var( --primary);
 		--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 		--tw-shadow-color: #303030;
 		--tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color);
