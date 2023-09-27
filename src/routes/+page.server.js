@@ -1,9 +1,6 @@
-import { proxyUrl } from '$lib/utils';
+import { homeQuery } from '$lib/anilistGraphqlQuery';
 export async function load({ fetch, setHeaders }) {
 	try {
-		const queryResponse = await fetch('graphql/home.graphql');
-		const queryText = await queryResponse.text();
-
 		const fetchAnilist = async () => {
 
 			const anilistRes = await fetch('https://graphql.anilist.co/', {
@@ -13,7 +10,7 @@ export async function load({ fetch, setHeaders }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: queryText
+					query: homeQuery
 				})
 			});
 

@@ -95,6 +95,7 @@ export const formatDetails = (media, enime) => {
 	media.studios = studios;
 	media.genres = media.genres.join(', ');
 	media.recommendations = recommendations;
+	media.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')
 	return media;
 };
 

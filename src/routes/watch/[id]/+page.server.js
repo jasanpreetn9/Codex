@@ -1,13 +1,11 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails, combineSubAndDub } from '$lib/utils';
 import { META } from '@consumet/extensions';
+import { homeQuery } from '$lib/anilistGraphqlQuery';
 export async function load({ params, fetch, url }) {
 	const anilist = new META.Anilist();
 	const fetchDetails = async () => {
 		try {
-			const query = await fetch('../../graphql/details.graphql');
-			const queryText = await query.text();
-
 			const anilistResp = await fetch('https://graphql.anilist.co/', {
 				method: 'POST',
 				headers: {
@@ -15,7 +13,7 @@ export async function load({ params, fetch, url }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: queryText,
+					query: homeQuery,
 					variables: { id: params.id }
 				})
 			});
@@ -27,21 +25,18 @@ export async function load({ params, fetch, url }) {
 		}
 	};
 	const fetchEpisodes = async () => {
-
 		const [episodesSubArray, episodesDubArray] = await Promise.all([
 			anilist.fetchEpisodesListById(params.id, false, true),
-			anilist.fetchEpisodesListById(params.id, true, true),
-		  ]);
+			anilist.fetchEpisodesListById(params.id, true, true)
+		]);
 		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 	const fetchEpisodeSources = async () => {
+		const episodesArray = await fetchEpisodes();
 		const episodesSources = await anilist.fetchEpisodeSources();
-	}
+	};
 	const anime = {
-		details: fetchDetails(),
-		streamed: {
-			episodes: fetchEpisodes()
-		}
+		details: fetchDetails()
 	};
 	return anime;
 }

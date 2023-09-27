@@ -2,13 +2,11 @@ import { redis } from '$lib/server/redis';
 import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
 import { watchListQuery } from '$lib/anilistGraphqlQuery';
 import { META } from '@consumet/extensions';
+import { detailsQuery } from '$lib/anilistGraphqlQuery';
 
 export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {
 		try {
-			const query = await fetch('../../graphql/details.graphql');
-			const queryText = await query.text();
-
 			const anilistResp = await fetch('https://graphql.anilist.co/', {
 				method: 'POST',
 				headers: {
@@ -16,7 +14,7 @@ export async function load({ params, fetch, locals, url }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: queryText,
+					query: detailsQuery,
 					variables: { id: params.id }
 				})
 			});
@@ -30,7 +28,7 @@ export async function load({ params, fetch, locals, url }) {
 
 	const fetchEpisodes = async () => {
 		const anilist = new META.Anilist(undefined, {
-			url: 'https://cors-anywhere.marsnebulasoup.workers.dev?'
+			url: proxyUrl
 		});
 
 		const [episodesSubArray, episodesDubArray] = await Promise.all([
@@ -78,17 +76,16 @@ export const actions = {
 
 			const anilist = await anilistResp.json();
 			const media = anilist.data.Media;
-			console.log(media);
 			await locals.pb.collection('lists').create({
 				user: locals.user.id,
 				animeId: media.id,
 				coverImage: media.coverImage,
 				title: media.title,
 				genres: media.genres,
-				format: media.format
+				format: media.format,
+				listType: 'watching'
 			});
 		} catch (error) {
-			// console.log(error.response.data.title);
 			throw new Error(error);
 		}
 	}

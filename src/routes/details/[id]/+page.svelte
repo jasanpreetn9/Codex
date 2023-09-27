@@ -1,5 +1,6 @@
 <script>
 	export let data;
+	import { Icon, ChevronDown } from 'svelte-hero-icons';
 	$: ({ list, details, streamed, user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
@@ -71,13 +72,16 @@
 
 						<h1 class="anime-title-native">{details.title.native}</h1>
 						<p class="anime-des">
-							{@html details.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
+							{@html details.description}
 						</p>
 						<div class="btn-container">
 							<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 							{#if user}
 								<form method="POST" action="?/addToList">
-									<button type="submit" class="list-btn">{list.listType ?? 'Add to list'}</button>
+									<button class="list-btn-dropdown">
+										{list?.listType ?? 'Add to list'}
+										<Icon src={ChevronDown} size="16" style="margin-left: 5px;"/>
+									</button>
 									<input type="hidden" name="animeId" value={details.id} />
 								</form>
 							{/if}
@@ -235,7 +239,7 @@
 		cursor: pointer;
 		margin-right: 5px;
 	}
-	.list-btn {
+	.list-btn-dropdown {
 		background: var(--secondary);
 		padding: 10px;
 		color: #fff;
@@ -246,6 +250,7 @@
 		font-size: 12px;
 		cursor: pointer;
 		text-transform: capitalize;
+		display: flex;
 	}
 	.summary {
 		min-height: 200px;
