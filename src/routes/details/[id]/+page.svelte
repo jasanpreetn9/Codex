@@ -3,6 +3,16 @@
 	import { Icon, ChevronDown } from 'svelte-hero-icons';
 	$: ({ list, details, streamed, user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
+
+	let menuOpen = false;
+	function handleMenuOpen() {
+		menuOpen = !menuOpen;
+		document.body.addEventListener('click', handleMenuClose);
+	}
+	function handleMenuClose() {
+		menuOpen = false;
+		document.body.removeEventListener('click', handleMenuClose);
+	}
 </script>
 
 <div class="carousel-container">
@@ -77,13 +87,27 @@
 						<div class="btn-container">
 							<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
 							{#if user}
-								<form method="POST" action="?/addToList">
-									<button class="list-btn-dropdown">
+								<div>
+									<button class="list-btn-dropdown" on:click|stopPropagation={handleMenuOpen}>
 										{list?.listType ?? 'Add to list'}
-										<Icon src={ChevronDown} size="16" style="margin-left: 5px;"/>
+										<Icon
+											src={ChevronDown}
+											size="16"
+											style="margin-left: 5px;{menuOpen ? 'transform: scaleY(-1);' : ''}"
+										/>
 									</button>
+									<!-- svelte-ignore a11y-click-events-have-key-events -->
+									{#if menuOpen}
+										<div class="list-btn-dropdown-list" on:click|stopPropagation={() => {}}>
+											<button type="submit" name="watching">Watching</button>
+											<button type="submit" name="on-hold">On-Hold</button>
+											<button type="submit" name="plan-to-watch">Plan To Watch</button>
+											<button type="submit" name="dropped">Dropped</button>
+											<button type="submit" name="completed">Completed</button>
+										</div>
+									{/if}
 									<input type="hidden" name="animeId" value={details.id} />
-								</form>
+								</div>
 							{/if}
 						</div>
 					</div>
@@ -238,6 +262,7 @@
 		font-size: 12px;
 		cursor: pointer;
 		margin-right: 5px;
+		height: max-content;
 	}
 	.list-btn-dropdown {
 		background: var(--secondary);
@@ -251,6 +276,21 @@
 		cursor: pointer;
 		text-transform: capitalize;
 		display: flex;
+	}
+	.list-btn-dropdown-list {
+		display: flex;
+		flex-direction: column;
+		z-index: 1;
+		gap: 10px;
+		margin-top: 7px;
+	}
+	.list-btn-dropdown-list button {
+		background-color: transparent;
+		background-color: var(--secondary);
+		color: white;
+		border: none;
+		padding: 5px;
+		border-radius: 5px;
 	}
 	.summary {
 		min-height: 200px;
