@@ -7,6 +7,11 @@ import { detailsQuery } from '$lib/anilistGraphqlQuery';
 export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {
 		try {
+			const cached = await redis.get(`anilist-details-${params.id}`);
+			if (cached) {
+				console.log('Cache hit anilist details in /details!');
+				return JSON.parse(cached);
+			}
 			const anilistResp = await fetch('https://graphql.anilist.co/', {
 				method: 'POST',
 				headers: {
@@ -20,13 +25,21 @@ export async function load({ params, fetch, locals, url }) {
 			});
 
 			const anilist = await anilistResp.json();
-			return formatDetails(anilist.data.Media);
+
+			const formattedAnilist = formatDetails(anilist.data.Media);
+			redis.set(`anilist-details-${params.id}`, JSON.stringify(formattedAnilist), 'EX', 600);
+			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
 		}
 	};
 
 	const fetchEpisodes = async () => {
+		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		if (cached) {
+			console.log('Cache hit consumet gogoanime episodes in /details!');
+			return JSON.parse(cached);
+		}
 		const anilist = new META.Anilist(undefined, {
 			url: proxyUrl
 		});
@@ -35,7 +48,9 @@ export async function load({ params, fetch, locals, url }) {
 			anilist.fetchEpisodesListById(params.id, false, true),
 			anilist.fetchEpisodesListById(params.id, true, true)
 		]);
-		return combineSubAndDub(episodesSubArray, episodesDubArray);
+		const combinedSubAndDub = combineSubAndDub(episodesSubArray, episodesDubArray);
+		redis.set(`consumet-episodes-gogoanime-${params.id}`, JSON.stringify(combinedSubAndDub), 'EX', 600);
+		return combineSubAndDub;
 	};
 
 	const fetchList = async () => {

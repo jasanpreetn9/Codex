@@ -38,8 +38,8 @@ export const userNavigation = [
 ];
 
 export const formatDetails = (media, enime) => {
-	const relations = media.relations?.edges
-		.map((relation) => {
+	const relations = media?.relations?.edges
+		?.map((relation) => {
 			return {
 				relationType: relation?.relationType,
 				id: relation?.node?.id,
@@ -49,9 +49,11 @@ export const formatDetails = (media, enime) => {
 				}
 			};
 		})
-		.filter((relation) => relation?.relationType == 'SEQUEL' || relation?.relationType == 'PREQUEL');
+		.filter(
+			(relation) => relation?.relationType == 'SEQUEL' || relation?.relationType == 'PREQUEL'
+		);
 	// Format studios
-	const studios = media.studios.edges.map((studio) => studio.node.name).join(', ');
+	const studios = media?.studios?.edges?.map((studio) => studio.node.name).join(', ');
 
 	// Format airing date
 	if (media.nextAiringEpisode) {
@@ -69,15 +71,17 @@ export const formatDetails = (media, enime) => {
 		});
 	};
 
-	media.startDate = formatDate(media.startDate);
-	media.endDate = formatDate(media.endDate);
+	media.startDate = formatDate(media?.startDate);
+	media.endDate = formatDate(media?.endDate);
 
 	// Remove HTML tags and trim description
-	media.description = media.description
-		.split('*')[0]
+	media.description = media?.description
+		?.split('*')[0]
 		.split('Note')[0]
-		.trim()
-		.replace(/<br\s*\/?>/gi, '');
+		.replace(/<br\s*\/?>/gi, '')
+		.replace(/&lt;br&gt;/g, '')
+		.replace(/\<br\>/g, '')
+		.trim();
 
 	// Extract and format recommendations
 	const recommendations = media?.recommendations?.edges?.map(
@@ -93,9 +97,8 @@ export const formatDetails = (media, enime) => {
 	// Update the media object with the formatted data
 	media.relations = relations;
 	media.studios = studios;
-	media.genres = media.genres.join(', ');
+	media.genres = media?.genres?.join(', ');
 	media.recommendations = recommendations;
-	media.description.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')
 	return media;
 };
 
