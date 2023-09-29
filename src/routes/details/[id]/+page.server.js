@@ -1,8 +1,8 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
-import { watchListQuery } from '$lib/anilistGraphqlQuery';
+import { watchListQuery } from '$lib/anilistQuerys';
 import { META } from '@consumet/extensions';
-import { detailsQuery } from '$lib/anilistGraphqlQuery';
+import { detailsQuery } from '$lib/anilistQuerys';
 
 export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {

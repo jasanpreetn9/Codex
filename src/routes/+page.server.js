@@ -1,5 +1,5 @@
 import { redis } from '$lib/server/redis';
-import { homeQuery } from '$lib/anilistGraphqlQuery';
+import { homeQuery } from '$lib/anilistQuerys';
 export async function load({ fetch }) {
 	try {
 		const fetchAnilist = async () => {
