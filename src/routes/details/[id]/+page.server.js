@@ -35,10 +35,11 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`)
+		
 		if (cached) {
 			console.log('Cache hit consumet gogoanime episodes in /details!');
-			return JSON.parse(cached);
+			return await JSON.parse(cached);
 		}
 		const anilist = new META.Anilist(undefined, {
 			url: proxyUrl
@@ -48,9 +49,8 @@ export async function load({ params, fetch, locals, url }) {
 			anilist.fetchEpisodesListById(params.id, false, true),
 			anilist.fetchEpisodesListById(params.id, true, true)
 		]);
-		const combinedSubAndDub = combineSubAndDub(episodesSubArray, episodesDubArray);
-		redis.set(`consumet-episodes-gogoanime-${params.id}`, JSON.stringify(combinedSubAndDub), 'EX', 600);
-		return combineSubAndDub;
+		await redis.set(`consumet-episodes-gogoanime-${params.id}`,JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),'EX',600);
+		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
 	const fetchList = async () => {
