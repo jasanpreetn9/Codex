@@ -1,6 +1,6 @@
 import { redis } from '$lib/server/redis';
-import { homeQuery } from '$lib/anilistQuerys';
-export async function load({ fetch }) {
+import { homeQuery } from '$lib/anilistQuery';
+export async function load({ locals,fetch, setHeaders }) {
 	try {
 		const fetchAnilist = async () => {
 			try {
@@ -19,7 +19,10 @@ export async function load({ fetch }) {
 						query: homeQuery
 					})
 				});
-
+				setHeaders({
+					anilistRes,
+					'cache-control': 'max-age=60'
+				});
 				let anilistData = await anilistRes.json();
 
 				const result = {

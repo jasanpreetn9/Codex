@@ -1,10 +1,11 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
-import { watchListQuery } from '$lib/anilistQuerys';
-import { META } from '@consumet/extensions';
-import { detailsQuery } from '$lib/anilistQuerys';
 
-export async function load({ params, fetch, locals, url }) {
+import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
+import { watchListQuery } from '$lib/anilistQuery';
+import { META } from '@consumet/extensions';
+import { detailsQuery } from '$lib/anilistQuery';
+
+export async function load({ params, fetch, locals, url, setHeaders }) {
 	const fetchDetails = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
@@ -23,7 +24,10 @@ export async function load({ params, fetch, locals, url }) {
 					variables: { id: params.id }
 				})
 			});
-
+			setHeaders({
+				anilistResp,
+				'cache-control': 'max-age=60'
+			});
 			const anilist = await anilistResp.json();
 
 			const formattedAnilist = formatDetails(anilist.data.Media);
@@ -35,8 +39,8 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`)
-		
+		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+
 		if (cached) {
 			console.log('Cache hit consumet gogoanime episodes in /details!');
 			return await JSON.parse(cached);
@@ -49,7 +53,17 @@ export async function load({ params, fetch, locals, url }) {
 			anilist.fetchEpisodesListById(params.id, false, true),
 			anilist.fetchEpisodesListById(params.id, true, true)
 		]);
-		await redis.set(`consumet-episodes-gogoanime-${params.id}`,JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),'EX',600);
+		setHeaders({
+			episodesSubArray,
+			episodesDubArray,
+			'cache-control': 'max-age=60'
+		});
+		await redis.set(
+			`consumet-episodes-gogoanime-${params.id}`,
+			JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
+			'EX',
+			600
+		);
 		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
