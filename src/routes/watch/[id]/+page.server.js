@@ -1,7 +1,7 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
 import { META } from '@consumet/extensions';
-import { detailsQuery } from '$lib/anilistQuerys';
+import { detailsQuery } from '$lib/anilistQuery';
 
 export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {
