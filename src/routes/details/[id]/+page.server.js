@@ -1,19 +1,17 @@
 import { redis } from '$lib/server/redis';
 
-import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
-import { watchListQuery } from '$lib/anilistQuery';
+import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
+import { episodeQuery, kitsuUrl } from '$lib/providers/kitsu/utils';
 import { META } from '@consumet/extensions';
-import { detailsQuery } from '$lib/anilistQuery';
 
 export async function load({ params, fetch, locals, url, setHeaders }) {
 	const fetchDetails = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
 			if (cached) {
-				console.log('Cache hit anilist details in /details!');
 				return JSON.parse(cached);
 			}
-			const anilistResp = await fetch('https://graphql.anilist.co/', {
+			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -24,10 +22,11 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 					variables: { id: params.id }
 				})
 			});
-			setHeaders({
-				anilistResp,
-				'cache-control': 'max-age=60'
-			});
+			const cacheControl = anilistResp.headers.get('cache-control');
+
+			if (cacheControl) {
+				setHeaders({ 'cache-control': cacheControl });
+			}
 			const anilist = await anilistResp.json();
 
 			const formattedAnilist = formatDetails(anilist.data.Media);
@@ -39,32 +38,39 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
-
-		if (cached) {
-			console.log('Cache hit consumet gogoanime episodes in /details!');
-			return await JSON.parse(cached);
-		}
-		const anilist = new META.Anilist(undefined, {
-			url: proxyUrl
+		const kitsuRes = await fetch(kitsuUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			},
+			body: JSON.stringify({
+				query: episodeQuery(params.id)
+			})
 		});
+		const kitsu = await kitsuRes.json();
+		console.log(kitsu)
+		return kitsu
+		// const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		// if (cached) {
+		// 	console.log('Cache hit consumet gogoanime episodes in /details!');
+		// 	return await JSON.parse(cached);
+		// }
+		// const anilist = new META.Anilist(undefined, {
+		// 	url: proxyUrl
+		// });
 
-		const [episodesSubArray, episodesDubArray] = await Promise.all([
-			anilist.fetchEpisodesListById(params.id, false, true),
-			anilist.fetchEpisodesListById(params.id, true, true)
-		]);
-		setHeaders({
-			episodesSubArray,
-			episodesDubArray,
-			'cache-control': 'max-age=60'
-		});
-		await redis.set(
-			`consumet-episodes-gogoanime-${params.id}`,
-			JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
-			'EX',
-			600
-		);
-		return combineSubAndDub(episodesSubArray, episodesDubArray);
+		// const [episodesSubArray, episodesDubArray] = await Promise.all([
+		// 	anilist.fetchEpisodesListById(params.id, false, true),
+		// 	anilist.fetchEpisodesListById(params.id, true, true)
+		// ]);
+		// await redis.set(
+		// 	`consumet-episodes-gogoanime-${params.id}`,
+		// 	JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
+		// 	'EX',
+		// 	600
+		// );
+		// return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
 	const fetchList = async () => {

@@ -1,8 +1,6 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
+import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
 import { META } from '@consumet/extensions';
-import { detailsQuery } from '$lib/anilistQuery';
-
 export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {
 		try {
@@ -11,7 +9,7 @@ export async function load({ params, fetch, locals, url }) {
 				console.log('Cache hit anilist details in /watch!');
 				return JSON.parse(cached);
 			}
-			const anilistResp = await fetch('https://graphql.anilist.co/', {
+			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
