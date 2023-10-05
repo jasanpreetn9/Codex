@@ -1,47 +1,37 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, combineSubAndDub } from '$lib/utils';
+import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
 import { META } from '@consumet/extensions';
-export async function load({ params, fetch, url }) {
-	const anilist = new META.Anilist();
+export async function load({ params, fetch, locals, url }) {
 	const fetchDetails = async () => {
 		try {
-			const query = await fetch('../../graphql/details.graphql');
-			const queryText = await query.text();
-
-			const anilistResp = await fetch('https://graphql.anilist.co/', {
+			const cached = await redis.get(`anilist-details-${params.id}`);
+			if (cached) {
+				console.log('Cache hit anilist details in /watch!');
+				return JSON.parse(cached);
+			}
+			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: queryText,
+					query: detailsQuery,
 					variables: { id: params.id }
 				})
 			});
 
 			const anilist = await anilistResp.json();
-			return formatDetails(anilist.data.Media);
+
+			const formattedAnilist = formatDetails(anilist.data.Media);
+			redis.set(`anilist-details-${params.id}`, JSON.stringify(formattedAnilist), 'EX', 600);
+			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
 		}
 	};
-	const fetchEpisodes = async () => {
-
-		const [episodesSubArray, episodesDubArray] = await Promise.all([
-			anilist.fetchEpisodesListById(params.id, false, true),
-			anilist.fetchEpisodesListById(params.id, true, true),
-		  ]);
-		return combineSubAndDub(episodesSubArray, episodesDubArray);
-	};
-	const fetchEpisodeSources = async () => {
-		const episodesSources = await anilist.fetchEpisodeSources();
-	}
 	const anime = {
-		details: fetchDetails(),
-		streamed: {
-			episodes: fetchEpisodes()
-		}
+		details: fetchDetails()
 	};
 	return anime;
 }

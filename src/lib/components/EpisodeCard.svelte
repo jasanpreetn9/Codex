@@ -62,6 +62,7 @@
 	}
 	.header {
 		display: flex;
+		margin-bottom: 5px;
 	}
 	.title {
 		margin-top: 10px;

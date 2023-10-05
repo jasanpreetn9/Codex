@@ -1,8 +1,10 @@
 <script>
 	export let data;
-	$: ({ details, streamed,user } = data);
+	$: ({ details,user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 </script>
+<p>{JSON.stringify(details)}</p>
+
 <!-- 
 <main>
 	<h1>Watch Page</h1>

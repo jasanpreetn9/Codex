@@ -1,43 +1,76 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, combineSubAndDub, proxyUrl, serializeNonPOJOs } from '$lib/utils';
-import { watchListQuery } from '$lib/anilistGraphqlQuery';
+
+import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
+import { episodeQuery, kitsuUrl } from '$lib/providers/kitsu/utils';
 import { META } from '@consumet/extensions';
 
-export async function load({ params, fetch, locals, url }) {
+export async function load({ params, fetch, locals, url, setHeaders }) {
 	const fetchDetails = async () => {
 		try {
-			const query = await fetch('../../graphql/details.graphql');
-			const queryText = await query.text();
-
-			const anilistResp = await fetch('https://graphql.anilist.co/', {
+			const cached = await redis.get(`anilist-details-${params.id}`);
+			if (cached) {
+				return JSON.parse(cached);
+			}
+			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: queryText,
+					query: detailsQuery,
 					variables: { id: params.id }
 				})
 			});
+			const cacheControl = anilistResp.headers.get('cache-control');
 
+			if (cacheControl) {
+				setHeaders({ 'cache-control': cacheControl });
+			}
 			const anilist = await anilistResp.json();
-			return formatDetails(anilist.data.Media);
+
+			const formattedAnilist = formatDetails(anilist.data.Media);
+			redis.set(`anilist-details-${params.id}`, JSON.stringify(formattedAnilist), 'EX', 600);
+			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
 		}
 	};
 
 	const fetchEpisodes = async () => {
-		const anilist = new META.Anilist(undefined, {
-			url: 'https://cors-anywhere.marsnebulasoup.workers.dev?'
+		const kitsuRes = await fetch(kitsuUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			},
+			body: JSON.stringify({
+				query: episodeQuery(params.id)
+			})
 		});
+		const kitsu = await kitsuRes.json();
+		console.log(kitsu)
+		return kitsu
+		// const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		// if (cached) {
+		// 	console.log('Cache hit consumet gogoanime episodes in /details!');
+		// 	return await JSON.parse(cached);
+		// }
+		// const anilist = new META.Anilist(undefined, {
+		// 	url: proxyUrl
+		// });
 
-		const [episodesSubArray, episodesDubArray] = await Promise.all([
-			anilist.fetchEpisodesListById(params.id, false, true),
-			anilist.fetchEpisodesListById(params.id, true, true)
-		]);
-		return combineSubAndDub(episodesSubArray, episodesDubArray);
+		// const [episodesSubArray, episodesDubArray] = await Promise.all([
+		// 	anilist.fetchEpisodesListById(params.id, false, true),
+		// 	anilist.fetchEpisodesListById(params.id, true, true)
+		// ]);
+		// await redis.set(
+		// 	`consumet-episodes-gogoanime-${params.id}`,
+		// 	JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
+		// 	'EX',
+		// 	600
+		// );
+		// return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
 	const fetchList = async () => {
@@ -78,17 +111,16 @@ export const actions = {
 
 			const anilist = await anilistResp.json();
 			const media = anilist.data.Media;
-			console.log(media);
 			await locals.pb.collection('lists').create({
 				user: locals.user.id,
 				animeId: media.id,
 				coverImage: media.coverImage,
 				title: media.title,
 				genres: media.genres,
-				format: media.format
+				format: media.format,
+				listType: 'watching'
 			});
 		} catch (error) {
-			// console.log(error.response.data.title);
 			throw new Error(error);
 		}
 	}
