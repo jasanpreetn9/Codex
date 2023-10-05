@@ -81,39 +81,39 @@ query ($id: Int) {
 
 export const homeQuery = `
 {
-  trending: Page(page: 1, perPage: 10) {
-    media(type: ANIME, sort: [TRENDING_DESC]) {
-      id
-      bannerImage
-      description(asHtml: false)
-      title {
-        english
-        romaji
-      }
-      format
-      genres
-      meanScore
-      episodes
-      nextAiringEpisode {
-        episode
-      }
-    }
-  }
-  popular: Page(page: 1, perPage: 16) {
-    media(type: ANIME, sort: [POPULARITY_DESC]) {
-      id
-      coverImage {
-        extraLarge
-      }
-      title {
-        english
-        romaji
-      }
-      format
-      genres
-    }
-  }
-}`
+	trending: Page(page: 1, perPage: 10) {
+	  media(type: ANIME,format: TV,episodes_greater: 0, sort: [TRENDING_DESC]) {
+		id
+		bannerImage
+		description(asHtml: false)
+		title {
+		  english
+		  romaji
+		}
+		format
+		genres
+		meanScore
+		episodes
+		nextAiringEpisode {
+		  episode
+		}
+	  }
+	}
+	popular: Page(page: 1, perPage: 16) {
+	  media(type: ANIME, sort: [POPULARITY_DESC]) {
+		id
+		coverImage {
+		  extraLarge
+		}
+		title {
+		  english
+		  romaji
+		}
+		format
+		genres
+	  }
+	}
+  }`
 
 export const detailsQuery = `
 query ($id: Int) {

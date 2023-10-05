@@ -1,11 +1,16 @@
 import { redis } from '$lib/server/redis';
-
-import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
+import {
+	formatDetails,
+	anilistUrl,
+	detailsQuery,
+	watchListQuery
+} from '$lib/providers/anilist/utils';
+import { proxyUrl } from '$lib/utils';
 import { episodeQuery, kitsuUrl } from '$lib/providers/kitsu/utils';
 import { META } from '@consumet/extensions';
 
 export async function load({ params, fetch, locals, url, setHeaders }) {
-	const fetchDetails = async () => {
+	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
 			if (cached) {
@@ -38,19 +43,22 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const kitsuRes = await fetch(kitsuUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			},
-			body: JSON.stringify({
-				query: episodeQuery(params.id)
-			})
-		});
-		const kitsu = await kitsuRes.json();
-		console.log(kitsu)
-		return kitsu
+		try {
+			const kitsuRes = await fetch(proxyUrl + kitsuUrl, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					query: episodeQuery(params.id)
+				})
+			});
+			// const kitsu = await kitsuRes.json();
+			// console.log(kitsu);
+			return kitsuRes;
+		} catch (error) {
+			console.log(error);
+		}
 		// const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
 		// if (cached) {
 		// 	console.log('Cache hit consumet gogoanime episodes in /details!');
@@ -84,7 +92,7 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 
 	const anime = {
 		list: fetchList(),
-		details: fetchDetails(),
+		details: fetchAnilist(),
 		streamed: {
 			episodes: fetchEpisodes()
 		}

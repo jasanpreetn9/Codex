@@ -8,8 +8,6 @@ export { nxt, pre, filterIcon, downArrow, logo };
 export const apiUrl = 'https://api.consumet.org';
 export const proxyUrl = 'https://proxy.jasanpreetn9.workers.dev/?';
 
-const { randomBytes } = await import('node:crypto');
-
 export const serializeNonPOJOs = (obj) => {
 	return structuredClone(obj);
 };
