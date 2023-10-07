@@ -1,6 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
-	import { filterIcon } from '$lib/utils';
+	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -17,7 +17,7 @@
 		<div class="switch-block" />
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
-				<img style={filterState ? 'transform: scaleY(-1);' : ''} src={filterIcon} alt="Filter" />
+				<Icon src={BarsArrowDown} size="20px" style="{filterState ? 'transform: scaleY(-1);' : ''}" color={"white"} />
 			</button>
 		{/if}
 	</div>
@@ -43,7 +43,7 @@
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number + ' ‧ ' + 'Sub' +(episode.dub ? '/Dub' : '')}
+							Ep: {episode.number + ' ‧ ' + 'Sub' + (episode.dub ? '/Dub' : '')}
 						</p>
 					</div>
 				</a>

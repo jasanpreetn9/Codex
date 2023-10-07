@@ -1,10 +1,7 @@
-import nxt from '$lib/images/nxt-carousel.png';
-import pre from '$lib/images/pre-carousel.png';
-import filterIcon from '$lib/images/filter-icon.png';
-import downArrow from '$lib/images/down.svg';
-import { MagnifyingGlass, AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
+
+import { AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
 import logo from '$lib/images/logo.png';
-export { nxt, pre, filterIcon, downArrow, logo };
+export { logo };
 export const apiUrl = 'https://api.consumet.org';
 export const proxyUrl = 'https://proxy.jasanpreetn9.workers.dev/?';
 
@@ -60,3 +57,9 @@ export const formatTime = (seconds) => {
 	return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
+export const combineSubAndDub = (subArray, dubArray) => {
+	return subArray.map((subEpisode) => ({
+		...subEpisode,
+		dub: dubArray.some((dubEpisode) => dubEpisode.number === subEpisode.number)
+	}));
+};

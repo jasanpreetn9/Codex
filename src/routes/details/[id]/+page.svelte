@@ -115,13 +115,13 @@
 						{#await streamed.episodes}
 							Loading...
 						{:then value}
-							<!-- <EpisodeCard
+							<EpisodeCard
 								episodes={value}
 								animeId={details.id}
 								scrollAble={true}
 								header={'Episodes'}
 								filter={true}
-							/> -->
+							/>
 						{/await}
 					{/if}
 					<PosterCardList animes={details.recommendations} heading={'Recommended'} />
