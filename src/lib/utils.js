@@ -35,7 +35,6 @@ export const userNavigation = [
 	}
 ];
 
-
 export const validateData = async (formData, schema) => {
 	const body = Object.fromEntries(formData);
 
@@ -61,9 +60,3 @@ export const formatTime = (seconds) => {
 	return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-export const combineSubAndDub = (subArray, dubArray) => {
-	return subArray.map((subEpisode) => ({
-		...subEpisode,
-		dub: dubArray.some((dubEpisode) => dubEpisode.number === subEpisode.number)
-	}));
-};
