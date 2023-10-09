@@ -42,7 +42,7 @@
 							<p>Rating</p>
 							<span>{details.meanScore / 10}</span>
 						</div>
-						{#await streamed.episodes then value}
+						{#await streamed.episodesList then value}
 							{#if details.format?.toLowerCase() !== 'movie'}
 								<div class="detail-item">
 									<p>Episodes</p>
@@ -112,7 +112,7 @@
 						</div>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
-						{#await streamed.episodes}
+						{#await streamed.episodesList}
 							Loading...
 						{:then value}
 							<EpisodeCard

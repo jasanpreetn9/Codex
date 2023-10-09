@@ -1,12 +1,18 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
+import {
+	formatDetails,
+	anilistUrl,
+	detailsQuery,
+	watchListQuery
+} from '$lib/providers/anilist/utils';
+import { proxyUrl, combineSubAndDub } from '$lib/utils';
 import { META } from '@consumet/extensions';
-export async function load({ params, fetch, locals, url }) {
-	const fetchDetails = async () => {
+
+export async function load({ params, fetch, locals, url, setHeaders }) {
+	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
 			if (cached) {
-				console.log('Cache hit anilist details in /watch!');
 				return JSON.parse(cached);
 			}
 			const anilistResp = await fetch(anilistUrl, {
@@ -20,7 +26,11 @@ export async function load({ params, fetch, locals, url }) {
 					variables: { id: params.id }
 				})
 			});
+			const cacheControl = anilistResp.headers.get('cache-control');
 
+			if (cacheControl) {
+				setHeaders({ 'cache-control': cacheControl });
+			}
 			const anilist = await anilistResp.json();
 
 			const formattedAnilist = formatDetails(anilist.data.Media);
@@ -30,8 +40,34 @@ export async function load({ params, fetch, locals, url }) {
 			throw new Error(error);
 		}
 	};
+
+	const fetchEpisodes = async () => {
+		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		if (cached) {
+			console.log('Cache hit consumet gogoanime episodes in /details!');
+			return await JSON.parse(cached);
+		}
+		const anilist = new META.Anilist(undefined, {
+			url: proxyUrl
+		});
+
+		const [episodesSubArray, episodesDubArray] = await Promise.all([
+			anilist.fetchEpisodesListById(params.id, false, true),
+			anilist.fetchEpisodesListById(params.id, true, true)
+		]);
+		await redis.set(
+			`consumet-episodes-gogoanime-${params.id}`,
+			JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
+			'EX',
+			600
+		);
+		return combineSubAndDub(episodesSubArray, episodesDubArray);
+	};
 	const anime = {
-		details: fetchDetails()
+		details: fetchAnilist(),
+		streamed: {
+			episodesList: fetchEpisodes()
+		}
 	};
 	return anime;
 }

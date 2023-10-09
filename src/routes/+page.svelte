@@ -1,19 +1,21 @@
 <script>
 	export let data;
-	const { trendingAnimes, popularAnimes, recentAiringAnimes, user } = data;
+	const { anilistFetch, continueWatching } = data;
+	console.log(continueWatching)
+	const { trendingAnimes, popularAnimes } = anilistFetch;
+
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
 </script>
 
 <Trending {trendingAnimes} />
-
-<!-- {#if continueWatching.length > 0}
+{#if continueWatching.authStore.isValid && continueWatching.list.length > 0}
 	<EpisodeCard
-		episodes={continueWatching}
+		episodes={continueWatching.list}
 		scrollAble={false}
 		header={'Continue Watching'}
 		filter={false}
 	/>
-{/if}  -->
+{/if}
 <PosterCardList animes={popularAnimes} heading={'Popular Animes'} />
 <!-- {#if recentAiringAnimes.length > 0}
 	<PosterCardList animes={recentAiringAnimes} heading={'Recent Airing'} dub={user?.alwaysDub} />

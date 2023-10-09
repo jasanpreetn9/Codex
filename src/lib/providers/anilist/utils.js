@@ -81,7 +81,7 @@ query ($id: Int) {
 
 export const homeQuery = `
 {
-	trending: Page(page: 1, perPage: 10) {
+	trending: Page(page: 1, perPage: 15) {
 	  media(type: ANIME,format: TV,episodes_greater: 0, sort: [TRENDING_DESC]) {
 		id
 		bannerImage

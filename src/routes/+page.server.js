@@ -1,6 +1,7 @@
 import { redis } from '$lib/server/redis';
+import { serializeNonPOJOs } from '$lib/utils';
 import { homeQuery } from '$lib/providers/anilist/utils';
-export async function load({ locals,fetch, setHeaders }) {
+export async function load({ locals, fetch, setHeaders }) {
 	try {
 		const fetchAnilist = async () => {
 			try {
@@ -26,7 +27,10 @@ export async function load({ locals,fetch, setHeaders }) {
 				let anilistData = await anilistRes.json();
 
 				const result = {
-					trendingAnimes: anilistData?.data?.trending?.media || [],
+					trendingAnimes:
+						anilistData?.data?.trending?.media
+							?.filter((anime) => anime?.bannerImage !== null)
+							.slice(0, 10) || [],
 					popularAnimes: anilistData?.data?.popular?.media || []
 				};
 				redis.set('anilist-trending-popular', JSON.stringify(result), 'EX', 600);
@@ -36,8 +40,37 @@ export async function load({ locals,fetch, setHeaders }) {
 				throw new Error(error);
 			}
 		};
-
-		return fetchAnilist();
+		const fetchContinueWatching = async (userId) => {
+			if(locals.pb.authStore.isValid){
+				try {
+					const lists =serializeNonPOJOs(await locals.pb.collection('continue_watching').getFullList(undefined, {
+						filter: `user = "${userId}"`
+					}));
+					return {
+						authStore: {
+							isValid: true
+						},
+						list: lists
+					};
+				} catch (err) {
+					console.log('Error: ', err);
+					throw Error(err.status, err.message);
+				}
+			}
+			else {
+				return {
+					authStore: {
+						isValid: false
+					}
+				}
+			}
+			
+		}
+		// return fetchAnilist();
+		return{
+			anilistFetch: fetchAnilist(),
+			continueWatching: fetchContinueWatching(locals.user.id)
+		}
 	} catch (error) {
 		console.log(error);
 	}

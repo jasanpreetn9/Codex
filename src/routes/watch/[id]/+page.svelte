@@ -1,8 +1,9 @@
 <script>
 	export let data;
-	$: ({ details,user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
+	$: ({ list, details, streamed, user } = data);
 </script>
+
 <p>{JSON.stringify(details)}</p>
 
 <!-- 
