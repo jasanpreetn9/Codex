@@ -34,7 +34,7 @@
 					<img src={episode.image} alt="" />
 					{#if episode.duration}
 						<div class="progress-background">
-							<div class="progress" style="width: {(12 / 24) * 100}%;" />
+							<div class="progress" style="width: {(episode.currentTime / episode.duration) * 100}%;" />
 						</div>
 					{/if}
 
@@ -109,6 +109,7 @@
 		width: 100%;
 		border-radius: 5px;
 		aspect-ratio: 16/9;
+		margin-bottom: -3px;
 	}
 
 	.name {
@@ -133,12 +134,12 @@
 	}
 	.progress-background {
 		z-index: 2;
-		height: 4px;
 		background: #424345;
 		border-radius: 20px;
+		height: 6px;
 	}
 	.progress {
-		height: 4px;
+		height: 6px;
 		margin-top: -1px;
 		/* background: #ad3535; */
 		background: white;
