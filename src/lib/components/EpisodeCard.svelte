@@ -9,7 +9,6 @@
 		filterState = !filterState;
 		reverseEpisodes();
 	}
-	console.log(episodes)
 </script>
 
 <div class="header">

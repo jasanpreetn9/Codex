@@ -64,21 +64,31 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
-	const fetchList = async () => {
-		
+	const fetchAnimeList = async () => {
 		try {
-			const list = await locals.pb.collection('lists').getFirstListItem(`animeId="${params.id}"`);
-			return list;
+			// const continueWatching = await locals.pb.collection('continue_watching').getFirstListItem(`animeId="${params.id}"`);
+			const animeList = await locals.pb
+				.collection('lists')
+				.getFirstListItem(`animeId="${params.id}"`);
+			return animeList;
 		} catch (error) {
 			return null;
 		}
 	};
 
 	const fetchContinueWatching = async () => {
-		// const continueWatchinglist = await locals.pb.collection('lists')
-	}
+		try {
+			const continueWatching = await locals.pb
+				.collection('continue_watching')
+				.getFirstListItem(`animeId="${params.id}"`);
+			return continueWatching;
+		} catch (error) {
+			return null;
+		}
+	};
 	const anime = {
-		list: fetchList(),
+		animeList: fetchAnimeList(),
+		continueWatching: fetchContinueWatching(),
 		details: fetchAnilist(),
 		streamed: {
 			episodesList: fetchEpisodes()
@@ -91,30 +101,38 @@ export const actions = {
 	addToList: async ({ request, locals }) => {
 		const data = await request.formData();
 		const animeId = data.get('animeId');
+		const databaseId = data.get('databaseId');
+		const listType = data.get('listType');
 		try {
-			const anilistResp = await fetch('https://graphql.anilist.co/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json'
-				},
-				body: JSON.stringify({
-					query: watchListQuery,
-					variables: { id: animeId }
-				})
-			});
+			if (databaseId !== '') {
+				await locals.pb.collection('lists').update(databaseId, {
+					listType
+				});
+			} else {
+				const anilistResp = await fetch('https://graphql.anilist.co/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Accept: 'application/json'
+					},
+					body: JSON.stringify({
+						query: watchListQuery,
+						variables: { id: animeId }
+					})
+				});
 
-			const anilist = await anilistResp.json();
-			const media = anilist.data.Media;
-			await locals.pb.collection('lists').create({
-				user: locals.user.id,
-				animeId: media.id,
-				coverImage: media.coverImage,
-				title: media.title,
-				genres: media.genres,
-				format: media.format,
-				listType: 'watching'
-			});
+				const anilist = await anilistResp.json();
+				const media = anilist.data.Media;
+				await locals.pb.collection('lists').create({
+					user: locals.user.id,
+					animeId: media.id,
+					coverImage: media.coverImage,
+					title: media.title,
+					genres: media.genres,
+					format: media.format,
+					listType
+				});
+			}
 		} catch (error) {
 			throw new Error(error);
 		}
