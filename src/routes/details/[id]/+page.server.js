@@ -11,10 +11,10 @@ import { META } from '@consumet/extensions';
 export async function load({ params, fetch, locals, url, setHeaders }) {
 	const fetchAnilist = async () => {
 		try {
-			const cached = await redis.get(`anilist-details-${params.id}`);
-			if (cached) {
-				return JSON.parse(cached);
-			}
+			// const cached = await redis.get(`anilist-details-${params.id}`);
+			// if (cached) {
+			// 	return JSON.parse(cached);
+			// }
 			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
@@ -34,7 +34,7 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 			const anilist = await anilistResp.json();
 
 			const formattedAnilist = formatDetails(anilist.data.Media);
-			redis.set(`anilist-details-${params.id}`, JSON.stringify(formattedAnilist), 'EX', 600);
+			// redis.set(`anilist-details-${params.id}`, JSON.stringify(formattedAnilist), 'EX', 600);
 			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
@@ -42,11 +42,11 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
-		if (cached) {
-			console.log('Cache hit consumet gogoanime episodes in /details!');
-			return await JSON.parse(cached);
-		}
+		// const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		// if (cached) {
+		// 	console.log('Cache hit consumet gogoanime episodes in /details!');
+		// 	return await JSON.parse(cached);
+		// }
 		const anilist = new META.Anilist(undefined, {
 			url: proxyUrl
 		});
@@ -55,12 +55,12 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 			anilist.fetchEpisodesListById(params.id, false, true),
 			anilist.fetchEpisodesListById(params.id, true, true)
 		]);
-		await redis.set(
-			`consumet-episodes-gogoanime-${params.id}`,
-			JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
-			'EX',
-			600
-		);
+		// await redis.set(
+		// 	`consumet-episodes-gogoanime-${params.id}`,
+		// 	JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
+		// 	'EX',
+		// 	600
+		// );
 		return combineSubAndDub(episodesSubArray, episodesDubArray);
 	};
 
