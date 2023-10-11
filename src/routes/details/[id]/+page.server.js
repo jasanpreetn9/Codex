@@ -3,7 +3,7 @@ import {
 	formatDetails,
 	anilistUrl,
 	detailsQuery,
-	watchListQuery
+	watchListQuery,
 } from '$lib/providers/anilist/utils';
 import { proxyUrl, combineSubAndDub } from '$lib/utils';
 import { META } from '@consumet/extensions';
@@ -15,7 +15,7 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 			// if (cached) {
 			// 	return JSON.parse(cached);
 			// }
-			const anilistResp = await fetch(anilistUrl, {
+			const anilistResp = await fetch(proxyUrl+ anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
