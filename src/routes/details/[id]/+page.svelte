@@ -85,7 +85,7 @@
 						</p>
 						<div class="btn-container">
 							<a
-								href={`/watch/${details.id}?episode=` + continueWatching.number ?? '1'}
+								href={`/watch/${details.id}?episode=` + continueWatching?.number ?continueWatching?.number: '1'}
 								class="watch-btn"
 							>
 								{continueWatching

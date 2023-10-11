@@ -1,5 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
+	import {formatTime} from '$lib/utils'
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -17,7 +18,12 @@
 		<div class="switch-block" />
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
-				<Icon src={BarsArrowDown} size="20px" style="{filterState ? 'transform: scaleY(-1);' : ''}" color={"white"} />
+				<Icon
+					src={BarsArrowDown}
+					size="20px"
+					style={filterState ? 'transform: scaleY(-1);' : ''}
+					color={'white'}
+				/>
 			</button>
 		{/if}
 	</div>
@@ -25,32 +31,37 @@
 
 <div class={scrollAble ? 'scrollAble' : ''}>
 	<div class="video-card-container">
-		{#each episodes as episode}
-			<div class="video-card">
-				<a
-					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
-					data-sveltekit-prefetch="true"
-				>
-					<img src={episode.image} alt="" />
-					{#if episode.duration}
-						<div class="progress-background">
-							<div class="progress" style="width: {(episode.currentTime / episode.duration) * 100}%;" />
-						</div>
-					{/if}
-
-					<div class="title-container">
-						<h2 class="name">
-							{episode.title}
-						</h2>
-						<p class="episode-number">
-							Ep: {episode.number + ' ‧ ' + 'Sub' + (episode.dub ? '/Dub' : '')}
-						</p>
-					</div>
-				</a>
+	  {#each episodes as episode}
+		<div class="video-card">
+		  <a
+			href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
+			data-sveltekit-prefetch="true"
+		  >
+			<img src={episode.image} alt="" />
+			{#if episode.duration}
+			  <div class="progress-background">
+				<div
+				  class="progress"
+				  style="width: {(episode.currentTime / episode.duration) * 100}%;"
+				/>
+			  </div>
+			{/if}
+  
+			<div class="title-container">
+			  <h2 class="name">
+				{episode.title}
+			  </h2>
+			  <p class="episode-number">
+				Ep: {episode.number +
+				  ' ‧ ' +
+				  (episode.duration ? `${formatTime(episode.currentTime)}:${formatTime(episode.duration)}` : 'Sub' + (episode.dub ? '/Dub' : ''))}
+			  </p>
 			</div>
-		{/each}
+		  </a>
+		</div>
+	  {/each}
 	</div>
-</div>
+  </div>
 
 <style>
 	a {

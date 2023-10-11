@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	const { anilistFetch, continueWatching } = data;
-	console.log(continueWatching)
 	const { trendingAnimes, popularAnimes } = anilistFetch;
 
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
