@@ -9,6 +9,11 @@ import { proxyUrl, combineSubAndDub } from '$lib/utils';
 import { META } from '@consumet/extensions';
 
 export async function load({ params, fetch, locals, url, setHeaders }) {
+	const anilist = new META.Anilist(undefined, {
+		url: proxyUrl
+	});
+	const episodeId = url.searchParams.get('episodeId');
+
 	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
@@ -42,32 +47,36 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
-		if (cached) {
-			console.log('Cache hit consumet gogoanime episodes in /details!');
-			return await JSON.parse(cached);
-		}
-		const anilist = new META.Anilist(undefined, {
-			url: proxyUrl
-		});
+		// const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
+		// if (cached) {
+		// 	console.log('Cache hit consumet gogoanime episodes in /details!');
+		// 	return await JSON.parse(cached);
+		// }
 
 		const [episodesSubArray, episodesDubArray] = await Promise.all([
 			anilist.fetchEpisodesListById(params.id, false, true),
 			anilist.fetchEpisodesListById(params.id, true, true)
 		]);
+		const combined = combineSubAndDub(episodesSubArray, episodesDubArray);
 		await redis.set(
 			`consumet-episodes-gogoanime-${params.id}`,
-			JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
+			JSON.stringify(combined),
 			'EX',
 			600
 		);
-		return combineSubAndDub(episodesSubArray, episodesDubArray);
+		return {
+			currentEpObject: combined.find((ep) => ep.id === episodeId),
+			episodesList: combined
+		};
+	};
+	const fetchSources = async () => {
+		const episodeSources = anilist.fetchEpisodeSources(episodeId);
+		return episodeSources;
 	};
 	const anime = {
-		details: fetchAnilist(),
-		streamed: {
-			episodesList: fetchEpisodes()
-		}
+		details: await fetchAnilist(),
+		...(await fetchEpisodes()),
+		episodeSources: await fetchSources()
 	};
 	return anime;
 }

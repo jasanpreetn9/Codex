@@ -1,4 +1,5 @@
 import { redis } from '$lib/server/redis';
+import { serializeNonPOJOs } from '$lib/utils';
 import { homeQuery } from '$lib/providers/anilist/utils';
 export async function load({ locals, fetch, setHeaders }) {
 	try {
@@ -66,7 +67,7 @@ export async function load({ locals, fetch, setHeaders }) {
 		};
 		return {
 			...(await fetchAnilist()),
-			continueWatching: fetchContinueWatching()
+			continueWatching: await fetchContinueWatching()
 		};
 	} catch (error) {
 		console.log(error);

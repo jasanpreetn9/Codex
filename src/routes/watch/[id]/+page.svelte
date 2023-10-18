@@ -1,12 +1,11 @@
 <script>
 	export let data;
+	console.log(data)
 	import { EpisodeCard, PosterCardList } from '$lib/components';
-	$: ({ list, details, streamed, user } = data);
+	const { episodeSources, details, episodesList, user } = data;
 </script>
 
-<p>{JSON.stringify(details)}</p>
 
-<!-- 
 <main>
 	<h1>Watch Page</h1>
 	<div class="blank" />
@@ -14,21 +13,21 @@
 	<div class="details">
 		<div class="container-left">
 			<div class="details">
-				<h1 class="title">Episode {currentEpObject.number} - {currentEpObject.title}</h1>
-				<p class="description">{currentEpObject.description}</p>
+				<!-- <h1 class="title">Episode {currentEpObject.number} - {currentEpObject.title}</h1> -->
+				<!-- <p class="description">{currentEpObject.description}</p> -->
 				<div class="episodeCards">
-					<EpisodeCard
-						episodes={animeDetails.episodes}
-						animeId={animeDetails.id}
-						scrollAble={true}
+					<!-- <EpisodeCard
+						episodes={episodesList}
+						animeId={details.id}
+						scrollAble={false}
 						filter={true}
 						header={'Episodes'}
-					/>
+					/> -->
 				</div>
 				<div class="reviews" />
-				<div class="sub-dubBtn">
+				<!-- <div class="sub-dubBtn">
 					<a
-						href={'/watch/' + animeDetails.id + '?episode=' + currentEpObject.number + '&dub=false'}
+						href={'/watch/' + details.id + '?episode=' + currentEpObject.number + '&dub=false'}
 						class={$page.url.searchParams.get('dub') !== 'true'
 							? 'subDub-btn-active subDub-btn'
 							: 'subDub-btn'}>SUB</a
@@ -36,7 +35,7 @@
 					{#if currentEpObject.sourcesDub}
 						<a
 							href={'/watch/' +
-								animeDetails.id +
+								details.id +
 								'?episode=' +
 								currentEpObject.number +
 								'&dub=true'}
@@ -45,7 +44,7 @@
 								: 'subDub-btn'}>DUB</a
 						>
 					{/if}
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -106,6 +105,6 @@
 		cursor: pointer;
 	}
 	.subDub-btn-active {
-		background: var( --primary);
+		background: var(--primary);
 	}
-</style> -->
+</style>

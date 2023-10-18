@@ -295,9 +295,9 @@
 		height: max-content;
 	}
 	.dropdown-list {
-		margin-left: 180px;
-		position: absolute;
-		z-index: 9999;
+		/* margin-left: 180px; */
+		/* position: absolute; */
+		/* z-index: 9999; */
 	}
 	.list-btn-dropdown {
 		background: var(--secondary);

@@ -1,12 +1,12 @@
 <script>
 	export let data;
-	console.log(data)
+	console.log(data.continueWatching)
 	const { trendingAnimes, popularAnimes, continueWatching } = data;
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
 </script>
 
 <Trending {trendingAnimes} />
-{#if continueWatching.authStore.isValid && continueWatching.list.length > 0}
+{#if continueWatching.authStore.isValid && continueWatching.list?.length > 0}
 	<EpisodeCard
 		episodes={continueWatching.list}
 		scrollAble={false}

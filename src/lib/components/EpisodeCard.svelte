@@ -34,7 +34,7 @@
 	  {#each episodes as episode}
 		<div class="video-card">
 		  <a
-			href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
+			href={`/watch/${animeId ?? episode.animeId}?episodeId=${episode.id}`}
 			data-sveltekit-prefetch="true"
 		  >
 			<img src={episode.image} alt="" />
