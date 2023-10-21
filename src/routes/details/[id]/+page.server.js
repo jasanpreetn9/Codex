@@ -1,17 +1,22 @@
 import { redis } from '$lib/server/redis';
+import {
+	formatDetails,
+	anilistUrl,
+	detailsQuery,
+	watchListQuery
+} from '$lib/providers/anilist/utils';
+import { proxyUrl } from '$lib/utils';
+import { kitsuUrl, episodeQuery, episodeMapping } from '$lib/providers/kitsu/utils';
+import { META,PROVIDERS_LIST } from '@consumet/extensions';
 
-import { formatDetails,anilistUrl,detailsQuery,watchListQuery } from '$lib/providers/anilist/utils';
-import { episodeQuery, kitsuUrl } from '$lib/providers/kitsu/utils';
-import { META } from '@consumet/extensions';
-
-export async function load({ params, fetch, locals, url, setHeaders }) {
-	const fetchDetails = async () => {
+export async function load({ params, fetch, locals, url }) {
+	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
 			if (cached) {
 				return JSON.parse(cached);
 			}
-			const anilistResp = await fetch(anilistUrl, {
+			const anilistResp = await fetch(proxyUrl + anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -22,11 +27,6 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 					variables: { id: params.id }
 				})
 			});
-			const cacheControl = anilistResp.headers.get('cache-control');
-
-			if (cacheControl) {
-				setHeaders({ 'cache-control': cacheControl });
-			}
 			const anilist = await anilistResp.json();
 
 			const formattedAnilist = formatDetails(anilist.data.Media);
@@ -38,7 +38,7 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const kitsuRes = await fetch(kitsuUrl, {
+		const kitsuResp = await fetch(kitsuUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -48,46 +48,38 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 				query: episodeQuery(params.id)
 			})
 		});
-		const kitsu = await kitsuRes.json();
-		console.log(kitsu)
-		return kitsu
-		// const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
-		// if (cached) {
-		// 	console.log('Cache hit consumet gogoanime episodes in /details!');
-		// 	return await JSON.parse(cached);
-		// }
-		// const anilist = new META.Anilist(undefined, {
-		// 	url: proxyUrl
-		// });
-
-		// const [episodesSubArray, episodesDubArray] = await Promise.all([
-		// 	anilist.fetchEpisodesListById(params.id, false, true),
-		// 	anilist.fetchEpisodesListById(params.id, true, true)
-		// ]);
-		// await redis.set(
-		// 	`consumet-episodes-gogoanime-${params.id}`,
-		// 	JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
-		// 	'EX',
-		// 	600
-		// );
-		// return combineSubAndDub(episodesSubArray, episodesDubArray);
+		const kitsuRaw = await kitsuResp.json();
+		const kitsuFormatted = episodeMapping(kitsuRaw);
+		return kitsuFormatted;
 	};
 
-	const fetchList = async () => {
+	const fetchAnimeList = async () => {
 		try {
-			const list = await locals.pb.collection('lists').getFirstListItem(`animeId="${params.id}"`);
-			return list;
+			// const continueWatching = await locals.pb.collection('continue_watching').getFirstListItem(`animeId="${params.id}"`);
+			const animeList = await locals.pb
+				.collection('lists')
+				.getFirstListItem(`animeId="${params.id}"`);
+			return animeList;
 		} catch (error) {
 			return null;
 		}
 	};
 
-	const anime = {
-		list: fetchList(),
-		details: fetchDetails(),
-		streamed: {
-			episodes: fetchEpisodes()
+	const fetchContinueWatching = async () => {
+		try {
+			const continueWatching = await locals.pb
+				.collection('continue_watching')
+				.getFirstListItem(`animeId="${params.id}"`);
+			return continueWatching;
+		} catch (error) {
+			return null;
 		}
+	};
+	const anime = {
+		animeList: fetchAnimeList(),
+		continueWatching: fetchContinueWatching(),
+		details: fetchAnilist(),
+		episodesList: fetchEpisodes()
 	};
 	return anime;
 }
@@ -96,30 +88,38 @@ export const actions = {
 	addToList: async ({ request, locals }) => {
 		const data = await request.formData();
 		const animeId = data.get('animeId');
+		const databaseId = data.get('databaseId');
+		const listType = data.get('listType');
 		try {
-			const anilistResp = await fetch('https://graphql.anilist.co/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json'
-				},
-				body: JSON.stringify({
-					query: watchListQuery,
-					variables: { id: animeId }
-				})
-			});
+			if (databaseId !== '') {
+				await locals.pb.collection('lists').update(databaseId, {
+					listType
+				});
+			} else {
+				const anilistResp = await fetch('https://graphql.anilist.co/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Accept: 'application/json'
+					},
+					body: JSON.stringify({
+						query: watchListQuery,
+						variables: { id: animeId }
+					})
+				});
 
-			const anilist = await anilistResp.json();
-			const media = anilist.data.Media;
-			await locals.pb.collection('lists').create({
-				user: locals.user.id,
-				animeId: media.id,
-				coverImage: media.coverImage,
-				title: media.title,
-				genres: media.genres,
-				format: media.format,
-				listType: 'watching'
-			});
+				const anilist = await anilistResp.json();
+				const media = anilist.data.Media;
+				await locals.pb.collection('lists').create({
+					user: locals.user.id,
+					animeId: media.id,
+					coverImage: media.coverImage,
+					title: media.title,
+					genres: media.genres,
+					format: media.format,
+					listType
+				});
+			}
 		} catch (error) {
 			throw new Error(error);
 		}

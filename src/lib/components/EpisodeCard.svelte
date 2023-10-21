@@ -1,6 +1,7 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter;
-	import { filterIcon } from '$lib/utils';
+	import { formatTime } from '$lib/utils';
+	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -17,7 +18,12 @@
 		<div class="switch-block" />
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
-				<img style={filterState ? 'transform: scaleY(-1);' : ''} src={filterIcon} alt="Filter" />
+				<Icon
+					src={BarsArrowDown}
+					size="20px"
+					style={filterState ? 'transform: scaleY(-1);' : ''}
+					color={'white'}
+				/>
 			</button>
 		{/if}
 	</div>
@@ -28,13 +34,16 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
+					href={`/watch/${animeId ?? episode.animeId}?episodeId=${episode.id}`}
 					data-sveltekit-prefetch="true"
 				>
 					<img src={episode.image} alt="" />
 					{#if episode.duration}
 						<div class="progress-background">
-							<div class="progress" style="width: {(12 / 24) * 100}%;" />
+							<div
+								class="progress"
+								style="width: {(episode.currentTime / episode.duration) * 100}%;"
+							/>
 						</div>
 					{/if}
 
@@ -43,7 +52,11 @@
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number + ' ‧ ' + 'Sub' +(episode.dub ? '/Dub' : '')}
+							Ep: {episode.number +
+								' ‧ ' +
+								(episode.duration
+									? `${formatTime(episode.currentTime)}:${formatTime(episode.duration)}`
+									: episode.releasedAt)}
 						</p>
 					</div>
 				</a>
@@ -109,6 +122,7 @@
 		width: 100%;
 		border-radius: 5px;
 		aspect-ratio: 16/9;
+		margin-bottom: -3px;
 	}
 
 	.name {
@@ -133,12 +147,12 @@
 	}
 	.progress-background {
 		z-index: 2;
-		height: 4px;
 		background: #424345;
 		border-radius: 20px;
+		height: 6px;
 	}
 	.progress {
-		height: 4px;
+		height: 6px;
 		margin-top: -1px;
 		/* background: #ad3535; */
 		background: white;

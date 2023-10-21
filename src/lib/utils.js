@@ -1,14 +1,8 @@
-import nxt from '$lib/images/nxt-carousel.png';
-import pre from '$lib/images/pre-carousel.png';
-import filterIcon from '$lib/images/filter-icon.png';
-import downArrow from '$lib/images/down.svg';
-import { MagnifyingGlass, AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
+import { AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
 import logo from '$lib/images/logo.png';
-export { nxt, pre, filterIcon, downArrow, logo };
+export { logo };
 export const apiUrl = 'https://api.consumet.org';
 export const proxyUrl = 'https://proxy.jasanpreetn9.workers.dev/?';
-
-const { randomBytes } = await import('node:crypto');
 
 export const serializeNonPOJOs = (obj) => {
 	return structuredClone(obj);
@@ -37,7 +31,6 @@ export const userNavigation = [
 	}
 ];
 
-
 export const validateData = async (formData, schema) => {
 	const body = Object.fromEntries(formData);
 
@@ -57,10 +50,19 @@ export const validateData = async (formData, schema) => {
 	}
 };
 
-export const formatTime = (seconds) => {
-	const minutes = Math.floor(seconds / 60);
-	const remainingSeconds = Math.floor(seconds % 60);
-	return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+export const formatTime = (seconds, ISO_8601) => {
+	if (seconds) {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = Math.floor(seconds % 60);
+		return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+	} else if (ISO_8601) {
+		const date = new Date(ISO_8601);
+
+		const month = date.toLocaleString('en-US', { month: 'long' });
+		const day = date.getDate();
+		const year = date.getFullYear();
+		return `${month} ${day}, ${year}`;
+	}
 };
 
 export const combineSubAndDub = (subArray, dubArray) => {

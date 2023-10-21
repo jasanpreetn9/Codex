@@ -1,9 +1,8 @@
 <script>
 	export let data;
+	$: ({ animeList, details, continueWatching, episodesList, user } = data);
 	import { Icon, ChevronDown } from 'svelte-hero-icons';
-	$: ({ list, details, streamed, user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
-
 	let menuOpen = false;
 	function handleMenuOpen() {
 		menuOpen = !menuOpen;
@@ -42,14 +41,13 @@
 							<p>Rating</p>
 							<span>{details.meanScore / 10}</span>
 						</div>
-						{#await streamed.episodes then value}
-							{#if details.format?.toLowerCase() !== 'movie'}
-								<div class="detail-item">
-									<p>Episodes</p>
-									<span>{value?.length}</span>
-								</div>
-							{/if}
-						{/await}
+
+						{#if details.format?.toLowerCase() !== 'movie'}
+							<div class="detail-item">
+								<p>Episodes</p>
+								<!-- <span>{episodesList?.length}</span> -->
+							</div>
+						{/if}
 						<div class="detail-item">
 							<p>Status</p>
 							<span>{details.status.toLowerCase()}</span>
@@ -85,11 +83,20 @@
 							{@html details.description}
 						</p>
 						<div class="btn-container">
-							<a href={'/watch/' + details.id + '?episode=1'} class="watch-btn">Watch Now</a>
+							<a
+								href={`/watch/${details.id}?episode=` + continueWatching?.number
+									? continueWatching?.number
+									: '1'}
+								class="watch-btn"
+							>
+								{continueWatching
+									? 'Continue Watching Ep: ' + continueWatching.number
+									: 'Watch Now'}
+							</a>
 							{#if user}
-								<div>
+								<div class="dropdown-list">
 									<button class="list-btn-dropdown" on:click|stopPropagation={handleMenuOpen}>
-										{list?.listType ?? 'Add to list'}
+										{animeList?.listType ?? 'Add to list'}
 										<Icon
 											src={ChevronDown}
 											size="16"
@@ -99,29 +106,55 @@
 									<!-- svelte-ignore a11y-click-events-have-key-events -->
 									{#if menuOpen}
 										<div class="list-btn-dropdown-list" on:click|stopPropagation={() => {}}>
-											<button type="submit" name="watching">Watching</button>
-											<button type="submit" name="on-hold">On-Hold</button>
-											<button type="submit" name="plan-to-watch">Plan To Watch</button>
-											<button type="submit" name="dropped">Dropped</button>
-											<button type="submit" name="completed">Completed</button>
+											<form action="?/addToList" method="post">
+												<input type="hidden" name="listType" value="watching" />
+												<input type="hidden" name="animeId" value={details.id} />
+												<input type="hidden" name="databaseId" value={animeList.id ?? ''} />
+												<button type="submit" name="watching">Watching</button>
+											</form>
+											<form action="?/addToList" method="post">
+												<input type="hidden" name="listType" value="on-hold" />
+												<input type="hidden" name="animeId" value={details.id} />
+												<input type="hidden" name="databaseId" value={animeList.id ?? ''} />
+												<button type="submit" name="on-hold">On-Hold</button>
+											</form>
+											<form action="?/addToList" method="post">
+												<input type="hidden" name="listType" value="plan-to-watch" />
+												<input type="hidden" name="animeId" value={details.id} />
+												<input type="hidden" name="databaseId" value={animeList.id ?? ''} />
+												<button type="submit" name="plan-to-watch">Plan To Watch</button>
+											</form>
+											<form action="?/addToList" method="post">
+												<input type="hidden" name="listType" value="dropped" />
+												<input type="hidden" name="animeId" value={details.id} />
+												<input type="hidden" name="databaseId" value={animeList.id ?? ''} />
+												<button type="submit" name="dropped">Dropped</button>
+											</form>
+											<form action="?/addToList" method="post">
+												<input type="hidden" name="listType" value="completed" />
+												<input type="hidden" name="animeId" value={details.id} />
+												<input type="hidden" name="databaseId" value={animeList.id ?? ''} />
+												<button type="submit" name="completed">Completed</button>
+											</form>
 										</div>
 									{/if}
-									<input type="hidden" name="animeId" value={details.id} />
 								</div>
 							{/if}
 						</div>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
-						{#await streamed.episodes}
-							Loading...
+						{#await episodesList}
+							Loading
 						{:then value}
-							<!-- <EpisodeCard
+							<EpisodeCard
 								episodes={value}
 								animeId={details.id}
 								scrollAble={true}
 								header={'Episodes'}
 								filter={true}
-							/> -->
+							/>
+						{:catch error}
+							Error
 						{/await}
 					{/if}
 					<PosterCardList animes={details.recommendations} heading={'Recommended'} />
@@ -257,12 +290,17 @@
 		border-radius: 5px;
 		border: none;
 		outline: none;
-		text-transform: uppercase;
+		text-transform: capitalize;
 		font-weight: 700;
 		font-size: 12px;
 		cursor: pointer;
 		margin-right: 5px;
 		height: max-content;
+	}
+	.dropdown-list {
+		/* margin-left: 180px; */
+		/* position: absolute; */
+		/* z-index: 9999; */
 	}
 	.list-btn-dropdown {
 		background: var(--secondary);
@@ -284,13 +322,16 @@
 		gap: 10px;
 		margin-top: 7px;
 	}
-	.list-btn-dropdown-list button {
+	.list-btn-dropdown-list form button {
 		background-color: transparent;
 		background-color: var(--secondary);
 		color: white;
 		border: none;
 		padding: 5px;
 		border-radius: 5px;
+		cursor: pointer;
+		width: 100%;
+		height: 30px;
 	}
 	.summary {
 		min-height: 200px;

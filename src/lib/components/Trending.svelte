@@ -2,7 +2,7 @@
 	export let trendingAnimes;
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
-	import { pre, nxt } from '$lib/utils';
+	import {Icon, ChevronRight, ChevronLeft} from 'svelte-hero-icons';
 	let slider, prev, next, radioSlider;
 	let select = 0;
 	let timer;
@@ -51,8 +51,12 @@
 </script>
 
 <div class="carousel-container">
-	<button on:click={prev} class="pre-btn"><img src={pre} alt="" /></button>
-	<button on:click={next} class="nxt-btn"><img src={nxt} alt="" /></button>
+	<button on:click={prev} class="pre-btn">
+		<Icon src={ChevronLeft} size="20px" color="white" />
+	</button>
+	<button on:click={next} class="nxt-btn">
+		<Icon src={ChevronRight} size="20px" color="white" />
+	</button>
 	<div class="carousel">
 		{#each trendingAnimes as anime}
 			<div class="slider">
@@ -66,9 +70,9 @@
 						<p class="badges">Rating: {anime.meanScore / 10}</p>
 						<span class="dots" />
 						<p class="badges">
-							Eps: {anime.nextAiringEpisode && anime.nextAiringEpisode.episode !== null
+							Eps: { anime.nextAiringEpisode?.episode
 								? anime.nextAiringEpisode.episode - 1
-								: anime.episode}
+								: anime.episodes}
 						</p>
 					</div>
 					<p class="anime-des">
@@ -127,13 +131,6 @@
 
 	.nxt-btn {
 		right: 0;
-	}
-
-	.pre-btn img,
-	.nxt-btn img {
-		width: 15px;
-		height: 20px;
-		opacity: 1;
 	}
 
 	.carousel {
