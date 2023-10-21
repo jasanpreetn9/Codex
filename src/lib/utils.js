@@ -1,4 +1,3 @@
-
 import { AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
 import logo from '$lib/images/logo.png';
 export { logo };
@@ -51,10 +50,19 @@ export const validateData = async (formData, schema) => {
 	}
 };
 
-export const formatTime = (seconds) => {
-	const minutes = Math.floor(seconds / 60);
-	const remainingSeconds = Math.floor(seconds % 60);
-	return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+export const formatTime = (seconds, ISO_8601) => {
+	if (seconds) {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = Math.floor(seconds % 60);
+		return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+	} else if (ISO_8601) {
+		const date = new Date(ISO_8601);
+
+		const month = date.toLocaleString('en-US', { month: 'long' });
+		const day = date.getDate();
+		const year = date.getFullYear();
+		return `${month} ${day}, ${year}`;
+	}
 };
 
 export const combineSubAndDub = (subArray, dubArray) => {

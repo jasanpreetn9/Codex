@@ -3,19 +3,20 @@ import {
 	formatDetails,
 	anilistUrl,
 	detailsQuery,
-	watchListQuery,
+	watchListQuery
 } from '$lib/providers/anilist/utils';
-import { proxyUrl, combineSubAndDub } from '$lib/utils';
-import { META } from '@consumet/extensions';
+import { proxyUrl } from '$lib/utils';
+import { kitsuUrl, episodeQuery, episodeMapping } from '$lib/providers/kitsu/utils';
+import { META,PROVIDERS_LIST } from '@consumet/extensions';
 
-export async function load({ params, fetch, locals, url, setHeaders }) {
+export async function load({ params, fetch, locals, url }) {
 	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get(`anilist-details-${params.id}`);
 			if (cached) {
 				return JSON.parse(cached);
 			}
-			const anilistResp = await fetch(proxyUrl+ anilistUrl, {
+			const anilistResp = await fetch(proxyUrl + anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -26,11 +27,6 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 					variables: { id: params.id }
 				})
 			});
-			const cacheControl = anilistResp.headers.get('cache-control');
-
-			if (cacheControl) {
-				setHeaders({ 'cache-control': cacheControl });
-			}
 			const anilist = await anilistResp.json();
 
 			const formattedAnilist = formatDetails(anilist.data.Media);
@@ -42,26 +38,19 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`consumet-episodes-gogoanime-${params.id}`);
-		if (cached) {
-			console.log('Cache hit consumet gogoanime episodes in /details!');
-			return await JSON.parse(cached);
-		}
-		const anilist = new META.Anilist(undefined, {
-			url: proxyUrl
+		const kitsuResp = await fetch(kitsuUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			},
+			body: JSON.stringify({
+				query: episodeQuery(params.id)
+			})
 		});
-
-		const [episodesSubArray, episodesDubArray] = await Promise.all([
-			anilist.fetchEpisodesListById(params.id, false, true),
-			anilist.fetchEpisodesListById(params.id, true, true)
-		]);
-		await redis.set(
-			`consumet-episodes-gogoanime-${params.id}`,
-			JSON.stringify(combineSubAndDub(episodesSubArray, episodesDubArray)),
-			'EX',
-			600
-		);
-		return combineSubAndDub(episodesSubArray, episodesDubArray);
+		const kitsuRaw = await kitsuResp.json();
+		const kitsuFormatted = episodeMapping(kitsuRaw);
+		return kitsuFormatted;
 	};
 
 	const fetchAnimeList = async () => {
@@ -90,9 +79,7 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 		animeList: fetchAnimeList(),
 		continueWatching: fetchContinueWatching(),
 		details: fetchAnilist(),
-		streamed: {
-			episodesList: fetchEpisodes()
-		}
+		episodesList: fetchEpisodes()
 	};
 	return anime;
 }

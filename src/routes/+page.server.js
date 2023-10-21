@@ -1,13 +1,12 @@
 import { redis } from '$lib/server/redis';
 import { serializeNonPOJOs } from '$lib/utils';
 import { homeQuery } from '$lib/providers/anilist/utils';
-export async function load({ locals, fetch, setHeaders }) {
+export async function load({ locals, fetch }) {
 	try {
 		const fetchAnilist = async () => {
 			try {
 				const cached = await redis.get('anilist-trending-popular');
 				if (cached) {
-					console.log('Cache hit homepage!');
 					return JSON.parse(cached);
 				}
 				const anilistRes = await fetch('https://graphql.anilist.co/', {
@@ -19,10 +18,6 @@ export async function load({ locals, fetch, setHeaders }) {
 					body: JSON.stringify({
 						query: homeQuery
 					})
-				});
-				setHeaders({
-					anilistRes,
-					'cache-control': 'max-age=60'
 				});
 				let anilistData = await anilistRes.json();
 

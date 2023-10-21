@@ -1,7 +1,7 @@
 <script>
 	export let data;
+	$: ({ animeList, details, continueWatching, episodesList, user } = data);
 	import { Icon, ChevronDown } from 'svelte-hero-icons';
-	$: ({ animeList, details, continueWatching, streamed, user } = data);
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 	let menuOpen = false;
 	function handleMenuOpen() {
@@ -41,14 +41,13 @@
 							<p>Rating</p>
 							<span>{details.meanScore / 10}</span>
 						</div>
-						{#await streamed.episodesList then value}
-							{#if details.format?.toLowerCase() !== 'movie'}
-								<div class="detail-item">
-									<p>Episodes</p>
-									<span>{value?.length}</span>
-								</div>
-							{/if}
-						{/await}
+
+						{#if details.format?.toLowerCase() !== 'movie'}
+							<div class="detail-item">
+								<p>Episodes</p>
+								<!-- <span>{episodesList?.length}</span> -->
+							</div>
+						{/if}
 						<div class="detail-item">
 							<p>Status</p>
 							<span>{details.status.toLowerCase()}</span>
@@ -85,7 +84,9 @@
 						</p>
 						<div class="btn-container">
 							<a
-								href={`/watch/${details.id}?episode=` + continueWatching?.number ?continueWatching?.number: '1'}
+								href={`/watch/${details.id}?episode=` + continueWatching?.number
+									? continueWatching?.number
+									: '1'}
 								class="watch-btn"
 							>
 								{continueWatching
@@ -142,8 +143,8 @@
 						</div>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
-						{#await streamed.episodesList}
-							Loading...
+						{#await episodesList}
+							Loading
 						{:then value}
 							<EpisodeCard
 								episodes={value}
@@ -152,6 +153,8 @@
 								header={'Episodes'}
 								filter={true}
 							/>
+						{:catch error}
+							Error
 						{/await}
 					{/if}
 					<PosterCardList animes={details.recommendations} heading={'Recommended'} />

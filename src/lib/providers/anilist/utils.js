@@ -117,77 +117,78 @@ export const homeQuery = `
 
 export const detailsQuery = `
 query ($id: Int) {
-	Media(id: $id, type: ANIME) {
-		id
-		title {
-			english
-			native
-		}
-		coverImage {
-			extraLarge
-		}
-		startDate {
-			year
-			month
-			day
-		}
-		endDate {
-			year
-			month
-			day
-		}
-		bannerImage
-		seasonYear
-		description(asHtml: false)
-		format
-		status(version: 2)
-		genres
-		meanScore
-		nextAiringEpisode {
-			airingAt
-			timeUntilAiring
-			episode
-		}
-		recommendations {
-			edges {
-				node {
-					mediaRecommendation {
-						id
-						title {
-							romaji
-							english
-						}
-
-						coverImage {
-							extraLarge
-						}
-						genres
-						format
-					}
-				}
-			}
-		}
-		relations {
-			edges {
-				relationType
-				node {
-					id
-					title {
-						romaji
-						english
-					}
-				}
-			}
-		}
-		studios(isMain: true) {
-			edges {
-				node {
-					name
-				}
-			}
-		}
-	}
+    Media(id: $id) {
+        id
+        idMal
+        title {
+            english
+            native
+        }
+        coverImage {
+            extraLarge
+        }
+        startDate {
+            year
+            month
+            day
+        }
+        endDate {
+            year
+            month
+            day
+        }
+        bannerImage
+        seasonYear
+        description(asHtml: false)
+        format
+        status(version: 2)
+        genres
+        meanScore
+        nextAiringEpisode {
+            airingAt
+            timeUntilAiring
+            episode
+        }
+        recommendations {
+            edges {
+                node {
+                    mediaRecommendation {
+                        id
+                        title {
+                            romaji
+                            english
+                        }
+                        coverImage {
+                            extraLarge
+                        }
+                        genres
+                        format
+                    }
+                }
+            }
+        }
+        relations {
+            edges {
+                relationType
+                node {
+                    id
+                    title {
+                        romaji
+                        english
+                    }
+                }
+            }
+        }
+        studios(isMain: true) {
+            edges {
+                node {
+                    name
+                }
+            }
+        }
+    }
 }
+
 
 `
 
@@ -218,3 +219,11 @@ query ($page: Int, $search: String,  $size: Int) {
 	}
   }
   `
+
+export const idMapping = `
+query ($id: Int) {
+	Media(id: $id, type: ANIME) {
+		id
+        idMal
+	}
+}`

@@ -1,28 +1,21 @@
-<script>
-	export let data;
-	console.log(data)
-	import { EpisodeCard, PosterCardList } from '$lib/components';
-	const { episodeSources, details, episodesList, user } = data;
-</script>
-
 
 <main>
 	<h1>Watch Page</h1>
-	<div class="blank" />
+	<!-- <div class="blank" /> -->
 
-	<div class="details">
+	<!-- <div class="details">
 		<div class="container-left">
 			<div class="details">
-				<!-- <h1 class="title">Episode {currentEpObject.number} - {currentEpObject.title}</h1> -->
-				<!-- <p class="description">{currentEpObject.description}</p> -->
+				<h1 class="title">Episode {currentEpObject?.number} - {currentEpObject?.title}</h1>
+				<p class="description">{currentEpObject.description}</p>
 				<div class="episodeCards">
-					<!-- <EpisodeCard
+					<EpisodeCard
 						episodes={episodesList}
 						animeId={details.id}
 						scrollAble={false}
 						filter={true}
 						header={'Episodes'}
-					/> -->
+					/>
 				</div>
 				<div class="reviews" />
 				<!-- <div class="sub-dubBtn">
@@ -44,12 +37,12 @@
 								: 'subDub-btn'}>DUB</a
 						>
 					{/if}
-				</div> -->
+				</div> 
 			</div>
 		</div>
-	</div>
+	</div> -->
 </main>
-
+<!-- 
 <style>
 	* {
 		color: white;
@@ -107,4 +100,4 @@
 	.subDub-btn-active {
 		background: var(--primary);
 	}
-</style>
+</style> -->

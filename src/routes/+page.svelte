@@ -1,6 +1,5 @@
 <script>
 	export let data;
-	console.log(data.continueWatching)
 	const { trendingAnimes, popularAnimes, continueWatching } = data;
 	import { PosterCardList, Trending, EpisodeCard } from '$lib/components';
 </script>
