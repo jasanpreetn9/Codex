@@ -1,10 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 	import { Input, Alert } from '$lib/components';
 	import toast from 'svelte-french-toast';
 	export let form;
 	let loading = false;
-
 	const submitLogin = () => {
 		loading = true;
 		return async ({ result, update }) => {
@@ -37,6 +37,7 @@
 				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="" />
 			</div>
 			<div class="inputs">
+				<input type="hidden" label="redirectTo" name="redirectTo" value={$page.url.searchParams.get("redirectTo")}>
 				<Input
 					label="email"
 					name="email"
