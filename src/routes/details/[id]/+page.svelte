@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	$: ({ animeList, details, continueWatching, episodesList, user } = data);
+	$: ({ animeList, details, continueWatching, streamed, user } = data);
 	import { Icon, ChevronDown } from 'svelte-hero-icons';
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 	let menuOpen = false;
@@ -143,8 +143,8 @@
 						</div>
 					</div>
 					{#if details.format?.toLowerCase() !== 'movie'}
-						{#await episodesList}
-							Loading
+						{#await streamed.episodesList}
+							Loading...
 						{:then value}
 							<EpisodeCard
 								episodes={value}
