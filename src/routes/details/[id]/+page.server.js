@@ -117,7 +117,6 @@ async function fetchKitsuData(params, fetch) {
     ...epList.find((e) => e.number === ep.number)
   }));
 
-  console.log(kitsuFormatted);
   return kitsuFormatted;
 }
 
@@ -141,11 +140,11 @@ async function fetchContinueWatching(locals, params) {
 
 export async function load({ params, fetch, locals, url }) {
   const anime = {
-    animeList: await fetchAnimeList(locals, params),
-    continueWatching: await fetchContinueWatching(locals, params),
-    details: await fetchAnilistDetails(params, fetch),
+    animeList: fetchAnimeList(locals, params),
+    continueWatching: fetchContinueWatching(locals, params),
+    details: fetchAnilistDetails(params, fetch),
     streamed: {
-      episodesList: await fetchKitsuData(params, fetch)
+      episodesList: fetchKitsuData(params, fetch)
     }
   };
 
