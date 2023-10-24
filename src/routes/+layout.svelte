@@ -2,13 +2,13 @@
 	export let data;
 	import '$lib/global.css';
 	import { Toaster } from 'svelte-french-toast';
+	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
 	import { logo, userNavigation } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
-
 	let inputValue = '';
 	let menuOpen = false;
 	function handleMenuOpen() {
@@ -53,7 +53,7 @@
 		</form>
 		<div>
 			{#if !data?.user}
-				<a class="login" href="/login"> Login </a>
+				<a class="login" href={"/login?redirectTo=" + $page.url.pathname + $page.url.search}> Login </a>
 			{:else if data?.user}
 				<button class="container" on:click|stopPropagation={handleMenuOpen}>
 					<img

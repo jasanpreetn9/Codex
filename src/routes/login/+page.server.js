@@ -2,16 +2,18 @@ import { error, redirect, fail } from '@sveltejs/kit';
 import { validateData } from '$lib/utils';
 import { loginUserSchema } from '$lib/schemas';
 
-export async function load({ locals }) {
+export async function load({ locals, url }) {
+
 	if (locals.pb.authStore.isValid) {
 		throw redirect(303, '/');
 	}
 }
 
 export const actions = {
-	login: async ({ request, locals }) => {
+	login: async ({ locals, request, url }) => {
 		const { formData, errors } = await validateData(await request.formData(), loginUserSchema);
-
+		const redirectTo = formData.redirectTo;
+		console.log(redirectTo);
 		if (errors) {
 			return fail(400, {
 				data: formData,
@@ -29,7 +31,9 @@ export const actions = {
 		} catch (err) {
 			throw error(err.status, err.message);
 		}
-
+		if (redirectTo) {
+			throw redirect(303, `/${redirectTo.slice(1)}`);
+		}
 		throw redirect(303, '/');
 	}
 };
