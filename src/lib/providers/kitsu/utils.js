@@ -31,32 +31,41 @@ export const episodeMapping = (kitsu) => {
 	return kitsuEpisodes;
 };
 
-export const episodeQuery = (anilistId) => {
-	return `
-    query LookupMapping {
-        lookupMapping(externalId: "${anilistId}", externalSite: ANILIST_ANIME) {
-            ... on Anime {
-                id
-                episodes(first: 2000) {
-                    nodes {
-                        id
-                        length
-                        number
-                        releasedAt
-                        thumbnail {
-                            original {
-                                url
-                            }
-                        }
-                        titles {
-                            canonical
-                        }
-                        description
-                    }
-                }
-                
-            }
-        }
-    }
-    `;
-};
+
+export const kitsuOptions = (id) =>{
+	return {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		},
+		body: JSON.stringify({
+			query: `
+			query LookupMapping {
+				lookupMapping(externalId: "${id}", externalSite: ANILIST_ANIME) {
+					... on Anime {
+						id
+						episodes(first: 2000) {
+							nodes {
+								id
+								length
+								number
+								releasedAt
+								thumbnail {
+									original {
+										url
+									}
+								}
+								titles {
+									canonical
+								}
+								description
+							}
+						}
+						
+					}
+				}
+			}`
+		})
+	}
+}

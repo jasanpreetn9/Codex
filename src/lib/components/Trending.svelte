@@ -78,7 +78,7 @@
 					<p class="anime-des">
 						{@html anime.description?.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
 					</p>
-					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a
+					<a class="watch-btn" data-sveltekit-prefetch="true" href={`/details/${anime.id}?idMal=${anime.idMal}`}>Watch</a
 					>
 				</div>
 				<img src={anime.bannerImage} alt="" loading="lazy" />

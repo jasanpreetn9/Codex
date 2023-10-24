@@ -152,6 +152,7 @@
 								scrollAble={true}
 								header={'Episodes'}
 								filter={true}
+								posterImg={details.coverImage?.extraLarge}
 							/>
 						{:catch error}
 							Error

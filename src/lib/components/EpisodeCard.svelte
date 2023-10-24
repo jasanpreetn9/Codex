@@ -1,5 +1,5 @@
 <script>
-	export let episodes, animeId, scrollAble, header, filter;
+	export let episodes, animeId, scrollAble, header, filter,posterImg;
 	import { formatTime } from '$lib/utils';
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
@@ -37,7 +37,7 @@
 					href={`/watch/${animeId ?? episode.animeId}?episodeId=${episode.id}`}
 					data-sveltekit-prefetch="true"
 				>
-					<img src={episode.image} alt="" />
+					<img src={episode.image || posterImg} alt="" />
 					{#if episode.duration}
 						<div class="progress-background">
 							<div
@@ -123,6 +123,7 @@
 		border-radius: 5px;
 		aspect-ratio: 16/9;
 		margin-bottom: -3px;
+		background-size: contain;
 	}
 
 	.name {

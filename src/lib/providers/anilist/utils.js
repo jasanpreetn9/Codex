@@ -84,6 +84,7 @@ export const homeQuery = `
 	trending: Page(page: 1, perPage: 15) {
 	  media(type: ANIME,format: TV,episodes_greater: 0, sort: [TRENDING_DESC]) {
 		id
+		idMal
 		bannerImage
 		description(asHtml: false)
 		title {
@@ -102,6 +103,7 @@ export const homeQuery = `
 	popular: Page(page: 1, perPage: 16) {
 	  media(type: ANIME, sort: [POPULARITY_DESC]) {
 		id
+		idMal
 		coverImage {
 		  extraLarge
 		}
