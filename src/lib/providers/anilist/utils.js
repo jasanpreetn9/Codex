@@ -67,6 +67,7 @@ export const watchListQuery = `
 query ($id: Int) {
     Media(id: $id, type: ANIME) {
       id
+	  idMal
       title {
         english
         native
@@ -156,6 +157,7 @@ query ($id: Int) {
                 node {
                     mediaRecommendation {
                         id
+						idMal
                         title {
                             romaji
                             english
@@ -174,6 +176,7 @@ query ($id: Int) {
                 relationType
                 node {
                     id
+					idMal
                     title {
                         romaji
                         english
@@ -204,6 +207,7 @@ query ($page: Int, $search: String,  $size: Int) {
 	  }
 	  media(search: $search,type: ANIME) {
 		id
+		idMal
 		title {
 		  romaji
 		  english

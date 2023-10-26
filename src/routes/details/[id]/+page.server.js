@@ -15,7 +15,7 @@ import {
 	gogoanimeEpisodesUrl,
   formattedEpisodes
 } from '$lib/providers/gogoanime/utils';
-
+import {apiUrl} from '$lib/utils'
 export async function load({ params, fetch, locals, url }) {
 	const fetchAnilistDetails = async () => {
 		try {
@@ -46,33 +46,12 @@ export async function load({ params, fetch, locals, url }) {
 		}
 	};
 
-	const fetchMalSyncData = async () => {
+	const fetchEpisodes = async () => {
 		const idMal = url.searchParams.get('idMal');
-		const malSyncResp = await fetch(`https://api.malsync.moe/mal/anime/${idMal}`);
-		return malSyncResp.json();
-	};
 
-	const fetchKitsuData = async () => {
-		const malSync = await fetchMalSyncData(params, fetch);
-		const gogoanimeIdentifier = getGogoanimeIdentifier(malSync);
-
-		const [kitsuResp, fetchGogoanimeId] = await Promise.all([
-			fetch(kitsuUrl, kitsuOptions(params.id)),
-			fetch(gogoanimeDetailsUrl(gogoanimeIdentifier))
-		]);
-
-		const kitsuRaw = await kitsuResp.json();
-		
-
-		const gogoanimeHTML = await fetchGogoanimeId.text();
-		const { maxEnd, id } = getMaxEnd(gogoanimeHTML);
-
-		const [gogoanimeList] = await Promise.all([
-			fetch(gogoanimeEpisodesUrl(maxEnd, id, gogoanimeIdentifier))
-		]);
-
-		const gogoanimeListHTML = await gogoanimeList.text();
-		return formattedEpisodes(gogoanimeListHTML, kitsuRaw);
+		const episodesResp = await fetch(`${apiUrl}/episodes/${idMal}?page=1`);
+		const episodes = await episodesResp.json();
+		return episodes;
 	};
 
 	const fetchAnimeList = async () => {
@@ -102,7 +81,7 @@ export async function load({ params, fetch, locals, url }) {
 		continueWatching: fetchContinueWatching(),
 		details: fetchAnilistDetails(),
 		streamed: {
-			episodesList: fetchKitsuData()
+			episodesList: fetchEpisodes()
 		}
 	};
 

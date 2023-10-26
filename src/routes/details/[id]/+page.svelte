@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	$: ({ animeList, details, continueWatching, streamed, user } = data);
+	// const { animeList, details, continueWatching, episodesList, user } = data;
 	import { Icon, ChevronDown } from 'svelte-hero-icons';
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 	let menuOpen = false;
@@ -146,18 +147,18 @@
 						{#await streamed.episodesList}
 							Loading...
 						{:then value}
-							<EpisodeCard
-								episodes={value}
-								animeId={details.id}
-								scrollAble={true}
-								header={'Episodes'}
-								filter={true}
-								posterImg={details.coverImage?.extraLarge}
-							/>
+						<EpisodeCard
+						episodes={value.data}
+						animeId={details.id}
+						scrollAble={true}
+						header={'Episodes'}
+						filter={true}
+						posterImg={details.coverImage?.extraLarge}
+						/>
 						{:catch error}
-							Error
+						Error
 						{/await}
-					{/if}
+						{/if}
 					<PosterCardList animes={details.recommendations} heading={'Recommended'} />
 				</div>
 			</div>
