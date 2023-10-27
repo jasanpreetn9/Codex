@@ -225,11 +225,3 @@ query ($page: Int, $search: String,  $size: Int) {
 	}
   }
   `
-
-export const idMapping = `
-query ($id: Int) {
-	Media(id: $id, type: ANIME) {
-		id
-        idMal
-	}
-}`
