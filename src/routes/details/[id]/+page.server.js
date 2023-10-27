@@ -6,16 +6,7 @@ import {
 	detailsQuery,
 	watchListQuery
 } from '$lib/providers/anilist/utils';
-import { proxyUrl } from '$lib/utils';
-import { kitsuUrl, kitsuOptions, episodeMapping } from '$lib/providers/kitsu/utils';
-import {
-	getGogoanimeIdentifier,
-	getMaxEnd,
-	gogoanimeDetailsUrl,
-	gogoanimeEpisodesUrl,
-  formattedEpisodes
-} from '$lib/providers/gogoanime/utils';
-import {apiUrl} from '$lib/utils'
+import { apiUrl, proxyUrl } from '$lib/utils';
 export async function load({ params, fetch, locals, url }) {
 	const fetchAnilistDetails = async () => {
 		try {
