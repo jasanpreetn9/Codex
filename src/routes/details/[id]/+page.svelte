@@ -149,6 +149,7 @@
 						{:then value}
 						<EpisodeCard
 						episodes={value.data}
+						pagination={value.pagination}
 						animeId={details.id}
 						scrollAble={true}
 						header={'Episodes'}
