@@ -1,5 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination;
+	console.log(pagination);
 	import { formatTime } from '$lib/utils';
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
@@ -119,12 +120,13 @@
 		aspect-ratio: 16/9;
 	}
 	.video-card img {
-		width: 100%;
-		border-radius: 5px;
-		aspect-ratio: 16/9;
-		margin-bottom: -3px;
-		background-size: contain;
-	}
+    width: 100%;
+    border-radius: 5px;
+    aspect-ratio: 16/9;
+    margin-bottom: -3px;
+    object-fit: cover; /* This will make the image fit the container without stretching */
+    background-size: contain;
+}
 
 	.name {
 		color: #fff;
