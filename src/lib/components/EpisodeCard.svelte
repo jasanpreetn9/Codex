@@ -1,7 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination;
 	console.log(episodes);
-	import { formatTime } from '$lib/utils';
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
