@@ -39,8 +39,8 @@ export async function load({ params, fetch, locals, url }) {
 
 	const fetchEpisodes = async () => {
 		const idMal = url.searchParams.get('idMal');
-
-		const episodesResp = await fetch(`${apiUrl}/episodes/${idMal}?page=1`);
+		const page  = url.searchParams.get('page');
+		const episodesResp = await fetch(`${apiUrl}/episodes/${idMal}?page=${page}`);
 		const episodes = await episodesResp.json();
 		return episodes;
 	};

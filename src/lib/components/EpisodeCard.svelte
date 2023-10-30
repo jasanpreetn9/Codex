@@ -1,5 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination;
+	console.log(episodes);
 	import { formatTime } from '$lib/utils';
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
@@ -52,11 +53,7 @@
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number +
-								' ‧ ' +
-								(episode.duration
-									? `${formatTime(episode.currentTime)}:${formatTime(episode.duration)}`
-									: episode.releasedAt)}
+							Ep: {episode.number + ' ‧ ' + 'Sub' + (episode.hasDub ? '/Dub' : '')}
 						</p>
 					</div>
 				</a>
