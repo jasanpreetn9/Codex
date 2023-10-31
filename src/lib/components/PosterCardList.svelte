@@ -8,7 +8,7 @@
 <div class="cards-list">
 	<div class="card-container">
 		{#each animes as anime}
-			<a data-sveltekit-prefetch="true" href={`/details/${anime.animeId ?? anime.id}?idMal=${anime.idMal}`}>
+			<a data-sveltekit-prefetch="true" href={`/details/${anime.animeId ?? anime.idMal}`}>
 				<div class="card">
 					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
 					<div class="card-body">

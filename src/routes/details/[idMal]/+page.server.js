@@ -3,17 +3,14 @@ import { redis } from '$lib/server/redis';
 import {
 	formatDetails,
 	anilistUrl,
-	detailsQuery,
+	detailsQueryIdMal,
 	watchListQuery
 } from '$lib/providers/anilist/utils';
 import { apiUrl, proxyUrl } from '$lib/utils';
+
 export async function load({ params, fetch, locals, url }) {
 	const fetchAnilistDetails = async () => {
 		try {
-			const cached = await redis.get(`anilist-details-${params.id}`);
-			if (cached) {
-				return JSON.parse(cached);
-			}
 
 			const anilistResp = await fetch(proxyUrl + anilistUrl, {
 				method: 'POST',
@@ -22,15 +19,14 @@ export async function load({ params, fetch, locals, url }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: detailsQuery,
-					variables: { id: params.id }
+					query: detailsQueryIdMal,
+					variables: { id: params.idMal }
 				})
 			});
 
 			const anilist = await anilistResp.json();
 			const formattedAnilist = formatDetails(anilist.data.Media);
 
-			redis.set(`anilist-details-${params.id}`, JSON.stringify(formattedAnilist), 'EX', 600);
 			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
@@ -38,9 +34,8 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const idMal = url.searchParams.get('idMal');
 		const page  = url.searchParams.get('page')||1;
-		const episodesResp = await fetch(`${apiUrl}/episodes/${idMal}?page=${page}`);
+		const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 		const episodes = await episodesResp.json();
 		return episodes;
 	};
@@ -49,7 +44,7 @@ export async function load({ params, fetch, locals, url }) {
 		try {
 			const animeList = await locals.pb
 				.collection('lists')
-				.getFirstListItem(`animeId="${params.id}"`);
+				.getFirstListItem(`animeId="${params.idMal}"`);
 			return animeList;
 		} catch (error) {
 			return null;
@@ -60,7 +55,7 @@ export async function load({ params, fetch, locals, url }) {
 		try {
 			const continueWatching = await locals.pb
 				.collection('continue_watching')
-				.getFirstListItem(`animeId="${params.id}"`);
+				.getFirstListItem(`animeId="${params.idMal}"`);
 			return continueWatching;
 		} catch (error) {
 			return null;

@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	$: ({ animeList, details, continueWatching, streamed, user } = data);
-	// const { animeList, details, continueWatching, episodesList, user } = data;
+	import { page } from '$app/stores';
 	import { Icon, ChevronDown } from 'svelte-hero-icons';
 	import { EpisodeCard, PosterCardList } from '$lib/components';
 	let menuOpen = false;
@@ -81,7 +81,7 @@
 
 						<h1 class="anime-title-native">{details.title.native}</h1>
 						<p class="anime-des">
-							{@html details.description}
+							{details.description}
 						</p>
 						<div class="btn-container">
 							<a
@@ -147,19 +147,20 @@
 						{#await streamed.episodesList}
 							Loading...
 						{:then value}
-						<EpisodeCard
-						episodes={value.data}
-						pagination={value.pagination}
-						animeId={details.id}
-						scrollAble={true}
-						header={'Episodes'}
-						filter={true}
-						posterImg={details.coverImage?.extraLarge}
-						/>
+							<EpisodeCard
+								episodes={value.data}
+								pagination={value.pagination}
+								animeId={details.id}
+								scrollAble={true}
+								header={'Episodes'}
+								filter={true}
+								{page}
+								posterImg={details.coverImage?.extraLarge}
+							/>
 						{:catch error}
-						Error
+							Error
 						{/await}
-						{/if}
+					{/if}
 					<PosterCardList animes={details.recommendations} heading={'Recommended'} />
 				</div>
 			</div>

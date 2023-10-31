@@ -196,6 +196,84 @@ query ($id: Int) {
 
 
 `
+export const detailsQueryIdMal = `
+query ($id: Int) {
+    Media(idMal: $id) {
+        id
+        idMal
+        title {
+            english
+            native
+        }
+        coverImage {
+            extraLarge
+        }
+        startDate {
+            year
+            month
+            day
+        }
+        endDate {
+            year
+            month
+            day
+        }
+        bannerImage
+        seasonYear
+        description(asHtml: false)
+        format
+        status(version: 2)
+        genres
+        meanScore
+        nextAiringEpisode {
+            airingAt
+            timeUntilAiring
+            episode
+        }
+        recommendations {
+            edges {
+                node {
+                    mediaRecommendation {
+                        id
+						idMal
+                        title {
+                            romaji
+                            english
+                        }
+                        coverImage {
+                            extraLarge
+                        }
+                        genres
+                        format
+                    }
+                }
+            }
+        }
+        relations {
+            edges {
+                relationType
+                node {
+                    id
+					idMal
+                    title {
+                        romaji
+                        english
+                    }
+                }
+            }
+        }
+        studios(isMain: true) {
+            edges {
+                node {
+                    name
+                }
+            }
+        }
+    }
+}
+
+
+`
 
 export const searchQuery = `
 query ($page: Int, $search: String,  $size: Int) {
