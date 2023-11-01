@@ -158,7 +158,7 @@
 								posterImg={details.coverImage?.extraLarge}
 							/>
 						{:catch error}
-							Error
+							{error.message}
 						{/await}
 					{/if}
 					<PosterCardList animes={details.recommendations} heading={'Recommended'} />

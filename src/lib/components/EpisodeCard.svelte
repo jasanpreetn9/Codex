@@ -17,21 +17,18 @@
 	<h1 class="title">{header}</h1>
 	<div class="right-container">
 		<div class="switch-block" />
-		<div class="pagination">
-			<a href={$page.url.pathname + '?page=1'}>&laquo;</a>
-			{#each { length: pagination.last_visible_page } as item, i}
-				<a
-					href={$page.url.pathname + '?page=' + (i + 1)}
-					class={currentPage == i + 1 ? "active" : ''}>{i + 1}</a
-				>
-			{/each}
-			<!-- <a href="#" class="active">2</a>
-			<a href="#">3</a>
-			<a href="#">4</a>
-			<a href="#">5</a>
-			<a href="#">6</a> -->
-			<a href={$page.url.pathname + '?page=' + pagination.last_visible_page}>&raquo;</a>
-		</div>
+		{#if pagination.last_visible_page > 1}
+			 <div class="pagination">
+				 <a href={$page.url.pathname + '?page=1'}>&laquo;</a>
+				 {#each { length: pagination.last_visible_page } as item, i}
+					 <a
+						 href={$page.url.pathname + '?page=' + (i + 1)}
+						 class={currentPage == i + 1 ? "active" : ''}>{i + 1}</a
+					 >
+				 {/each}
+				 <a href={$page.url.pathname + '?page=' + pagination.last_visible_page}>&raquo;</a>
+			 </div>
+		{/if}
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
 				<Icon
@@ -68,7 +65,7 @@
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number + ' ‧ ' + 'Sub' + (episode.hasDub ? '/Dub' : '')}
+							Ep: {episode.number + ' ‧ ' + (episode.filler ? 'Filler' : 'Canon')}
 						</p>
 					</div>
 				</a>

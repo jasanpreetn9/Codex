@@ -11,7 +11,6 @@ import { apiUrl, proxyUrl } from '$lib/utils';
 export async function load({ params, fetch, locals, url }) {
 	const fetchAnilistDetails = async () => {
 		try {
-
 			const anilistResp = await fetch(proxyUrl + anilistUrl, {
 				method: 'POST',
 				headers: {
@@ -34,8 +33,10 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const page  = url.searchParams.get('page')||1;
+		const page = url.searchParams.get('page') || 1;
+
 		const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
+		console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 		const episodes = await episodesResp.json();
 		return episodes;
 	};
