@@ -2,7 +2,7 @@
 	export let trendingAnimes;
 	import { onMount } from 'svelte';
 	import Siema from 'siema';
-	import {Icon, ChevronRight, ChevronLeft} from 'svelte-hero-icons';
+	import { Icon, ChevronRight, ChevronLeft } from 'svelte-hero-icons';
 	let slider, prev, next, radioSlider;
 	let select = 0;
 	let timer;
@@ -70,15 +70,18 @@
 						<p class="badges">Rating: {anime.meanScore / 10}</p>
 						<span class="dots" />
 						<p class="badges">
-							Eps: { anime.nextAiringEpisode?.episode
+							Eps: {anime.nextAiringEpisode?.episode
 								? anime.nextAiringEpisode.episode - 1
 								: anime.episodes}
 						</p>
 					</div>
 					<p class="anime-des">
-						{@html anime.description?.replace(/&lt;br&gt;/g, '').replace(/\<br\>/g, '')}
+						{anime.description}
 					</p>
-					<a class="watch-btn" data-sveltekit-prefetch="true" href={'/details/' + anime.id}>Watch</a
+					<a
+						class="watch-btn"
+						data-sveltekit-prefetch="true"
+						href={`/details/${anime.idMal}`}>Watch</a
 					>
 				</div>
 				<img src={anime.bannerImage} alt="" loading="lazy" />
@@ -228,7 +231,7 @@
 	}
 
 	.watch-btn {
-		background: var( --primary);
+		background: var(--primary);
 		padding: 10px;
 		color: #fff;
 		border-radius: 5px;

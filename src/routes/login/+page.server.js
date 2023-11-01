@@ -13,7 +13,6 @@ export const actions = {
 	login: async ({ locals, request, url }) => {
 		const { formData, errors } = await validateData(await request.formData(), loginUserSchema);
 		const redirectTo = formData.redirectTo;
-		console.log(redirectTo);
 		if (errors) {
 			return fail(400, {
 				data: formData,

@@ -1,5 +1,5 @@
 export const anilistUrl = "https://graphql.anilist.co/"
-export const formatDetails = (media, enime) => {
+export const formatDetails = (media) => {
 	const relations = media?.relations?.edges
 		?.map((relation) => {
 			return {
@@ -38,8 +38,10 @@ export const formatDetails = (media, enime) => {
 
 	// Remove HTML tags and trim description
 	media.description = media?.description
-		?.split('*')[0]
-		.split('Note')[0]
+        .replaceAll("<br>", "")
+        .replaceAll("</br>", "")
+        .replaceAll("<i>", "")
+        .replaceAll("</i>", "")
 		.replace(/<br\s*\/?>/gi, '')
 		.replace(/&lt;br&gt;/g, '')
 		.replace(/\<br\>/g, '')
@@ -50,11 +52,6 @@ export const formatDetails = (media, enime) => {
 		(recommendation) => recommendation.node.mediaRecommendation
 	);
 
-	// Sort episodes
-	if (enime) {
-		media.episodes = enime?.episodes;
-		media.episodes?.sort((a, b) => a.number - b.number);
-	}
 
 	// Update the media object with the formatted data
 	media.relations = relations;
@@ -67,6 +64,7 @@ export const watchListQuery = `
 query ($id: Int) {
     Media(id: $id, type: ANIME) {
       id
+	  idMal
       title {
         english
         native
@@ -84,6 +82,7 @@ export const homeQuery = `
 	trending: Page(page: 1, perPage: 15) {
 	  media(type: ANIME,format: TV,episodes_greater: 0, sort: [TRENDING_DESC]) {
 		id
+		idMal
 		bannerImage
 		description(asHtml: false)
 		title {
@@ -102,6 +101,7 @@ export const homeQuery = `
 	popular: Page(page: 1, perPage: 16) {
 	  media(type: ANIME, sort: [POPULARITY_DESC]) {
 		id
+		idMal
 		coverImage {
 		  extraLarge
 		}
@@ -154,6 +154,7 @@ query ($id: Int) {
                 node {
                     mediaRecommendation {
                         id
+						idMal
                         title {
                             romaji
                             english
@@ -172,6 +173,85 @@ query ($id: Int) {
                 relationType
                 node {
                     id
+					idMal
+                    title {
+                        romaji
+                        english
+                    }
+                }
+            }
+        }
+        studios(isMain: true) {
+            edges {
+                node {
+                    name
+                }
+            }
+        }
+    }
+}
+
+
+`
+export const detailsQueryIdMal = `
+query ($id: Int) {
+    Media(idMal: $id) {
+        id
+        idMal
+        title {
+            english
+            native
+        }
+        coverImage {
+            extraLarge
+        }
+        startDate {
+            year
+            month
+            day
+        }
+        endDate {
+            year
+            month
+            day
+        }
+        bannerImage
+        seasonYear
+        description(asHtml: false)
+        format
+        status(version: 2)
+        genres
+        meanScore
+        nextAiringEpisode {
+            airingAt
+            timeUntilAiring
+            episode
+        }
+        recommendations {
+            edges {
+                node {
+                    mediaRecommendation {
+                        id
+						idMal
+                        title {
+                            romaji
+                            english
+                        }
+                        coverImage {
+                            extraLarge
+                        }
+                        genres
+                        format
+                    }
+                }
+            }
+        }
+        relations {
+            edges {
+                relationType
+                node {
+                    id
+					idMal
                     title {
                         romaji
                         english
@@ -202,6 +282,7 @@ query ($page: Int, $search: String,  $size: Int) {
 	  }
 	  media(search: $search,type: ANIME) {
 		id
+		idMal
 		title {
 		  romaji
 		  english
@@ -219,11 +300,3 @@ query ($page: Int, $search: String,  $size: Int) {
 	}
   }
   `
-
-export const idMapping = `
-query ($id: Int) {
-	Media(id: $id, type: ANIME) {
-		id
-        idMal
-	}
-}`

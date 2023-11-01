@@ -1,6 +1,6 @@
 <script>
-	export let episodes, animeId, scrollAble, header, filter;
-	import { formatTime } from '$lib/utils';
+	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination, page;
+	const currentPage = $page.url.searchParams.get('page') || 1;
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -16,6 +16,31 @@
 	<h1 class="title">{header}</h1>
 	<div class="right-container">
 		<div class="switch-block" />
+		{#if pagination.last_visible_page > 1}
+			<div class="pagination">
+				<a
+					data-sveltekit-noscroll
+					href={$page.url.pathname +
+						'?page=' +
+						(parseInt(currentPage) - 1 > 0 ? parseInt(currentPage) - 1 : currentPage)}>&laquo;</a
+				>
+				{#each { length: pagination.last_visible_page } as item, i}
+					<a
+						data-sveltekit-noscroll
+						href={$page.url.pathname + '?page=' + (i + 1)}
+						class={currentPage == i + 1 ? 'active' : ''}>{i + 1}</a
+					>
+				{/each}
+				<a
+					data-sveltekit-noscroll
+					href={$page.url.pathname +
+						'?page=' +
+						(parseInt(currentPage) + 1 <= pagination.last_visible_page
+							? parseInt(currentPage) + 1
+							: currentPage)}>&raquo;</a
+				>
+			</div>
+		{/if}
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
 				<Icon
@@ -34,10 +59,10 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={`/watch/${animeId ?? episode.animeId}?episodeId=${episode.id}`}
+					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
 					data-sveltekit-prefetch="true"
 				>
-					<img src={episode.image} alt="" />
+					<img src={episode.image || posterImg} alt="" />
 					{#if episode.duration}
 						<div class="progress-background">
 							<div
@@ -54,9 +79,10 @@
 						<p class="episode-number">
 							Ep: {episode.number +
 								' ‧ ' +
-								(episode.duration
-									? `${formatTime(episode.currentTime)}:${formatTime(episode.duration)}`
-									: episode.releasedAt)}
+								'Sub' +
+								(episode.hasDub ? '/Dub' : '') +
+								' ‧ ' +
+								(episode.filler ? 'Filler' : 'Canon')}
 						</p>
 					</div>
 				</a>
@@ -95,9 +121,28 @@
 	.switch-block {
 		width: 300px;
 	}
+	.pagination {
+		padding-top: 13px;
+		display: inline-block;
+	}
 
-	.filter img {
-		height: 20px;
+	.pagination a {
+		color: white;
+		float: left;
+		padding: 4px 8px;
+		text-decoration: none;
+		font-size: 10px;
+	}
+
+	.pagination a.active {
+		background-color: var(--primary);
+		color: white;
+		border-radius: 5px;
+	}
+
+	.pagination a:hover:not(.active) {
+		background-color: var(--secondary);
+		border-radius: 5px;
 	}
 	.filter {
 		cursor: pointer;
@@ -123,6 +168,7 @@
 		border-radius: 5px;
 		aspect-ratio: 16/9;
 		margin-bottom: -3px;
+		background-size: contain;
 	}
 
 	.name {
