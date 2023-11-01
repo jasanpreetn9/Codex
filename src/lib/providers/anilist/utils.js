@@ -1,5 +1,5 @@
 export const anilistUrl = "https://graphql.anilist.co/"
-export const formatDetails = (media, enime) => {
+export const formatDetails = (media) => {
 	const relations = media?.relations?.edges
 		?.map((relation) => {
 			return {
@@ -38,8 +38,6 @@ export const formatDetails = (media, enime) => {
 
 	// Remove HTML tags and trim description
 	media.description = media?.description
-		?.split('*')[0]
-		.split('Note')[0]
 		.replace(/<br\s*\/?>/gi, '')
 		.replace(/&lt;br&gt;/g, '')
 		.replace(/\<br\>/g, '')
@@ -50,11 +48,6 @@ export const formatDetails = (media, enime) => {
 		(recommendation) => recommendation.node.mediaRecommendation
 	);
 
-	// Sort episodes
-	if (enime) {
-		media.episodes = enime?.episodes;
-		media.episodes?.sort((a, b) => a.number - b.number);
-	}
 
 	// Update the media object with the formatted data
 	media.relations = relations;

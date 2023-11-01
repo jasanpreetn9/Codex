@@ -1,7 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination, page;
 	const currentPage = $page.url.searchParams.get('page') || 1;
-	console.log($page.url);
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -18,16 +17,20 @@
 	<div class="right-container">
 		<div class="switch-block" />
 		{#if pagination.last_visible_page > 1}
-			 <div class="pagination">
-				 <a href={$page.url.pathname + '?page=1'}>&laquo;</a>
-				 {#each { length: pagination.last_visible_page } as item, i}
-					 <a
-						 href={$page.url.pathname + '?page=' + (i + 1)}
-						 class={currentPage == i + 1 ? "active" : ''}>{i + 1}</a
-					 >
-				 {/each}
-				 <a href={$page.url.pathname + '?page=' + pagination.last_visible_page}>&raquo;</a>
-			 </div>
+			<div class="pagination">
+				<a data-sveltekit-noscroll href={$page.url.pathname + '?page=1'}>&laquo;</a>
+				{#each { length: pagination.last_visible_page } as item, i}
+					<a
+						data-sveltekit-noscroll
+						href={$page.url.pathname + '?page=' + (i + 1)}
+						class={currentPage == i + 1 ? 'active' : ''}>{i + 1}</a
+					>
+				{/each}
+				<a
+					data-sveltekit-noscroll
+					href={$page.url.pathname + '?page=' + pagination.last_visible_page}>&raquo;</a
+				>
+			</div>
 		{/if}
 		{#if filter}
 			<button class="filter" on:click={toggleFilter}>
