@@ -18,7 +18,12 @@
 		<div class="switch-block" />
 		{#if pagination.last_visible_page > 1}
 			<div class="pagination">
-				<a data-sveltekit-noscroll href={$page.url.pathname + '?page=1'}>&laquo;</a>
+				<a
+					data-sveltekit-noscroll
+					href={$page.url.pathname +
+						'?page=' +
+						(parseInt(currentPage) - 1 > 0 ? parseInt(currentPage) - 1 : currentPage)}>&laquo;</a
+				>
 				{#each { length: pagination.last_visible_page } as item, i}
 					<a
 						data-sveltekit-noscroll
@@ -28,7 +33,11 @@
 				{/each}
 				<a
 					data-sveltekit-noscroll
-					href={$page.url.pathname + '?page=' + pagination.last_visible_page}>&raquo;</a
+					href={$page.url.pathname +
+						'?page=' +
+						(parseInt(currentPage) + 1 <= pagination.last_visible_page
+							? parseInt(currentPage) + 1
+							: currentPage)}>&raquo;</a
 				>
 			</div>
 		{/if}
@@ -68,7 +77,12 @@
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number + ' ‧ ' + (episode.filler ? 'Filler' : 'Canon')}
+							Ep: {episode.number +
+								' ‧ ' +
+								'Sub' +
+								(episode.hasDub ? '/Dub' : '') +
+								' ‧ ' +
+								(episode.filler ? 'Filler' : 'Canon')}
 						</p>
 					</div>
 				</a>

@@ -38,6 +38,10 @@ export const formatDetails = (media) => {
 
 	// Remove HTML tags and trim description
 	media.description = media?.description
+        .replaceAll("<br>", "")
+        .replaceAll("</br>", "")
+        .replaceAll("<i>", "")
+        .replaceAll("</i>", "")
 		.replace(/<br\s*\/?>/gi, '')
 		.replace(/&lt;br&gt;/g, '')
 		.replace(/\<br\>/g, '')
