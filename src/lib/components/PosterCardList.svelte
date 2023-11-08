@@ -2,29 +2,33 @@
 	export let animes, heading;
 </script>
 
-{#if heading}
-	<h1 class="title">{heading}</h1>
-{/if}
-<div class="cards-list">
-	<div class="card-container">
-		{#each animes as anime}
-			<a data-sveltekit-prefetch="true" href={`/details/${anime.animeId ?? anime.idMal}`}>
-				<div class="card">
-					<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
-					<div class="card-body">
-						<h2 class="name">
-							{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
-						</h2>
-						<span class="details">
-							{anime?.format || ''}
-							{anime?.genres?.length ? '‧ ' + anime.genres.slice(0, 2).join(', ') : ''}
-						</span>
+{#if animes.length > 0}
+	<!-- content here -->
+
+	{#if heading}
+		<h1 class="title">{heading}</h1>
+	{/if}
+	<div class="cards-list">
+		<div class="card-container">
+			{#each animes as anime}
+				<a data-sveltekit-prefetch="true" href={`/details/${anime.animeId ?? anime.idMal}`}>
+					<div class="card">
+						<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
+						<div class="card-body">
+							<h2 class="name">
+								{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
+							</h2>
+							<span class="details">
+								{anime?.format || ''}
+								{anime?.genres?.length ? '‧ ' + anime.genres.slice(0, 2).join(', ') : ''}
+							</span>
+						</div>
 					</div>
-				</div>
-			</a>
-		{/each}
+				</a>
+			{/each}
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.card-container a:link,

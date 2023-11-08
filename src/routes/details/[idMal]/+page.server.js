@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import { redis } from '$lib/server/redis';
+import { error } from '@sveltejs/kit';
 import {
 	formatDetails,
 	anilistUrl,
@@ -25,7 +26,6 @@ export async function load({ params, fetch, locals, url }) {
 
 			const anilist = await anilistResp.json();
 			const formattedAnilist = formatDetails(anilist.data.Media);
-
 			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
@@ -33,11 +33,15 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const page = url.searchParams.get('page') || 1;
-
-		const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
-		const episodes = await episodesResp.json();
-		return episodes;
+		try {
+			const page = url.searchParams.get('page') || 1;
+			console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`)
+			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
+			const episodes = await episodesResp.json();
+			return episodes;
+		} catch (error) {
+			return null;
+		}
 	};
 
 	const fetchAnimeList = async () => {

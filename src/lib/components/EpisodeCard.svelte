@@ -1,6 +1,5 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination, page;
-	const currentPage = $page.url.searchParams.get('page') || 1;
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
@@ -14,34 +13,36 @@
 
 <div class="header">
 	<h1 class="title">{header}</h1>
-	<div class="right-container">
-		<div class="switch-block" />
-		{#if pagination.last_visible_page > 1}
-			<div class="pagination">
-				<a
-					data-sveltekit-noscroll
-					href={$page.url.pathname +
-						'?page=' +
-						(parseInt(currentPage) - 1 > 0 ? parseInt(currentPage) - 1 : currentPage)}>&laquo;</a
-				>
-				{#each { length: pagination.last_visible_page } as item, i}
+	{#if filter}
+	{@const currentPage = $page.url.searchParams.get('page') || 1}	
+		<div class="right-container">
+			<div class="switch-block" />
+			{#if pagination.last_visible_page > 1}
+				<div class="pagination">
 					<a
 						data-sveltekit-noscroll
-						href={$page.url.pathname + '?page=' + (i + 1)}
-						class={currentPage == i + 1 ? 'active' : ''}>{i + 1}</a
+						href={$page.url.pathname +
+							'?page=' +
+							(parseInt(currentPage) - 1 > 0 ? parseInt(currentPage) - 1 : currentPage)}>&laquo;</a
 					>
-				{/each}
-				<a
-					data-sveltekit-noscroll
-					href={$page.url.pathname +
-						'?page=' +
-						(parseInt(currentPage) + 1 <= pagination.last_visible_page
-							? parseInt(currentPage) + 1
-							: currentPage)}>&raquo;</a
-				>
-			</div>
-		{/if}
-		{#if filter}
+					{#each { length: pagination.last_visible_page } as item, i}
+						<a
+							data-sveltekit-noscroll
+							href={$page.url.pathname + '?page=' + (i + 1)}
+							class={currentPage == i + 1 ? 'active' : ''}>{i + 1}</a
+						>
+					{/each}
+					<a
+						data-sveltekit-noscroll
+						href={$page.url.pathname +
+							'?page=' +
+							(parseInt(currentPage) + 1 <= pagination.last_visible_page
+								? parseInt(currentPage) + 1
+								: currentPage)}>&raquo;</a
+					>
+				</div>
+			{/if}
+
 			<button class="filter" on:click={toggleFilter}>
 				<Icon
 					src={BarsArrowDown}
@@ -50,8 +51,8 @@
 					color={'white'}
 				/>
 			</button>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>
 
 <div class={scrollAble ? 'scrollAble' : ''}>
@@ -59,7 +60,9 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}`}
+					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}&episodeId=${
+						episode.episodeIdSub
+					}`}
 					data-sveltekit-prefetch="true"
 				>
 					<img src={episode.image || posterImg} alt="" />

@@ -38,7 +38,7 @@
 	</ul>
 
 	<div class="search-tools">
-		<form on:submit|preventDefault={() => goto('/search/' + inputValue)} class="right-container">
+		<form action="/search" method="POST" class="right-container">
 			<div class="search-div">
 				<Icon src={MagnifyingGlass} size="22px" />
 				<p class="iconSide">|</p>
@@ -46,6 +46,7 @@
 					type="text"
 					id="search-box"
 					class="search-box"
+					name="search"
 					bind:value={inputValue}
 					placeholder="search"
 				/>
