@@ -8,8 +8,8 @@
 	$: ({ details, streamed, user, episodeSources } = data);
 	let artplayer;
 	let currentEpisode = $page.url.searchParams.get('episode');
-
 	function initPlayer() {
+        console.log(details)
 		artplayer = new Artplayer({
 			container: '.artplayer-container',
 			url: episodeSources.filter((ep) => ep.default == true)[0].url,
@@ -46,9 +46,19 @@
 		};
 	}
 </script>
+<div class="container">
+    <div class="artplayer-container" use:handleUrlChange />
+    <div class="summary">
+        <h1 class="anime-title">
+            {details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
+        </h1>
 
-<h1>{details.title.english} - {currentEpisode}</h1>
-<div class="artplayer-container" use:handleUrlChange />
+        <h1 class="anime-title-native">{details.title.native}</h1>
+        <p class="anime-des">
+            {details.description}
+        </p>
+    </div>
+</div>
 
 {#await streamed.episodesList}
 	Loading...
@@ -74,4 +84,8 @@
 		width: 700px;
 		aspect-ratio: 16/9;
 	}
+    .container {
+        display: flex;
+        flex-direction: row;
+    }
 </style>
