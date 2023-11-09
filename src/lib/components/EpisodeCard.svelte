@@ -172,6 +172,7 @@
 		aspect-ratio: 16/9;
 		margin-bottom: -3px;
 		background-size: contain;
+		object-fit: cover;
 	}
 
 	.name {

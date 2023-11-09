@@ -195,7 +195,7 @@ query ($id: Int) {
 `;
 export const detailsQueryIdMal = `
 query ($id: Int) {
-    Media(idMal: $id) {
+    Media(idMal: $id, format_not: MANGA) {
         id
         idMal
         title {

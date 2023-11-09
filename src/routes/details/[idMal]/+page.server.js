@@ -35,7 +35,6 @@ export async function load({ params, fetch, locals, url }) {
 	const fetchEpisodes = async () => {
 		try {
 			const page = url.searchParams.get('page') || 1;
-			console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 			const episodes = await episodesResp.json();
 			return episodes;

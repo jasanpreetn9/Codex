@@ -52,7 +52,7 @@
 				/>
 			</div>
 		</form>
-		<div>
+		<!-- <div>
 			{#if !data?.user}
 				<a class="login" href={"/login?redirectTo=" + $page.url.pathname + $page.url.search}> Login </a>
 			{:else if data?.user}
@@ -64,7 +64,6 @@
 					/>
 				</button>
 				{#if menuOpen}
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<div class="dropdown-content" on:click|stopPropagation={() => {}}>
 						<img
 							class="avatarDropdown"
@@ -98,7 +97,7 @@
 					</div>
 				{/if}
 			{/if}
-		</div>
+		</div> -->
 	</div>
 </nav>
 

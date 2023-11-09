@@ -75,30 +75,34 @@
 				<p class="anime-des">
 					{details.description}
 				</p>
-				{#if details.format.toLowerCase() !== "manga"}
-					 <div class="btn-container">
-						 {#if continueWatching}
-							 <a
-								 href={`/watch/${details.idMal}?episode=${continueWatching?.number}&episodeId=${
-									 continueWatching?.watchDub
-										 ? continueWatching?.episodeIdDub
-										 : continueWatching?.episodeIdSub
-								 }`}
-								 class="watch-btn"
-							 >
-								 {'Continue Watching Ep: ' + continueWatching.number}
-							 </a>
-						 {:else}
-							 {#await streamed then value}
-							 <a
-							 href={`/watch/${details.idMal}?episode=1&`}
-							 class="watch-btn"
-						 >
-							 Watch Now
-						 </a>
-							 {/await}
-						 {/if}
-						 <!-- {#if user}
+				{#if details.format.toLowerCase() !== 'manga'}
+					<div class="btn-container">
+						{#if continueWatching}
+							<a
+								href={`/watch/${details.idMal}?episode=${continueWatching?.number}&episodeId=${
+									continueWatching?.watchDub
+										? continueWatching?.episodeIdDub
+										: continueWatching?.episodeIdSub
+								}`}
+								class="watch-btn"
+							>
+								{'Continue Watching Ep: ' + continueWatching.number}
+							</a>
+						{:else}
+							{#await streamed.episodesList then value}
+								{#if value}
+									<a
+										href={`
+										/watch/${details.idMal}
+										?episode=1&episodeId=${value.data.filter((e) => e.number == 1)[0].episodeIdSub}`}
+										class="watch-btn"
+									>
+										Watch Now
+									</a>
+								{/if}
+							{/await}
+						{/if}
+						<!-- {#if user}
 							 <div class="dropdown-list">
 								 <button class="list-btn-dropdown" on:click|stopPropagation={handleMenuOpen}>
 									 {animeList?.listType ?? 'Add to list'}
@@ -144,7 +148,7 @@
 								 {/if}
 							 </div>
 						 {/if} -->
-					 </div>
+					</div>
 				{/if}
 			</div>
 			{#if details.format?.toLowerCase() !== 'movie'}
@@ -257,10 +261,10 @@
 		margin-right: 5px;
 		height: max-content;
 	}
-	.dropdown-list {
-		/* margin-left: 180px; */
-		/* position: absolute; */
-		/* z-index: 9999; */
+	/* .dropdown-list {
+		margin-left: 180px;
+		position: absolute;
+		z-index: 9999;
 	}
 	.list-btn-dropdown {
 		background: var(--secondary);
@@ -292,7 +296,7 @@
 		cursor: pointer;
 		width: 100%;
 		height: 30px;
-	}
+	} */
 	.summary {
 		min-height: 200px;
 	}
