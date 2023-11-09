@@ -1,8 +1,7 @@
 import {
 	formatDetails,
 	anilistUrl,
-	detailsQueryIdMal,
-	watchListQuery
+	detailsQueryIdMal
 } from '$lib/providers/anilist/utils';
 import { apiUrl, proxyUrl } from '$lib/utils';
 import { ANIME } from '@consumet/extensions';
@@ -32,35 +31,12 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const episode = url.searchParams.get('episode');
+		const episode = url.searchParams.get('episode') || 1;
 		const page = Math.ceil(episode / 100);
 		const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 		const episodes = await episodesResp.json();
 		return episodes;
 	};
-
-	const fetchAnimeList = async () => {
-		try {
-			const animeList = await locals.pb
-				.collection('lists')
-				.getFirstListItem(`animeId="${params.idMal}"`);
-			return animeList;
-		} catch (error) {
-			return null;
-		}
-	};
-
-	const fetchContinueWatching = async () => {
-		try {
-			const continueWatching = await locals.pb
-				.collection('continue_watching')
-				.getFirstListItem(`animeId="${params.idMal}"`);
-			return continueWatching;
-		} catch (error) {
-			return null;
-		}
-	};
-
 	const fetchEpisodeSources = async () => {
 		const episodeId = url.searchParams.get('episodeId');
 		const gogoanime = new ANIME.Gogoanime();
@@ -81,15 +57,12 @@ export async function load({ params, fetch, locals, url }) {
 		return sources;
 	};
 	const anime = {
-		animeList: fetchAnimeList(),
-		continueWatching: fetchContinueWatching(),
 		details: fetchAnilistDetails(),
-		episodesSources: fetchEpisodeSources(),
-		episodesList: fetchEpisodes()
-		// streamed: {
-		// }
+		episodeSources: fetchEpisodeSources(),
+		streamed: {
+			episodesList: fetchEpisodes()
+		}
 	};
 
 	return anime;
 }
-
