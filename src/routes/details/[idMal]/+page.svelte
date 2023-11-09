@@ -94,7 +94,7 @@
 									<a
 										href={`
 										/watch/${details.idMal}
-										?episode=1&episodeId=${value.data.filter((e) => e.number == 1)[0].episodeIdSub}`}
+										?episode=1&episodeId=${value.data.sort((a, b) => a.number - b.number)[0].episodeIdSub}`}
 										class="watch-btn"
 									>
 										Watch Now
@@ -298,7 +298,7 @@
 		height: 30px;
 	} */
 	.summary {
-		min-height: 200px;
+		/* min-height: 200px; */
 	}
 	@media (max-width: 850px) {
 		.content-top {
