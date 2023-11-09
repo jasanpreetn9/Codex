@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	const { results, page, params, user } = data;
+	$: ({ results, page, params, user } = data);
 	import { PosterCardList } from '$lib/components';
 </script>
 

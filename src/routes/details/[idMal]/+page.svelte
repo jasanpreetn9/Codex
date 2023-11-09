@@ -91,8 +91,7 @@
 						 {:else}
 							 {#await streamed then value}
 							 <a
-							 href={`/watch/${details.idMal}?episode=1&episodeId=${value[0]?.episodeIdDub ?? value[0]?.episodeIdSub
-							 }`}
+							 href={`/watch/${details.idMal}?episode=1&`}
 							 class="watch-btn"
 						 >
 							 Watch Now
