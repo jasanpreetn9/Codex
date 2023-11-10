@@ -32,6 +32,7 @@
 		"npm": "^9.8.1",
 		"pocketbase": "^0.17.2",
 		"siema": "^1.5.1",
+		"string-strip-html": "^13.4.3",
 		"zod": "^3.22.2"
 	}
 }

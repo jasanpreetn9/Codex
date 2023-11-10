@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, watch } from 'svelte';
 	import Hls from 'hls.js';
 	import Artplayer from 'artplayer';
 	export let data;
@@ -18,7 +18,7 @@
 			hls.attachMedia(video);
 			art.hls = hls;
 			art.on('destroy', () => hls.destroy());
-		} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+		} else if (video.canPlayType('application/vnd.apple.m3u8')) {
 			video.src = url;
 		} else {
 			art.notice.show = 'Unsupported playback format: m3u8';
@@ -44,6 +44,8 @@
 					m3u8: playM3u8
 				}
 			});
+		} else {
+			artplayer.switchUrl(episodeSources.filter((ep) => ep.default == true)[0].url);
 		}
 	}
 
@@ -55,31 +57,35 @@
 		initPlayer();
 	});
 
-	function handleUrlChange(node) {
-		return {
-			update() {
-				const newEpisode = $page.url.searchParams.get('episode');
-				if (newEpisode !== currentEpisode) {
-					currentEpisode = newEpisode;
-					initPlayer();
-				}
-			}
-		};
+	function handleUrlChange() {
+		const newEpisode = $page.url.searchParams.get('episode');
+		if (newEpisode !== currentEpisode) {
+			currentEpisode = newEpisode;
+			initPlayer();
+		}
 	}
+
+	watch($page.url, handleUrlChange);
 </script>
 
 <div class="container">
-	<div class="artplayer-container" use:handleUrlChange />
-	<div class="summary">
-		<h1 class="anime-title">
-			{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
-		</h1>
+	<div class="artplayer-container" />
+	{#await streamed.episodesList}
+        <!-- streamed. is pending -->
+    {:then _}
+    <div class="summary">
+        <h1 class="anime-title">
+            {currentEpisode}
+        </h1>
 
-		<h1 class="anime-title-native">{details.title.native}</h1>
-		<p class="anime-des">
-			{details.description}
-		</p>
-	</div>
+        <h1 class="anime-title-native">{details.title.native}</h1>
+        <p class="anime-des">
+            {details.description}
+        </p>
+    </div>
+    {:catch error}
+        <!-- streamed. was rejected -->
+    {/await}
 </div>
 
 {#await streamed.episodesList}

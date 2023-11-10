@@ -1,3 +1,4 @@
+import { stripHtml } from "string-strip-html";
 import { redis } from '$lib/server/redis';
 import { serializeNonPOJOs } from '$lib/utils';
 import { homeQuery,anilistUrl } from '$lib/providers/anilist/utils';
@@ -28,7 +29,7 @@ export async function load({ locals, fetch }) {
 								// Remove <b>, </b>, <i>, and </i> tags from description
 								return {
 									...slide,
-									description: slide.description.replace(/<[^>]*>/g, '')
+									description: stripHtml(slide.description).result,
 								};
 							})
 							.filter((anime) => anime?.bannerImage !== null) || [],

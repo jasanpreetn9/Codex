@@ -1,3 +1,5 @@
+import { stripHtml } from "string-strip-html";
+
 export const anilistUrl = 'https://graphql.anilist.co/';
 
 export const formatDetails = (media) => {
@@ -38,15 +40,7 @@ export const formatDetails = (media) => {
 	media.endDate = formatDate(media?.endDate);
 
 	// Remove HTML tags and trim description
-	media.description = media?.description
-		.replaceAll('<br>', '')
-		.replaceAll('</br>', '')
-		.replaceAll('<i>', '')
-		.replaceAll('</i>', '')
-		.replace(/<br\s*\/?>/gi, '')
-		.replace(/&lt;br&gt;/g, '')
-		.replace(/\<br\>/g, '')
-		.trim();
+	media.description = stripHtml(media?.description).result;
 
 	// Extract and format recommendations
 	const recommendations = media?.recommendations?.edges?.map(
