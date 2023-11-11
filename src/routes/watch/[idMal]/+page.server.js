@@ -1,8 +1,4 @@
-import {
-	formatDetails,
-	anilistUrl,
-	detailsQueryIdMal
-} from '$lib/providers/anilist/utils';
+import { formatDetails, anilistUrl, detailsQueryIdMal } from '$lib/providers/anilist/utils';
 import { apiUrl, proxyUrl } from '$lib/utils';
 import { ANIME } from '@consumet/extensions';
 
@@ -35,7 +31,8 @@ export async function load({ params, fetch, locals, url }) {
 		const page = Math.ceil(episode / 100);
 		const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 		const episodes = await episodesResp.json();
-		return episodes;
+		const currentEpisode = episodes.data.filter((ep) => ep.number == episode)[0];
+		return {episodes,currentEpisode};
 	};
 	const fetchEpisodeSources = async () => {
 		const episodeId = url.searchParams.get('episodeId');

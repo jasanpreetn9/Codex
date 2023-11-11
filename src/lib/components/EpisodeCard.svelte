@@ -14,7 +14,7 @@
 <div class="header">
 	<h1 class="title">{header}</h1>
 	{#if filter}
-	{@const currentPage = $page.url.searchParams.get('page') || 1}	
+		{@const currentPage = $page.url.searchParams.get('page') || 1}
 		<div class="right-container">
 			<div class="switch-block" />
 			{#if pagination.last_visible_page > 1}
@@ -22,19 +22,21 @@
 					<a
 						data-sveltekit-noscroll
 						href={$page.url.pathname +
+							$page.url.search +
 							'?page=' +
 							(parseInt(currentPage) - 1 > 0 ? parseInt(currentPage) - 1 : currentPage)}>&laquo;</a
 					>
 					{#each { length: pagination.last_visible_page } as item, i}
 						<a
 							data-sveltekit-noscroll
-							href={$page.url.pathname + '?page=' + (i + 1)}
+							href={$page.url.pathname + $page.url.search + '?page=' + (i + 1)}
 							class={currentPage == i + 1 ? 'active' : ''}>{i + 1}</a
 						>
 					{/each}
 					<a
 						data-sveltekit-noscroll
 						href={$page.url.pathname +
+							$page.url.search +
 							'?page=' +
 							(parseInt(currentPage) + 1 <= pagination.last_visible_page
 								? parseInt(currentPage) + 1

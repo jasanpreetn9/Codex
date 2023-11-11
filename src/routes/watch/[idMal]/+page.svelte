@@ -1,16 +1,14 @@
 <script>
-	import { onMount, watch } from 'svelte';
+	import { onMount } from 'svelte';
 	import Hls from 'hls.js';
 	import Artplayer from 'artplayer';
 	export let data;
-	import { EpisodeCard } from '$lib/components';
+	import { EpisodeCard, GradientBackground } from '$lib/components';
 	import { page } from '$app/stores';
 	import { afterUpdate } from 'svelte';
 	$: ({ details, streamed, episodeSources } = data);
 	let artplayer;
-	let currentEpisode = $page.url.searchParams.get('episode');
-	
-    function playM3u8(video, url, art) {
+	function playM3u8(video, url, art) {
 		if (Hls.isSupported()) {
 			if (art.hls) art.hls.destroy();
 			const hls = new Hls();
@@ -29,11 +27,10 @@
 			artplayer = new Artplayer({
 				container: '.artplayer-container',
 				url: episodeSources.filter((ep) => ep.default == true)[0].url,
-				autoplay: false,
+				quality: episodeSources,
+				autoplay: true,
 				pip: true,
 				autoSize: true,
-				setting: true,
-				aspectRatio: true,
 				fullscreen: true,
 				playsInline: true,
 				autoPlayback: true,
@@ -44,8 +41,6 @@
 					m3u8: playM3u8
 				}
 			});
-		} else {
-			artplayer.switchUrl(episodeSources.filter((ep) => ep.default == true)[0].url);
 		}
 	}
 
@@ -56,56 +51,58 @@
 	afterUpdate(() => {
 		initPlayer();
 	});
-
-	function handleUrlChange() {
-		const newEpisode = $page.url.searchParams.get('episode');
-		if (newEpisode !== currentEpisode) {
-			currentEpisode = newEpisode;
-			initPlayer();
-		}
+	function handleUrlChange(node) {
+		return {
+			update() {
+				const newEpisode = $page.url.searchParams.get('episode');
+				if (newEpisode !== currentEpisode) {
+					currentEpisode = newEpisode;
+					initPlayer();
+				}
+			}
+		};
 	}
-
-	watch($page.url, handleUrlChange);
 </script>
 
-<div class="container">
-	<div class="artplayer-container" />
-	{#await streamed.episodesList}
-        <!-- streamed. is pending -->
-    {:then _}
-    <div class="summary">
-        <h1 class="anime-title">
-            {currentEpisode}
-        </h1>
+<GradientBackground bannerImage={details.bannerImage}>
+	<div class="container">
+		<div class="container-top">
+			<div class="artplayer-container" use:handleUrlChange />
+			{#await streamed.episodesList then { currentEpisode }}
+				<div class="summary">
+					<h1 class="anime-title">
+						{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
+					</h1>
 
-        <h1 class="anime-title-native">{details.title.native}</h1>
-        <p class="anime-des">
-            {details.description}
-        </p>
-    </div>
-    {:catch error}
-        <!-- streamed. was rejected -->
-    {/await}
-</div>
-
-{#await streamed.episodesList}
-	Loading...
-{:then value}
-	{#if value}
-		<EpisodeCard
-			episodes={value.data}
-			pagination={value.pagination}
-			animeId={details.idMal}
-			scrollAble={false}
-			header={'Episodes'}
-			filter={true}
-			{page}
-			posterImg={details.coverImage?.extraLarge}
-		/>
-	{/if}
-{:catch error}
-	{error.message}
-{/await}
+					<h1 class="anime-title-native">{currentEpisode.number}: {currentEpisode.title}</h1>
+					<p class="anime-des">
+						{details.description}
+					</p>
+				</div>
+			{/await}
+		</div>
+		<div class="container-bottom">
+			{#await streamed.episodesList}
+				Loading...
+			{:then { episodes }}
+				{#if episodes}
+					<EpisodeCard
+						episodes={episodes.data}
+						pagination={episodes.pagination}
+						animeId={details.idMal}
+						scrollAble={true}
+						header={'Episodes'}
+						filter={true}
+						{page}
+						posterImg={details.coverImage?.extraLarge}
+					/>
+				{/if}
+			{:catch error}
+				{error.message}
+			{/await}
+		</div>
+	</div>
+</GradientBackground>
 
 <style>
 	.artplayer-container {
@@ -114,7 +111,31 @@
 		aspect-ratio: 16/9;
 	}
 	.container {
+		margin-left: 40px;
+	}
+	.container-top {
 		display: flex;
 		flex-direction: row;
+	}
+	.summary {
+		margin-left: 30px;
+	}
+	.anime-title {
+		text-transform: capitalize;
+		margin-top: 80px;
+		font-weight: 550;
+		font-size: 26px;
+	}
+	.anime-title-native {
+		font-size: 18px;
+		font-weight: 400;
+	}
+	.anime-des {
+		width: 94%;
+		line-height: 22px;
+		margin-top: 15px;
+		opacity: 0.8;
+		font-size: 14px;
+		margin-bottom: 15px;
 	}
 </style>
