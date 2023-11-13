@@ -11,7 +11,6 @@
 	let artplayer;
 	let currentEpisodeId = $page.url.searchParams.get('episodeId');
 
-
 	const urlParamsStore = derived(page, ($page) => ({
 		episodeId: $page.url.searchParams.get('episodeId'),
 		episodeNumber: $page.url.searchParams.get('episode') || 1
@@ -87,46 +86,58 @@
 </script>
 
 <GradientBackground bannerImage={details.bannerImage}>
-	<div class="container"  use:handleUrlChange>
+	<div class="container" use:handleUrlChange>
 		<div class="container-top">
 			<div class="artplayer-container" use:handleUrlChange />
 			{#await streamed?.episodesList then { currentEpisode }}
-			<div class="summary">
-				<h1 class="anime-title">
-					{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
-				</h1>
-				<h1 class="anime-title-native">{currentEpisode.number}: {currentEpisode.title}</h1>
-				<p>
-					{(currentEpisode.episodeIdSub == episodeId ? "Sub" : "Dub")}
-				</p>
-				<p class="anime-des">
-					{details.description}
-				</p>
-				<a use:handleUrlChange href={`/watch/${details.idMal}?episode=${currentEpisode.number}&episodeId=${currentEpisode.episodeIdSub}`} class={(currentEpisode.episodeIdSub == episodeId ? "active type-btn" : "type-btn")} target="_self">Sub</a>
-				{#if currentEpisode.episodeIdDub}
-				<a use:handleUrlChange href={`/watch/${details.idMal}?episode=${currentEpisode.number}&episodeId=${currentEpisode.episodeIdDub}`} class={(currentEpisode.episodeIdDub == episodeId ? "active type-btn" : "type-btn")} target="_self">Dub</a>
-				{/if}
-			</div>
+				<div class="summary">
+					<h1 class="anime-title">
+						{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
+					</h1>
+					<h1 class="anime-title-native">{currentEpisode.number}: {currentEpisode.title}</h1>
+					<p>
+						{currentEpisode.episodeIdSub == episodeId ? 'Sub' : 'Dub'}
+					</p>
+					<p class="anime-des">
+						{details.description}
+					</p>
+					<a
+						data-sveltekit-preload-data="hover"
+						use:handleUrlChange
+						href={`/watch/${details.idMal}?episode=${currentEpisode.number}&episodeId=${currentEpisode.episodeIdSub}`}
+						class={currentEpisode.episodeIdSub == episodeId ? 'active type-btn' : 'type-btn'}
+						target="_self">Sub</a
+					>
+					{#if currentEpisode.episodeIdDub}
+						<a
+							data-sveltekit-preload-data="hover"
+							use:handleUrlChange
+							href={`/watch/${details.idMal}?episode=${currentEpisode.number}&episodeId=${currentEpisode.episodeIdDub}`}
+							class={currentEpisode.episodeIdDub == episodeId ? 'active type-btn' : 'type-btn'}
+							target="_self">Dub</a
+						>
+					{/if}
+				</div>
 			{/await}
 		</div>
 		<div class="container-bottom">
 			{#await streamed?.episodesList}
-			Loading...
+				Loading...
 			{:then { episodes }}
-			{#if episodes}
-			<EpisodeCard
-				episodes={episodes.data}
-				pagination={episodes.pagination}
-				animeId={details.idMal}
-				scrollAble={true}
-				header={'Episodes'}
-				filter={true}
-				{page}
-				posterImg={details.coverImage?.extraLarge}
-			/>
-			{/if}
+				{#if episodes}
+					<EpisodeCard
+						episodes={episodes.data}
+						pagination={episodes.pagination}
+						animeId={details.idMal}
+						scrollAble={true}
+						header={'Episodes'}
+						filter={true}
+						{page}
+						posterImg={details.coverImage?.extraLarge}
+					/>
+				{/if}
 			{:catch error}
-			{error.message}
+				{error.message}
 			{/await}
 		</div>
 	</div>

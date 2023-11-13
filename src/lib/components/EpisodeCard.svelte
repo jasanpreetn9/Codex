@@ -1,6 +1,7 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination, page;
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
+	const currentPage = $page.url.searchParams.get('page') || 1
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -14,7 +15,6 @@
 <div class="header">
 	<h1 class="title">{header}</h1>
 	{#if filter}
-		{@const currentPage = $page.url.searchParams.get('page') || 1}
 		<div class="right-container">
 			<div class="switch-block" />
 			{#if pagination.last_visible_page > 1}
@@ -23,13 +23,13 @@
 						data-sveltekit-noscroll
 						href={$page.url.pathname +
 							$page.url.search +
-							'?page=' +
-							(parseInt(currentPage) - 1 > 0 ? parseInt(currentPage) - 1 : currentPage)}>&laquo;</a
+							(parseInt(currentPage) - 1 > 0 && !$page.url.searchParams.has('page') ? '&page=' + (parseInt(currentPage) - 1) : '')}
+						>&laquo;</a
 					>
 					{#each { length: pagination.last_visible_page } as item, i}
 						<a
 							data-sveltekit-noscroll
-							href={$page.url.pathname + $page.url.search + '?page=' + (i + 1)}
+							href={$page.url.pathname + $page.url.search + (!($page.url.searchParams.has('page')) ? '&page=' + (i + 1) : '')}
 							class={currentPage == i + 1 ? 'active' : ''}>{i + 1}</a
 						>
 					{/each}
@@ -37,10 +37,8 @@
 						data-sveltekit-noscroll
 						href={$page.url.pathname +
 							$page.url.search +
-							'?page=' +
-							(parseInt(currentPage) + 1 <= pagination.last_visible_page
-								? parseInt(currentPage) + 1
-								: currentPage)}>&raquo;</a
+							(parseInt(currentPage) + 1 <= pagination.last_visible_page && !$page.url.searchParams.has('page') ? '&page=' + (parseInt(currentPage) + 1) : '')}
+						>&raquo;</a
 					>
 				</div>
 			{/if}
@@ -64,7 +62,7 @@
 				<a
 					href={`/watch/${animeId ?? episode.animeId}?episode=${episode.number}&episodeId=${
 						episode.episodeIdSub
-					}`}
+					}&page=${currentPage}`}
 					data-sveltekit-prefetch="true"
 				>
 					<img src={episode.image || posterImg} alt="" />
