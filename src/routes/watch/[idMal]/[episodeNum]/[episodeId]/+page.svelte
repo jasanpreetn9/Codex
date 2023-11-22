@@ -7,6 +7,7 @@
 	import { derived } from 'svelte/store';
 	export let data;
 	const episodeId = $page.url.searchParams.get('episodeId');
+	console.log($page.params)
 	const { details, streamed, episodeSources } = data;
 	let artplayer;
 	let currentEpisodeId = $page.url.searchParams.get('episodeId');
@@ -146,7 +147,7 @@
 <style>
 	.artplayer-container {
 		width: 700px;
-		height: 500px;
+		height: 400px;
 		aspect-ratio: 16/9;
 	}
 	.container {

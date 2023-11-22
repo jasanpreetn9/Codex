@@ -9,8 +9,12 @@ import {
 } from '$lib/providers/anilist/utils';
 import { apiUrl, proxyUrl } from '$lib/utils';
 
-export async function load({ params, fetch, locals, url }) {
+export async function load({ params, fetch, locals, url,setHeaders }) {
 	const fetchAnilistDetails = async () => {
+		const cached = await redis.get(`anilist-details-${params.idMal}`);
+		if (cached) {
+			return JSON.parse(cached);
+		}
 		try {
 			const anilistResp = await fetch(proxyUrl + anilistUrl, {
 				method: 'POST',
@@ -23,9 +27,13 @@ export async function load({ params, fetch, locals, url }) {
 					variables: { id: params.idMal }
 				})
 			});
-
+			setHeaders({
+				age: anilistResp.headers.get('age'),
+				'cache-control': anilistResp.headers.get('cache-control')
+			});
 			const anilist = await anilistResp.json();
 			const formattedAnilist = formatDetails(anilist.data.Media);
+			redis.set(`anilist-details-${params.idMal}`, JSON.stringify(formattedAnilist), 'EX', 600);
 			return formattedAnilist;
 		} catch (error) {
 			throw new Error(error);
@@ -33,11 +41,20 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
+		const page = url.searchParams.get('page') || 1;
+		const cached = await redis.get(`gogoanime-episodes-${params.idMal}-${page}`);
+		if (cached) {
+			return JSON.parse(cached);
+		}
 		try {
-			const page = url.searchParams.get('page') || 1;
-			console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`)
+			// console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
+			// setHeaders({
+			// 	// age: episodesResp.headers.get('age'),
+			// 	'cache-control': episodesResp.headers.get('cache-control')
+			// });
 			const episodes = await episodesResp.json();
+			redis.set(`gogoanime-episodes-${params.idMal}-${page}`, JSON.stringify(episodes), 'EX', 600);
 			return episodes;
 		} catch (error) {
 			console.log(error);

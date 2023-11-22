@@ -27,15 +27,15 @@ export async function load({ params, fetch, locals, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const episode = url.searchParams.get('episode') || 1;
+		const episode = params.episodeNum;
 		const page = Math.ceil(episode / 100);
 		const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 		const episodes = await episodesResp.json();
 		const currentEpisode = episodes.data.filter((ep) => ep.number == episode)[0];
-		return {episodes,currentEpisode};
+		return { episodes, currentEpisode };
 	};
 	const fetchEpisodeSources = async () => {
-		const episodeId = url.searchParams.get('episodeId');
+		const episodeId = params.episodeId;
 		const gogoanime = new ANIME.Gogoanime();
 		const episodesSources = await gogoanime.fetchEpisodeSources(episodeId);
 		const sources = episodesSources.sources

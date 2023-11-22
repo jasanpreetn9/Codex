@@ -26,7 +26,6 @@ export async function load({ locals, fetch }) {
 					trendingAnimes:
 						data?.trending?.media
 							.map((slide) => {
-								// Remove <b>, </b>, <i>, and </i> tags from description
 								return {
 									...slide,
 									description: stripHtml(slide.description).result,
