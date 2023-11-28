@@ -1,4 +1,5 @@
 <script>
+	import loginImg from '$lib/images/login-img.png';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { Input, Alert } from '$lib/components';
@@ -34,7 +35,7 @@
 			<div class="left-box">
 				<h1>Welcome Back</h1>
 				<p class="head">Sign in to access your account.</p>
-				<img class="img" src="https://pnganime.com/web/images/l/luffy-gear-5-colored.png" alt="" />
+				<img class="img" src={loginImg} alt="" />
 			</div>
 			<div class="inputs">
 				<input type="hidden" label="redirectTo" name="redirectTo" value={$page.url.searchParams.get("redirectTo")}>

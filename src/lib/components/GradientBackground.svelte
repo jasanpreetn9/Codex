@@ -57,7 +57,7 @@
 		background: linear-gradient(to top, #0c111b, #0c111b00);
 	}
 	.content {
-		margin-top: 135px;
+		margin-top: 100px;
 		position: absolute;
 		width: 100%;
 		height: 100%;

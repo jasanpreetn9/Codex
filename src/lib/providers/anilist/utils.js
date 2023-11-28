@@ -1,4 +1,7 @@
-export const anilistUrl = "https://graphql.anilist.co/"
+import { stripHtml } from "string-strip-html";
+
+export const anilistUrl = 'https://graphql.anilist.co/';
+
 export const formatDetails = (media) => {
 	const relations = media?.relations?.edges
 		?.map((relation) => {
@@ -18,7 +21,7 @@ export const formatDetails = (media) => {
 	const studios = media?.studios?.edges?.map((studio) => studio.node.name).join(', ');
 
 	// Format airing date
-	if (media.nextAiringEpisode) {
+	if (media?.nextAiringEpisode) {
 		const airingDate = new Date(media.nextAiringEpisode.airingAt * 1000);
 		media.nextAiringEpisode.airingAt = airingDate.toDateString();
 	}
@@ -37,21 +40,12 @@ export const formatDetails = (media) => {
 	media.endDate = formatDate(media?.endDate);
 
 	// Remove HTML tags and trim description
-	media.description = media?.description
-        .replaceAll("<br>", "")
-        .replaceAll("</br>", "")
-        .replaceAll("<i>", "")
-        .replaceAll("</i>", "")
-		.replace(/<br\s*\/?>/gi, '')
-		.replace(/&lt;br&gt;/g, '')
-		.replace(/\<br\>/g, '')
-		.trim();
+	media.description = stripHtml(media?.description).result;
 
 	// Extract and format recommendations
 	const recommendations = media?.recommendations?.edges?.map(
 		(recommendation) => recommendation.node.mediaRecommendation
-	);
-
+	).filter((recommendation) => recommendation?.format.toLowerCase() !== 'manga');
 
 	// Update the media object with the formatted data
 	media.relations = relations;
@@ -113,11 +107,11 @@ export const homeQuery = `
 		genres
 	  }
 	}
-  }`
+  }`;
 
 export const detailsQuery = `
 query ($id: Int) {
-    Media(id: $id) {
+    Media(id: $id, format_not: MANGA) {
         id
         idMal
         title {
@@ -192,10 +186,10 @@ query ($id: Int) {
 }
 
 
-`
+`;
 export const detailsQueryIdMal = `
 query ($id: Int) {
-    Media(idMal: $id) {
+    Media(idMal: $id, format_not: MANGA) {
         id
         idMal
         title {
@@ -270,7 +264,7 @@ query ($id: Int) {
 }
 
 
-`
+`;
 
 export const searchQuery = `
 query ($page: Int, $search: String,  $size: Int) {
@@ -299,4 +293,4 @@ query ($page: Int, $search: String,  $size: Int) {
 	  }
 	}
   }
-  `
+  `;
