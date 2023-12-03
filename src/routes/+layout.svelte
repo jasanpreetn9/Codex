@@ -30,12 +30,12 @@
 <Toaster />
 <nav class="navbar">
 	<li class="nav-title"><a data-sveltekit-prefetch="true" href="/">コーデックス</a></li>
-	<ul class="nav-links">
+	<!-- <ul class="nav-links">
 		<li class="nav-items"><a href="/">Movies</a></li>
 		<li class="nav-items"><a href="/">TV series</a></li>
 		<li class="nav-items"><a href="/">My List</a></li>
 		<li class="nav-items"><a href="/">Most popular</a></li>
-	</ul>
+	</ul> -->
 
 	<div class="search-tools">
 		<form action="/search" method="POST" class="right-container">

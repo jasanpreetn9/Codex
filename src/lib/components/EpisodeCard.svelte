@@ -1,5 +1,6 @@
 <script>
 	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination, page;
+	console.log(episodes)
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	const currentPage = $page.url.searchParams.get('page') || 1
 	function reverseEpisodes() {
@@ -60,7 +61,7 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={`/watch/${animeId ?? episode.animeId}/${episode.number}/${episode.episodeIdSub}?page=${currentPage}`}
+					href={`/watch/${animeId ?? episode.animeId}/${episode.episodeIdSub}?page=${currentPage}`}
 					data-sveltekit-prefetch="true"
 				>
 					<img src={episode.image || posterImg} alt="" />
