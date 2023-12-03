@@ -21,7 +21,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@consumet/extensions": "^1.5.2",
+		"@Consumet/extensions": "github:consumet/consumet.ts",
 		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@vercel/analytics": "^1.0.2",
 		"artplayer": "^5.0.9",

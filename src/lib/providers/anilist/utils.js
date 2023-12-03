@@ -294,3 +294,36 @@ query ($page: Int, $search: String,  $size: Int) {
 	}
   }
   `;
+
+export const recentAiredQuery = `query($airing_lesser: Int, $perPage: Int){
+    Page(page: 1, perPage: $perPage) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+      }
+      # airingSchedules(notYetAired: false, airingAt_greater: 1701324000, airingAt_lesser: 1701410399) {
+      airingSchedules(airingAt_lesser: $airing_lesser,sort: TIME_DESC) {
+        airingAt
+        episode
+        media {
+          idMal
+          title {
+            romaji
+            english
+            userPreferred
+            native
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+          format
+        }
+      }
+    }
+  }
+  `

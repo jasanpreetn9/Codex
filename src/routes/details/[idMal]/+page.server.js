@@ -1,6 +1,4 @@
-import * as cheerio from 'cheerio';
 import { redis } from '$lib/server/redis';
-import { error } from '@sveltejs/kit';
 import {
 	formatDetails,
 	anilistUrl,
@@ -47,7 +45,7 @@ export async function load({ params, fetch, locals, url,setHeaders }) {
 			return JSON.parse(cached);
 		}
 		try {
-			// console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
+			console.log(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
 			// setHeaders({
 			// 	// age: episodesResp.headers.get('age'),
