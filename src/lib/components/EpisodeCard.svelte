@@ -1,8 +1,6 @@
 <script>
-	export let episodes, animeId, scrollAble, header, filter, posterImg, pagination, page;
-	console.log(episodes)
+	export let episodes, animeId, scrollAble, header, filter, posterImg;
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
-	const currentPage = $page.url.searchParams.get('page') || 1
 	function reverseEpisodes() {
 		episodes = episodes.slice().reverse();
 	}
@@ -18,9 +16,9 @@
 	{#if filter}
 		<div class="right-container">
 			<div class="switch-block" />
-			{#if pagination.last_visible_page > 1}
+			<!-- {#if pagination.last_visible_page > 1}
 				<div class="pagination">
-					<a
+			<a
 						data-sveltekit-noscroll
 						href={$page.url.pathname +
 							$page.url.search +
@@ -40,9 +38,9 @@
 							$page.url.search +
 							(parseInt(currentPage) + 1 <= pagination.last_visible_page && !$page.url.searchParams.has('page') ? '&page=' + (parseInt(currentPage) + 1) : '')}
 						>&raquo;</a
-					>
+					> 
 				</div>
-			{/if}
+			{/if} -->
 
 			<button class="filter" on:click={toggleFilter}>
 				<Icon
@@ -61,10 +59,10 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={`/watch/${animeId ?? episode.animeId}/${episode.episodeIdSub}?page=${currentPage}`}
+					href={`/watch/${animeId ?? episode.animeId}/${episode.id}`}
 					data-sveltekit-prefetch="true"
 				>
-					<img src={episode.image || posterImg} alt="" />
+					<img src={episode.image || posterImg} loading="lazy" alt="" />
 					{#if episode.duration}
 						<div class="progress-background">
 							<div

@@ -1,26 +1,12 @@
 <script>
-	export let data;
 	import '$lib/global.css';
 	import { Toaster } from 'svelte-french-toast';
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
-	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
-	import { logo, userNavigation } from '$lib/utils';
+	import { Icon, MagnifyingGlass } from 'svelte-hero-icons';
+	import { logo } from '$lib/utils';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	inject({ mode: dev ? 'development' : 'production' });
 	let inputValue = '';
-	let menuOpen = false;
-	function handleMenuOpen() {
-		menuOpen = !menuOpen;
-		document.body.addEventListener('click', handleMenuClose);
-	}
-	function handleMenuClose() {
-		menuOpen = false;
-		document.body.removeEventListener('click', handleMenuClose);
-	}
-
-	let icon = null;
 </script>
 
 <svelte:head>
@@ -52,52 +38,6 @@
 				/>
 			</div>
 		</form>
-		<!-- <div>
-			{#if !data?.user}
-				<a class="login" href={"/login?redirectTo=" + $page.url.pathname + $page.url.search}> Login </a>
-			{:else if data?.user}
-				<button class="container" on:click|stopPropagation={handleMenuOpen}>
-					<img
-						class="avatar-btn"
-						src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
-						alt=""
-					/>
-				</button>
-				{#if menuOpen}
-					<div class="dropdown-content" on:click|stopPropagation={() => {}}>
-						<img
-							class="avatarDropdown"
-							src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
-							alt="avatar"
-						/>
-						<h1 class="username">{data.user?.username}</h1>
-
-						<h2 class="email">{data.user?.email}</h2>
-						<span class="lineSeparate" />
-						<ul class="settingOptions">
-							{#each userNavigation as navItem}
-								<li class="navItem">
-									<a class="navItem" href={navItem.href}
-										><Icon
-											style={'margin-left: 10px; margin-right: 10px; margin-bottom: 30px'}
-											src={navItem.icon}
-											size="22px"
-										/><p class="title">{navItem.title}</p></a
-									>
-								</li>
-							{/each}
-						</ul>
-						<span class="lineSeparate" />
-						<form action="/logout" method="POST">
-							<button class="signOut" type="submit">
-								<Icon src={ArrowRightOnRectangle} size="22px" />
-								Logout
-							</button>
-						</form>
-					</div>
-				{/if}
-			{/if}
-		</div> -->
 	</div>
 </nav>
 
@@ -105,18 +45,6 @@
 	<slot />
 </main>
 
-<!-- <footer class="footer">
-	<div class="footer-logo">コーデックス</div>
-	<div class="footer-links">
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/">Browse</a></li>
-			<li><a href="/">Categories</a></li>
-			<li><a href="/">My List</a></li>
-			<li><a href="/">Account</a></li>
-		</ul>
-	</div>
-</footer> -->
 
 <style>
 	a {
@@ -164,99 +92,7 @@
 		gap: 0 20px;
 		z-index: 100;
 	}
-	/* .settingOptions {
-		display: flex;
-		flex-direction: column;
-		margin: 0;
-		padding: 10px 0px;
-		font-size: 15px;
-		color: white;
-
-		align-items: flex-start;
-	}
-	.settingOptions li {
-		display: flex;
-		align-items: center;
-		padding: 0;
-	}
-	.settingOptions a {
-		padding-left: 10px;
-	}
-	.dropdown-content h1 {
-		position: relative;
-	}
-	.login {
-		color: white;
-		font-weight: 500;
-		padding: 10px 14px;
-		display: flex;
-		justify-content: center;
-		border-radius: 5px;
-		font-size: 15px;
-		background: var( --primary);
-	}
-	.dropdown-content {
-		position: absolute;
-		top: 100%;
-		right: 50px;
-		background: var(--secondary);
-		border-radius: 8px;
-		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-		z-index: 10;
-		flex-direction: column;
-		width: 250px;
-		height: 350px;
-	} */
-	/* .dropdown-content .username {
-		position: absolute;
-		top: 8px;
-		left: 60px;
-	}
-	.dropdown-content .email {
-		color: gray;
-		font-weight: 300;
-		font-size: 15px;
-		position: absolute;
-		left: 60px;
-		top: 40px;
-	}
-	.signOut {
-		display: flex;
-		align-items: flex-start;
-		padding: 20px;
-		font-size: 15px;
-		background: transparent;
-		border: none;
-		color: white;
-	} */
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
-	/* span {
-		display: block;
-		width: 90%;
-		border: 1px solid gray;
-		border-width: 1px;
-		margin-left: 13px;
-		border-radius: 20px;
-		position: relative;
-	}
-	.avatarDropdown {
-		width: 35px;
-		border-radius: 50%;
-		display: flex;
-		position: relative;
-		margin: 15px;
-	}
-
-	.dropdown-content a {
-		color: white;
-		text-decoration: none;
-		padding: 0;
-		font-size: 14px;
-	} */
-
+/* 	
 	.nav-links {
 		margin-top: 10px;
 		display: flex;
@@ -269,7 +105,7 @@
 		text-transform: capitalize;
 		color: #fff;
 		opacity: 0.9;
-	}
+	} */
 	.nav-title {
 		margin-top: 2px;
 		display: flex;
@@ -337,23 +173,4 @@
 			width: 168px;
 		}
 	}
-	/* .container {
-		display: flex;
-		border: none;
-		border-radius: 100%;
-		color: white;
-		cursor: pointer;
-	}
-	.avatar-btn {
-		width: 36px;
-		border-radius: 50%;
-	}
-
-	.username {
-		padding: 0;
-		margin-top: 9px;
-		font-size: 15px;
-		font-weight: 600;
-		text-transform: capitalize;
-	} */
 </style>

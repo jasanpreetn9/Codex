@@ -1,6 +1,6 @@
 import { formatDetails, anilistUrl, detailsQueryIdMal } from '$lib/providers/anilist/utils';
 import { apiUrl, proxyUrl } from '$lib/utils';
-import { ANIME } from '@consumet/extensions';
+import { ANIME } from '@Consumet/extensions'; // Fix casing issue here
 
 export async function load({ params, fetch, locals, url }) {
 	const fetchAnilistDetails = async () => {
@@ -28,33 +28,32 @@ export async function load({ params, fetch, locals, url }) {
 
 	const fetchEpisodes = async () => {
 		const episodeId = params.episodeId;
-		console.log(episodeId)
-		// const episode = params.episodeNum;
-		// const page = Math.ceil(episode / 100);
-		// const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}?page=${page}`);
-		// const episodes = await episodesResp.json();
-		// const currentEpisode = episodes.data.filter((ep) => ep.number == episode)[0];
-		// return { episodes, currentEpisode };
+		console.log(episodeId);
+
 		return { episodes: [], currentEpisode: {} };
 	};
 	const fetchEpisodeSources = async () => {
-		const episodeId = params.episodeId;
-		const gogoanime = new ANIME.Gogoanime();
-		const episodesSources = await gogoanime.fetchEpisodeSources(episodeId);
-		const sources = episodesSources.sources
-			.filter((source) => source.quality !== 'default' && source.quality !== 'backup')
-			.map((source) => {
-				return {
-					url: source.url,
-					quality: parseInt(source.quality.replace('p', '')),
-					html: source.quality
-				};
-			});
-		const highestQuality = sources.reduce((max, source) =>
-			source.quality > max.quality ? source : max
-		);
-		highestQuality.default = true;
-		return sources;
+		const zoro = new ANIME.Zoro();
+		const sources = await zoro.fetchEpisodeSources(params.episodeId);
+		console.log(sources)
+		// const episodeId = params.episodeId;
+		// const gogoanime = new ANIME.Gogoanime();
+		// const episodesSources = await gogoanime.fetchEpisodeSources(episodeId);
+		// const sources = episodesSources.sources
+		// 	.filter((source) => source.quality !== 'default' && source.quality !== 'backup')
+		// 	.map((source) => {
+		// 		return {
+		// 			url: source.url,
+		// 			quality: parseInt(source.quality.replace('p', '')),
+		// 			html: source.quality
+		// 		};
+		// 	});
+		// const highestQuality = sources.reduce((max, source) =>
+		// 	source.quality > max.quality ? source : max
+		// );
+		// highestQuality.default = true;
+		// return sources;
+		return [0];
 	};
 	const anime = {
 		details: fetchAnilistDetails(),

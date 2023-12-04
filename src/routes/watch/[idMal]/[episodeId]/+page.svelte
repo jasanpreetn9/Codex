@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import { onMount, onDestroy } from 'svelte';
 	import Hls from 'hls.js';
 	import Artplayer from 'artplayer';
@@ -196,4 +196,7 @@
 	.active {
 		background: var(--primary);
 	}
-</style>
+</style> -->
+
+
+Watch page

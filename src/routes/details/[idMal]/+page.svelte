@@ -1,18 +1,7 @@
 <script>
 	export let data;
-	$: ({ animeList, details, continueWatching, streamed, user } = data);
-	import { page } from '$app/stores';
-	import { Icon, ChevronDown } from 'svelte-hero-icons';
-	import { EpisodeCard, PosterCardList, GradientBackground } from '$lib/components';
-	let menuOpen = false;
-	function handleMenuOpen() {
-		menuOpen = !menuOpen;
-		document.body.addEventListener('click', handleMenuClose);
-	}
-	function handleMenuClose() {
-		menuOpen = false;
-		document.body.removeEventListener('click', handleMenuClose);
-	}
+	$: ({ details, episodesList } = data);
+	import { EpisodeCard, PosterCardList, GradientBackground } from '$lib/components';	
 </script>
 
 <GradientBackground bannerImage={details.bannerImage}>
@@ -20,12 +9,12 @@
 		<div class="content-left">
 			<img class="poster" src={details.coverImage?.extraLarge} alt="" />
 			<div class="details">
-				<!-- {#if details?.nextAiringEpisode}
+				{#if details?.nextAiringEpisode}
 					<div class="detail-item">
 						<p>Next Airing Episode</p>
 						<span>{details?.nextAiringEpisode.airingAt}</span>
 					</div>
-				{/if} -->
+				{/if}
 				<div class="detail-item">
 					<p>Format</p>
 					<span>{details.format?.toLowerCase()}</span>
@@ -38,7 +27,7 @@
 				{#if details.format?.toLowerCase() !== 'movie'}
 					<div class="detail-item">
 						<p>Episodes</p>
-						<!-- <span>{episodesList?.length}</span> -->
+						<span>{episodesList?.length}</span>
 					</div>
 				{/if}
 				<div class="detail-item">
@@ -75,102 +64,17 @@
 				<p class="anime-des">
 					{details.description}
 				</p>
-				{#if details.format.toLowerCase() !== 'manga'}
-					<div class="btn-container">
-						{#if continueWatching}
-							<a
-								href={`/watch/${details.idMal}?episode=${continueWatching?.number}&episodeId=${
-									continueWatching?.watchDub
-										? continueWatching?.episodeIdDub
-										: continueWatching?.episodeIdSub
-								}`}
-								class="watch-btn"
-							>
-								{'Continue Watching Ep: ' + continueWatching.number}
-							</a>
-						{:else}
-							{#await streamed.episodesList then value}
-								{#if value}
-									<a
-										href={`
-										/watch/${details.idMal}
-										?episode=1&episodeId=${value.data.sort((a, b) => a.number - b.number)[0].episodeIdSub}`}
-										class="watch-btn"
-									>
-										Watch Now
-									</a>
-								{/if}
-							{/await}
-						{/if}
-						<!-- {#if user}
-							 <div class="dropdown-list">
-								 <button class="list-btn-dropdown" on:click|stopPropagation={handleMenuOpen}>
-									 {animeList?.listType ?? 'Add to list'}
-									 <Icon
-										 src={ChevronDown}
-										 size="16"
-										 style="margin-left: 5px;{menuOpen ? 'transform: scaleY(-1);' : ''}"
-									 />
-								 </button>
-								 {#if menuOpen}
-									 <div class="list-btn-dropdown-list" on:click|stopPropagation={() => {}}>
-										 <form action="?/addToList" method="post">
-											 <input type="hidden" name="listType" value="watching" />
-											 <input type="hidden" name="animeId" value={details.id} />
-											 <input type="hidden" name="databaseId" value={animeList.id ?? ''} />
-											 <button type="submit" name="watching">Watching</button>
-										 </form>
-										 <form action="?/addToList" method="post">
-											 <input type="hidden" name="listType" value="on-hold" />
-											 <input type="hidden" name="animeId" value={details.id} />
-											 <input type="hidden" name="databaseId" value={animeList.id ?? ''} />
-											 <button type="submit" name="on-hold">On-Hold</button>
-										 </form>
-										 <form action="?/addToList" method="post">
-											 <input type="hidden" name="listType" value="plan-to-watch" />
-											 <input type="hidden" name="animeId" value={details.id} />
-											 <input type="hidden" name="databaseId" value={animeList.id ?? ''} />
-											 <button type="submit" name="plan-to-watch">Plan To Watch</button>
-										 </form>
-										 <form action="?/addToList" method="post">
-											 <input type="hidden" name="listType" value="dropped" />
-											 <input type="hidden" name="animeId" value={details.id} />
-											 <input type="hidden" name="databaseId" value={animeList.id ?? ''} />
-											 <button type="submit" name="dropped">Dropped</button>
-										 </form>
-										 <form action="?/addToList" method="post">
-											 <input type="hidden" name="listType" value="completed" />
-											 <input type="hidden" name="animeId" value={details.id} />
-											 <input type="hidden" name="databaseId" value={animeList.id ?? ''} />
-											 <button type="submit" name="completed">Completed</button>
-										 </form>
-									 </div>
-								 {/if}
-							 </div>
-						 {/if} -->
-					</div>
-				{/if}
+
+				<a href={`/watch/${details.idMal}`} class="watch-btn"> Watch Now </a>
 			</div>
-			{#if details.format?.toLowerCase() !== 'movie'}
-				{#await streamed.episodesList}
-					Loading...
-				{:then value}
-					{#if value}
-						<EpisodeCard
-							episodes={value.data}
-							pagination={value.pagination}
-							animeId={details.idMal}
-							scrollAble={true}
-							header={'Episodes'}
-							filter={true}
-							{page}
-							posterImg={details.coverImage?.extraLarge}
-						/>
-					{/if}
-				{:catch error}
-					{error.message}
-				{/await}
-			{/if}
+			<EpisodeCard
+				episodes={episodesList}
+				animeId={details.idMal}
+				scrollAble={true}
+				header={'Episodes'}
+				filter={true}
+				posterImg={details.coverImage?.extraLarge}
+			/>
 			<PosterCardList animes={details.recommendations} heading={'Recommended'} />
 		</div>
 	</div>
@@ -242,11 +146,6 @@
 		font-size: 14px;
 		margin-bottom: 15px;
 	}
-	.btn-container {
-		display: flex;
-		flex-direction: row;
-		margin-top: 20px;
-	}
 	.watch-btn {
 		background: var(--primary);
 		padding: 10px;
@@ -260,45 +159,6 @@
 		cursor: pointer;
 		margin-right: 5px;
 		height: max-content;
-	}
-	/* .dropdown-list {
-		margin-left: 180px;
-		position: absolute;
-		z-index: 9999;
-	}
-	.list-btn-dropdown {
-		background: var(--secondary);
-		padding: 10px;
-		color: #fff;
-		border-radius: 5px;
-		border: none;
-		outline: none;
-		font-weight: 700;
-		font-size: 12px;
-		cursor: pointer;
-		text-transform: capitalize;
-		display: flex;
-	}
-	.list-btn-dropdown-list {
-		display: flex;
-		flex-direction: column;
-		z-index: 1;
-		gap: 10px;
-		margin-top: 7px;
-	}
-	.list-btn-dropdown-list form button {
-		background-color: transparent;
-		background-color: var(--secondary);
-		color: white;
-		border: none;
-		padding: 5px;
-		border-radius: 5px;
-		cursor: pointer;
-		width: 100%;
-		height: 30px;
-	} */
-	.summary {
-		/* min-height: 200px; */
 	}
 	@media (max-width: 850px) {
 		.content-top {

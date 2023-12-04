@@ -1,8 +1,7 @@
 import { stripHtml } from 'string-strip-html';
 import { redis } from '$lib/server/redis';
-import { serializeNonPOJOs } from '$lib/utils';
-import { homeQuery, anilistUrl, recentAiredQuery } from '$lib/providers/anilist/utils';
-export async function load({ locals, fetch }) {
+import { homeQuery, anilistUrl } from '$lib/providers/anilist/utils';
+export async function load() {
 	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get('anilist-trending-popular');
@@ -40,35 +39,7 @@ export async function load({ locals, fetch }) {
 			throw new Error(error);
 		}
 	};
-	const fetchContinueWatching = async () => {
-		if (locals.pb.authStore.isValid) {
-			const userId = locals.pb.authStore.baseModel.id;
-			try {
-				const lists = serializeNonPOJOs(
-					await locals.pb.collection('continue_watching').getFullList(undefined, {
-						filter: `user = "${userId}"`
-					})
-				);
-				return {
-					authStore: {
-						isValid: true
-					},
-					list: lists
-				};
-			} catch (err) {
-				console.log('Error: ', err);
-				throw Error(err.status, err.message);
-			}
-		} else {
-			return {
-				authStore: {
-					isValid: false
-				}
-			};
-		}
-	};
 	return {
-		anilist: fetchAnilist(),
-		continueWatching: fetchContinueWatching(),
+		anilist: fetchAnilist()
 	};
 }
