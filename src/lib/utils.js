@@ -2,7 +2,7 @@ import { AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
 import logo from '$lib/images/logo.png';
 export { logo };
 export const proxyUrl = 'https://proxy.jasanpreetn9.workers.dev/?';
-export const apiUrl = "https://codex-api.jasanpreetn9.workers.dev"
+export const apiUrl = "https://anime-api-tau.vercel.app"
 export const serializeNonPOJOs = (obj) => {
 	return structuredClone(obj);
 };
