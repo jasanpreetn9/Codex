@@ -1,7 +1,7 @@
 import { stripHtml } from 'string-strip-html';
 import { redis } from '$lib/server/redis';
 import { homeQuery, anilistUrl } from '$lib/providers/anilist/utils';
-export async function load({ locals, fetch }) {
+export async function load() {
 	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get('anilist-trending-popular');
