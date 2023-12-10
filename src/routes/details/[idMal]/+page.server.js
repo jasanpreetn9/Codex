@@ -1,13 +1,8 @@
 import { redis } from '$lib/server/redis';
-import {
-	formatDetails,
-	anilistUrl,
-	detailsQueryIdMal,
-	watchListQuery
-} from '$lib/providers/anilist/utils';
+import { formatDetails, anilistUrl, detailsQueryIdMal } from '$lib/providers/anilist/utils';
 import { apiUrl, proxyUrl } from '$lib/utils';
 
-export async function load({ params, fetch, locals, url,setHeaders }) {
+export async function load({ params, fetch, locals, url, setHeaders }) {
 	const fetchAnilistDetails = async () => {
 		const cached = await redis.get(`anilist-details-${params.idMal}`);
 		if (cached) {
@@ -39,12 +34,11 @@ export async function load({ params, fetch, locals, url,setHeaders }) {
 	};
 
 	const fetchEpisodes = async () => {
-		// const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
-		// if (cached) {
-		// 	return JSON.parse(cached);
-		// }
+		const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
+		if (cached) {
+			return JSON.parse(cached);
+		}
 		try {
-			console.log(`${apiUrl}/episodes/${params.idMal}`);
 			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}`);
 			const episodes = await episodesResp.json();
 			redis.set(`gogoanime-episodes-${params.idMal}`, JSON.stringify(episodes), 'EX', 600);
@@ -55,14 +49,10 @@ export async function load({ params, fetch, locals, url,setHeaders }) {
 		}
 	};
 
-
 	const anime = {
 		details: fetchAnilistDetails(),
 		episodesList: fetchEpisodes()
-		// streamed: {
-		// }
 	};
 
 	return anime;
 }
-

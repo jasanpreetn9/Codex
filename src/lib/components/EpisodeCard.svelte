@@ -59,7 +59,7 @@
 		{#each episodes as episode}
 			<div class="video-card">
 				<a
-					href={`/watch/${animeId ?? episode.animeId}/${episode.id}`}
+					href={`/watch/${animeId ?? episode.animeId}/${episode.gogoanime.sub}`}
 					data-sveltekit-prefetch="true"
 				>
 					<img src={episode.image || posterImg} loading="lazy" alt="" />
@@ -121,7 +121,7 @@
 	.switch-block {
 		width: 300px;
 	}
-	.pagination {
+	/* .pagination {
 		padding-top: 13px;
 		display: inline-block;
 	}
@@ -138,7 +138,7 @@
 		background-color: var(--primary);
 		color: white;
 		border-radius: 5px;
-	}
+	} */
 
 	.pagination a:hover:not(.active) {
 		background-color: var(--secondary);

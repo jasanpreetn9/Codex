@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	$: ({ details, episodesList } = data);
-	import { EpisodeCard, PosterCardList, GradientBackground } from '$lib/components';	
+	import { EpisodeCard, PosterCardList, GradientBackground } from '$lib/components';
 </script>
 
 <GradientBackground bannerImage={details.bannerImage}>
@@ -93,6 +93,9 @@
 		margin-top: 10px;
 		margin-left: 30px;
 		width: 100%;
+	}
+	.summary {
+		margin-bottom: 20px;
 	}
 	.poster {
 		width: 220px;

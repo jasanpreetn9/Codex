@@ -1,145 +1,110 @@
-<!-- <script>
-	import { onMount, onDestroy } from 'svelte';
-	import Hls from 'hls.js';
-	import Artplayer from 'artplayer';
-	import { EpisodeCard, GradientBackground } from '$lib/components';
-	import { page } from '$app/stores';
-	import { derived } from 'svelte/store';
-	export let data;
-	const episodeId = $page.url.searchParams.get('episodeId');
-	console.log($page.params)
-	const { details, streamed, episodeSources } = data;
-	let artplayer;
-	let currentEpisodeId = $page.url.searchParams.get('episodeId');
+<script>
+    export let data;
+    import { onMount, onDestroy } from 'svelte';
+    import Hls from 'hls.js';
+    import Artplayer from 'artplayer';
+    import { EpisodeCard, GradientBackground } from '$lib/components';
 
-	const urlParamsStore = derived(page, ($page) => ({
-		episodeId: $page.url.searchParams.get('episodeId'),
-		episodeNumber: $page.url.searchParams.get('episode') || 1
-	}));
+    // Destructuring the necessary properties from data
+    $: ({ details, allEpisodes, episodeSources, episodeId } = data);
+    $: ({ episodes, currentEpisode } = allEpisodes);
+    let artplayer;
 
-	urlParamsStore.subscribe(({ episodeId }) => {
-		if (episodeId !== currentEpisodeId) {
-			currentEpisodeId = episodeId;
-			initPlayer();
-		}
-	});
+    // Function to handle HLS streaming
+    function playM3u8(video, url, art) {
+        if (Hls.isSupported()) {
+            if (art.hls) art.hls.destroy();
+            const hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            art.hls = hls;
+            art.on('destroy', () => hls.destroy());
+        } else if (video.canPlayType('application/vnd.apple.m3u8')) {
+            video.src = url;
+        } else {
+            art.notice.show = 'Unsupported playback format: m3u8';
+        }
+    }
 
-	function playM3u8(video, url, art) {
-		if (Hls.isSupported()) {
-			if (art.hls) art.hls.destroy();
-			const hls = new Hls();
-			hls.loadSource(url);
-			hls.attachMedia(video);
-			art.hls = hls;
-			art.on('destroy', () => hls.destroy());
-		} else if (video.canPlayType('application/vnd.apple.m3u8')) {
-			video.src = url;
-		} else {
-			art.notice.show = 'Unsupported playback format: m3u8';
-		}
-	}
+    // Function to initialize the Artplayer
+    function initPlayer() {
+        artplayer = new Artplayer({
+            container: '.artplayer-container',
+            url: episodeSources?.filter((ep) => ep.default == true)[0]?.url,
+            quality: episodeSources,
+            autoplay: true,
+            pip: true,
+            autoSize: true,
+            fullscreen: true,
+            playsInline: true,
+            autoPlayback: true,
+            airplay: true,
+            theme: '#23ade5',
+            type: 'm3u8',
+            customType: {
+                m3u8: playM3u8
+            }
+        });
+    }
 
-	function initPlayer() {
-		if (!artplayer) {
-			artplayer = new Artplayer({
-				container: '.artplayer-container',
-				url: episodeSources?.filter((ep) => ep.default == true)[0]?.url,
-				quality: episodeSources,
-				autoplay: true,
-				pip: true,
-				autoSize: true,
-				fullscreen: true,
-				playsInline: true,
-				autoPlayback: true,
-				airplay: true,
-				theme: '#23ade5',
-				type: 'm3u8',
-				customType: {
-					m3u8: playM3u8
-				}
-			});
-		} else {
-			artplayer.switchUrl(episodeSources?.filter((ep) => ep.default == true)[0]?.url);
-		}
-	}
+    // Reactive statement to update the video URL when episodeSources changes
+    $: if (episodeSources && artplayer) {
+        artplayer.switchUrl(episodeSources.filter(ep => ep.default == true)[0]?.url);
+    }
 
-	onDestroy(() => {
-		if (artplayer) {
-			artplayer.destroy();
-		}
-	});
+    // Lifecycle hook for component mount
+    onMount(() => {
+        initPlayer();
+    });
 
-	onMount(() => {
-		initPlayer();
-	});
-
-	function handleUrlChange(node) {
-		return {
-			update() {
-				const { episodeId } = urlParamsStore.get();
-				if (episodeId !== currentEpisodeId) {
-					currentEpisodeId = episodeId;
-					initPlayer();
-				}
-			}
-		};
-	}
+    // Lifecycle hook for component destruction
+    onDestroy(() => {
+        if (artplayer) {
+            artplayer.destroy();
+        }
+    });
 </script>
 
+
 <GradientBackground bannerImage={details.bannerImage}>
-	<div class="container" use:handleUrlChange>
+	<div class="container">
 		<div class="container-top">
-			<div class="artplayer-container" use:handleUrlChange />
-			{#await streamed?.episodesList then { currentEpisode }}
-				<div class="summary">
-					<h1 class="anime-title">
-						{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
-					</h1>
-					<h1 class="anime-title-native">{currentEpisode.number}: {currentEpisode.title}</h1>
-					<p>
-						{currentEpisode.episodeIdSub == episodeId ? 'Sub' : 'Dub'}
-					</p>
-					<p class="anime-des">
-						{details.description}
-					</p>
+			<div class="artplayer-container" />
+			<div class="summary">
+				<h1 class="anime-title">
+					{details?.title.english?.toLowerCase() ?? details?.title.native?.toLowerCase()}
+				</h1>
+				<h1 class="anime-title-native">Episode {currentEpisode?.number}: {currentEpisode.title}</h1>
+				<p class="anime-des">
+					{details.description}
+				</p>
+				<a
+					data-sveltekit-preload-data="hover"
+					href={`/watch/${details.idMal}/${currentEpisode.gogoanime.sub}`}
+					class={currentEpisode.gogoanime.sub == episodeId ? 'active type-btn' : 'type-btn'}
+				>
+					Sub
+				</a>
+				{#if currentEpisode.hasDub}
 					<a
 						data-sveltekit-preload-data="hover"
-						use:handleUrlChange
-						href={`/watch/${details.idMal}?episode=${currentEpisode.number}&episodeId=${currentEpisode.episodeIdSub}`}
-						class={currentEpisode.episodeIdSub == episodeId ? 'active type-btn' : 'type-btn'}
-						target="_self">Sub</a
+						href={`/watch/${details.idMal}/${currentEpisode.gogoanime.dub}`}
+						class={currentEpisode.gogoanime.dub == episodeId ? 'active type-btn' : 'type-btn'}
 					>
-					{#if currentEpisode.episodeIdDub}
-						<a
-							data-sveltekit-preload-data="hover"
-							use:handleUrlChange
-							href={`/watch/${details.idMal}?episode=${currentEpisode.number}&episodeId=${currentEpisode.episodeIdDub}`}
-							class={currentEpisode.episodeIdDub == episodeId ? 'active type-btn' : 'type-btn'}
-							target="_self">Dub</a
-						>
-					{/if}
-				</div>
-			{/await}
+						Dub
+					</a>
+				{/if}
+			</div>
 		</div>
 		<div class="container-bottom">
-			{#await streamed?.episodesList}
-				Loading...
-			{:then { episodes }}
-				{#if episodes}
-					<EpisodeCard
-						episodes={episodes.data}
-						pagination={episodes.pagination}
-						animeId={details.idMal}
-						scrollAble={true}
-						header={'Episodes'}
-						filter={true}
-						{page}
-						posterImg={details.coverImage?.extraLarge}
-					/>
-				{/if}
-			{:catch error}
-				{error.message}
-			{/await}
+			<EpisodeCard
+				{episodes}
+				animeId={details.idMal}
+				scrollAble={true}
+				header={'Episodes'}
+				filter={true}
+				posterImg={details.coverImage?.extraLarge}
+			/>
 		</div>
 	</div>
 </GradientBackground>
@@ -196,7 +161,4 @@
 	.active {
 		background: var(--primary);
 	}
-</style> -->
-
-
-Watch page
+</style>
