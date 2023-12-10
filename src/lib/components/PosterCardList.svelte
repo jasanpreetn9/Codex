@@ -3,8 +3,6 @@
 </script>
 
 {#if animes.length > 0}
-	<!-- content here -->
-
 	{#if heading}
 		<h1 class="title">{heading}</h1>
 	{/if}

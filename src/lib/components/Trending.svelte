@@ -154,11 +154,15 @@
 		transition: 1s;
 		overflow: hidden;
 		height: 300px;
+		align-items: center;
+		justify-content: center;
+    align-items: center;
 	}
 
 	.slider img {
 		margin: 0 auto;
 		height: 100%;
+		width: 100%;
 		object-fit: cover;
 		opacity: 0.7;
 		border-radius: 5px;
