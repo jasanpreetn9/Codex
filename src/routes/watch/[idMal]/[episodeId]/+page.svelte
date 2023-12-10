@@ -100,7 +100,7 @@
 			<EpisodeCard
 				{episodes}
 				animeId={details.idMal}
-				scrollAble={true}
+				scrollAble={false}
 				header={'Episodes'}
 				filter={true}
 				posterImg={details.coverImage?.extraLarge}
