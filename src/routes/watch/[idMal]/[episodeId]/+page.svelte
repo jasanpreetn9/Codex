@@ -111,23 +111,26 @@
 
 <style>
 	.artplayer-container {
-		width: 700px;
-		height: 400px;
+		width: 100%;
+		/* height: 400px; */
 		aspect-ratio: 16/9;
 	}
 	.container {
 		margin-left: 40px;
+		margin-right: 40px;
 	}
 	.container-top {
-		display: flex;
-		flex-direction: row;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+		grid-gap: 20px;
 	}
 	.summary {
-		margin-left: 30px;
+		margin: auto;
 	}
+		
 	.anime-title {
 		text-transform: capitalize;
-		margin-top: 80px;
+		/* margin-top: 80px; */
 		font-weight: 550;
 		font-size: 26px;
 	}
@@ -161,4 +164,25 @@
 	.active {
 		background: var(--primary);
 	}
+	@media (max-width: 768px) {
+        .container {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .container-top {
+            grid-template-columns: 1fr; /* Stack elements vertically on smaller screens */
+        }
+        .summary {
+            margin-left: 0; /* Adjust margin for smaller screens */
+        }
+        .anime-title, .anime-title-native {
+            font-size: smaller; /* Adjust font size for smaller screens */
+        }
+        .anime-des {
+            width: 100%; /* Use full width for the description */
+        }
+        .artplayer-container {
+            margin-bottom: 20px; /* Add some space below the player */
+        }
+    }
 </style>
