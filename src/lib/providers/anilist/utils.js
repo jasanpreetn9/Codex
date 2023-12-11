@@ -40,7 +40,7 @@ export const formatDetails = (media) => {
 	media.endDate = formatDate(media?.endDate);
 
 	// Remove HTML tags and trim description
-	media.description = stripHtml(media?.description).result;
+	media.description = stripHtml(media?.description).result.split("*")[0];
 
 	// Extract and format recommendations
 	const recommendations = media?.recommendations?.edges?.map(

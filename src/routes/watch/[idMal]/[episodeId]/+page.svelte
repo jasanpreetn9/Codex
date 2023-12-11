@@ -1,68 +1,69 @@
 <script>
-    export let data;
-    import { onMount, onDestroy } from 'svelte';
-    import Hls from 'hls.js';
-    import Artplayer from 'artplayer';
-    import { EpisodeCard, GradientBackground } from '$lib/components';
+	import { onMount, onDestroy } from 'svelte';
+	export let data;
+	import Hls from 'hls.js';
+	import Artplayer from 'artplayer';
+	import { EpisodeCard, GradientBackground } from '$lib/components';
 
-    // Destructuring the necessary properties from data
-    $: ({ details, allEpisodes, episodeSources, episodeId } = data);
-    $: ({ episodes, currentEpisode } = allEpisodes);
-    let artplayer;
+	// Destructuring the necessary properties from data
+	$: ({ details, allEpisodes, episodeSources, episodeId } = data);
+	$: ({ episodes, currentEpisode } = allEpisodes);
+	let artplayer;
 
-    // Function to handle HLS streaming
-    function playM3u8(video, url, art) {
-        if (Hls.isSupported()) {
-            if (art.hls) art.hls.destroy();
-            const hls = new Hls();
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            art.hls = hls;
-            art.on('destroy', () => hls.destroy());
-        } else if (video.canPlayType('application/vnd.apple.m3u8')) {
-            video.src = url;
-        } else {
-            art.notice.show = 'Unsupported playback format: m3u8';
-        }
-    }
+	// Function to handle HLS streaming
+	function playM3u8(video, url, art) {
+		if (Hls.isSupported()) {
+			if (art.hls) art.hls.destroy();
+			const hls = new Hls();
+			hls.loadSource(url);
+			hls.attachMedia(video);
+			art.hls = hls;
+			art.on('destroy', () => hls.destroy());
+		} else if (video.canPlayType('application/vnd.apple.m3u8')) {
+			video.src = url;
+		} else {
+			art.notice.show = 'Unsupported playback format: m3u8';
+		}
+	}
 
-    // Function to initialize the Artplayer
-    function initPlayer() {
-        artplayer = new Artplayer({
-            container: '.artplayer-container',
-            url: episodeSources?.filter((ep) => ep.default == true)[0]?.url,
-            quality: episodeSources,
-            autoplay: true,
-            pip: true,
-            autoSize: true,
-            fullscreen: true,
-            playsInline: true,
-            autoPlayback: true,
-            airplay: true,
-            theme: '#23ade5',
-            type: 'm3u8',
-            customType: {
-                m3u8: playM3u8
-            }
-        });
-    }
+	// Function to initialize the Artplayer
+	function initPlayer() {
+		artplayer = new Artplayer({
+			container: '.artplayer-container',
+			url: episodeSources?.filter((ep) => ep.default == true)[0]?.url,
+			quality: episodeSources,
+			autoplay: true,
+			pip: true,
+			autoSize: true,
+			fullscreen: true,
+			playsInline: true,
+			autoPlayback: true,
+			airplay: true,
+			theme: '#23ade5',
+			type: 'm3u8',
+			customType: {
+				m3u8: playM3u8
+			}
+		});
+	}
 
-    // Reactive statement to update the video URL when episodeSources changes
-    $: if (episodeSources && artplayer) {
-        artplayer.switchUrl(episodeSources.filter(ep => ep.default == true)[0]?.url);
-    }
+	// Reactive statement to update the video URL when episodeSources changes
+	$: if (episodeSources && artplayer) {
+		artplayer.switchUrl(episodeSources.filter(ep => ep.default == true)[0]?.url);
+	}
 
-    // Lifecycle hook for component mount
-    onMount(() => {
-        initPlayer();
-    });
+	// Lifecycle hook for component mount
+	onMount(() => {
+		initPlayer();
+	});
 
-    // Lifecycle hook for component destruction
-    onDestroy(() => {
-        if (artplayer) {
-            artplayer.destroy();
-        }
-    });
+	// Lifecycle hook for component destruction
+	onDestroy(() => {
+		if (artplayer) {
+			artplayer.destroy();
+		}
+	});
+
 </script>
 
 
@@ -100,10 +101,11 @@
 			<EpisodeCard
 				{episodes}
 				animeId={details.idMal}
-				scrollAble={false}
+				scrollAble={true}
 				header={'Episodes'}
 				filter={true}
 				posterImg={details.coverImage?.extraLarge}
+				currentEpisode={currentEpisode.number}
 			/>
 		</div>
 	</div>
