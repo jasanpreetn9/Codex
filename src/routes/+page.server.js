@@ -1,14 +1,16 @@
 import { stripHtml } from 'string-strip-html';
 import { redis } from '$lib/server/redis';
+import { serializeNonPOJOs } from '$lib/utils';
 import { homeQuery, anilistUrl } from '$lib/providers/anilist/utils';
-export async function load() {
+import { jikanUrl, convertJikanToAnilist } from '$lib/providers/jikan/utils';
+export async function load({ locals, setHeaders }) {
 	const fetchAnilist = async () => {
 		try {
 			const cached = await redis.get('anilist-trending-popular');
 			if (cached) {
 				return JSON.parse(cached);
 			}
-			const anilistRes = await fetch(anilistUrl, {
+			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -18,18 +20,21 @@ export async function load() {
 					query: homeQuery
 				})
 			});
-			let { data } = await anilistRes.json();
+			const cacheControl = anilistResp.headers.get('cache-control');
+			if (cacheControl) {
+				setHeaders({ 'cache-control': cacheControl });
+			}
+			let { data } = await anilistResp.json();
 
 			const result = {
-				trendingAnimes:
-					data?.trending?.media
-						.map((slide) => {
-							return {
-								...slide,
-								description: stripHtml(slide.description).result
-							};
-						})
-						.filter((anime) => anime?.bannerImage !== null) || [],
+				trendingAnimes: data?.trending?.media
+					.filter((anime) => anime?.bannerImage !== null)
+					.map((slide) => {
+						return {
+							...slide,
+							description: slide.description ? stripHtml(slide.description).result : null
+						};
+					}),
 				popularAnimes: data?.popular?.media || []
 			};
 			redis.set('anilist-trending-popular', JSON.stringify(result), 'EX', 600);
@@ -39,7 +44,68 @@ export async function load() {
 			throw new Error(error);
 		}
 	};
+
+	const fetchTopAiring = async () => {
+		const cached = await redis.get('jikan-top-airing');
+		if (cached) {
+			return JSON.parse(cached);
+		}
+		try {
+			const resp = await fetch(`${jikanUrl}/top/anime?filter=airing&type=tv&limit=16`);
+			const cacheControl = resp.headers.get('cache-control');
+			if (cacheControl) {
+				setHeaders({ 'cache-control': cacheControl });
+			}
+			const topAiringResp = await resp.json();
+			const topAiring = convertJikanToAnilist(topAiringResp);
+			redis.set('jikan-top-airing', JSON.stringify(topAiring), 'EX', 600);
+			return topAiring;
+		} catch (error) {
+			console.log(error);
+			throw new Error(error);
+		}
+	};
+	const fetchContinueWatching = async () => {
+		if (locals.pb.authStore.isValid) {
+			const userId = locals.pb.authStore.baseModel.id;
+			try {
+				const lists = serializeNonPOJOs(
+					await locals.pb.collection('continue_watching').getFullList(undefined, {
+						filter: `user = "${userId}"`,
+						sort: `-updated`
+					})
+				);
+				return {
+					authStore: {
+						isValid: true
+					},
+					list: lists
+				};
+			} catch (err) {
+				console.log('Error: ', err);
+				throw Error(err.status, err.message);
+			}
+		} else {
+			return {
+				authStore: {
+					isValid: false
+				}
+			};
+		}
+	};
 	return {
-		anilist: fetchAnilist()
+		anilist: await fetchAnilist(),
+		continueWatching: await fetchContinueWatching(),
+		jikan: {
+			// topAiring: await fetchTopAiring()
+		}
 	};
 }
+
+
+/** @type {import('./$types').Actions} */
+export const actions = {
+	deleteRecord: async ({ locals, request }) => {
+
+	}
+};

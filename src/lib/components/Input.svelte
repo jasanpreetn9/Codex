@@ -42,7 +42,6 @@
 		width: 54%;
 	}
 	input {
-		display: block;
 		height: 60px;
 		width: 400px;
 		background-color: rgba(15, 15, 18, 0.07);

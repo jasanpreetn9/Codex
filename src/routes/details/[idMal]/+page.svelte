@@ -1,7 +1,23 @@
 <script>
 	export let data;
-	$: ({ details, episodesList } = data);
-	import { EpisodeCard, PosterCardList, GradientBackground } from '$lib/components';
+	$: ({ details, streamed, user, continueWatching } = data);
+	import { EpisodeCard, PosterCardList, GradientBackground, Relations } from '$lib/components';
+	function getEpisodeUrl(episodesList) {
+		if (episodesList.length > 0) {
+			const { gogoanime, hasDub } = episodesList[0];
+			if (user) {
+				if (user.alwaysDub) {
+					return `/watch/${details.idMal}/${hasDub ? gogoanime.dub : gogoanime.sub}`;
+				} else {
+					return `/watch/${details.idMal}/${gogoanime.sub}`;
+				}
+			} else {
+				return `/watch/${details.idMal}/${gogoanime.sub}`;
+			}
+		} else {
+			return ``;
+		}
+	}
 </script>
 
 <GradientBackground bannerImage={details.bannerImage}>
@@ -27,7 +43,9 @@
 				{#if details.format?.toLowerCase() !== 'movie'}
 					<div class="detail-item">
 						<p>Episodes</p>
-						<span>{episodesList?.length}</span>
+						{#await streamed.episodesList then episodesList}
+							<span>{episodesList?.length}</span>
+						{/await}
 					</div>
 				{/if}
 				<div class="detail-item">
@@ -38,16 +56,6 @@
 					<p>Studios</p>
 					<span>{details.studios}</span>
 				</div>
-				{#each details.relations as relation}
-					<div class="detail-item">
-						<p>{relation.relationType.replace('_', ' ')}</p>
-						<span>
-							<a data-sveltekit-prefetch="true" href={'/details/' + relation.id}>
-								{relation.title.english ?? relation.title.romaji}
-							</a>
-						</span>
-					</div>
-				{/each}
 				<div class="detail-item">
 					<p>Genres</p>
 					<span>{details.genres}</span>
@@ -64,17 +72,30 @@
 				<p class="anime-des">
 					{details.description}
 				</p>
-
-				<a href={`/watch/${details.idMal}`} class="watch-btn"> Watch Now </a>
+				{#if continueWatching}
+					<a href={`/watch/${details.idMal}/${continueWatching.episodeId}`} class="watch-btn"
+						>Continue Watching Ep: {continueWatching.number}</a
+					>
+				{:else}
+					{#await streamed.episodesList then episodesList}
+						<a href={getEpisodeUrl(details.idMal, episodesList)} class="watch-btn">Watch Now</a>
+					{/await}
+				{/if}
 			</div>
-			<EpisodeCard
-				episodes={episodesList}
-				animeId={details.idMal}
-				scrollAble={true}
-				header={'Episodes'}
-				filter={true}
-				posterImg={details.coverImage?.extraLarge}
-			/>
+			<!-- <Relations relations={details.relations} /> -->
+			{#if details.format.toLowerCase() != 'movie'}
+				{#await streamed.episodesList then episodesList}
+					<EpisodeCard
+						episodes={episodesList}
+						animeId={details.idMal}
+						scrollAble={true}
+						header={'Episodes'}
+						filter={true}
+						{user}
+						posterImg={details.coverImage?.extraLarge}
+					/>
+				{/await}
+			{/if}
 			<PosterCardList animes={details.recommendations} heading={'Recommended'} />
 		</div>
 	</div>
@@ -93,6 +114,9 @@
 		margin-top: 10px;
 		margin-left: 30px;
 		width: 100%;
+	}
+	.content-left {
+		width: 220px;
 	}
 	.summary {
 		margin-bottom: 20px;

@@ -1,76 +1,26 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
 	export let data;
-	import Hls from 'hls.js';
-	import Artplayer from 'artplayer';
-	import { EpisodeCard, GradientBackground } from '$lib/components';
-
+	import { EpisodeCard, GradientBackground, Artplayer } from '$lib/components';
 	// Destructuring the necessary properties from data
-	$: ({ details, allEpisodes, episodeSources, episodeId } = data);
+	$: ({ details, streamed, allEpisodes, episodeId, database, user } = data);
 	$: ({ episodes, currentEpisode } = allEpisodes);
-	let artplayer;
-
-	// Function to handle HLS streaming
-	function playM3u8(video, url, art) {
-		if (Hls.isSupported()) {
-			if (art.hls) art.hls.destroy();
-			const hls = new Hls();
-			hls.loadSource(url);
-			hls.attachMedia(video);
-			art.hls = hls;
-			art.on('destroy', () => hls.destroy());
-		} else if (video.canPlayType('application/vnd.apple.m3u8')) {
-			video.src = url;
-		} else {
-			art.notice.show = 'Unsupported playback format: m3u8';
-		}
-	}
-
-	// Function to initialize the Artplayer
-	function initPlayer() {
-		artplayer = new Artplayer({
-			container: '.artplayer-container',
-			url: episodeSources?.filter((ep) => ep.default == true)[0]?.url,
-			quality: episodeSources,
-			autoplay: true,
-			pip: true,
-			autoSize: true,
-			fullscreen: true,
-			playsInline: true,
-			autoPlayback: true,
-			airplay: true,
-			theme: '#23ade5',
-			type: 'm3u8',
-			customType: {
-				m3u8: playM3u8
-			}
-		});
-	}
-
-	// Reactive statement to update the video URL when episodeSources changes
-	$: if (episodeSources && artplayer) {
-		artplayer.switchUrl(episodeSources.filter(ep => ep.default == true)[0]?.url);
-	}
-
-	// Lifecycle hook for component mount
-	onMount(() => {
-		initPlayer();
-	});
-
-	// Lifecycle hook for component destruction
-	onDestroy(() => {
-		if (artplayer) {
-			artplayer.destroy();
-		}
-	});
-
+	$: ({ continueWatching } = database);
 </script>
-
 
 <GradientBackground bannerImage={details.bannerImage}>
 	<div class="container">
 		<div class="container-top">
-			<div class="artplayer-container" />
+			<div class="artplayer-container">
+				{#await streamed.episodeSources then sources}
+					<Artplayer
+						{sources}
+						{continueWatching}
+						currentEp={currentEpisode}
+						{details}
+						{episodeId}
+					/>
+				{/await}
+			</div>
 			<div class="summary">
 				<h1 class="anime-title">
 					{details?.title.english?.toLowerCase() ?? details?.title.native?.toLowerCase()}
@@ -104,6 +54,7 @@
 				scrollAble={true}
 				header={'Episodes'}
 				filter={true}
+				user
 				posterImg={details.coverImage?.extraLarge}
 				currentEpisode={currentEpisode.number}
 			/>
@@ -129,7 +80,7 @@
 	.summary {
 		margin: auto;
 	}
-		
+
 	.anime-title {
 		text-transform: capitalize;
 		/* margin-top: 80px; */
@@ -167,24 +118,25 @@
 		background: var(--primary);
 	}
 	@media (max-width: 768px) {
-        .container {
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-        .container-top {
-            grid-template-columns: 1fr; /* Stack elements vertically on smaller screens */
-        }
-        .summary {
-            margin-left: 0; /* Adjust margin for smaller screens */
-        }
-        .anime-title, .anime-title-native {
-            font-size: smaller; /* Adjust font size for smaller screens */
-        }
-        .anime-des {
-            width: 100%; /* Use full width for the description */
-        }
-        .artplayer-container {
-            margin-bottom: 20px; /* Add some space below the player */
-        }
-    }
+		.container {
+			margin-left: 20px;
+			margin-right: 20px;
+		}
+		.container-top {
+			grid-template-columns: 1fr; /* Stack elements vertically on smaller screens */
+		}
+		.summary {
+			margin-left: 0; /* Adjust margin for smaller screens */
+		}
+		.anime-title,
+		.anime-title-native {
+			font-size: smaller; /* Adjust font size for smaller screens */
+		}
+		.anime-des {
+			width: 100%; /* Use full width for the description */
+		}
+		.artplayer-container {
+			margin-bottom: 20px; /* Add some space below the player */
+		}
+	}
 </style>

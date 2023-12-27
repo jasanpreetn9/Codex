@@ -1,8 +1,8 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, anilistUrl, detailsQueryIdMal } from '$lib/providers/anilist/utils';
-import { apiUrl, proxyUrl } from '$lib/utils';
+import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist/utils';
+import { apiUrl, proxyUrl, serializeNonPOJOs } from '$lib/utils';
 
-export async function load({ params, fetch, locals, url, setHeaders }) {
+export async function load({ params, locals, setHeaders, url }) {
 	const fetchAnilistDetails = async () => {
 		const cached = await redis.get(`anilist-details-${params.idMal}`);
 		if (cached) {
@@ -16,7 +16,7 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: detailsQueryIdMal,
+					query: detailsQuery,
 					variables: { id: params.idMal }
 				})
 			});
@@ -48,10 +48,27 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 			return null;
 		}
 	};
-
+	const fetchContinueWatching = async () => {
+		if (locals.pb.authStore.isValid) {
+			const userId = locals.pb.authStore.baseModel.id;
+			try {
+				const list = await locals.pb
+					.collection('continue_watching')
+					.getFirstListItem(`user = "${userId}" && idMal = "${params.idMal}"`);
+				const continueWatching = serializeNonPOJOs(list);
+				return continueWatching;
+			} catch (error) {
+				console.log(error);
+				return null;
+			}
+		}
+	};
 	const anime = {
-		details: fetchAnilistDetails(),
-		episodesList: fetchEpisodes()
+		details: await fetchAnilistDetails(),
+		continueWatching: await fetchContinueWatching(),
+		streamed: {
+			episodesList: await fetchEpisodes(),
+		},
 	};
 
 	return anime;

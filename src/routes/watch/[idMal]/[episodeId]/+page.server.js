@@ -1,9 +1,10 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, anilistUrl, detailsQueryIdMal } from '$lib/providers/anilist/utils';
-import { apiUrl } from '$lib/utils';
-import { ANIME } from '@Consumet/extensions';
+import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist/utils';
+import { apiUrl, serializeNonPOJOs } from '$lib/utils';
+import { ANIME } from '@consumet/extensions';
 
-export async function load({ params }) {
+export const ssr = false;
+export async function load({ params, locals }) {
 	const fetchAnilistDetails = async () => {
 		const cached = await redis.get(`anilist-details-${params.idMal}`);
 		if (cached) {
@@ -17,11 +18,10 @@ export async function load({ params }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: detailsQueryIdMal,
+					query: detailsQuery,
 					variables: { id: params.idMal }
 				})
 			});
-
 			const anilist = await anilistResp.json();
 			const formattedAnilist = formatDetails(anilist.data.Media);
 			redis.set(`anilist-details-${params.idMal}`, JSON.stringify(formattedAnilist), 'EX', 600);
@@ -65,6 +65,10 @@ export async function load({ params }) {
 
 	const fetchEpisodeSources = async () => {
 		const episodeId = params.episodeId;
+		const cached = await redis.get(`gogoanime-episode-sources-${episodeId}`);
+		if(cached) {
+			return JSON.parse(cached);
+		}
 		const gogoanime = new ANIME.Gogoanime();
 		const episodesSources = await gogoanime.fetchEpisodeSources(episodeId);
 		const sources = episodesSources.sources
@@ -78,14 +82,51 @@ export async function load({ params }) {
 			source.quality > max.quality ? source : max
 		);
 		highestQuality.default = true;
+		await redis.set(`gogoanime-episode-sources-${episodeId}`, JSON.stringify(sources), 'EX', 600);
 		return sources;
 	};
-
+	const fetchContinueWatching = async () => {
+		if (locals.pb.authStore.isValid) {
+			const userId = locals.pb.authStore.baseModel.id;
+			try {
+				const list = await locals.pb
+					.collection('continue_watching')
+					.getFirstListItem(`user = "${userId}" && idMal = "${params.idMal}"`);
+				const continueWatching = serializeNonPOJOs(list);
+				return continueWatching;
+			} catch (error) {
+				if (error.status === 404) {
+					const record = await locals.pb.collection('continue_watching').create({
+						user: userId,
+						idMal: params.idMal,
+						currentTime: 0,
+						episodeId: params.episodeId
+					});
+					return record
+				}
+			}
+		} else {
+			return {
+				authStore: {
+					isValid: false
+				}
+			};
+		}
+	};
+	// fetchAnilist: 402.618ms
+	// fetchEpisodeSources: 2.026s
+	// fetchEpisodes: 2.547s
+	// fetchDatabase: 431.104ms
 	const anime = {
+		episodeId: params.episodeId,
 		details: await fetchAnilistDetails(),
-		episodeSources: await fetchEpisodeSources(),
 		allEpisodes: await fetchEpisodes(),
-		episodeId: params.episodeId
+		streamed: {
+			episodeSources: fetchEpisodeSources()
+		},
+		database: {
+			continueWatching: await fetchContinueWatching()
+		}
 	};
 
 	return anime;

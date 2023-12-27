@@ -1,4 +1,4 @@
-import { stripHtml } from "string-strip-html";
+import { stripHtml } from 'string-strip-html';
 
 export const anilistUrl = 'https://graphql.anilist.co/';
 
@@ -7,16 +7,10 @@ export const formatDetails = (media) => {
 		?.map((relation) => {
 			return {
 				relationType: relation?.relationType,
-				id: relation?.node?.id,
-				title: {
-					romaji: relation?.node?.title?.romaji,
-					english: relation?.node?.title?.english
-				}
+				...relation?.node
 			};
 		})
-		.filter(
-			(relation) => relation?.relationType == 'SEQUEL' || relation?.relationType == 'PREQUEL'
-		);
+		.filter((relation) => (relation?.relationType == 'PREQUEL' || relation?.relationType == 'SEQUEL' ) && relation.format != null);
 	// Format studios
 	const studios = media?.studios?.edges?.map((studio) => studio.node.name).join(', ');
 
@@ -40,12 +34,12 @@ export const formatDetails = (media) => {
 	media.endDate = formatDate(media?.endDate);
 
 	// Remove HTML tags and trim description
-	media.description = stripHtml(media?.description).result.split("*")[0];
+	media.description = stripHtml(media?.description).result.split('*')[0];
 
 	// Extract and format recommendations
-	const recommendations = media?.recommendations?.edges?.map(
-		(recommendation) => recommendation.node.mediaRecommendation
-	).filter((recommendation) => recommendation?.format.toLowerCase() !== 'manga');
+	const recommendations = media?.recommendations?.edges
+		?.map((recommendation) => recommendation.node.mediaRecommendation)
+		.filter((recommendation) => recommendation?.format.toLowerCase() !== 'manga');
 
 	// Update the media object with the formatted data
 	media.relations = relations;
@@ -74,7 +68,7 @@ query ($id: Int) {
 export const homeQuery = `
 {
 	trending: Page(page: 1, perPage: 15) {
-	  media(type: ANIME,format: TV,episodes_greater: 0, sort: [TRENDING_DESC]) {
+	  media(type: ANIME, format_in: [TV, MOVIE],episodes_greater: 0, sort: [TRENDING_DESC]) {
 		id
 		idMal
 		bannerImage
@@ -111,158 +105,89 @@ export const homeQuery = `
 
 export const detailsQuery = `
 query ($id: Int) {
-    Media(id: $id, format_not: MANGA) {
-        id
-        idMal
-        title {
-            english
-            native
-        }
-        coverImage {
-            extraLarge
-        }
-        startDate {
-            year
-            month
-            day
-        }
-        endDate {
-            year
-            month
-            day
-        }
-        bannerImage
-        seasonYear
-        description(asHtml: false)
-        format
-        status(version: 2)
-        genres
-        meanScore
-        nextAiringEpisode {
-            airingAt
-            timeUntilAiring
-            episode
-        }
-        recommendations {
-            edges {
-                node {
-                    mediaRecommendation {
-                        id
-						idMal
-                        title {
-                            romaji
-                            english
-                        }
-                        coverImage {
-                            extraLarge
-                        }
-                        genres
-                        format
-                    }
-                }
-            }
-        }
-        relations {
-            edges {
-                relationType
-                node {
-                    id
-					idMal
-                    title {
-                        romaji
-                        english
-                    }
-                }
-            }
-        }
-        studios(isMain: true) {
-            edges {
-                node {
-                    name
-                }
-            }
-        }
+  Media(idMal: $id, format_not: MANGA) {
+    id
+    idMal
+    title {
+      english
+      native
     }
-}
-
-
-`;
-export const detailsQueryIdMal = `
-query ($id: Int) {
-    Media(idMal: $id, format_not: MANGA) {
-        id
-        idMal
-        title {
-            english
-            native
-        }
-        coverImage {
-            extraLarge
-        }
-        startDate {
-            year
-            month
-            day
-        }
-        endDate {
-            year
-            month
-            day
-        }
-        bannerImage
-        seasonYear
-        description(asHtml: false)
-        format
-        status(version: 2)
-        genres
-        meanScore
-        nextAiringEpisode {
-            airingAt
-            timeUntilAiring
-            episode
-        }
-        recommendations {
-            edges {
-                node {
-                    mediaRecommendation {
-                        id
-						idMal
-                        title {
-                            romaji
-                            english
-                        }
-                        coverImage {
-                            extraLarge
-                        }
-                        genres
-                        format
-                    }
-                }
-            }
-        }
-        relations {
-            edges {
-                relationType
-                node {
-                    id
-					idMal
-                    title {
-                        romaji
-                        english
-                    }
-                }
-            }
-        }
-        studios(isMain: true) {
-            edges {
-                node {
-                    name
-                }
-            }
-        }
+    coverImage {
+      extraLarge
     }
+    startDate {
+      year
+      month
+      day
+    }
+    endDate {
+      year
+      month
+      day
+    }
+    bannerImage
+    seasonYear
+    description(asHtml: false)
+    format
+    status(version: 2)
+    genres
+    meanScore
+    nextAiringEpisode {
+      airingAt
+      timeUntilAiring
+      episode
+    }
+    recommendations {
+      edges {
+        node {
+          mediaRecommendation {
+            id
+            idMal
+            title {
+              romaji
+              english
+            }
+            coverImage {
+              extraLarge
+            }
+            genres
+            format
+          }
+        }
+      }
+    }
+    relations {
+      edges {
+        relationType
+        node {
+          idMal
+          bannerImage
+          coverImage {
+            extraLarge
+          }
+          format
+          type
+          title {
+            romaji
+            english
+          }
+          startDate {
+            year
+            month
+            day
+          }
+        }
+      }
+    }
+    studios(isMain: true) {
+      edges {
+        node {
+          name
+        }
+      }
+    }
+  }
 }
-
 
 `;
 
@@ -274,25 +199,25 @@ query ($page: Int, $search: String,  $size: Int) {
 		lastPage
 		hasNextPage
 	  }
-	  media(search: $search,type: ANIME) {
-		id
-		idMal
-		title {
-		  romaji
-		  english
-		}
-		coverImage {
-		  extraLarge
-		  large
-		}
-  
-		format
-  
-		genres
-  
-	  }
-	}
-  }
+	  media(search: $search,type: ANIME, format_not_in: [MUSIC,MANGA,NOVEL,ONE_SHOT]) {
+      id
+      idMal
+      title {
+        romaji
+        english
+      }
+      coverImage {
+        extraLarge
+        large
+      }
+    
+      format
+    
+      genres
+    
+      }
+    }
+    }
   `;
 
 export const recentAiredQuery = `query($airing_lesser: Int, $perPage: Int){
@@ -326,4 +251,4 @@ export const recentAiredQuery = `query($airing_lesser: Int, $perPage: Int){
       }
     }
   }
-  `
+  `;
