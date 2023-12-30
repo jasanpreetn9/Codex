@@ -1,5 +1,5 @@
 <script>
-	export let episodes, animeId, scrollAble, header, filter, posterImg, user;
+	export let episodes, animeId, scrollable, header, filter, posterImg, user;
 	export let currentEpisode = 1;
 	import { BarsArrowDown, Icon } from 'svelte-hero-icons';
 	let itemsPerPage = 100;
@@ -9,7 +9,6 @@
 	function goToPage(page) {
 		currentPage = page;
 	}
-
 	function nextPage() {
 		if (currentPage < pages) currentPage++;
 	}
@@ -32,12 +31,8 @@
 		currentPage * itemsPerPage
 	);
 	function getEpisodeUrl(idMal, gogoanime, hasDub) {
-		if (user) {
-			if (user.alwaysDub) {
-				return `/watch/${idMal}/${hasDub ? gogoanime.dub : gogoanime.sub}`;
-			} else {
-				return `/watch/${idMal}/${gogoanime.sub}`;
-			}
+		if (user && user.alwaysDub && hasDub) {
+			return `/watch/${idMal}/${gogoanime.dub}`;
 		} else {
 			return `/watch/${idMal}/${gogoanime.sub}`;
 		}
@@ -72,35 +67,20 @@
 	{/if}
 </div>
 
-<div class={scrollAble ? 'scrollAble' : ''}>
+<div class={scrollable ? 'scrollable' : ''}>
 	<div class="video-card-container">
 		{#each paginatedEpisodes as episode}
 			<div class="video-card">
 				<a
 					href={getEpisodeUrl(animeId ?? episode.idMal, episode.gogoanime, episode.hasDub)}
-					data-sveltekit-prefetch="true"
 				>
 					<img src={episode.image || posterImg} loading="lazy" alt="" />
-					{#if episode.duration}
-						<div class="progress-background">
-							<div
-								class="progress"
-								style="width: {(episode.currentTime / episode.duration) * 100}%;"
-							/>
-						</div>
-					{/if}
-
 					<div class="title-container">
 						<h2 class="name">
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {episode.number +
-								' ‧ ' +
-								'Sub' +
-								(episode.hasDub ? '/Dub' : '') +
-								' ‧ ' +
-								(episode.filler ? 'Filler' : 'Canon')}
+							Ep: {`${episode.number} ‧ Sub${episode.hasDub ? '/Dub' : ''} ‧ ${episode.filler ? 'Filler' : 'Canon'}`}
 						</p>
 					</div>
 				</a>
@@ -113,9 +93,11 @@
 	a {
 		text-decoration: none;
 	}
-	.scrollAble {
+	.scrollable {
 		overflow-y: auto;
 		max-height: 400px;
+		margin-bottom: 20px;
+
 	}
 	.header {
 		display: flex;
@@ -205,17 +187,5 @@
 		text-transform: capitalize;
 		padding: 1px;
 		background: #0c111b;
-	}
-	.progress-background {
-		z-index: 2;
-		background: #424345;
-		border-radius: 20px;
-		height: 6px;
-	}
-	.progress {
-		height: 6px;
-		margin-top: -1px;
-		background: white;
-		border-radius: 20px;
 	}
 </style>

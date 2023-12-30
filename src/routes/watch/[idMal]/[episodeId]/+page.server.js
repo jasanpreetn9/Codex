@@ -1,9 +1,9 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist/utils';
-import { apiUrl, serializeNonPOJOs } from '$lib/utils';
+import { serializeNonPOJOs } from '$lib/utils';
 import { ANIME } from '@consumet/extensions';
+import { getEpisodes } from '$lib/api';
 
-export const ssr = false;
 export async function load({ params, locals }) {
 	const fetchAnilistDetails = async () => {
 		const cached = await redis.get(`anilist-details-${params.idMal}`);
@@ -43,12 +43,7 @@ export async function load({ params, locals }) {
 		}
 
 		try {
-			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}`);
-			if (!episodesResp.ok) {
-				throw new Error('Failed to fetch episodes');
-			}
-
-			const episodes = await episodesResp.json();
+			const episodes = await getEpisodes(params.idMal);
 			const currentEpisode = episodes.find(
 				(episode) =>
 					episode.gogoanime.dub === params.episodeId || episode.gogoanime.sub === params.episodeId
@@ -66,7 +61,7 @@ export async function load({ params, locals }) {
 	const fetchEpisodeSources = async () => {
 		const episodeId = params.episodeId;
 		const cached = await redis.get(`gogoanime-episode-sources-${episodeId}`);
-		if(cached) {
+		if (cached) {
 			return JSON.parse(cached);
 		}
 		const gogoanime = new ANIME.Gogoanime();
@@ -95,15 +90,7 @@ export async function load({ params, locals }) {
 				const continueWatching = serializeNonPOJOs(list);
 				return continueWatching;
 			} catch (error) {
-				if (error.status === 404) {
-					const record = await locals.pb.collection('continue_watching').create({
-						user: userId,
-						idMal: params.idMal,
-						currentTime: 0,
-						episodeId: params.episodeId
-					});
-					return record
-				}
+				return null;
 			}
 		} else {
 			return {

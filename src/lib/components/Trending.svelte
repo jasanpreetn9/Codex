@@ -78,7 +78,7 @@
 					<p class="anime-des">
 						{anime.description}
 					</p>
-					<a class="watch-btn" data-sveltekit-prefetch="true" href={`/details/${anime.idMal}`}
+					<a class="watch-btn" href={`/details/${anime.idMal}`}
 						>Watch</a
 					>
 				</div>

@@ -1,6 +1,8 @@
 import { redis } from '$lib/server/redis';
 import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist/utils';
-import { apiUrl, proxyUrl, serializeNonPOJOs } from '$lib/utils';
+import { convertJikanDetailsToAnilist } from '$lib/providers/jikan/utils';
+import { proxyUrl, serializeNonPOJOs } from '$lib/utils';
+import { getEpisodes } from '$lib/api';
 
 export async function load({ params, locals, setHeaders, url }) {
 	const fetchAnilistDetails = async () => {
@@ -34,13 +36,12 @@ export async function load({ params, locals, setHeaders, url }) {
 	};
 
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
-		if (cached) {
-			return JSON.parse(cached);
-		}
+		// const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
+		// if (cached) {
+		// 	return JSON.parse(cached);
+		// }
 		try {
-			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}`);
-			const episodes = await episodesResp.json();
+			const episodes = await getEpisodes(params.idMal);
 			redis.set(`gogoanime-episodes-${params.idMal}`, JSON.stringify(episodes), 'EX', 600);
 			return episodes;
 		} catch (error) {
@@ -58,17 +59,29 @@ export async function load({ params, locals, setHeaders, url }) {
 				const continueWatching = serializeNonPOJOs(list);
 				return continueWatching;
 			} catch (error) {
-				console.log(error);
 				return null;
 			}
 		}
 	};
+
+	const fetchJikanDetails = async () => {
+		try {
+			const jikanResp = await fetch(`https://api.jikan.moe/v4/anime/${params.idMal}`);
+			const { data } = await jikanResp.json();
+			const jikan = convertJikanDetailsToAnilist(data);
+			return jikan;
+		} catch (error) {
+			throw new Error(error);
+		}
+	};
 	const anime = {
 		details: await fetchAnilistDetails(),
-		continueWatching: await fetchContinueWatching(),
-		streamed: {
-			episodesList: await fetchEpisodes(),
+		database: {
+			continueWatching: await fetchContinueWatching()
 		},
+		streamed: {
+			episodesList: fetchEpisodes()
+		}
 	};
 
 	return anime;

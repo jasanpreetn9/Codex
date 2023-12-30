@@ -5,7 +5,7 @@
 <div class="video-card-container">
 	{#each relations as anime}
 		<div class="video-card">
-			<a href={`/details/${anime.idMal}`} data-sveltekit-prefetch="true">
+			<a href={`/details/${anime.idMal}`}>
 				<img src={anime.bannerImage} loading="lazy" alt="" />
 				<div class="title-container">
 					<h2 class="name">

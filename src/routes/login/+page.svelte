@@ -1,8 +1,14 @@
 <script>
+	// case 'failure':
+	// 		toast.error(result.data.errors, {
+	// 			style: 'background: var(--secondary); color: white;'
+	// 		});
+	// 		await update();
+	// 		break;
 	import loginImg from '$lib/images/login-img.png';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import { Input, Alert } from '$lib/components';
+	import { Input } from '$lib/components';
 	import toast from 'svelte-french-toast';
 	export let form;
 	let loading = false;
@@ -13,13 +19,17 @@
 				case 'success':
 					await update();
 					break;
-				case 'fail':
-					toast.error('Invalid credentials');
+				case 'failure':
+					if (result.data.error) {
+						toast.error(result.data?.error, {
+							style: 'background: var(--secondary); color: white;'
+						});
+					}
 					await update();
 					break;
 				case 'error':
 					toast.error(result.error.message, {
-						style: 'background: var(--secondary); color: white;',
+						style: 'background: var(--secondary); color: white;'
 					});
 					break;
 				default:
@@ -29,6 +39,7 @@
 		};
 	};
 </script>
+
 <body>
 	<form action="?/login" method="POST" use:enhance={submitLogin}>
 		<div class="container">
@@ -38,7 +49,12 @@
 				<img class="img" src={loginImg} alt="" />
 			</div>
 			<div class="inputs">
-				<input type="hidden" label="redirectTo" name="redirectTo" value={$page.url.searchParams.get("redirectTo")}>
+				<input
+					type="hidden"
+					label="redirectTo"
+					name="redirectTo"
+					value={$page.url.searchParams.get('redirectTo')}
+				/>
 				<Input
 					label="email"
 					name="email"
@@ -59,9 +75,6 @@
 				<a href="/reset-password" class="forgotPass">Forgot Password?</a>
 				<button type="submit" class="loginBtn" disabled={loading}>Sign In</button>
 				<p class="account">Don't have an account? <a href="/register">Register</a></p>
-				{#if form?.notVerified}
-					<Alert message="You must verify your email before you can login." type="error" />
-				{/if}
 			</div>
 		</div>
 	</form>
@@ -121,7 +134,7 @@
 	}
 
 	.loginBtn {
-		background: var( --primary);
+		background: var(--primary);
 		border: none;
 		border-radius: 10px;
 		width: 400px;

@@ -1,8 +1,11 @@
+import * as cheerio from 'cheerio';
 import { stripHtml } from 'string-strip-html';
 import { redis } from '$lib/server/redis';
 import { serializeNonPOJOs } from '$lib/utils';
 import { homeQuery, anilistUrl } from '$lib/providers/anilist/utils';
 import { jikanUrl, convertJikanToAnilist } from '$lib/providers/jikan/utils';
+import { fetchHome } from '$lib/providers/aniwatch';
+import { fail, redirect } from '@sveltejs/kit';
 export async function load({ locals, setHeaders }) {
 	const fetchAnilist = async () => {
 		try {
@@ -82,7 +85,7 @@ export async function load({ locals, setHeaders }) {
 					list: lists
 				};
 			} catch (err) {
-				console.log('Error: ', err);
+				console.log('Error from homepage: ', err);
 				throw Error(err.status, err.message);
 			}
 		} else {
@@ -95,17 +98,24 @@ export async function load({ locals, setHeaders }) {
 	};
 	return {
 		anilist: await fetchAnilist(),
-		continueWatching: await fetchContinueWatching(),
-		jikan: {
-			// topAiring: await fetchTopAiring()
-		}
+		database: {
+			continueWatching: await fetchContinueWatching()
+		},
+		// jikan: {
+		// 	// topAiring: await fetchTopAiring()
+		// }
 	};
 }
-
 
 /** @type {import('./$types').Actions} */
 export const actions = {
 	deleteRecord: async ({ locals, request }) => {
-
+		const fromData = Object.fromEntries(await request.formData());
+		try {
+			const record = await locals.pb.collection('continue_watching').delete(fromData.recordId);
+			throw redirect(303, '/');
+		} catch (error) {
+			console.log(error);
+		}
 	}
 };

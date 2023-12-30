@@ -1,11 +1,11 @@
 <script>
 	export let data;
 	$: ({ results, page, params, user } = data);
-	import { PosterCardList } from '$lib/components';
+	import { CardContainer } from '$lib/components';
 </script>
 
 <h1 class="title">Search Results For: <i>{params}</i></h1>
-<PosterCardList animes={results} />
+<CardContainer animes={results} />
 
 <style>
 	.title {

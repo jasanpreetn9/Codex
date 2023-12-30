@@ -1,8 +1,9 @@
 <script>
 	export let data;
+	const {user} = data;
 	import '$lib/global.css';
 	import { Toaster } from 'svelte-french-toast';
-	import { Icon, MagnifyingGlass, Bars3 } from 'svelte-hero-icons';
+	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
 	import { userNavigation } from '$lib/utils'; // Assuming this is correctly imported from your utilities
 	import { logo } from '$lib/utils';
 	import { dev } from '$app/environment';
@@ -31,7 +32,7 @@
 <Toaster />
 
 <nav class="navbar">
-	<a class="navbar-brand" data-sveltekit-prefetch="true" href="/">コーデックス</a>
+	<a class="navbar-brand" href="/">コーデックス</a>
 	<ul class="navbar-links">
 		<li class="navbar-item"><a href="/">Trending</a></li>
 		<li class="navbar-item"><a href="/">Movies</a></li>
@@ -45,31 +46,41 @@
 			<input type="text" id="search-box" class="search-input" name="search" placeholder="search" />
 		</div>
 	</form>
-	{#if !data.user}
+	{#if !user}
 		<a class="login-button" href="/login">Login</a>
 	{:else}
 		<button on:click={toggleDropdown} class="user-avatar-container">
 			<img
 				class="user-avatar"
-				src={`https://ui-avatars.com/api/?name=${data.user?.username}`}
+				src={user.avatar}
 				alt="User avatar"
 			/>
 		</button>
 		{#if isDropdownVisible}
 			<div class="user-dropdown">
 				<div class="dropdown-header">
-					<h2>{data.user.username}</h2>
-					<p>{data.user?.email}</p>
+					<h2>{user.username}</h2>
+					<p>{user?.email}</p>
 				</div>
 				<ul class="dropdown-menu">
-					<li><a href="/profile">Profile</a></li>
-					<li><a href="/watch">Continue Watching</a></li>
-					<li><a href="/list">Watch List</a></li>
-					<li><a href="/notifications">Notification</a></li>
-					<li><a href="/settings">Settings</a></li>
+					{#each userNavigation as navItem}
+						<li>
+							<a href={navItem.href}>
+								<span>
+									<Icon src={navItem.icon} size={'16px'} color={'white'} />
+								</span>
+								{navItem.title}
+							</a>
+						</li>
+					{/each}
 				</ul>
-				<form action="/logout" method="POST">
-					<button type="submit">Logout</button>
+				<form action="/logout" method="POST" class="logout-form">
+					<button type="submit">
+						Logout
+						<span>
+							<Icon src={ArrowRightOnRectangle} size={'15'} />
+						</span>
+					</button>
 				</form>
 			</div>
 		{/if}
@@ -78,6 +89,7 @@
 <main>
 	<slot />
 </main>
+
 <!-- <footer>
 	<div class="footer-content">
 		<div class="footer-row">
@@ -191,6 +203,9 @@
 		margin: 0;
 		padding: 0;
 		color: #fff;
+		margin-bottom: 5px;
+		text-transform: capitalize;
+		font-size: 1em;
 	}
 
 	.dropdown-header p {
@@ -202,6 +217,8 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
+		margin-top: 10px;
+		margin-bottom: 10px;
 	}
 
 	.dropdown-menu li a {
@@ -210,10 +227,29 @@
 		padding: 10px;
 		display: block;
 		transition: background-color 0.3s;
+		display: flex;
+		align-items: center;
+		font-size: 0.9em;
 	}
-
+	.dropdown-menu li a span {
+		margin-right: 10px;
+		display: flex;
+		align-items: center;
+	}
 	.dropdown-menu li a:hover {
 		background-color: #555;
+	}
+
+	.logout-form button {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.logout-form button span {
+		margin-left: 5px;
+		display: flex;
+		align-items: center;
 	}
 
 	.user-dropdown {
@@ -246,6 +282,24 @@
 		border-radius: 100%;
 		color: white;
 		cursor: pointer;
+	}
+	.user-dropdown form {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	.user-dropdown form button {
+		display: flex;
+		color: white;
+		text-decoration: none;
+		padding: 0;
+		font-size: 14px;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		text-align: center;
+		justify-content: center;
+		align-items: center;
 	}
 	.user-avatar {
 		width: 36px;

@@ -10,7 +10,7 @@
 		<div class="card-container">
 			{#each animes as anime}
 			{#if anime}
-				<a data-sveltekit-prefetch="true" href={`/details/${anime?.idMal}?format=${anime?.format}`}>
+				<a href={`/details/${anime?.idMal}`}>
 					<div class="card">
 						<img src={anime?.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
 						<div class="card-body">
@@ -18,7 +18,7 @@
 								{anime?.title?.english?.toLowerCase() ?? anime?.title?.romaji?.toLowerCase() ?? anime?.title?.native?.toLowerCase()}
 							</h2>
 							<span class="details">
-								{anime?.format || ''}
+								{anime?.format.toLowerCase() || ''}
 								{anime?.genres?.length ? '‧ ' + anime?.genres.slice(0, 2).join(', ') : ''}
 							</span>
 						</div>

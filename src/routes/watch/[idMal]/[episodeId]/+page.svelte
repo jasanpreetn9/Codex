@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	import { EpisodeCard, GradientBackground, Artplayer } from '$lib/components';
-	// Destructuring the necessary properties from data
+
 	$: ({ details, streamed, allEpisodes, episodeId, database, user } = data);
 	$: ({ episodes, currentEpisode } = allEpisodes);
 	$: ({ continueWatching } = database);
@@ -18,6 +18,8 @@
 						currentEp={currentEpisode}
 						{details}
 						{episodeId}
+						{episodes}
+						{user}
 					/>
 				{/await}
 			</div>
@@ -51,7 +53,7 @@
 			<EpisodeCard
 				{episodes}
 				animeId={details.idMal}
-				scrollAble={true}
+				scrollable={true}
 				header={'Episodes'}
 				filter={true}
 				user

@@ -10,7 +10,11 @@ export const formatDetails = (media) => {
 				...relation?.node
 			};
 		})
-		.filter((relation) => (relation?.relationType == 'PREQUEL' || relation?.relationType == 'SEQUEL' ) && relation.format != null);
+		.filter(
+			(relation) =>
+				(relation?.relationType == 'PREQUEL' || relation?.relationType == 'SEQUEL') &&
+				relation.format != null
+		);
 	// Format studios
 	const studios = media?.studios?.edges?.map((studio) => studio.node.name).join(', ');
 
@@ -48,6 +52,7 @@ export const formatDetails = (media) => {
 	media.recommendations = recommendations;
 	return media;
 };
+
 export const watchListQuery = `
 query ($id: Int) {
     Media(id: $id, type: ANIME) {
@@ -218,37 +223,4 @@ query ($page: Int, $search: String,  $size: Int) {
       }
     }
     }
-  `;
-
-export const recentAiredQuery = `query($airing_lesser: Int, $perPage: Int){
-    Page(page: 1, perPage: $perPage) {
-      pageInfo {
-        total
-        perPage
-        currentPage
-        lastPage
-        hasNextPage
-      }
-      # airingSchedules(notYetAired: false, airingAt_greater: 1701324000, airingAt_lesser: 1701410399) {
-      airingSchedules(airingAt_lesser: $airing_lesser,sort: TIME_DESC) {
-        airingAt
-        episode
-        media {
-          idMal
-          title {
-            romaji
-            english
-            userPreferred
-            native
-          }
-          coverImage {
-            extraLarge
-            large
-            medium
-          }
-          format
-        }
-      }
-    }
-  }
   `;

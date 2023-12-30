@@ -1,75 +1,84 @@
 <script>
 	export let data;
-	$: ({ details, streamed, user, continueWatching } = data);
-	import { EpisodeCard, PosterCardList, GradientBackground, Relations } from '$lib/components';
+	$: ({ details, streamed, user, database } = data);
+	$: ({ continueWatching } = database);
+	import { EpisodeCard, CardContainer, GradientBackground, Relations } from '$lib/components';
 	function getEpisodeUrl(episodesList) {
 		if (episodesList.length > 0) {
 			const { gogoanime, hasDub } = episodesList[0];
-			if (user) {
-				if (user.alwaysDub) {
-					return `/watch/${details.idMal}/${hasDub ? gogoanime.dub : gogoanime.sub}`;
-				} else {
-					return `/watch/${details.idMal}/${gogoanime.sub}`;
-				}
-			} else {
-				return `/watch/${details.idMal}/${gogoanime.sub}`;
-			}
+			const episodeId = user?.alwaysDub ? (hasDub ? gogoanime.dub : gogoanime.sub) : gogoanime.sub;
+			return `/watch/${details.idMal}/${episodeId}`;
 		} else {
-			return ``;
+			return '';
 		}
 	}
 </script>
 
 <GradientBackground bannerImage={details.bannerImage}>
-	<div class="content-top">
-		<div class="content-left">
+	<div class="container">
+		<div class="info-section">
 			<img class="poster" src={details.coverImage?.extraLarge} alt="" />
-			<div class="details">
+			<div class="attributes">
 				{#if details?.nextAiringEpisode}
-					<div class="detail-item">
+					<div class="attribute-item">
 						<p>Next Airing Episode</p>
 						<span>{details?.nextAiringEpisode.airingAt}</span>
 					</div>
 				{/if}
-				<div class="detail-item">
+				<div class="attribute-item">
 					<p>Format</p>
 					<span>{details.format?.toLowerCase()}</span>
 				</div>
-				<div class="detail-item">
+				<div class="attribute-item">
 					<p>Rating</p>
 					<span>{details.meanScore / 10}</span>
 				</div>
-
 				{#if details.format?.toLowerCase() !== 'movie'}
-					<div class="detail-item">
+					<div class="attribute-item">
 						<p>Episodes</p>
 						{#await streamed.episodesList then episodesList}
 							<span>{episodesList?.length}</span>
 						{/await}
 					</div>
 				{/if}
-				<div class="detail-item">
+				<div class="attribute-item">
 					<p>Status</p>
 					<span>{details.status.toLowerCase()}</span>
 				</div>
-				<div class="detail-item">
+				<div class="attribute-item">
 					<p>Studios</p>
 					<span>{details.studios}</span>
 				</div>
-				<div class="detail-item">
-					<p>Genres</p>
-					<span>{details.genres}</span>
-				</div>
+				{#each details.relations as relation}
+					<!-- <div class="relation">
+						<img src={relation.coverImage?.extraLarge} alt="" />
+						<div class="relation-info">
+							<p>{relation.title.english?.toLowerCase() ?? relation.title.native?.toLowerCase()}</p>
+							<p>{relation.relationType.toLowerCase()}</p>
+							<p>{relation.type}</p>
+							<p>{relation.format}</p>
+						</div>
+					</div> -->
+					<div class="attribute-item">
+						<p>{relation.relationType.toLowerCase()}</p>
+						<span>
+							<a href={`/details/${relation.idMal}`}>
+								{relation.title.english.toLowerCase() ?? relation.title.native?.toLowerCase()}
+							</a>
+						</span>
+					</div>
+				{/each}
 			</div>
+			<div class="relations" />
 		</div>
-		<div class="content-right">
+
+		<div class="content-section">
 			<div class="summary">
-				<h1 class="anime-title">
+				<h1 class="title">
 					{details.title.english?.toLowerCase() ?? details.title.native?.toLowerCase()}
 				</h1>
-
-				<h1 class="anime-title-native">{details.title.native}</h1>
-				<p class="anime-des">
+				<h1 class="native-title">{details.title.native}</h1>
+				<p class="description">
 					{details.description}
 				</p>
 				{#if continueWatching}
@@ -82,13 +91,14 @@
 					{/await}
 				{/if}
 			</div>
+			<!-- Relations component can be uncommented if needed -->
 			<!-- <Relations relations={details.relations} /> -->
 			{#if details.format.toLowerCase() != 'movie'}
 				{#await streamed.episodesList then episodesList}
 					<EpisodeCard
 						episodes={episodesList}
 						animeId={details.idMal}
-						scrollAble={true}
+						scrollable={true}
 						header={'Episodes'}
 						filter={true}
 						{user}
@@ -96,7 +106,7 @@
 					/>
 				{/await}
 			{/if}
-			<PosterCardList animes={details.recommendations} heading={'Recommended'} />
+			<CardContainer animes={details.recommendations} heading={'Recommended'} />
 		</div>
 	</div>
 </GradientBackground>
@@ -105,17 +115,17 @@
 	a {
 		text-decoration: none;
 	}
-	.content-top {
+	.container {
 		display: flex;
 		flex-direction: row;
 		margin-left: 60px;
 	}
-	.content-right {
+	.content-section {
 		margin-top: 10px;
 		margin-left: 30px;
 		width: 100%;
 	}
-	.content-left {
+	.info-section {
 		width: 220px;
 	}
 	.summary {
@@ -125,7 +135,7 @@
 		width: 220px;
 		border-radius: 7px;
 	}
-	.details {
+	.attributes {
 		background-color: #060b11;
 		border-radius: 7px;
 		padding: 20px;
@@ -134,38 +144,55 @@
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		margin-top: 20px;
 	}
-
-	.detail-item {
+	.attribute-item {
 		padding-bottom: 5px;
 		text-transform: capitalize;
 	}
-
-	.detail-item p {
+	.attribute-item p {
 		font-size: 12px;
 		font-weight: 700;
 	}
-
-	.detail-item span {
+	.attribute-item span {
 		font-size: 12px;
 		line-height: 1.3;
 		font-weight: 500;
 		text-transform: capitalize;
+		margin-left: 4px;
 	}
 
-	.detail-item span a {
+	.attribute-item a {
+		text-decoration: none;
 		color: white;
+
 	}
-	.anime-title {
+
+	.relations {
+		background-color: #060b11;
+		border-radius: 7px;
+		/* padding: 20px; */
+		width: 220px;
+		margin-top: 20px;
+	}
+	.relation {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 10px;
+	}
+	.relation img {
+		width: 40%;
+	}
+	.title {
 		text-transform: capitalize;
 		margin-top: 80px;
 		font-weight: 550;
 		font-size: 26px;
 	}
-	.anime-title-native {
+	.native-title {
 		font-size: 18px;
 		font-weight: 400;
 	}
-	.anime-des {
+	.description {
 		width: 94%;
 		line-height: 22px;
 		margin-top: 15px;
@@ -188,20 +215,21 @@
 		height: max-content;
 	}
 	@media (max-width: 850px) {
-		.content-top {
+		.container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			margin: 0;
 		}
-		.content-left {
+		.info-section {
 			width: 100%;
+			/* display: none; */
 		}
 		.poster,
-		.details {
+		.attributes {
 			width: 100%;
 		}
-		.content-right {
+		.content-section {
 			margin-left: 0px;
 		}
 	}
