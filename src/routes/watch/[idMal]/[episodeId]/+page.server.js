@@ -100,10 +100,7 @@ export async function load({ params, locals }) {
 			};
 		}
 	};
-	// fetchAnilist: 402.618ms
-	// fetchEpisodeSources: 2.026s
-	// fetchEpisodes: 2.547s
-	// fetchDatabase: 431.104ms
+
 	const anime = {
 		episodeId: params.episodeId,
 		details: await fetchAnilistDetails(),

@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	const {user} = data;
+	const { user } = data;
 	import '$lib/global.css';
 	import { Toaster } from 'svelte-french-toast';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';
@@ -50,11 +50,7 @@
 		<a class="login-button" href="/login">Login</a>
 	{:else}
 		<button on:click={toggleDropdown} class="user-avatar-container">
-			<img
-				class="user-avatar"
-				src={user.avatar}
-				alt="User avatar"
-			/>
+			<img class="user-avatar" src={user.avatar} alt="User avatar" />
 		</button>
 		{#if isDropdownVisible}
 			<div class="user-dropdown">
