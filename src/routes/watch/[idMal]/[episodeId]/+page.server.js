@@ -1,5 +1,5 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist/utils';
+import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist';
 import { serializeNonPOJOs } from '$lib/utils';
 import { ANIME } from '@consumet/extensions';
 import { getEpisodes } from '$lib/api';

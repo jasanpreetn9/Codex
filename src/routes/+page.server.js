@@ -1,7 +1,8 @@
 import { stripHtml } from 'string-strip-html';
 import { redis } from '$lib/server/redis';
 import { serializeNonPOJOs } from '$lib/utils';
-import { homeQuery, anilistUrl } from '$lib/providers/anilist/utils';
+import { homeQuery, anilistUrl } from '$lib/providers/anilist/';
+import { jikanUrl, convertCard } from '$lib/providers/jikan/utils';
 import { redirect } from '@sveltejs/kit';
 export async function load({ locals, setHeaders }) {
 	const fetchAnilist = async () => {
@@ -45,26 +46,27 @@ export async function load({ locals, setHeaders }) {
 		}
 	};
 
-	// const fetchTopAiring = async () => {
-	// 	const cached = await redis.get('jikan-top-airing');
-	// 	if (cached) {
-	// 		return JSON.parse(cached);
-	// 	}
-	// 	try {
-	// 		const resp = await fetch(`${jikanUrl}/top/anime?filter=airing&type=tv&limit=16`);
-	// 		const cacheControl = resp.headers.get('cache-control');
-	// 		if (cacheControl) {
-	// 			setHeaders({ 'cache-control': cacheControl });
-	// 		}
-	// 		const topAiringResp = await resp.json();
-	// 		const topAiring = convertJikanToAnilist(topAiringResp);
-	// 		redis.set('jikan-top-airing', JSON.stringify(topAiring), 'EX', 600);
-	// 		return topAiring;
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		throw new Error(error);
-	// 	}
-	// };
+	const fetchJikanTopAiring = async () => {
+		const cached = await redis.get('jikan-top-airing');
+		if (cached) {
+			return JSON.parse(cached);
+		}
+		try {
+			const resp = await fetch(`${jikanUrl}/top/anime?filter=airing&type=tv&limit=16`);
+			const cacheControl = resp.headers.get('cache-control');
+			if (cacheControl) {
+				setHeaders({ 'cache-control': cacheControl });
+			}
+			const topAiringResp = await resp.json();
+			const topAiring = convertCard(topAiringResp);
+			redis.set('jikan-top-airing', JSON.stringify(topAiring), 'EX', 600);
+			return topAiring;
+		} catch (error) {
+			console.log(error);
+			throw new Error(error);
+		}
+	};
+
 	const fetchContinueWatching = async () => {
 		if (locals.pb.authStore.isValid) {
 			const userId = locals.pb.authStore.baseModel.id;
@@ -93,13 +95,14 @@ export async function load({ locals, setHeaders }) {
 			};
 		}
 	};
+
 	return {
 		anilist: await fetchAnilist(),
 		database: {
 			continueWatching: await fetchContinueWatching()
 		},
 		// jikan: {
-		// 	// topAiring: await fetchTopAiring()
+		// 	topAiring: await fetchJikanTopAiring()
 		// }
 	};
 }

@@ -1,8 +1,10 @@
 <script>
 	export let data;
-	$: ({ anilist, database } = data);
-	$: ({ continueWatching } = database);
-	$: ({ trendingAnimes, popularAnimes } = anilist);
+	$: ({
+		anilist: { trendingAnimes, popularAnimes },
+		database: { continueWatching },
+		// jikan: { topAiring }
+	} = data);
 	import { CardContainer, Trending } from '$lib/components';
 	import { Icon, XCircle } from 'svelte-hero-icons';
 </script>
@@ -58,6 +60,8 @@
 		{/each}
 	</div>
 {/if}
+
+<!-- <CardContainer animes={topAiring} heading={'Top Airing Animes'} /> -->
 <CardContainer animes={popularAnimes} heading={'Popular Animes'} />
 
 <style>
@@ -146,8 +150,5 @@
 		background: transparent;
 		border: none;
 		cursor: pointer;
-	}
-	@media (max-width: 850px) {
-		/* Add responsive styles if needed */
 	}
 </style>

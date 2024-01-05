@@ -1,8 +1,8 @@
-import { redis } from '$lib/server/redis';
-import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist/utils';
-import { serializeNonPOJOs } from '$lib/utils';
 import { getEpisodes } from '$lib/api';
-
+import { redis } from '$lib/server/redis';
+import { serializeNonPOJOs } from '$lib/utils';
+import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist';
+import { jikanUrl, convertCard, convertDetails } from '$lib/providers/jikan/utils';
 export async function load({ params, locals, setHeaders, url }) {
 	const fetchAnilistDetails = async () => {
 		const cached = await redis.get(`anilist-details-${params.idMal}`);
@@ -34,11 +34,17 @@ export async function load({ params, locals, setHeaders, url }) {
 		}
 	};
 
+	const fetchJikanDetails = async () => {
+		const resp = await fetch(`${jikanUrl}/anime/${params.idMal}`);
+		const jikanUnformatted = await resp.json();
+		const jikan = convertDetails(jikanUnformatted);
+	};
+
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
-		if (cached) {
-			return JSON.parse(cached);
-		}
+		// const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
+		// if (cached) {
+		// 	return JSON.parse(cached);
+		// }
 		try {
 			const episodes = await getEpisodes(params.idMal);
 			redis.set(`gogoanime-episodes-${params.idMal}`, JSON.stringify(episodes), 'EX', 600);
@@ -48,6 +54,7 @@ export async function load({ params, locals, setHeaders, url }) {
 			return null;
 		}
 	};
+
 	const fetchContinueWatching = async () => {
 		if (locals.pb.authStore.isValid) {
 			const userId = locals.pb.authStore.baseModel.id;

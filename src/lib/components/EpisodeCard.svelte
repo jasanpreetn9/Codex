@@ -6,6 +6,7 @@
 	let pages = Math.ceil(episodes.length / itemsPerPage);
 	let currentPage = Math.ceil(currentEpisode / itemsPerPage);
 	let filterState = false;
+	
 	function goToPage(page) {
 		currentPage = page;
 	}
@@ -30,6 +31,7 @@
 		(currentPage - 1) * itemsPerPage,
 		currentPage * itemsPerPage
 	);
+	
 	function getEpisodeUrl(idMal, gogoanime, hasDub) {
 		if (user && user.alwaysDub && hasDub) {
 			return `/watch/${idMal}/${gogoanime.dub}`;

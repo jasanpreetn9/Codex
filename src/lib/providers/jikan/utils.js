@@ -1,6 +1,6 @@
 export let jikanUrl = 'https://api.jikan.moe/v4';
 
-export const convertJikanCardsToAnilist = (animes) => {
+export const convertCard = (animes) => {
 	const { data } = animes;
 	return data.map((anime) => {
 		return {
@@ -20,11 +20,11 @@ export const convertJikanCardsToAnilist = (animes) => {
 	});
 };
 
-export const convertJikanDetailsToAnilist = (anime) => {
+export const convertDetails = (anime) => {
 	return {
 		idMal: anime?.mal_id,
 		coverImage: {
-			extraLarge: anime?.images.jpg.large_image_url
+			extraLarge: anime?.images?.jpg?.large_image_url
 		},
 		title: {
 			english: anime?.title_english,
@@ -32,7 +32,7 @@ export const convertJikanDetailsToAnilist = (anime) => {
 			native: anime?.title_japanese
 		},
 		format: anime?.type,
-		genres: anime?.genres.map((genre) => genre.name),
+		genres: anime?.genres?.map((genre) => genre.name),
 		status: anime?.status,
 		description: anime?.synopsis,
 		episodes: anime?.episodes,

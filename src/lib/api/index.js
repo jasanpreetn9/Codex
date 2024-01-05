@@ -8,6 +8,7 @@ const ANIWATCH_URL = 'https://aniwatch.to';
 
 async function getMapping(idMal) {
 	try {
+		console.log(`${SIMKL_URL}/search/id?mal=${idMal}&client_id=${SIMKL_CLIENT_ID}`)
 		const [malSyncResponse, simklResponse] = await Promise.all([
 			fetch(`https://api.malsync.moe/mal/anime/${idMal}`).then((response) => response.json()),
 			fetch(`${SIMKL_URL}/search/id?mal=${idMal}&client_id=${SIMKL_CLIENT_ID}`).then((response) =>

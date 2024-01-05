@@ -1,4 +1,4 @@
-import { searchQuery } from '$lib/providers/anilist/utils';
+import { searchQuery } from '$lib/providers/anilist';
 export async function load({ fetch, params }) {
 	try {
 		const response = await fetch('https://graphql.anilist.co/', {

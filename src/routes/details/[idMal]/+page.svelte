@@ -43,7 +43,7 @@
 				{/if}
 				<div class="attribute-item">
 					<p>Status</p>
-					<span>{details.status.toLowerCase()}</span>
+					<span>{details.status?.toLowerCase()}</span>
 				</div>
 				<div class="attribute-item">
 					<p>Studios</p>
@@ -60,10 +60,12 @@
 						</div>
 					</div> -->
 					<div class="attribute-item">
-						<p>{relation.relationType.toLowerCase()}</p>
+						<p>{relation.relationType?.toLowerCase()}</p>
 						<span>
 							<a href={`/details/${relation.idMal}`}>
-								{relation.title.english.toLowerCase() ?? relation.title.native?.toLowerCase()}
+								{relation.title.english?.toLowerCase() ??
+									relation.title.native?.toLowerCase() ??
+									relation.title.romaji?.toLowerCase()}
 							</a>
 						</span>
 					</div>
@@ -82,11 +84,13 @@
 					{details.description}
 				</p>
 				{#if continueWatching}
-					<a href={`/watch/${details.idMal}/${continueWatching.episodeId}`} class="watch-btn"
-						>Continue Watching Ep: {continueWatching.number}</a
-					>
+					<a href={`/watch/${details.idMal}/${continueWatching.episodeId}`} class="watch-btn">
+						Continue Watching Ep: {continueWatching.number}
+					</a>
 				{:else}
-					{#await streamed.episodesList then episodesList}
+					{#await streamed.episodesList}
+						<a href={`/details/${details.idMal}`} class="watch-btn">Loading</a>
+					{:then episodesList}
 						<a href={getEpisodeUrl(details.idMal, episodesList)} class="watch-btn">Watch Now</a>
 					{/await}
 				{/if}
@@ -163,7 +167,7 @@
 	.attribute-item a {
 		text-decoration: none;
 		color: white;
-
+		cursor: pointer;
 	}
 
 	.relations {
@@ -172,15 +176,6 @@
 		/* padding: 20px; */
 		width: 220px;
 		margin-top: 20px;
-	}
-	.relation {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		padding: 10px;
-	}
-	.relation img {
-		width: 40%;
 	}
 	.title {
 		text-transform: capitalize;

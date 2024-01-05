@@ -76,7 +76,7 @@
 	}
 	.container-top {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
 		grid-gap: 20px;
 	}
 	.summary {

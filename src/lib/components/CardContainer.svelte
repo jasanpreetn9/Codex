@@ -58,6 +58,7 @@
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		overflow: hidden;
+		margin-bottom: 30px;
 	}
 
 	.card {
