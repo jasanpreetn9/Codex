@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { SIMKL_CLIENT_ID } from '$env/static/private';
 import { fetchSimkl } from '$lib/providers/simkl';
 import { fetchKitsuEpisodes } from '$lib/providers/kitsu';
@@ -8,12 +9,9 @@ const ANIWATCH_URL = 'https://aniwatch.to';
 
 async function getMapping(idMal) {
 	try {
-		console.log(`${SIMKL_URL}/search/id?mal=${idMal}&client_id=${SIMKL_CLIENT_ID}`)
-		const [malSyncResponse, simklResponse] = await Promise.all([
-			fetch(`https://api.malsync.moe/mal/anime/${idMal}`).then((response) => response.json()),
-			fetch(`${SIMKL_URL}/search/id?mal=${idMal}&client_id=${SIMKL_CLIENT_ID}`).then((response) =>
-				response.json()
-			)
+		const [{ data: malSyncResponse }, { data: simklResponse }] = await Promise.all([
+			axios.get(`https://api.malsync.moe/mal/anime/${idMal}`),
+			axios.get(`${SIMKL_URL}/search/id?mal=${idMal}&client_id=${SIMKL_CLIENT_ID}`)
 		]);
 		const { Zoro, Gogoanime } = malSyncResponse.Sites;
 		const aniwatch = Zoro ? Zoro[Object.keys(Zoro)[0]].url.replace(ANIWATCH_URL, '') : null;
