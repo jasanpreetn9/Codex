@@ -9,20 +9,22 @@
 	<div class="cards-list">
 		<div class="card-container">
 			{#each animes as anime}
-				<a data-sveltekit-prefetch="true" href={`/details/${anime.animeId ?? anime.idMal}`}>
+			{#if anime}
+				<a href={`/details/${anime?.idMal}`}>
 					<div class="card">
-						<img src={anime.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
+						<img src={anime?.coverImage?.extraLarge} class="card-img" alt="" loading="lazy" />
 						<div class="card-body">
 							<h2 class="name">
-								{anime.title.english?.toLowerCase() ?? anime.title.romaji?.toLowerCase()}
+								{anime?.title?.english?.toLowerCase() ?? anime?.title?.romaji?.toLowerCase() ?? anime?.title?.native?.toLowerCase()}
 							</h2>
 							<span class="details">
-								{anime?.format || ''}
-								{anime?.genres?.length ? '‧ ' + anime.genres.slice(0, 2).join(', ') : ''}
+								{anime?.format.toLowerCase() || ''}
+								{anime?.genres?.length ? '‧ ' + anime?.genres.slice(0, 2).join(', ') : ''}
 							</span>
 						</div>
 					</div>
 				</a>
+				{/if}
 			{/each}
 		</div>
 	</div>
@@ -37,7 +39,6 @@
 	}
 
 	.title {
-		margin-top: 20px;
 		margin-bottom: 10px;
 		color: #fff;
 		opacity: 0.9;
@@ -57,6 +58,7 @@
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 		overflow: hidden;
+		margin-bottom: 30px;
 	}
 
 	.card {

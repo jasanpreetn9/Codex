@@ -2,34 +2,27 @@
 	export let bannerImage;
 </script>
 
-<div class="carousel-container">
-	<div class="carousel">
-		<div class="slider">
-			<div class="banner-gradient" />
-			<img src={bannerImage} alt="" />
-		</div>
-		<div class="content">
-			<slot />
-		</div>
+<div class="container">
+	<div class="banner">
+		<div class="banner-gradient" />
+		<img src={bannerImage} alt="" />
+	</div>
+	<div class="content">
+		<slot />
 	</div>
 </div>
 
 <style>
-	.carousel-container {
-		position: relative;
-		width: 100%;
-		padding: 20px 0;
-		margin-top: 80px;
-	}
-
-	.carousel {
+	
+	.container {
 		display: flex;
 		height: 100%;
 		position: relative;
 		margin: auto;
+		padding: 20px 0;
 	}
 
-	.slider {
+	.banner {
 		flex: 0 0 auto;
 		position: relative;
 		background: rgba(0, 0, 0, 0.5);
@@ -41,7 +34,7 @@
 		overflow: hidden;
 	}
 
-	.slider img {
+	.banner img {
 		width: 100%;
 		min-height: 100%;
 		object-fit: cover;
@@ -65,7 +58,7 @@
 	}
 
 	@media (max-width: 850px) {
-		.slider {
+		.banner {
 			display: none;
 		}
 	}

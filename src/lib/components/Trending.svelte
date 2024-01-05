@@ -78,10 +78,8 @@
 					<p class="anime-des">
 						{anime.description}
 					</p>
-					<a
-						class="watch-btn"
-						data-sveltekit-prefetch="true"
-						href={`/details/${anime.idMal}`}>Watch</a
+					<a class="watch-btn" href={`/details/${anime.idMal}`}
+						>Watch</a
 					>
 				</div>
 				<img src={anime.bannerImage} alt="" loading="lazy" />
@@ -141,6 +139,7 @@
 		margin: auto;
 		height: 300px;
 		border-radius: 5px;
+		overflow: hidden;
 	}
 
 	.slider {
@@ -156,7 +155,7 @@
 		height: 300px;
 		align-items: center;
 		justify-content: center;
-    align-items: center;
+		align-items: center;
 	}
 
 	.slider img {
@@ -252,6 +251,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
+		margin-bottom: 20px;
 	}
 
 	input {

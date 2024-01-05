@@ -1,22 +1,23 @@
+import { getEpisodes } from '$lib/api';
 import { redis } from '$lib/server/redis';
-import { formatDetails, anilistUrl, detailsQueryIdMal } from '$lib/providers/anilist/utils';
-import { apiUrl, proxyUrl } from '$lib/utils';
-
-export async function load({ params, fetch, locals, url, setHeaders }) {
+import { serializeNonPOJOs } from '$lib/utils';
+import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist';
+import { jikanUrl, convertCard, convertDetails } from '$lib/providers/jikan/utils';
+export async function load({ params, locals, setHeaders, url }) {
 	const fetchAnilistDetails = async () => {
 		const cached = await redis.get(`anilist-details-${params.idMal}`);
 		if (cached) {
 			return JSON.parse(cached);
 		}
 		try {
-			const anilistResp = await fetch(proxyUrl + anilistUrl, {
+			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: detailsQueryIdMal,
+					query: detailsQuery,
 					variables: { id: params.idMal }
 				})
 			});
@@ -33,14 +34,19 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 		}
 	};
 
+	const fetchJikanDetails = async () => {
+		const resp = await fetch(`${jikanUrl}/anime/${params.idMal}`);
+		const jikanUnformatted = await resp.json();
+		const jikan = convertDetails(jikanUnformatted);
+	};
+
 	const fetchEpisodes = async () => {
-		const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
-		if (cached) {
-			return JSON.parse(cached);
-		}
+		// const cached = await redis.get(`gogoanime-episodes-${params.idMal}`);
+		// if (cached) {
+		// 	return JSON.parse(cached);
+		// }
 		try {
-			const episodesResp = await fetch(`${apiUrl}/episodes/${params.idMal}`);
-			const episodes = await episodesResp.json();
+			const episodes = await getEpisodes(params.idMal);
 			redis.set(`gogoanime-episodes-${params.idMal}`, JSON.stringify(episodes), 'EX', 600);
 			return episodes;
 		} catch (error) {
@@ -49,9 +55,29 @@ export async function load({ params, fetch, locals, url, setHeaders }) {
 		}
 	};
 
+	const fetchContinueWatching = async () => {
+		if (locals.pb.authStore.isValid) {
+			const userId = locals.pb.authStore.baseModel.id;
+			try {
+				const list = await locals.pb
+					.collection('continue_watching')
+					.getFirstListItem(`user = "${userId}" && idMal = "${params.idMal}"`);
+				const continueWatching = serializeNonPOJOs(list);
+				return continueWatching;
+			} catch (error) {
+				return null;
+			}
+		}
+	};
+
 	const anime = {
-		details: fetchAnilistDetails(),
-		episodesList: fetchEpisodes()
+		details: await fetchAnilistDetails(),
+		database: {
+			continueWatching: await fetchContinueWatching()
+		},
+		streamed: {
+			episodesList: fetchEpisodes()
+		}
 	};
 
 	return anime;

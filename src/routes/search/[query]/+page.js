@@ -1,6 +1,5 @@
-import { searchQuery } from '$lib/providers/anilist/utils';
+import { searchQuery } from '$lib/providers/anilist';
 export async function load({ fetch, params }) {
-	let animes = null;
 	try {
 		const response = await fetch('https://graphql.anilist.co/', {
 			method: 'POST',
@@ -15,13 +14,14 @@ export async function load({ fetch, params }) {
 				}
 			})
 		});
-		animes = await response.json();
+		const animes = await response.json();
+		return {
+			page: animes?.data?.Page?.pageinfo || {},
+			results: animes?.data?.Page?.media || [],
+			params: params.query
+		};
 	} catch (error) {
 		console.log(error);
+		throw error(error.message, error.status);
 	}
-	return {
-		page: animes?.data?.Page?.pageinfo || {},
-		results: animes?.data?.Page?.media || [],
-		params: params.query
-	};
 }
