@@ -2,7 +2,7 @@
 	export let data;
 	$: ({
 		anilist: { trendingAnimes, popularAnimes },
-		database: { continueWatching },
+		database: { continueWatching }
 		// jikan: { topAiring }
 	} = data);
 	import { CardContainer, Trending } from '$lib/components';

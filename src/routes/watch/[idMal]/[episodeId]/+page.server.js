@@ -105,11 +105,11 @@ export async function load({ params, locals }) {
 		episodeId: params.episodeId,
 		details: await fetchAnilistDetails(),
 		allEpisodes: await fetchEpisodes(),
-		streamed: {
-			episodeSources: fetchEpisodeSources()
-		},
 		database: {
 			continueWatching: await fetchContinueWatching()
+		},
+		streamed: {
+			episodeSources: fetchEpisodeSources()
 		}
 	};
 
