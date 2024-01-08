@@ -21,7 +21,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@consumet/extensions": "github:consumet/consumet.ts",
+		"@consumet/extensions": "^1.5.4",
 		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@vercel/analytics": "^1.0.2",
 		"@vercel/speed-insights": "^1.0.2",

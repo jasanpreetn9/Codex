@@ -2,9 +2,14 @@
 	export let data;
 	import { EpisodeCard, GradientBackground, Artplayer } from '$lib/components';
 
-	$: ({ details, streamed, allEpisodes, episodeId, database, user } = data);
-	$: ({ episodes, currentEpisode } = allEpisodes);
-	$: ({ continueWatching } = database);
+	$: ({
+		details,
+		streamed,
+		allEpisodes: { episodes, currentEpisode },
+		episodeId,
+		database: { continueWatching },
+		user
+	} = data);
 </script>
 
 <GradientBackground bannerImage={details.bannerImage}>
