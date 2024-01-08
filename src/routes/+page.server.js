@@ -1,8 +1,7 @@
 import { stripHtml } from 'string-strip-html';
 import { redis } from '$lib/server/redis';
 import { serializeNonPOJOs } from '$lib/utils';
-import { homeQuery, anilistUrl } from '$lib/providers/anilist/';
-import { jikanUrl, convertCard } from '$lib/providers/jikan/utils';
+import { anilistUrl } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
 export async function load({ locals, setHeaders }) {
 	const fetchAnilist = async () => {
@@ -18,7 +17,43 @@ export async function load({ locals, setHeaders }) {
 					Accept: 'application/json'
 				},
 				body: JSON.stringify({
-					query: homeQuery
+					query: `
+					{
+						trending: Page(page: 1, perPage: 15) {
+						  media(type: ANIME, format_in: [TV, MOVIE],episodes_greater: 0, sort: [TRENDING_DESC]) {
+							id
+							idMal
+							bannerImage
+							description(asHtml: false)
+							title {
+							  english
+							  romaji
+							}
+							format
+							genres
+							meanScore
+							episodes
+							nextAiringEpisode {
+							  episode
+							}
+						  }
+						}
+						popular: Page(page: 1, perPage: 16) {
+						  media(type: ANIME, sort: [POPULARITY_DESC]) {
+							id
+							idMal
+							coverImage {
+							  extraLarge
+							}
+							title {
+							  english
+							  romaji
+							}
+							format
+							genres
+						  }
+						}
+					  }`
 				})
 			});
 			const cacheControl = anilistResp.headers.get('cache-control');
@@ -40,27 +75,6 @@ export async function load({ locals, setHeaders }) {
 			};
 			redis.set('anilist-trending-popular', JSON.stringify(result), 'EX', 600);
 			return result;
-		} catch (error) {
-			console.log(error);
-			throw new Error(error);
-		}
-	};
-
-	const fetchJikanTopAiring = async () => {
-		const cached = await redis.get('jikan-top-airing');
-		if (cached) {
-			return JSON.parse(cached);
-		}
-		try {
-			const resp = await fetch(`${jikanUrl}/top/anime?filter=airing&type=tv&limit=16`);
-			const cacheControl = resp.headers.get('cache-control');
-			if (cacheControl) {
-				setHeaders({ 'cache-control': cacheControl });
-			}
-			const topAiringResp = await resp.json();
-			const topAiring = convertCard(topAiringResp);
-			redis.set('jikan-top-airing', JSON.stringify(topAiring), 'EX', 600);
-			return topAiring;
 		} catch (error) {
 			console.log(error);
 			throw new Error(error);
@@ -96,18 +110,15 @@ export async function load({ locals, setHeaders }) {
 		}
 	};
 
+
 	return {
 		anilist: await fetchAnilist(),
 		database: {
 			continueWatching: await fetchContinueWatching()
-		},
-		// jikan: {
-		// 	topAiring: await fetchJikanTopAiring()
-		// }
+		}
 	};
 }
 
-/** @type {import('./$types').Actions} */
 export const actions = {
 	deleteRecord: async ({ locals, request }) => {
 		const fromData = Object.fromEntries(await request.formData());

@@ -1,5 +1,5 @@
 import { redis } from '$lib/server/redis';
-import { formatDetails, anilistUrl, detailsQuery } from '$lib/providers/anilist';
+import { formatDetails, anilistUrl, detailsQuery } from '$lib/utils';
 import { serializeNonPOJOs } from '$lib/utils';
 import { ANIME } from '@consumet/extensions';
 import { getEpisodes } from '$lib/api';
@@ -92,15 +92,9 @@ export async function load({ params, locals }) {
 			} catch (error) {
 				return null;
 			}
-		} else {
-			return {
-				authStore: {
-					isValid: false
-				}
-			};
 		}
 	};
-
+	
 	const anime = {
 		episodeId: params.episodeId,
 		details: await fetchAnilistDetails(),

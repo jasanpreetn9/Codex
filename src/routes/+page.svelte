@@ -2,8 +2,7 @@
 	export let data;
 	$: ({
 		anilist: { trendingAnimes, popularAnimes },
-		database: { continueWatching }
-		// jikan: { topAiring }
+		database: { continueWatching },
 	} = data);
 	import { CardContainer, Trending } from '$lib/components';
 	import { Icon, XCircle } from 'svelte-hero-icons';
@@ -61,7 +60,6 @@
 	</div>
 {/if}
 
-<!-- <CardContainer animes={topAiring} heading={'Top Airing Animes'} /> -->
 <CardContainer animes={popularAnimes} heading={'Popular Animes'} />
 
 <style>

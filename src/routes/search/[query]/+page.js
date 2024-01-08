@@ -1,4 +1,3 @@
-import { searchQuery } from '$lib/providers/anilist';
 export async function load({ fetch, params }) {
 	try {
 		const response = await fetch('https://graphql.anilist.co/', {
@@ -8,7 +7,34 @@ export async function load({ fetch, params }) {
 				Accept: 'application/json'
 			},
 			body: JSON.stringify({
-				query: searchQuery,
+				query: `
+				query ($page: Int, $search: String,  $size: Int) {
+					Page(page: $page, perPage: $size) {
+					  pageInfo {
+						currentPage
+						lastPage
+						hasNextPage
+					  }
+					  media(search: $search,type: ANIME, format_not_in: [MUSIC,MANGA,NOVEL,ONE_SHOT]) {
+					  id
+					  idMal
+					  title {
+						romaji
+						english
+					  }
+					  coverImage {
+						extraLarge
+						large
+					  }
+					
+					  format
+					
+					  genres
+					
+					  }
+					}
+					}
+				  `,
 				variables: {
 					search: params.query
 				}
