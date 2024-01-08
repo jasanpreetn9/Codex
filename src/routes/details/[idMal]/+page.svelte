@@ -14,7 +14,7 @@
 	}
 </script>
 
-<GradientBackground bannerImage={details.bannerImage}>
+<GradientBackground bannerImage={details.bannerImage} coverImage={details.coverImage?.extraLarge}>
 	<div class="container">
 		<div class="info-section">
 			<img class="poster" src={details.coverImage?.extraLarge} alt="" />

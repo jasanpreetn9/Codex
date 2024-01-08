@@ -6,10 +6,10 @@ import { redirect } from '@sveltejs/kit';
 export async function load({ locals, setHeaders }) {
 	const fetchAnilist = async () => {
 		try {
-			const cached = await redis.get('anilist-trending-popular');
-			if (cached) {
-				return JSON.parse(cached);
-			}
+			// const cached = await redis.get('anilist-trending-popular');
+			// if (cached) {
+			// 	return JSON.parse(cached);
+			// }
 			const anilistResp = await fetch(anilistUrl, {
 				method: 'POST',
 				headers: {
@@ -38,6 +38,24 @@ export async function load({ locals, setHeaders }) {
 							}
 						  }
 						}
+						popularThisSeason: Page(page: 1, perPage: 16) {
+							media(season: WINTER, seasonYear: 2024,type: ANIME,format: TV,sort: [POPULARITY_DESC]) {
+							  id
+							  idMal
+							  coverImage {
+								extraLarge
+							  }
+							  title {
+								english
+								romaji
+								native
+							  }
+							  format
+							  genres
+							  popularity
+							  
+							}
+						  }
 						popular: Page(page: 1, perPage: 16) {
 						  media(type: ANIME, sort: [POPULARITY_DESC]) {
 							id
@@ -61,7 +79,6 @@ export async function load({ locals, setHeaders }) {
 				setHeaders({ 'cache-control': cacheControl });
 			}
 			let { data } = await anilistResp.json();
-
 			const result = {
 				trendingAnimes: data?.trending?.media
 					.filter((anime) => anime?.bannerImage !== null)
@@ -71,7 +88,8 @@ export async function load({ locals, setHeaders }) {
 							description: slide.description ? stripHtml(slide.description).result : null
 						};
 					}),
-				popularAnimes: data?.popular?.media || []
+				popularAnimes: data?.popular?.media || [],
+				popularThisSeason: data?.popularThisSeason?.media || []
 			};
 			redis.set('anilist-trending-popular', JSON.stringify(result), 'EX', 600);
 			return result;
@@ -109,7 +127,6 @@ export async function load({ locals, setHeaders }) {
 			};
 		}
 	};
-
 
 	return {
 		anilist: await fetchAnilist(),

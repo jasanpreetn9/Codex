@@ -1,19 +1,18 @@
 <script>
-	export let bannerImage;
+	export let bannerImage,coverImage;
 </script>
 
 <div class="container">
-	<div class="banner">
-		<div class="banner-gradient" />
-		<img src={bannerImage} alt="" />
-	</div>
+		<div class="banner">
+			<div class="banner-gradient" />
+			<img src={bannerImage ?? coverImage} alt="" />
+		</div>
 	<div class="content">
 		<slot />
 	</div>
 </div>
 
 <style>
-	
 	.container {
 		display: flex;
 		height: 100%;

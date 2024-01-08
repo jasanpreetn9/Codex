@@ -1,7 +1,7 @@
 <script>
 	export let data;
 	$: ({
-		anilist: { trendingAnimes, popularAnimes },
+		anilist: { trendingAnimes,popularThisSeason, popularAnimes },
 		database: { continueWatching },
 	} = data);
 	import { CardContainer, Trending } from '$lib/components';
@@ -60,6 +60,7 @@
 	</div>
 {/if}
 
+<CardContainer animes={popularThisSeason} heading={'Popular This Season'} />
 <CardContainer animes={popularAnimes} heading={'Popular Animes'} />
 
 <style>

@@ -6,7 +6,7 @@
 	let pages = Math.ceil(episodes.length / itemsPerPage);
 	let currentPage = Math.ceil(currentEpisode / itemsPerPage);
 	let filterState = false;
-	
+
 	function goToPage(page) {
 		currentPage = page;
 	}
@@ -31,7 +31,7 @@
 		(currentPage - 1) * itemsPerPage,
 		currentPage * itemsPerPage
 	);
-	
+
 	function getEpisodeUrl(idMal, gogoanime, hasDub) {
 		if (user && user.alwaysDub && hasDub) {
 			return `/watch/${idMal}/${gogoanime.dub}`;
@@ -42,30 +42,27 @@
 </script>
 
 <div class="header">
+	<button class="filter" on:click={toggleFilter}>
+		<Icon
+			src={BarsArrowDown}
+			size="20px"
+			style={(filterState ? 'transform: scaleY(-1);' : '') + 'margin-right: 10px;'}
+			color={'white'}
+		/>
+	</button>
 	<h1 class="title">{header}</h1>
 	{#if filter}
-		<div class="right-container">
-			<div class="switch-block" />
-			{#if pages > 1}
-				<div class="pagination">
-					<button on:click={prevPage}>&laquo;</button>
-					{#each Array(pages).fill() as _, i}
-						<button class:selected={i + 1 === currentPage} on:click={() => goToPage(i + 1)}>
-							{i + 1}
-						</button>
-					{/each}
-					<button on:click={nextPage}>&raquo;</button>
-				</div>
-			{/if}
-			<button class="filter" on:click={toggleFilter}>
-				<Icon
-					src={BarsArrowDown}
-					size="20px"
-					style={filterState ? 'transform: scaleY(-1);' : ''}
-					color={'white'}
-				/>
-			</button>
-		</div>
+		{#if pages > 1}
+			<div class="pagination">
+				<button on:click={prevPage}>&laquo;</button>
+				{#each Array(pages).fill() as _, i}
+					<button class:selected={i + 1 === currentPage} on:click={() => goToPage(i + 1)}>
+						{i + 1}
+					</button>
+				{/each}
+				<button on:click={nextPage}>&raquo;</button>
+			</div>
+		{/if}
 	{/if}
 </div>
 
@@ -73,16 +70,16 @@
 	<div class="video-card-container">
 		{#each paginatedEpisodes as episode}
 			<div class="video-card">
-				<a
-					href={getEpisodeUrl(animeId ?? episode.idMal, episode.gogoanime, episode.hasDub)}
-				>
+				<a href={getEpisodeUrl(animeId ?? episode.idMal, episode.gogoanime, episode.hasDub)}>
 					<img src={episode.image || posterImg} loading="lazy" alt="" />
 					<div class="title-container">
 						<h2 class="name">
 							{episode.title}
 						</h2>
 						<p class="episode-number">
-							Ep: {`${episode.number} ‧ Sub${episode.hasDub ? '/Dub' : ''} ‧ ${episode.filler ? 'Filler' : 'Canon'}`}
+							Ep: {`${episode.number} ‧ Sub${episode.hasDub ? '/Dub' : ''} ‧ ${
+								episode.filler ? 'Filler' : 'Canon'
+							}`}
 						</p>
 					</div>
 				</a>
@@ -99,14 +96,13 @@
 		overflow-y: auto;
 		max-height: 400px;
 		margin-bottom: 20px;
-
 	}
 	.header {
 		display: flex;
 		margin-bottom: 5px;
+		align-items: center;
 	}
 	.title {
-		margin-top: 10px;
 		opacity: 0.9;
 		text-transform: capitalize;
 		font-size: 19px;
@@ -116,15 +112,7 @@
 	.title-container {
 		padding-bottom: 15px; /* Add padding to the bottom */
 	}
-	.right-container {
-		display: flex;
-		margin-left: auto;
-	}
-	.switch-block {
-		width: 300px;
-	}
 	.pagination {
-		padding-top: 13px;
 		display: inline-block;
 	}
 
@@ -147,7 +135,6 @@
 		background-color: transparent;
 		border: none;
 		display: flex;
-		padding-top: 13px;
 	}
 
 	.video-card-container {
