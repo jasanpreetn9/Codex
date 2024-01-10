@@ -1,6 +1,6 @@
 <script>
 	export let data;
-	const { user } = data;
+	$: ({ user } = data);
 	import '$lib/global.css';
 	import { Toaster } from 'svelte-french-toast';
 	import { Icon, MagnifyingGlass, ArrowRightOnRectangle } from 'svelte-hero-icons';

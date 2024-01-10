@@ -1,56 +1,3 @@
-<!-- <script>
-	export let data;
-	$: ({ user } = data);
-	import { Icon } from 'svelte-hero-icons';
-	import { userNavigation } from '$lib/utils';
-</script>
-
-<div class="header">
-	<h1>Hi, {user.username}</h1>
-	<nav>
-		<ul>
-			{#each userNavigation as navItem}
-				<li>
-					<a href={navItem.href}>
-						<span>
-							<Icon src={navItem.icon} size="22px" />
-						</span>
-						{navItem.title}
-					</a>
-				</li>
-			{/each}
-		</ul>
-	</nav>
-</div>
-
-<main>
-	<slot />
-</main>
-
-<style>
-	nav ul {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		list-style: none;
-	}
-	nav ul li {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	nav ul li a {
-		text-decoration: none;
-		color: white;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	nav ul li a span {
-		margin-right: 0.5rem;
-	}
-</style> -->
-
 <script>
 	import { page } from '$app/stores';
 	import { userNavigation } from '$lib/utils';
@@ -58,38 +5,84 @@
 	$: ({ user } = data);
 </script>
 
-<!-- <main>
-	{#each userNavigation as navItem}
-		<a href={navItem.href} class={$page.url.pathname === navItem.href ? 'active' : ''}
-			>{navItem.title}</a
-		>
-	{/each}
-
-	<section id="content">
-		<slot />
-	</section>
-</main> -->
-
-<div class="header">
-	<h1>Hi, {user.username}</h1>
-	<nav>
-		<ul>
-			{#each userNavigation as navItem}
-				<li>
-					<a href={navItem.href} class={$page.url.pathname === navItem.href ? 'active' : ''}
-						>{navItem.title}</a
-					>
-				</li>
-			{/each}
-		</ul>
-	</nav>
+<div class="container">
+	<div class="banner">
+		<div class="banner-gradient" />
+		<img src={user.avatar} alt="" />
+	</div>
+	<div class="content">
+		<div class="header">
+			<h1>Hi, {user.username}</h1>
+			<nav>
+				<ul>
+					{#each userNavigation as navItem}
+						<li>
+							<a href={navItem.href} class={$page.url.pathname === navItem.href ? 'active' : ''}
+								>{navItem.title}</a
+							>
+						</li>
+					{/each}
+				</ul>
+			</nav>
+		</div>
+	</div>
 </div>
 
 <style>
-	section {
-		padding: 20px 0 0;
+	.header {
+		display: flex;
+		flex-direction: column;
+		/* justify-content: center; */
+		align-items: center;
+	}
+	.container {
+		display: flex;
+		height: 20%;
+		position: relative;
+		margin: auto;
+		padding: 20px 0;
 	}
 
+	.banner {
+		flex: 0 0 auto;
+		position: relative;
+		background: rgba(0, 0, 0, 0.5);
+		border-radius: 5px;
+		width: 100%;
+		left: 0;
+		transition: 1s;
+		overflow: hidden;
+	}
+
+	.banner img {
+		width: 100%;
+		object-fit: cover;
+		display: block;
+		margin-left: auto;
+		height: 300px;
+		filter: blur(20px);
+	}
+
+	.banner-gradient {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: rgba(255,255,255,.1)!important;
+	}
+
+	.content {
+		margin-top: 100px;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		color: white;
+	}
+
+	@media (max-width: 850px) {
+		.banner {
+			display: none;
+		}
+	}
 	a {
 		display: inline-block;
 		margin: 0 0 -1px;
