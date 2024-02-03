@@ -70,7 +70,7 @@
 	<div class="video-card-container">
 		{#each paginatedEpisodes as episode}
 			<div class="video-card">
-				<a href={getEpisodeUrl(animeId ?? episode.idMal, episode.gogoanime, episode.hasDub)}>
+				<a href={`/watch/${animeId ?? episode.idMal}/${episode.aniwatchId}`}>
 					<img src={episode.image || posterImg} loading="lazy" alt="" />
 					<div class="title-container">
 						<h2 class="name">

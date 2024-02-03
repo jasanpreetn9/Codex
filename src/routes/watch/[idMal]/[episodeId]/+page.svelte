@@ -16,9 +16,9 @@
 	<div class="container">
 		<div class="container-top">
 			<div class="artplayer-container">
-				{#await streamed.episodeSources then sources}
+				{#await streamed.streamingData then { source, subtitles }}
 					<Artplayer
-						{sources}
+						{source}
 						{continueWatching}
 						currentEp={currentEpisode}
 						{details}
@@ -32,7 +32,7 @@
 				<h1 class="anime-title">
 					{details?.title.english?.toLowerCase() ?? details?.title.native?.toLowerCase()}
 				</h1>
-				<h1 class="anime-title-native">Episode {currentEpisode?.number}: {currentEpisode.title}</h1>
+				<!-- <h1 class="anime-title-native">Episode {currentEpisode?.number}: {currentEpisode.title}</h1>
 				<p class="anime-des">
 					{details.description}
 				</p>
@@ -51,7 +51,7 @@
 					>
 						Dub
 					</a>
-				{/if}
+				{/if} -->
 			</div>
 		</div>
 		<div class="container-bottom">
@@ -63,7 +63,7 @@
 				filter={true}
 				user
 				posterImg={details.coverImage?.extraLarge}
-				currentEpisode={currentEpisode.number}
+				currentEpisode={1}
 			/>
 		</div>
 	</div>

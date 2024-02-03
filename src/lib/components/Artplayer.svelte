@@ -156,19 +156,17 @@
 	import { goto } from '$app/navigation';
 	import Hls from 'hls.js';
 	import Artplayer from 'artplayer';
-	export let sources, continueWatching, currentEp, details, episodeId, episodes, user;
-
+	export let source, continueWatching, currentEp, details, episodeId, episodes, user;
+	import { proxyUrl } from '$lib/utils';
 	let artplayer;
 	let intervalId;
 	const chevronLeft = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>`;
 	const chevronRight = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>`;
 
 	async function initPlayer() {
-		const defaultSource = sources?.find((ep) => ep.default)?.url;
 		artplayer = new Artplayer({
 			container: '.artplayer-container',
-			id: `${details.idMal}-${currentEp.number}`,
-			quality: sources,
+			// id: `${details.idMal}-${currentEp.number}`,
 			autoPlayback: true,
 			autoplay: true,
 			autoOrientation: true,
@@ -180,7 +178,7 @@
 			airplay: true,
 			theme: '#23ade5',
 			type: 'm3u8',
-			url: defaultSource,
+			url: source.url,
 			customType: { m3u8: playM3u8 },
 			controls: createControls()
 		});
@@ -208,38 +206,38 @@
 		const controls = [];
 		let maxEpisodeNumber = Math.max(...episodes.map((episode) => episode.number));
 
-		if (currentEp.number < maxEpisodeNumber) {
-			controls.push({
-				html: chevronRight,
-				position: 'right',
-				index: 1,
-				tooltip: 'Next Episode',
-				click: function () {
-					const nextEp = episodes.find((episode) => episode.number === currentEp.number + 1);
-					if (user && user.alwaysDub && nextEp.hasDub) {
-						goto(`/watch/${details.idMal}/${nextEp.gogoanime.dub}`);
-					} else {
-						goto(`/watch/${details.idMal}/${nextEp.gogoanime.sub}`);
-					}
-				}
-			});
-		}
-		if (currentEp.number > 1) {
-			controls.push({
-				html: chevronLeft,
-				position: 'right',
-				index: 1,
-				tooltip: 'Previous Episode',
-				click: function () {
-					const prevEp = episodes.find((episode) => episode.number === currentEp.number - 1);
-					if (user && user.alwaysDub && prevEp.hasDub) {
-						goto(`/watch/${details.idMal}/${prevEp.gogoanime.dub}`);
-					} else {
-						goto(`/watch/${details.idMal}/${prevEp.gogoanime.sub}`);
-					}
-				}
-			});
-		}
+		// if (currentEp.number < maxEpisodeNumber) {
+		// 	controls.push({
+		// 		html: chevronRight,
+		// 		position: 'right',
+		// 		index: 1,
+		// 		tooltip: 'Next Episode',
+		// 		click: function () {
+		// 			const nextEp = episodes.find((episode) => episode.number === currentEp.number + 1);
+		// 			if (user && user.alwaysDub && nextEp.hasDub) {
+		// 				goto(`/watch/${details.idMal}/${nextEp.gogoanime.dub}`);
+		// 			} else {
+		// 				goto(`/watch/${details.idMal}/${nextEp.gogoanime.sub}`);
+		// 			}
+		// 		}
+		// 	});
+		// }
+		// if (currentEp.number > 1) {
+		// 	controls.push({
+		// 		html: chevronLeft,
+		// 		position: 'right',
+		// 		index: 1,
+		// 		tooltip: 'Previous Episode',
+		// 		click: function () {
+		// 			const prevEp = episodes.find((episode) => episode.number === currentEp.number - 1);
+		// 			if (user && user.alwaysDub && prevEp.hasDub) {
+		// 				goto(`/watch/${details.idMal}/${prevEp.gogoanime.dub}`);
+		// 			} else {
+		// 				goto(`/watch/${details.idMal}/${prevEp.gogoanime.sub}`);
+		// 			}
+		// 		}
+		// 	});
+		// }
 		return controls;
 	}
 

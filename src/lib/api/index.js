@@ -65,7 +65,8 @@ const fetchAniwatchEpisodes = async (id) => {
 				title: $element.attr('title'),
 				number,
 				filler: $element.hasClass('ssl-item-filler'),
-				hasDub: dubEps >= number
+				hasDub: dubEps >= number,
+				aniwatchId: $element.attr('href').replace("?ep=", "$episode$").replace("/watch/", ""),
 			});
 		});
 
