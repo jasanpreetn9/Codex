@@ -15,7 +15,7 @@
 </p>
 
 <!-- PREVIEW IMAGE -->
-<img src="https://github.com/jasanpreetn9/Codex/blob/master/static/webPreview.png?raw=true">
+<img src="https://github.com/jasanpreetn9/Codex/blob/master/static/Preview.png?raw=true">
 
 <hr/>
 
