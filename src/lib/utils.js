@@ -2,7 +2,7 @@ import { AdjustmentsVertical, Eye, User, Tv } from 'svelte-hero-icons';
 import { stripHtml } from 'string-strip-html';
 import logo from '$lib/images/logo.png';
 export { logo };
-export const proxyUrl = 'https://proxy.jasanpreetn9.workers.dev/?';
+export const proxyUrl = 'cloudflare_proxy_url';
 export const apiUrl = 'https://anime-api-tau.vercel.app';
 export const anilistUrl = 'https://graphql.anilist.co/';
 
